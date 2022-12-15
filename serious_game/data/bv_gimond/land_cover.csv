@@ -1,0 +1,9 @@
+key,value,abatement,abatement_eau_value_low_slope,abatement_eau_value_medium_slope,abatement_eau_value_high_slope,abatement_mes_value_low_slope,abatement_mes_value_medium_slope,abatement_mes_value_high_slope,abatement_phyto_value_low_slope,abatement_phyto_value_medium_slope,abatement_phyto_value_high_slope,production,eau_production_value_practice1_low_slope,eau_production_value_practice1_medium_slope,eau_production_value_practice1_high_slope,mes_production_value_practice1_low_slope,mes_production_value_practice1_medium_slope,mes_production_value_practice1_high_slope,phyto_production_value_practice1_low_slope,phyto_production_value_practice1_medium_slope,phyto_production_value_practice1_high_slope
+rotation_courte_(assurantiel),101,False,0,0,0,0,0,0,0,0,0,True,0.9,0.9,1,0.7,0.7,0.9,0.8,0.8,1
+rotation_courte_(optimisee),102,False,0,0,0,0,0,0,0,0,0,True,0.9,0.9,1,0.7,0.7,0.9,0.6,0.6,0.8
+rotation_longue_(optimisee),103,False,0,0,0,0,0,0,0,0,0,True,0.7,0.7,0.9,0.5,0.5,0.8,0.4,0.4,0.5
+rotation_longue_(0_chimie),104,False,0,0,0,0,0,0,0,0,0,True,0.7,0.7,0.9,0.5,0.5,0.8,0.1,0.1,0.2
+prairie_permanente,300,True,70,70,70,90,90,90,80,80,80,False,0,0,0,0,0,0,0,0,0
+prairie_permanente_mecanisable,310,True,70,70,70,90,90,90,80,80,80,False,0,0,0,0,0,0,0,0,0
+bois,500,True,70,70,70,90,90,90,80,80,80,False,0,0,0,0,0,0,0,0,0
+habitation,700,False,0,0,0,0,0,0,0,0,0,False,0,0,0,0,0,0,0,0,0
