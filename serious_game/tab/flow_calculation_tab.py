@@ -50,7 +50,7 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     field_type_line_middle, regular_font, river, data_folder, watershed_prefix, flow_calculation_tab_name, \
     loader_title, loader_text, watershed_analysis_button_name, save_value_button_name, select_parcel_button_name, \
     parcel_emit_analysis_button_name, parcel_reception_analysis_button_name, river_reception_analysis_button_name, \
-    select_river_button_name, start_comparison_button_name, open_result_viewer_button_name, studied_elements, \
+    select_river_button_name, start_comparison_button_name, open_result_viewer_button_name, studied_elements, coded_studied_elements,\
     land_cover_map_title, land_cover_map_parcel, land_cover_map_line, watershed_abatement_map_title_pt1, \
     watershed_abatement_map_title_pt2, watershed_abatement_map_parcel_pt1, watershed_abatement_map_parcel_pt2, \
     watershed_abatement_map_line_pt1, watershed_abatement_map_line_pt2, watershed_transfer_map_title_pt1, \
@@ -330,8 +330,15 @@ class FlowCalculationTab(TabManagement):
         self.line_layer.commitChanges()
         self.messagebox.show()
         elements = studied_elements
-        for i in range(len(elements)):
-            element = elements[i]
+        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        # coded_studied_elements = [0,1,2]
+
+        coded_elements=coded_studied_elements
+        iter=0
+        for i in coded_elements:
+        #for i in range(len(elements)):
+            element = elements[iter]
+            iter +=1
             element_underscore = element.replace(' ', '_').lower()
             # The analysis are launched, the function will return 3 layers.
             # If the save value button has not been clicked, no variables are added to the analysis.
@@ -559,8 +566,10 @@ class FlowCalculationTab(TabManagement):
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
         elements = studied_elements
-        for i in range(len(elements)):
-            element = elements[i]
+        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        coded_elements=coded_studied_elements
+        for i in coded_elements:
+        #for i in range(len(elements)):            element = elements[i]
             element_underscore = element.replace(' ', '_').lower()
             # Launch the analysis.
             self.flow_calculation.ecoulement_emis(self.parcel_layer, self.line_layer, self.connexion_layer,
@@ -684,7 +693,10 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
-        for i in range(len(elements)):
+        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        coded_elements=coded_studied_elements
+        for i in coded_elements:
+        #for i in range(len(elements)):
             element = elements[i]
             element_underscore = element.replace(' ', '_').lower()
             # Launch analysis.
@@ -809,7 +821,10 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
-        for i in range(len(elements)):
+        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        coded_elements=coded_studied_elements
+        for i in coded_elements:
+        #for i in range(len(elements)):
             element = elements[i]
             element_underscore = element.replace(' ', '_').lower()
             self.flow_calculation.ecoulement_riviere(self.parcel_layer, self.line_layer, self.connexion_layer,

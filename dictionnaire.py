@@ -354,7 +354,11 @@ select_turn_spinbox_label = "Tour n° :"
 selected_turn_button_name = "Choix des cartes de sortie"
 
 # Map result after analysis variables:
-studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+#studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+studied_elements = ["de phytosanitaires"]
+#coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
+#coded_studied_elements=[0,1,2]
+coded_studied_elements=[2]
 land_cover_map_title = "Occupation du sol"
 land_cover_map_parcel = "Occupation du sol"
 land_cover_map_line = "Elements lineaires"
