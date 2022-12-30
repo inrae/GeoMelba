@@ -519,6 +519,8 @@ class FlowCalculationTab(TabManagement):
         self.max_input_parcel = []
         self.max_input_line = []
         self.max_input_river_section = []
+        
+        
         for i in range(len(elements)):
             # Parcel inflow reference.
             self.max_input_parcel.append(self.referential[i][5])
@@ -568,8 +570,11 @@ class FlowCalculationTab(TabManagement):
         elements = studied_elements
         # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
         coded_elements=coded_studied_elements
+        iter=0
         for i in coded_elements:
-        #for i in range(len(elements)):            element = elements[i]
+        #for i in range(len(elements)):  
+            element = elements[iter]
+            iter +=1
             element_underscore = element.replace(' ', '_').lower()
             # Launch the analysis.
             self.flow_calculation.ecoulement_emis(self.parcel_layer, self.line_layer, self.connexion_layer,
@@ -695,9 +700,11 @@ class FlowCalculationTab(TabManagement):
         elements = studied_elements
         # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
         coded_elements=coded_studied_elements
+        iter=0
         for i in coded_elements:
         #for i in range(len(elements)):
-            element = elements[i]
+            element = elements[iter]
+            iter+=1
             element_underscore = element.replace(' ', '_').lower()
             # Launch analysis.
             self.flow_calculation.ecoulement_recu(self.parcel_layer, self.line_layer, self.connexion_layer,
@@ -823,9 +830,11 @@ class FlowCalculationTab(TabManagement):
         elements = studied_elements
         # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
         coded_elements=coded_studied_elements
+        iter=0
         for i in coded_elements:
         #for i in range(len(elements)):
-            element = elements[i]
+            element = elements[iter]
+            iter+=1
             element_underscore = element.replace(' ', '_').lower()
             self.flow_calculation.ecoulement_riviere(self.parcel_layer, self.line_layer, self.connexion_layer,
                                                      self.count_watershed_analysis,
