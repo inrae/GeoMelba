@@ -241,13 +241,13 @@ map_creation_information_pt2 = " par "
 turn_0_label = "état initial"
 turn_label = "Tour : "
 date_m_y = date.today().strftime('%B %Y')
-map_watershed_land_cover = "bv_occupation_du_sol_"
-map_watershed_abatement = "bv_abattement_ruissellement_"
-map_watershed_transfer = "bv_transfert_ruissellement_"
-map_watershed_transfer_rate = "bv_taux_transfert_ruissellement_"
+map_watershed_land_cover = "occupation_du_sol_"
+map_watershed_abatement = "taux_abattement_de_transferts_"
+map_watershed_transfer = "cumul_des_transferts_"
+map_watershed_transfer_rate = "taux_de_transferts_parcellaires_au_ruisseau_"
 
-map_watershed_potential_production = "bv_production_potentielle_"
-map_watershed_production_area = "bv_production_surface_"
+map_watershed_potential_production = "quantités_parcellaires_transférées_au_ruisseau_"
+map_watershed_production_area = "quantités_parcellaires_émises_"
 
 map_parcel_abatement = "parcelle_abattement_ruissellement_"
 map_parcel_transfer = "parcelle_transfert_ruissellement_"
@@ -355,7 +355,7 @@ selected_turn_button_name = "Choix des cartes de sortie"
 
 # Map result after analysis variables:
 #studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
-studied_elements = ["de phytosanitaires"]
+studied_elements = ["de PPP"]
 #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
 #coded_studied_elements=[0,1,2]
 coded_studied_elements=[2]
@@ -363,18 +363,18 @@ land_cover_map_title = "Occupation du sol"
 land_cover_map_parcel = "Occupation du sol"
 land_cover_map_line = "Elements lineaires"
 
-watershed_abatement_map_title_pt1 = "Taux d'abattement réalisé par les différents éléments du paysage en fonction du ruissellement "
-watershed_abatement_map_title_pt2 = " reçu"
-watershed_abatement_map_parcel_pt1 = "Taux d'abattement du ruissellement\n"
+watershed_abatement_map_title_pt1 = "Taux d'abattement des transferts "
+watershed_abatement_map_title_pt2 = " reçus par chaque élément du paysage relativement au taux maximum sur le bassin versant pour chaque type d'élément"
+watershed_abatement_map_parcel_pt1 = "Taux d'abattement des transferts \n"
 watershed_abatement_map_parcel_pt2 = " reçu par parcelle"
-watershed_abatement_map_line_pt1 = "Taux d'abattement du ruissellement\n"
+watershed_abatement_map_line_pt1 = "Taux d'abattement des transferts \n"
 watershed_abatement_map_line_pt2 = " reçu par linéaire"
 
-parcel_abatement_map_title_pt1 = "Taux d'abattement réalisé par les différents éléments du paysage en fonction du ruissellement "
-parcel_abatement_map_title_pt2 = " reçu"
-parcel_abatement_map_parcel_pt1 = "Taux d'abattement du ruissellement\n"
+parcel_abatement_map_title_pt1 = "Taux d'abattement des transferts "
+parcel_abatement_map_title_pt2 = " reçus par chaque élément du paysage relativement au taux maximum sur le bassin versant pour chaque type d'élément"
+parcel_abatement_map_parcel_pt1 = "Taux d'abattement des transferts \n"
 parcel_abatement_map_parcel_pt2 = " reçu par parcelle"
-parcel_abatement_map_line_pt1 = "Taux d'abattement du ruissellement\n"
+parcel_abatement_map_line_pt1 = "Taux d'abattement des transferts \n"
 parcel_abatement_map_line_pt2 = " reçu par linéaire"
 
 abatement_map_line_legend_pt1 = "Pas d'interception"
@@ -395,23 +395,23 @@ abatement_map_parcel_legend_pt6 = 'Elevé (60-80%)'
 abatement_map_parcel_legend_pt7 = 'Très Elevé (80-99%)'
 abatement_map_parcel_legend_pt8 = 'Total (100%)'
 
-watershed_transfer_map_title_pt1 = "Cumul des ruissellements "
-watershed_transfer_map_title_pt2 = " reçus par chaque parcelle ou élément du paysage"
-watershed_transfer_map_parcel_pt1 = "Ruissellement "
-watershed_transfer_map_parcel_pt2 = " reçu\npar parcelle en fonction du maximum observé"
-watershed_transfer_map_line_pt1 = "Ruissellement "
-watershed_transfer_map_line_pt2 = " reçu\npar linéaire en fonction du maximum observé"
-watershed_transfer_map_river_pt1 = "Ruissellement "
-watershed_transfer_map_river_pt2 = " reçu\npour chaque tronçon du cours d'eau"
+watershed_transfer_map_title_pt1 = "Cumul des transferts "
+watershed_transfer_map_title_pt2 = " reçus de l'amont par chaque parcelle ou linéaire relativement au maximum reçu par chaque type d'élément sur le bassin versant"
+watershed_transfer_map_parcel_pt1 = "Transferts "
+watershed_transfer_map_parcel_pt2 = " reçus par chaque parcelle\n relativement au maximum sur le bassin versant"
+watershed_transfer_map_line_pt1 = "Transferts "
+watershed_transfer_map_line_pt2 = " reçus par chaque linéaire\n relativement au maximum sur le bassin versant"
+watershed_transfer_map_river_pt1 = "Transferts "
+watershed_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
-parcel_transfer_map_title_pt1 = "Cumul des ruissellements "
-parcel_transfer_map_title_pt2 = " reçus par chaque parcelle ou élément du paysage"
-parcel_transfer_map_parcel_pt1 = "Ruissellement "
-parcel_transfer_map_parcel_pt2 = " reçu\npar parcelle en fonction du maximum observé"
-parcel_transfer_map_line_pt1 = "Ruissellement "
-parcel_transfer_map_line_pt2 = " reçu\npar linéaire en fonction du maximum observé"
-parcel_transfer_map_river_pt1 = "Ruissellement "
-parcel_transfer_map_river_pt2 = " reçu\npour chaque tronçon du cours d'eau"
+parcel_transfer_map_title_pt1 = "Cumul des transferts "
+parcel_transfer_map_title_pt2 = " reçus de l'amont par chaque parcelle ou linéaire relativement au maximum reçu par chaque type d'élément sur le bassin versant"
+parcel_transfer_map_parcel_pt1 = "Transferts "
+parcel_transfer_map_parcel_pt2 = " reçus par chaque parcelle \nrelativement au maximum sur le bassin versant"
+parcel_transfer_map_line_pt1 = "Transferts "
+parcel_transfer_map_line_pt2 = " reçus par chaque linéaire \nrelativement au maximum sur le bassin versant"
+parcel_transfer_map_river_pt1 = "Transferts "
+parcel_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
 transfer_map_river_legend_pt1 = 'Pas de ruissellement entrant'
 transfer_map_river_legend_pt2 = 'Traces'
@@ -438,39 +438,39 @@ transfer_map_parcel_legend_pt5 = 'Elevé'
 transfer_map_parcel_legend_pt6 = 'Très Elevé'
 transfer_map_parcel_legend_pt7 = 'Supérieur au max du tour référence'
 
-watershed_transfer_rate_map_title_pt1 = "Part de la production de ruissellement "
-watershed_transfer_rate_map_title_pt2 = " \nd'une parcelle atteignant le cours d'eau"
-watershed_transfer_rate_map_parcel_pt1 = "Taux de transfert\n"
-watershed_transfer_rate_map_parcel_pt2 = " des parcelles"
-watershed_transfer_rate_map_river = "Cours d'eau sans aménagement"
+watershed_transfer_rate_map_title_pt1 = "Taux de transferts entre la parcelle et le ruisseau "
+watershed_transfer_rate_map_title_pt2 = " \n émis par chaque parcelle"
+watershed_transfer_rate_map_parcel_pt1 = "\n"
+watershed_transfer_rate_map_parcel_pt2 = " "
+watershed_transfer_rate_map_river = "Ruisseau"
 
-watershed_production_potential_map_title_pt1 = "Production de ruissellement "
-watershed_production_potential_map_title_pt2 = " atteignant le cours d’eau relatif à la production potentielle maximale"
-watershed_production_potential_map_parcel_pt1 = "Production "
-watershed_production_potential_map_parcel_pt2 = " au m2\nen fonction du potentiel maximal"
-watershed_production_potential_map_river = "Cours d'eau sans aménagement"
+watershed_production_potential_map_title_pt1 = "Transferts "
+watershed_production_potential_map_title_pt2 = " générés au sein de chaque parcelle - relativement au potentiel maximal sur le bassin (ramenés au m²) - atteignant le ruisseau"
+watershed_production_potential_map_parcel_pt1 = " "
+watershed_production_potential_map_parcel_pt2 = " "
+watershed_production_potential_map_river = "Ruisseau"
 
-production_potential_map_parcel_legend_pt1 = 'Pas de production'
-production_potential_map_parcel_legend_pt2 = '0% de la production max au m2'
-production_potential_map_parcel_legend_pt3 = '1 - 25% de la production max au m2'
-production_potential_map_parcel_legend_pt4 = '25 - 50% de la production max au m2'
-production_potential_map_parcel_legend_pt5 = '50 - 75% de la production max au m2'
-production_potential_map_parcel_legend_pt6 = '75 - 99% de la production max au m2'
-production_potential_map_parcel_legend_pt7 = '100% de la production max au m2'
+production_potential_map_parcel_legend_pt1 = 'Pas d applications'
+production_potential_map_parcel_legend_pt2 = '0% de transfert'
+production_potential_map_parcel_legend_pt3 = '1 - 25% de transfert'
+production_potential_map_parcel_legend_pt4 = '25 - 50% de transfert'
+production_potential_map_parcel_legend_pt5 = '50 - 75% de transfert'
+production_potential_map_parcel_legend_pt6 = '75 - 99% de transfert'
+production_potential_map_parcel_legend_pt7 = '100% de transfert'
 
-watershed_production_area_map_title_pt1 = "Production de ruissellement "
-watershed_production_area_map_title_pt2 = " relatif à la production potentielle maximale"
-watershed_production_area_map_parcel_pt1 = "Production "
-watershed_production_area_map_parcel_pt2 = " au m2\nen fonction du potentiel maximal"
-watershed_production_area_map_river = "Cours d'eau sans aménagement"
+watershed_production_area_map_title_pt1 = "Transferts "
+watershed_production_area_map_title_pt2 = " générés au sein de chaque parcelle relativement au potentiel maximal sur le bassin (ramenés au m²)"
+watershed_production_area_map_parcel_pt1 = " "
+watershed_production_area_map_parcel_pt2 = " "
+watershed_production_area_map_river = "Ruisseau"
 
-production_area_map_parcel_legend_pt1 = 'Pas de production'
-production_area_map_parcel_legend_pt2 = '0% de la production max au m2'
-production_area_map_parcel_legend_pt3 = '1 - 25% de la production max au m2'
-production_area_map_parcel_legend_pt4 = '25 - 50% de la production max au m2'
-production_area_map_parcel_legend_pt5 = '50 - 75% de la production max au m2'
-production_area_map_parcel_legend_pt6 = '75 - 99% de la production max au m2'
-production_area_map_parcel_legend_pt7 = '100% de la production max au m2'
+production_area_map_parcel_legend_pt1 = 'Pas d applications'
+production_area_map_parcel_legend_pt2 = '0% de transfert'
+production_area_map_parcel_legend_pt3 = '1 - 25% de transfert'
+production_area_map_parcel_legend_pt4 = '25 - 50% de transfert'
+production_area_map_parcel_legend_pt5 = '50 - 75% de transfert'
+production_area_map_parcel_legend_pt6 = '75 - 99% de transfert'
+production_area_map_parcel_legend_pt7 = '100% de transfert'
 
 
 parcel_reception_map_title = "Contribution des parcelles\nà la contamination de la parcelle numéro "

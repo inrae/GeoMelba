@@ -254,7 +254,8 @@ class MapCreation:
         title_layout = QgsLayoutItemLabel(layout)
         # Set text, style and position of the title.
         title_layout.setText(title)
-        title_layout.setFont(QFont('Arial', 24, QFont.Bold))
+        #title_layout.setFont(QFont('Arial', 24, QFont.Bold))
+        title_layout.setFont(QFont('Arial', 18, QFont.Bold))
         title_layout.setHAlign(Qt.AlignRight)
         title_layout.adjustSizeToText()
         title_layout.setMinimumSize(QgsLayoutSize(5, 10, QgsUnitTypes.LayoutMillimeters))

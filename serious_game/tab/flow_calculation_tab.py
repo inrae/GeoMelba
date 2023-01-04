@@ -434,8 +434,10 @@ class FlowCalculationTab(TabManagement):
             # repaint the layer
             river_layer.triggerRepaint()
             layers = [river_layer, parcels_layer]
+            #names = [watershed_transfer_rate_map_river,
+            #         watershed_transfer_rate_map_parcel_pt1 + str(element) + watershed_transfer_rate_map_parcel_pt2]
             names = [watershed_transfer_rate_map_river,
-                     watershed_transfer_rate_map_parcel_pt1 + str(element) + watershed_transfer_rate_map_parcel_pt2]
+                     watershed_transfer_rate_map_parcel_pt1 +  watershed_transfer_rate_map_parcel_pt2]
             title = watershed_transfer_rate_map_title_pt1 + str(element) + watershed_transfer_rate_map_title_pt2
             name = map_watershed_transfer_rate + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
@@ -451,8 +453,11 @@ class FlowCalculationTab(TabManagement):
                 self.count_watershed_analysis)
             parcels_layer = self.project.mapLayersByName(parcels)[0]
             layers = [river_layer, parcels_layer]
+            #names = [watershed_production_potential_map_river,
+            #         watershed_production_potential_map_parcel_pt1 + str(element) +
+            #         watershed_production_potential_map_parcel_pt2]
             names = [watershed_production_potential_map_river,
-                     watershed_production_potential_map_parcel_pt1 + str(element) +
+                     watershed_production_potential_map_parcel_pt1 + 
                      watershed_production_potential_map_parcel_pt2]
             title = watershed_production_potential_map_title_pt1 + str(
                 element) + watershed_production_potential_map_title_pt2
@@ -470,8 +475,10 @@ class FlowCalculationTab(TabManagement):
             parcels = "production_en_fonction_de_la_surface_" + str(self.count_watershed_analysis)
             parcels_layer = self.project.mapLayersByName(parcels)[0]
             layers = [river_layer, parcels_layer]
+            #names = [watershed_production_area_map_river,
+            #         watershed_production_area_map_parcel_pt1 + str(element) + watershed_production_area_map_parcel_pt2]
             names = [watershed_production_area_map_river,
-                     watershed_production_area_map_parcel_pt1 + str(element) + watershed_production_area_map_parcel_pt2]
+                     watershed_production_area_map_parcel_pt1  + watershed_production_area_map_parcel_pt2]
             title = watershed_production_area_map_title_pt1 + str(element) + watershed_production_area_map_title_pt2
             name = map_watershed_production_area + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)

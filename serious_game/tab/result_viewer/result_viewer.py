@@ -429,3 +429,4 @@ class GraphicsView(QGraphicsView):
                     self.project_tree_widget.itemAbove(self.project_tree_widget.selectedItems()[0]))
             else:
                 pass
+
