@@ -24,7 +24,7 @@
       <rule label="bande enherbée" key="{df4892ae-b849-4ef6-9a0a-bc02e6f023c2}" symbol="8" filter="(&quot;type_amo&quot;=800 AND  &quot;up_side&quot; = 'right') OR (&quot;type_ava&quot;=800 AND  &quot;up_side&quot; = 'left')"/>
       <rule label="ripisylve" key="{038121f6-d5a6-4600-a7c1-731ade548f38}" symbol="9" filter="(&quot;type_amo&quot; = 200 AND  &quot;up_side&quot; = 'left') OR (&quot;type_ava&quot;  = 200 AND  &quot;up_side&quot; = 'right')"/>
       <rule label="ripisylve" key="{5f2b69a6-7fff-4682-a0cc-86904949036e}" symbol="10" filter="(&quot;type_amo&quot;  = 200 AND  &quot;up_side&quot; = 'right') OR (&quot;type_ava&quot;  = 200 AND  &quot;up_side&quot; = 'left')"/>
-      <rule label="cours d'eau sans aménagement" key="{d0197b15-871e-4972-b4fd-0889ad83ba62}" symbol="11" filter="&quot;type_cen&quot;= 700"/>
+      <rule label="ruisseau" key="{d0197b15-871e-4972-b4fd-0889ad83ba62}" symbol="11" filter="&quot;type_cen&quot;= 700"/>
       <rule label="collecteur de drainage" key="{04014e78-4469-46d9-a53c-ed2a31fb51aa}" symbol="12" filter="&quot;type_cen&quot; = 300"/>
       <rule label="fossé nu ou bétonné" key="{26b70d02-d649-4eae-98c5-74b1466f2fba}" symbol="13" filter="(&quot;type_amo&quot; = 310 AND  &quot;up_side&quot; = 'left') OR (&quot;type_ava&quot; = 310 AND  &quot;up_side&quot; = 'right')"/>
       <rule label="fossé nu ou bétonné" key="{26b70d02-d649-4eae-98c5-74b1466f2fba}" symbol="14" filter="&quot;type_cen&quot; = 310"/>

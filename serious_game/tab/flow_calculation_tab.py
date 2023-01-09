@@ -375,7 +375,7 @@ class FlowCalculationTab(TabManagement):
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 False)
             parent.findGroup(
-                "Production de ruissellement des parcelles " + "BV " + str(
+                "Transfert émis des parcelles " + "BV " + str(
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 False)
             # Map parameters.
@@ -467,7 +467,7 @@ class FlowCalculationTab(TabManagement):
                                              self.output_path, self.count_watershed_analysis)
             # Creation of the contribution map. Display only the right group.
             parent.findGroup(
-                "Production de ruissellement des parcelles " + "BV " + str(
+                "Transfert émis des parcelles " + "BV " + str(
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 True)
             parent.setItemVisibilityChecked(True)
