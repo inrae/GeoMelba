@@ -1882,13 +1882,12 @@ class FlowCalculation:
             history_abatement_field = field_history_abatement_phyto
         parcelle_id_selected = []
         list_id_parcel = []
-        
+
         if len(args) == 0:
             args = None
         else:
-            args = [args[0][0], args[1][0], args[2][0]]
-            #args = [args[0][element], args[1][element], args[2][element]]
-        
+            args = [args[0][element], args[1][element], args[2][element]]
+
         self.prepare_layers(parcel_layer, line_layer)
 
         line_layer.startEditing()
@@ -2052,9 +2051,9 @@ class FlowCalculation:
         )
         self.create_symbology(parcel_layer_rela_prod, rules)
         QgsProject().instance().addMapLayer(parcel_layer_prod, False)
-        group.insertGroup(0, "Transfert émis des parcelles " + "BV " + str(count))
+        group.insertGroup(0, "Production de ruissellement des parcelles " + "BV " + str(count))
         group_prod = QgsProject.instance().layerTreeRoot().findGroup(
-            "Transfert émis des parcelles " + "BV " + str(count))
+            "Production de ruissellement des parcelles " + "BV " + str(count))
         QgsProject().instance().addMapLayer(parcel_layer_limit, False)
         group_prod.addLayer(parcel_layer_limit)
         group_prod.addLayer(parcel_layer_prod)

@@ -13,7 +13,7 @@
   </temporal>
   <renderer-v2 enableorderby="0" type="RuleRenderer" symbollevels="0" forceraster="0">
     <rules key="{7945aa6f-64b3-436c-8f2c-943f557bd1bc}">
-      <rule label="Pas de transfert entrant" filter=" &quot;indice_e&quot; = 0 and  &quot;gm_ent&quot;  = 0" symbol="0" key="{ce315373-1858-4b73-b981-be1426be16dc}"/>
+      <rule label="Pas de ruissellement entrant" filter=" &quot;indice_e&quot; = 0 and  &quot;gm_ent&quot;  = 0" symbol="0" key="{ce315373-1858-4b73-b981-be1426be16dc}"/>
       <rule label="Très Faible" filter="&quot;indice_e&quot; >= 0.000000 AND &quot;indice_e&quot; &lt;= 2.000000 and &quot;gm_ent&quot; > 0" symbol="1" key="{df2ef4bd-bd91-4a6b-ac02-28239fbe4193}"/>
       <rule label="Faible" filter="&quot;indice_e&quot; > 2.000000 AND &quot;indice_e&quot; &lt;= 4.000000" symbol="2" key="{47ebb703-52c2-44a1-8394-3c7c20d61dbf}"/>
       <rule label="Moyenne" filter="&quot;indice_e&quot; > 4.000000 AND &quot;indice_e&quot; &lt;= 6.000000" symbol="3" key="{7370aabb-2941-45ae-8bb4-93c37a2e8c4d}"/>

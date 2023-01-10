@@ -51,12 +51,12 @@ polygon_type = "parcelle"
 
 # Variables nom de groupe :
 original_layer_group_name = 'Couche de base'
-group_watershed_analysis = 'Analyse transfert BV '
+group_watershed_analysis = 'Analyse ruissellement BV '
 group_flow_transfer = 'Analyse transfert '
 group_abatement_analysis = 'Analyse abattement '
-group_outgoing_flow_parcel = 'Analyse transfert emis parcelle '
-group_incoming_flow_parcel = 'Analyse transfert recu parcelle '
-group_incoming_flow_river = 'Analyse transfert recu ruisseau '
+group_outgoing_flow_parcel = 'Analyse ruissellement emis parcelle '
+group_incoming_flow_parcel = 'Analyse ruissellement recu parcelle '
+group_incoming_flow_river = 'Analyse ruissellement recu riviere '
 
 
 # Variables nom de couche :
@@ -74,14 +74,14 @@ geopackage_layer_name_connexions = "connexions"
 
 line_abatement_layer_name = 'abattement_lineaire_'
 line_transfer_layer_name = 'transfert_lineaire_'
-parcel_outgoing_flow_layer_name = 'transmission_transfert_'
+parcel_outgoing_flow_layer_name = 'transmission_ruissellement_'
 parcel_abatement_layer_name = 'abattement_parcelles_'
 parcel_transfer_layer_name = 'transfert_parcelle_'
 lines_not_river_layer_name = 'not_river_'
-river_incoming_flow_layer_name = 'reception_transfert_'
+river_incoming_flow_layer_name = 'reception_ruissellement_'
 parcel_influence_layer_name = 'influence_sur_les_parcelles_'
 parcel_contribution_layer_name = 'contribution_a_la_contamination_des_parcelles_'
-river_selection_layer_name = 'troncon_ruisseau_selectionne_'
+river_selection_layer_name = 'troncon_riviere_selectionne_'
 
 # Variables crees :
 field_type_parcel_origin = 'gm_type'
@@ -241,18 +241,18 @@ map_creation_information_pt2 = " par "
 turn_0_label = "état initial"
 turn_label = "Tour : "
 date_m_y = date.today().strftime('%B %Y')
-map_watershed_land_cover = "bv_occupation_du_sol_"
-map_watershed_abatement = "bv_taux_abattement_des_transferts_"
-map_watershed_transfer = "bv_cumul_des_transferts_reçus_"
-map_watershed_transfer_rate = "bv_taux_de_transferts_parcellaires_au_ruisseau_"
+map_watershed_land_cover = "occupation_du_sol_"
+map_watershed_abatement = "taux_abattement_de_transferts_"
+map_watershed_transfer = "cumul_des_transferts_"
+map_watershed_transfer_rate = "taux_de_transferts_parcellaires_au_ruisseau_"
 
-map_watershed_potential_production = "bv_quantités_parcellaires_transférées_au_ruisseau_"
-map_watershed_production_area = "bv_quantités_parcellaires_émises_"
+map_watershed_potential_production = "quantités_parcellaires_transférées_au_ruisseau_"
+map_watershed_production_area = "quantités_parcellaires_émises_"
 
-map_parcel_abatement = "parcelle_abattement_transferts_émis_"
-map_parcel_transfer = "parcelle_transferts_émis_"
-map_parcel_received = "parcelle_transferts_reçus_"
-map_river_received = "Ruisseau_transferts_reçus_"
+map_parcel_abatement = "parcelle_abattement_ruissellement_"
+map_parcel_transfer = "parcelle_transfert_ruissellement_"
+map_parcel_received = "parcelle_ruissellement_reçu_"
+map_river_received = "rivière_ruissellement_reçu_"
 
 
 # Serious game tab name:
@@ -303,13 +303,13 @@ switch_parcels_owner_label_pt2 = "Echange de la parcelle numéro :"
 switch_parcels_owner_label_pt3 = "contre la parcelle numéro :"
 switch_parcel_owner_button_name = "Echangez les parcelles !"
 drain_selection_top_label = "Sélectionner la zone de drainage à modifier :"
-watershed_analysis_button_name = "Indices de transfert sur le Bassin Versant"
-save_value_button_name = "Sélectionner ces indices de transfert comme référentiel"
+watershed_analysis_button_name = "Indices de ruissellement sur le Bassin Versant"
+save_value_button_name = "Sélectionner ces indices de ruissellement comme référentiel"
 select_parcel_button_name = "Sélection d'une parcelle"
-select_river_button_name = "Sélection d'un tronçon de ruisseau"
-parcel_emit_analysis_button_name = "Indices pour le transfert émis par une parcelle"
-parcel_reception_analysis_button_name = "Indices pour le transfert reçu par une parcelle"
-river_reception_analysis_button_name = "Indices pour le transfert reçu par un tronçon de ruisseau"
+select_river_button_name = "Sélection d'un tronçon de rivière"
+parcel_emit_analysis_button_name = "Indices pour le ruissellement émis par une parcelle"
+parcel_reception_analysis_button_name = "Indices pour le ruissellement reçu par une parcelle"
+river_reception_analysis_button_name = "Indices pour le ruissellement reçu par un tronçon de rivière"
 start_comparison_button_name = "Comparer les données"
 open_result_viewer_button_name = "Afficher les résultats"
 
@@ -331,11 +331,11 @@ comparison_button_name = "Comparer les simulations"
 legend_folder_pt1 = "Comparaison entre t"
 legend_folder_pt2 = "et t"
 legend_folder_pt3 = " au seuil de "
-comparison_river_layer_name_pt1 = 'Evolution des quantités reçues par le ruisseau entre t'
+comparison_river_layer_name_pt1 = 'Evolution des entrants des rivières entre t'
 comparison_river_layer_name_pt2 = "et t"
-comparison_parcel_layer_name_pt1 = "Evolution de la quantité émise par les parcelles entre t"
+comparison_parcel_layer_name_pt1 = "Evolution de la production des parcelles entre t"
 comparison_parcel_layer_name_pt2 = "et t"
-comparison_line_layer_name_pt1 = "Mesure de l'efficacité d'abattement des linéaires entre t"
+comparison_line_layer_name_pt1 = "Mesure de l'efficacité des linéaires entre t"
 comparison_line_layer_name_pt2 = "et t"
 information_selection_error_comparison_pt1 = "Il n'existe pas encore cette simulation."
 information_selection_error_comparison_pt2 = "\nVeuillez sélectionner une simulation comprise entre 0 et "
@@ -354,7 +354,7 @@ select_turn_spinbox_label = "Tour n° :"
 selected_turn_button_name = "Choix des cartes de sortie"
 
 # Map result after analysis variables:
-#studied_elements = ["d'eau", "de MES", "de PPP"]
+#studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
 studied_elements = ["de PPP"]
 #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
 #coded_studied_elements=[0,1,2]
@@ -413,7 +413,7 @@ parcel_transfer_map_line_pt2 = " reçus par chaque linéaire \nrelativement au m
 parcel_transfer_map_river_pt1 = "Transferts "
 parcel_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
-transfer_map_river_legend_pt1 = 'Pas de transfert entrant'
+transfer_map_river_legend_pt1 = 'Pas de ruissellement entrant'
 transfer_map_river_legend_pt2 = 'Traces'
 transfer_map_river_legend_pt3 = 'Très Faible'
 transfer_map_river_legend_pt4 = 'Faible'
@@ -477,7 +477,7 @@ parcel_reception_map_title = "Contribution des parcelles\nà la contamination de
 parcel_reception_map_parcel_production = "Contribution à la contamination\nde la parcelle sélectionnée"
 parcel_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\nde l'abattement maximale observé"
 parcel_reception_map_line = "Taux d'abattement des linéaires en fonction\nde de ce qu'ils réceptionnent"
-parcel_reception_map_river = "Ruisseau"
+parcel_reception_map_river = "Cours d'eau sans aménagement"
 
 parcel_river_map_production_legend_pt1 = 'Pas de contribution'
 parcel_river_map_production_legend_pt2 = 'entre 0 et 5 %'
@@ -492,11 +492,11 @@ parcel_river_map_production_legend_pt10 = '80 %'
 parcel_river_map_production_legend_pt11 = '90 %'
 parcel_river_map_production_legend_pt12 = '100 %'
 
-river_reception_map_title = "Contribution des parcelles\nà la contamination d'un tronçon de ruisseau"
-river_reception_map_parcel_production = "Contribution à la contamination\ndu tronçon de ruisseau sélectionné"
+river_reception_map_title = "Contribution des parcelles\nà la contamination d'un tronçon de rivière"
+river_reception_map_parcel_production = "Contribution à la contamination\ndu tronçon de rivière sélectionné"
 river_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\nde l'abattement maximale observé"
 river_reception_map_line = "Taux d'abattement des linéaires en fonction\nde de ce qu'ils réceptionnent"
-river_reception_map_river = "Tronçon de ruisseau sélectionné"
+river_reception_map_river = "Tronçon de rivière sélectionné"
 
 # Information and error message :
 information_crs_text_pt1 = "Erreur de sélection du Système de projection :"

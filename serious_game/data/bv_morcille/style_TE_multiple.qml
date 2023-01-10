@@ -18,7 +18,7 @@
       <rule key="{7f3ad693-c6dd-4b6e-b7e9-1e7ee3546ca3}" symbol="2" label="haies" filter="(&quot;type_amo&quot;=100 AND  &quot;up_side&quot; = 'right') OR (&quot;type_ava&quot;=100 AND  &quot;up_side&quot; = 'left')"/>
       <rule key="{038121f6-d5a6-4600-a7c1-731ade548f38}" symbol="3" label="ripisylve" filter="((&quot;type_amo&quot; = 200 OR &quot;type_amo&quot;  = 200) AND  &quot;up_side&quot; = 'left') OR ((&quot;type_ava&quot;  = 200 OR &quot;type_ava&quot;  = 200) AND  &quot;up_side&quot; = 'right')"/>
       <rule key="{5f2b69a6-7fff-4682-a0cc-86904949036e}" symbol="4" label="ripisylve" filter="((&quot;type_amo&quot;  = 200 OR &quot;type_amo&quot;  = 200) AND  &quot;up_side&quot; = 'right') OR ((&quot;type_ava&quot;  = 200 OR &quot;type_ava&quot;  = 200) AND  &quot;up_side&quot; = 'left')"/>
-      <rule key="{d0197b15-871e-4972-b4fd-0889ad83ba62}" symbol="5" label="ruisseau" filter="&quot;type_cen&quot;= 700"/>
+      <rule key="{d0197b15-871e-4972-b4fd-0889ad83ba62}" symbol="5" label="cours d'eau sans aménagement" filter="&quot;type_cen&quot;= 700"/>
       <rule key="{26b70d02-d649-4eae-98c5-74b1466f2fba}" symbol="6" label="fossé nu ou bétonné" filter="(&quot;type_amo&quot; = 310 AND  &quot;up_side&quot; = 'left') OR (&quot;type_ava&quot; = 310 AND  &quot;up_side&quot; = 'right')"/>
       <rule key="{26b70d02-d649-4eae-98c5-74b1466f2fba}" symbol="7" label="fossé nu ou bétonné" filter="&quot;type_cen&quot; = 310"/>
       <rule key="{04c2bbc9-017d-441e-a7d4-2ef419f47a18}" symbol="8" label="fossé nu ou bétonné" filter="(&quot;type_amo&quot; = 310 AND  &quot;up_side&quot; = 'right') OR (&quot;type_ava&quot; = 310 AND  &quot;up_side&quot; = 'left')"/>

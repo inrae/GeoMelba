@@ -91,7 +91,7 @@ class PlotCreationTab(TabManagement):
         self.ax_lines.set_ylabel('Abattement / Entrant (en %)')
         self.ax_lines.set_xlabel('Entrant / Entrant total (en %)')
         # River section
-        self.ax_river_section.set_title("Tronçons de ruisseau")
+        self.ax_river_section.set_title("Tronçons de rivière")
         self.ax_river_section.set_ylabel('Nombre de tronçons')
         self.ax_river_section.set_xlabel('Entrant / Entrant total (en %)')
         # Set position of the plot.
