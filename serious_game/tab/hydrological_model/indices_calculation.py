@@ -1886,8 +1886,8 @@ class FlowCalculation:
         if len(args) == 0:
             args = None
         else:
-            args = [args[0][element], args[1][element], args[2][element]]
-
+            #args = [args[0][element], args[1][element], args[2][element]]
+            args = [args[0][0], args[1][0], args[2][0]]
         self.prepare_layers(parcel_layer, line_layer)
 
         line_layer.startEditing()

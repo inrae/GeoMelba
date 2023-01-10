@@ -36,7 +36,7 @@ from qgis.core import QgsProject, QgsVectorLayer, QgsSimpleLineSymbolLayer, QgsS
 from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, map_watershed_transfer, \
     map_watershed_transfer_rate, map_watershed_potential_production, map_watershed_production_area, \
     map_parcel_abatement, map_parcel_transfer, map_parcel_received, map_river_received, \
-    infos_map_watershed_land_cover, infos_map_watershed_abatement, infos_map_watershed_transfer, \
+    infos_map_watershed_land_cover, infos_map_watershed_abatement, infos_map_watershed_transfer, studied_elements, coded_studied_elements, \
     infos_map_watershed_transfer_rate, infos_map_watershed_potential_production, infos_map_watershed_production_area, \
     infos_map_parcel_abatement, infos_map_parcel_transfer, infos_map_parcel_received, infos_map_river_received, \
     field_type_parcel, field_type_line_middle, regular_font, field_type_line_bottom, field_type_line_top, \
@@ -98,30 +98,37 @@ class ResultViewer(QMainWindow):
             self.canvas.setGeometry(QRect(0, 0, 0, 0))
             # Find for each map the text to describe it.
             # If the map is about land cover, the text area is smaller so the comparison map can be added.
-            if str(text.replace(" ", "_").lower() + "_") == str(map_watershed_land_cover):
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_land_cover))
-                if int(self.ui.spinbox.text()) > 0:
-                    self.ui.description_text.setGeometry(QRect(
-                        10, 80 + self.height / 3, int(self.width / 4) - 15, 2 * (self.height / 8) - 130))
-                    self.add_state_map()
-            elif str(text.replace(" ", "_").lower() + "_") == map_watershed_abatement:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_abatement))
-            elif str(text.replace(" ", "_").lower() + "_") == map_watershed_transfer:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_transfer))
-            elif str(text.replace(" ", "_").lower() + "_") == map_watershed_transfer_rate:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_transfer_rate))
-            elif str(text.replace(" ", "_").lower() + "_") == map_watershed_potential_production:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_potential_production))
-            elif str(text.replace(" ", "_").lower() + "_") == map_watershed_production_area:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_production_area))
-            elif str(text.replace(" ", "_").lower() + "_") == map_parcel_abatement:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_abatement))
-            elif str(text.replace(" ", "_").lower() + "_") == map_parcel_transfer:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_transfer))
-            elif str(text.replace(" ", "_").lower() + "_") == map_parcel_received:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_received))
-            elif str(text.replace(" ", "_").lower() + "_") == map_river_received:
-                self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_river_received))
+            
+            iter=0
+            for i in coded_studied_elements:
+                element = studied_elements[iter]
+                element_underscore = element.replace(' ', '_').lower()
+                iter+=1
+
+                if str(text.replace(" ", "_").lower() + "_") == str(map_watershed_land_cover):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_land_cover))
+                    if int(self.ui.spinbox.text()) > 0:
+                        self.ui.description_text.setGeometry(QRect(
+                            10, 80 + self.height / 3, int(self.width / 4) - 15, 2 * (self.height / 8) - 130))
+                        self.add_state_map()
+                elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_abatement+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_abatement))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_transfer+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_transfer))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_transfer_rate+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_transfer_rate))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_potential_production+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_potential_production))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_production_area+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_production_area))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_parcel_abatement+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_abatement))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_parcel_transfer+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_transfer))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_parcel_received+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_parcel_received))
+                elif str(text.replace(" ", "_").lower() + "_") == (map_river_received+str(element_underscore)+ "_"):
+                    self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_river_received))
         else:
             item = QGraphicsPixmapItem()
         # Add the pixmap to the scene.
