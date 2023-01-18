@@ -94,7 +94,7 @@ class ResultViewer(QMainWindow):
             item = QGraphicsPixmapItem(pixmap)
             # Create the text area to contain the description.
             self.ui.description_text.setGeometry(QRect(
-                10, 80 + self.height / 3, int(self.width / 4) - 15, 2 * (self.height / 3) - 130))
+                10, 80 + int(self.height / 3), int(self.width / 4) - 15, 2 * int(self.height / 3) - 130))
             self.canvas.setGeometry(QRect(0, 0, 0, 0))
             # Find for each map the text to describe it.
             # If the map is about land cover, the text area is smaller so the comparison map can be added.
@@ -109,7 +109,7 @@ class ResultViewer(QMainWindow):
                     self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_land_cover))
                     if int(self.ui.spinbox.text()) > 0:
                         self.ui.description_text.setGeometry(QRect(
-                            10, 80 + self.height / 3, int(self.width / 4) - 15, 2 * (self.height / 8) - 130))
+                            10, 80 + int(self.height / 3), int(self.width / 4) - 15, 2 * int(self.height / 8) - 130))
                         self.add_state_map()
                 elif str(text.replace(" ", "_").lower() + "_") == (map_watershed_abatement+str(element_underscore)+ "_"):
                     self.ui.description_text.setSource(QUrl.fromLocalFile(infos_map_watershed_abatement))
@@ -147,8 +147,8 @@ class ResultViewer(QMainWindow):
         Memory layers are created and a style is applied to show those modification.
         """
         # Create the canvas to put the map in it.
-        self.canvas.setGeometry(QRect(10, 90 + self.height / 3 + (2 * (self.height / 8) - 130),
-                                      int(self.width / 4) - 15, 2 * (self.height / 5)))
+        self.canvas.setGeometry(QRect(10, 90 + int(self.height / 3) + (2 * int(self.height / 8) - 130),
+                                      int(self.width / 4) - 15, 2 * int(self.height / 5)))
         # Add layers to the canvas but not to the layer tree to place them in the group layer.
         # Create the parcel layer.
         self.parcel_layer.selectAll()
@@ -322,10 +322,10 @@ class Ui_Dialog(object):
         Dialog.resize(width, height)
         # Add the tree widget
         self.project_tree_widget = QTreeWidget(Dialog)
-        self.project_tree_widget.setGeometry(QRect(10, 70, int(width / 4) - 15, height/3))
+        self.project_tree_widget.setGeometry(QRect(10, 70, int(width / 4) - 15, int(height/3)))
         self.project_tree_widget.setHeaderLabel(tree_widget_header)
         self.description_text = QTextBrowser(Dialog)
-        self.description_text.setGeometry(QRect(10, 80 + height/3, int(width / 4) - 15, 2 * (height / 3) - 130))
+        self.description_text.setGeometry(QRect(10, 80 + int(height/3), int(width / 4) - 15, 2 * int(height / 3) - 130))
 
         # Creation of the spinbox.
         spinbox_label = QLabel(Dialog)

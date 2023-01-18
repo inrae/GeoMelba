@@ -28,6 +28,7 @@ from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QSpinBox, QVBoxLayout, QToolTip
 # Matplotlib modules
 import matplotlib
+import matplotlib.backends.backend_qt5agg
 import matplotlib.pyplot as plt
 # Import personal modules
 from .tab_management import TabManagement
@@ -67,6 +68,7 @@ class PlotCreationTab(TabManagement):
         # Creation of the canvas for the plots
         self.figure = plt.figure(figsize=(1, 1))
         plot_canvas = matplotlib.backends.backend_qt5agg.FigureCanvasQTAgg(self.figure)
+        
         self.figure.subplots_adjust(0.2, 0.2, 0.8, 0.8)
         # Creation of the SpinBox
         self.spinbox_visualisation_turn.setPrefix("Etudier le tour ")
