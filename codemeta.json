@@ -1,0 +1,99 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "license": "https://spdx.org/licenses/GPL-2.0+",
+    "codeRepository": "https://github.com/inrae/GeoMelba",
+    "dateCreated": "2022-07-04",
+    "datePublished": "2022-07-04",
+    "dateModified": "2023-01-31",
+    "name": "GeoMelba-Spirit",
+    "version": "1.1-beta2",
+    "identifier": "swh:1:dir:4a9cacebef7ff2d1dd82d9fdb103a91aff9f5345",
+    "description": "Outil de création d’un maillage et de connectivité des objets d’un paysage agricole pour le calcul d’indicateurs spatialisés de transferts hydrologiques et utilisation en ateliers participatifs (type formation continue des acteurs du monde agricole et gestionnaires de bassins versants)",
+    "applicationCategory": "agronomy",
+    "developmentStatus": "active",
+    "funder": {
+        "@type": "Organization",
+        "name": "INRAE"
+    },
+    "keywords": [
+        "soils",
+        "pesticide",
+        "water"
+    ],
+    "programmingLanguage": [
+        "Python 3",
+        "QML",
+        "Bash"
+    ],
+    "operatingSystem": [
+        "Linux",
+        "Windows"
+    ],
+    "softwareRequirements": [
+        "QGIS 3.x",
+        "https://www.qgis.org"
+    ],
+    "author": [
+        {
+            "@type": "Person",
+            "givenName": "Jules",
+            "familyName": "Grillot",
+            "email": "jules.grillot@gmail.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE -  UR RIVERLY"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Michael",
+            "familyName": "Rabotin",
+            "email": "michael.rabotin@inrae.fr",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE - UR RIVERLY"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Nadia",
+            "familyName": "CARLUER",
+            "email": "nadia.carluer@inrae.fr",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE - UR RIVERLY"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Veronique",
+            "familyName": "GOUY BOUSSADA",
+            "email": "veronique.gouy@inrae.fr",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE - UR RIVERLY"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Claire",
+            "familyName": "Lauvernet",
+            "email": "claire.lauvernet@inrae.fr",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE - UR RIVERLY"
+            }
+        },
+        {
+            "@type": "Person",
+            "givenName": "Christine",
+            "familyName": "BARACHET",
+            "email": "chrisbar@etik.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "INRAE - UR RIVERLY"
+            }
+        }
+    ]
+}
