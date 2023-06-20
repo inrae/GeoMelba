@@ -26,9 +26,10 @@
 import csv
 import os
 import processing
-from PyQt5.QtCore import QUrl, QSize
+from PyQt5.QtCore import QUrl, QSize, Qt
+from PyQt5.QtGui import QColor, QFont
 from qgis.PyQt.QtWidgets import QPushButton, QButtonGroup, QLabel, QDialog, QTextBrowser
-from qgis.core import QgsVectorLayer, QgsLineSymbol, QgsSingleSymbolRenderer
+from qgis.core import QgsVectorLayer, QgsLineSymbol, QgsSingleSymbolRenderer,QgsPalLayerSettings, QgsVectorLayerSimpleLabeling, QgsTextFormat, QgsTextBufferSettings
 
 from .tab_management import TabManagement
 from .result_viewer.map_viewer import MapViewer
@@ -40,7 +41,7 @@ from .hydrological_model.history import after_watershed_analysis
 from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, author, history_table_name, \
     history_field_action, history_field_layer, history_field_feature, history_field_field, history_field_field_idx, \
     history_field_previous, history_field_next, group_watershed_analysis, group_flow_transfer, \
-    parcel_abatement_layer_name, line_abatement_layer_name, river_incoming_flow_layer_name, \
+    parcel_abatement_layer_name, line_abatement_layer_name, river_incoming_flow_layer_name, field_parcel_id, \
     parcel_transfer_layer_name, line_transfer_layer_name, field_incoming_flow, owner_cover_layer_name, \
     group_outgoing_flow_parcel, parcel_contribution_layer_name, field_flow_production_rating, \
     field_flow_abatement_rating, field_flow_abatement, river_selection_layer_name, group_incoming_flow_river, \
@@ -63,11 +64,11 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     watershed_production_potential_map_river, watershed_production_area_map_title_pt1, \
     watershed_production_area_map_title_pt2, watershed_production_area_map_parcel_pt1, \
     watershed_production_area_map_parcel_pt2, watershed_production_area_map_river, parcel_abatement_map_title_pt1, \
-    parcel_abatement_map_title_pt2, parcel_abatement_map_parcel_pt1, parcel_abatement_map_parcel_pt2, \
+    parcel_abatement_map_title_pt2, parcel_abatement_map_title_pt3, parcel_abatement_map_parcel_pt1, parcel_abatement_map_parcel_pt2, \
     parcel_abatement_map_line_pt1, parcel_abatement_map_line_pt2, parcel_transfer_map_title_pt1, \
-    parcel_transfer_map_title_pt2, parcel_transfer_map_parcel_pt1, parcel_transfer_map_parcel_pt2, \
+    parcel_transfer_map_title_pt2, parcel_transfer_map_title_pt3, parcel_transfer_map_parcel_pt1, parcel_transfer_map_parcel_pt2, \
     parcel_transfer_map_line_pt1, parcel_transfer_map_line_pt2, parcel_transfer_map_river_pt1, \
-    parcel_transfer_map_river_pt2, parcel_reception_map_title, parcel_reception_map_parcel_production, \
+    parcel_transfer_map_river_pt2, parcel_reception_map_title_1, parcel_reception_map_title_2, parcel_reception_map_parcel_production, \
     parcel_reception_map_parcel_abatement, parcel_reception_map_line, parcel_reception_map_river, \
     river_reception_map_title, river_reception_map_parcel_production, river_reception_map_parcel_abatement, \
     river_reception_map_line, river_reception_map_river
@@ -81,7 +82,7 @@ class FlowCalculationTab(TabManagement):
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
                  abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
                  abatement_lat_mes=None, abatement_lat_phyto=None, output_path=None, connexion_layer=None,
-                 button_rollback=None, plot_creation=None):
+                 button_rollback=None):#, plot_creation=None):
         """Concern the tab creation of flow analysis :
         - 9 buttons to do analysis, select element or compare result.
 
@@ -97,7 +98,7 @@ class FlowCalculationTab(TabManagement):
         self.output_path = output_path
         self.connexion_layer = connexion_layer
         self.button_rollback = button_rollback
-        self.plot_creation = plot_creation
+       # self.plot_creation = plot_creation
         self.tab_widget.setTabText(self._tab_index_abatement, flow_calculation_tab_name)
 
         # Counter variables
@@ -151,7 +152,8 @@ class FlowCalculationTab(TabManagement):
                                                 abatement_lat=abatement_lat,
                                                 abatement_lat_water=abatement_lat_water,
                                                 abatement_lat_mes=abatement_lat_mes,
-                                                abatement_lat_phyto=abatement_lat_phyto, )
+                                                abatement_lat_phyto=abatement_lat_phyto, 
+                                                output_path=self.output_path)
         # Object use to create maps.
         self.map_creation = MapCreation()
 
@@ -375,7 +377,7 @@ class FlowCalculationTab(TabManagement):
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 False)
             parent.findGroup(
-                "Production de ruissellement des parcelles " + "BV " + str(
+                "Production de transfert des parcelles " + "BV " + str(
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 False)
             # Map parameters.
@@ -467,7 +469,7 @@ class FlowCalculationTab(TabManagement):
                                              self.output_path, self.count_watershed_analysis)
             # Creation of the contribution map. Display only the right group.
             parent.findGroup(
-                "Production de ruissellement des parcelles " + "BV " + str(
+                "Production de transfert des parcelles " + "BV " + str(
                     self.count_watershed_analysis)).setItemVisibilityChecked(
                 True)
             parent.setItemVisibilityChecked(True)
@@ -485,9 +487,9 @@ class FlowCalculationTab(TabManagement):
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
                                              self.output_path, self.count_watershed_analysis)
             # Update the plots.
-            self.plot_creation.data_visualisation_creation(self.line_layer, self.parcel_layer,
-                                                           self.count_watershed_analysis, reference,
-                                                           self.production_type)
+         #   self.plot_creation.data_visualisation_creation(self.line_layer, self.parcel_layer,
+          #                                                 self.count_watershed_analysis, reference,
+           #                                                self.production_type)
             parent.removeAllChildren()
             self.project.layerTreeRoot().removeChildNode(parent)
         # The save value button is enabled so the user can chose this turn as reference.
@@ -599,7 +601,34 @@ class FlowCalculationTab(TabManagement):
             layers = [parcels_layer, lines_layer]
             names = [parcel_abatement_map_parcel_pt1 + str(element) + parcel_abatement_map_parcel_pt2,
                      parcel_abatement_map_line_pt1 + str(element) + parcel_abatement_map_line_pt2]
-            title = parcel_abatement_map_title_pt1 + str(element) + parcel_abatement_map_title_pt2
+            title = parcel_abatement_map_title_pt1 + str(element) + parcel_abatement_map_title_pt2 + str(selected_parcel_id) + parcel_abatement_map_title_pt3
+      ##      label_settings0 = QgsPalLayerSettings()
+      ##      label_settings0.drawLabels = True
+       ##     label_settings0.fieldName = field_parcel_id
+        ##    label_settings0.bufferSize = 1
+        ##    label_settings0.bufferColor = Qt.white
+        ##    label_settings0.setDataDefinedProperties(QgsPalLayerSettings.Size, True, '8')
+
+            settings = QgsPalLayerSettings()
+            format = QgsTextFormat()
+            format.setFont(QFont('Arial', 8))
+            format.setColor(QColor('Black'))
+            buffer = QgsTextBufferSettings()
+            buffer.setEnabled(True)
+            buffer.setSize(0.50)
+            buffer.setColor(QColor('white'))
+            format.setBuffer(buffer)
+            settings.setFormat(format)
+            settings.fieldName=field_parcel_id
+            labels = QgsVectorLayerSimpleLabeling(settings)
+            parcels_layer.setLabelsEnabled(True)
+            parcels_layer.setLabeling(labels)
+
+
+          #  parcels_layer.setLabelsEnabled(True)
+          #  parcels_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings0))
+
+
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_abatement.split("_", -1)[0:2]:
@@ -631,13 +660,42 @@ class FlowCalculationTab(TabManagement):
             river_name = river_incoming_flow_layer_name + str(self.count_watershed_analysis) + "_" + str(
                 selected_parcel_id)
             parcels_layer = self.project.mapLayersByName(parcels)[0]
+
+            
+#            label_settings = QgsPalLayerSettings()
+#            label_settings.drawLabels = True
+#            label_settings.fieldName = field_parcel_id
+#            parcels_layer.setLabelsEnabled(True)
+#            label_settings.bufferSize = 1
+#            label_settings.bufferColor = Qt.white
+#            label_settings.setDataDefinedProperties(QgsPalLayerSettings.Size, True, '8')
+#            parcels_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
+
+            settings = QgsPalLayerSettings()
+            format = QgsTextFormat()
+            format.setFont(QFont('Arial', 8))
+            format.setColor(QColor('Black'))
+            buffer = QgsTextBufferSettings()
+            buffer.setEnabled(True)
+            buffer.setSize(0.50)
+            buffer.setColor(QColor('white'))
+            format.setBuffer(buffer)
+            settings.setFormat(format)
+            settings.fieldName=field_parcel_id
+            labels = QgsVectorLayerSimpleLabeling(settings)
+            parcels_layer.setLabelsEnabled(True)
+            parcels_layer.setLabeling(labels)
+
+
+
+
             lines_layer = self.project.mapLayersByName(lines)[0]
             river_layer = self.project.mapLayersByName(river_name)[0]
             layers = [parcels_layer, lines_layer, river_layer]
             names = [parcel_transfer_map_parcel_pt1 + str(element) + parcel_transfer_map_parcel_pt2,
                      parcel_transfer_map_line_pt1 + str(element) + parcel_transfer_map_line_pt2,
                      parcel_transfer_map_river_pt1 + str(element) + parcel_transfer_map_river_pt2]
-            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2
+            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3 
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_transfer.split("_", -1)[0:2]:
@@ -651,6 +709,10 @@ class FlowCalculationTab(TabManagement):
             self.project.layerTreeRoot().removeChildNode(parent)
             self.parcel_layer.selectByIds([selected_parcel_id])
         # Buttons for parcel analysis are disabled because no parcel is selected.
+
+        
+
+
         self.button_parcel_emit.setEnabled(False)
         self.button_parcel_reception.setEnabled(False)
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
@@ -659,6 +721,9 @@ class FlowCalculationTab(TabManagement):
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setExpanded(1)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setExpanded(1)
         self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setExpanded(1)
+
+
+
         # Start the signal to save changes made on layers.
         self.signal_stop = 0
         # Select all features of the parcel layer.
@@ -737,6 +802,61 @@ class FlowCalculationTab(TabManagement):
                 group_incoming_flow_parcel + str(self.count_watershed_analysis) + '_' + str(selected_parcel_id))
             group.insertLayer(0, river_layer)
             self.line_layer.removeSelection()
+
+
+#            label_settings = QgsPalLayerSettings()
+#            label_settings.drawLabels = True
+#            label_settings.fieldName = field_parcel_id
+#            label_settings.bufferSize = 1
+#            label_settings.bufferColor = Qt.white
+#            label_settings.setDataDefinedProperties(QgsPalLayerSettings.Size, True, '8')
+#            abatement_layer.setLabelsEnabled(True)
+#            abatement_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
+
+            settings = QgsPalLayerSettings()
+            format = QgsTextFormat()
+            format.setFont(QFont('Arial', 8))
+            format.setColor(QColor('Black'))
+            buffer = QgsTextBufferSettings()
+            buffer.setEnabled(True)
+            buffer.setSize(0.50)
+            buffer.setColor(QColor('white'))
+            format.setBuffer(buffer)
+            settings.setFormat(format)
+            settings.fieldName=field_parcel_id
+            labels = QgsVectorLayerSimpleLabeling(settings)
+            abatement_layer.setLabelsEnabled(True)
+            abatement_layer.setLabeling(labels)
+
+
+
+
+#            label_settings2 = QgsPalLayerSettings()
+#            label_settings2.drawLabels = True
+#            label_settings2.fieldName = field_parcel_id
+#            label_settings2.bufferSize = 1
+#            label_settings2.bufferColor = Qt.white
+#            label_settings2.setDataDefinedProperties(QgsPalLayerSettings.Size, True, '8')
+#            production_layer.setLabelsEnabled(True)
+#            production_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings2))
+
+            settings2 = QgsPalLayerSettings()
+            format2 = QgsTextFormat()
+            format2.setFont(QFont('Arial', 8))
+            format2.setColor(QColor('Black'))
+            buffer2 = QgsTextBufferSettings()
+            buffer2.setEnabled(True)
+            buffer2.setSize(0.50)
+            buffer2.setColor(QColor('white'))
+            format2.setBuffer(buffer2)
+            settings2.setFormat(format2)
+            settings2.fieldName=field_parcel_id
+            labels2 = QgsVectorLayerSimpleLabeling(settings2)
+            production_layer.setLabelsEnabled(True)
+            production_layer.setLabeling(labels2)
+
+
+
             # create a new symbol
             symbol = QgsLineSymbol.createSimple({'line_style': 'solid', 'color': '#281df3', 'width': '0.66'})
             simple_renderer = QgsSingleSymbolRenderer(symbol)
@@ -746,7 +866,7 @@ class FlowCalculationTab(TabManagement):
             layers = [river_layer, production_layer, lines_layer, abatement_layer]
             names = [parcel_reception_map_river, parcel_reception_map_parcel_production, parcel_reception_map_line,
                      parcel_reception_map_parcel_abatement]
-            title = parcel_reception_map_title + str(selected_parcel_id)
+            title = parcel_reception_map_title_1 + str(selected_parcel_id)+ parcel_reception_map_title_2
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_received.split("_", -1)[0:2]:
@@ -779,6 +899,10 @@ class FlowCalculationTab(TabManagement):
             self.project.layerTreeRoot().removeChildNode(group)
             self.parcel_layer.selectByIds([selected_parcel_id])
         # Buttons for parcel analysis are disabled because no parcel is selected.
+
+       
+
+
         self.button_parcel_emit.setEnabled(False)
         self.button_parcel_reception.setEnabled(False)
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
@@ -787,6 +911,7 @@ class FlowCalculationTab(TabManagement):
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setExpanded(1)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setExpanded(1)
         self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setExpanded(1)
+
         # Start the signal to save changes made on layers.
         self.signal_stop = 0
         # Select all features of the parcel layer.

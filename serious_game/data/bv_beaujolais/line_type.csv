@@ -9,4 +9,4 @@ route,500,True,0,0,0,False,0,0,0
 muret,600,True,0.05,0.1,0.1,True,0.7,0.9,0.8
 riviere,700,False,0,0,0,False,0,0,0
 bande_enherbee,800,False,0,0,0,True,0.7,0.9,0.8
-sans_lineaire,0,False,0,0,0,False,0,0,0
+sans_element_paysager,0,False,0,0,0,False,0,0,0

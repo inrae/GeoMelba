@@ -1,0 +1,27 @@
+Version 1.1-beta7
+=================
+ * Correction des titres des cartes des parcelles sélectionnées
+ * Ajout des étiquettes de parcelles dans les cartes des parcelles sélectionnées
+
+Version 1.1-beta6
+=================
+ * Renumérotation des parcelles et correction des attributions auprès des propriétaires
+ * Suppression du BV Emilie et renommage du bv Beaujolais
+ * onglet sorties graphiques désactivé
+ * linéaires renommés en éléments paysagers
+ * terme ruissellement renommé en transfert
+ 
+
+Version 1.1-beta5
+=================
+ * Sortie des valeurs d'exutoire dans fichier csv
+
+Version 1.1-beta4
+=================
+ * Modification de la légende (nom et couleur) des classes de potentiel de transfert (carte des quantités émises et carte des quantités transférées au cours d’eau) 
+
+Version 1.1-beta3
+=================
+ * Modification des valeurs d'abattement sur les ZTHA sur Gimond
+ * Modification des coefficients d'émission de flux phytosanitaires au sein des parcelles sans chimie de synthèse sur la Gimond
+

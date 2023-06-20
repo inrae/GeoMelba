@@ -51,12 +51,12 @@ polygon_type = "parcelle"
 
 # Variables nom de groupe :
 original_layer_group_name = 'Couche de base'
-group_watershed_analysis = 'Analyse ruissellement BV '
+group_watershed_analysis = 'Analyse transferts BV '
 group_flow_transfer = 'Analyse transfert '
 group_abatement_analysis = 'Analyse abattement '
-group_outgoing_flow_parcel = 'Analyse ruissellement emis parcelle '
-group_incoming_flow_parcel = 'Analyse ruissellement recu parcelle '
-group_incoming_flow_river = 'Analyse ruissellement recu riviere '
+group_outgoing_flow_parcel = 'Analyse transferts emis parcelle '
+group_incoming_flow_parcel = 'Analyse transferts recu parcelle '
+group_incoming_flow_river = 'Analyse transferts recu riviere '
 
 
 # Variables nom de couche :
@@ -74,11 +74,11 @@ geopackage_layer_name_connexions = "connexions"
 
 line_abatement_layer_name = 'abattement_lineaire_'
 line_transfer_layer_name = 'transfert_lineaire_'
-parcel_outgoing_flow_layer_name = 'transmission_ruissellement_'
+parcel_outgoing_flow_layer_name = 'transmission_transferts_'
 parcel_abatement_layer_name = 'abattement_parcelles_'
 parcel_transfer_layer_name = 'transfert_parcelle_'
 lines_not_river_layer_name = 'not_river_'
-river_incoming_flow_layer_name = 'reception_ruissellement_'
+river_incoming_flow_layer_name = 'reception_transferts_'
 parcel_influence_layer_name = 'influence_sur_les_parcelles_'
 parcel_contribution_layer_name = 'contribution_a_la_contamination_des_parcelles_'
 river_selection_layer_name = 'troncon_riviere_selectionne_'
@@ -249,18 +249,18 @@ map_watershed_transfer_rate = "taux_de_transferts_parcellaires_au_ruisseau_"
 map_watershed_potential_production = "quantités_parcellaires_transférées_au_ruisseau_"
 map_watershed_production_area = "quantités_parcellaires_émises_"
 
-map_parcel_abatement = "parcelle_abattement_ruissellement_"
-map_parcel_transfer = "parcelle_transfert_ruissellement_"
-map_parcel_received = "parcelle_ruissellement_reçu_"
-map_river_received = "rivière_ruissellement_reçu_"
+map_parcel_abatement = "parcelle_taux_abattement_des_transferts_emis_vers_aval_"
+map_parcel_transfer = "parcelle_transferts_emis_vers_aval_"
+map_parcel_received = "parcelle_transferts_reçus_"
+map_river_received = "rivière_transferts_reçus_"
 
 
 # Serious game tab name:
 practices_tab_name = "Pratiques"
 owner_tab_name = "Propriétaire"
 drain_tab_name = "ZTHA ou mouillère"
-line_tab_name = "Un seul linéaire"
-multiple_lines_tab_name = "Plusieurs linéaires"
+line_tab_name = "Un seul élément paysager"
+multiple_lines_tab_name = "Plusieurs éléments paysagers"
 parcel_tab_name = "Une seule parcelle"
 multiple_parcels_tab_name = "Plusieurs parcelles"
 flow_calculation_tab_name = "Calculs / Sorties cartes"
@@ -268,7 +268,7 @@ plot_tab_name = "Sorties graphiques"
 
 # Loader variables:
 loader_title = "Traitement en cours"
-loader_text = "Help\n instructions: \n"
+loader_text = "Aïe !\nUne erreur est intervenue !\n\nVous pouvez nous aider à améliorer GeoMelba en renvoyant le message d'erreur\nainsi que la version de GeoMelba à michael.rabotin@inrae.fr\n"
 
 # Dialog variables :
 create_watershed_button_name = "Créer son bassin versant (en développement)"
@@ -277,7 +277,7 @@ output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
 watershed_selection_label = "Type de bassin versant :"
 folder_selection_text = "Choisir un dossier"
-advanced_line_button_name = "Linéaires avancés"
+advanced_line_button_name = "Linéaire avancé"
 
 owner_filter_multiple_modification_label = "Selon le propriétaire :"
 owner_filter_multiple_modification_spinbox_label = "Propriétaire "
@@ -303,13 +303,13 @@ switch_parcels_owner_label_pt2 = "Echange de la parcelle numéro :"
 switch_parcels_owner_label_pt3 = "contre la parcelle numéro :"
 switch_parcel_owner_button_name = "Echangez les parcelles !"
 drain_selection_top_label = "Sélectionner la zone de drainage à modifier :"
-watershed_analysis_button_name = "Indices de ruissellement sur le Bassin Versant"
-save_value_button_name = "Sélectionner ces indices de ruissellement comme référentiel"
+watershed_analysis_button_name = "Indices de transferts sur le Bassin Versant"
+save_value_button_name = "Sélectionner ces indices de transferts comme référentiel"
 select_parcel_button_name = "Sélection d'une parcelle"
 select_river_button_name = "Sélection d'un tronçon de rivière"
-parcel_emit_analysis_button_name = "Indices pour le ruissellement émis par une parcelle"
-parcel_reception_analysis_button_name = "Indices pour le ruissellement reçu par une parcelle"
-river_reception_analysis_button_name = "Indices pour le ruissellement reçu par un tronçon de rivière"
+parcel_emit_analysis_button_name = "Indices pour les transferts émis par une parcelle"
+parcel_reception_analysis_button_name = "Indices pour les transferts reçus par une parcelle"
+river_reception_analysis_button_name = "Indices pour les transferts reçus par un tronçon de rivière"
 start_comparison_button_name = "Comparer les données"
 open_result_viewer_button_name = "Afficher les résultats"
 
@@ -335,7 +335,7 @@ comparison_river_layer_name_pt1 = 'Evolution des entrants des rivières entre t'
 comparison_river_layer_name_pt2 = "et t"
 comparison_parcel_layer_name_pt1 = "Evolution de la production des parcelles entre t"
 comparison_parcel_layer_name_pt2 = "et t"
-comparison_line_layer_name_pt1 = "Mesure de l'efficacité des linéaires entre t"
+comparison_line_layer_name_pt1 = "Mesure de l'efficacité des éléments paysagers entre t"
 comparison_line_layer_name_pt2 = "et t"
 information_selection_error_comparison_pt1 = "Il n'existe pas encore cette simulation."
 information_selection_error_comparison_pt2 = "\nVeuillez sélectionner une simulation comprise entre 0 et "
@@ -361,7 +361,7 @@ studied_elements = ["de PPP"]
 coded_studied_elements=[2]
 land_cover_map_title = "Occupation du sol"
 land_cover_map_parcel = "Occupation du sol"
-land_cover_map_line = "Elements lineaires"
+land_cover_map_line = "Elements paysagers"
 
 watershed_abatement_map_title_pt1 = "Taux d'abattement des transferts "
 watershed_abatement_map_title_pt2 = " reçus par chaque élément du paysage relativement au taux maximum sur le bassin versant pour chaque type d'élément"
@@ -371,7 +371,8 @@ watershed_abatement_map_line_pt1 = "Taux d'abattement des transferts \n"
 watershed_abatement_map_line_pt2 = " reçu par linéaire"
 
 parcel_abatement_map_title_pt1 = "Taux d'abattement des transferts "
-parcel_abatement_map_title_pt2 = " reçus par chaque élément du paysage relativement au taux maximum sur le bassin versant pour chaque type d'élément"
+parcel_abatement_map_title_pt2 = " émis par la parcelle "
+parcel_abatement_map_title_pt3 = " au sein de chaque élément du paysage en aval relativement au taux maximum sur le bassin versant pour chaque type d'élément"
 parcel_abatement_map_parcel_pt1 = "Taux d'abattement des transferts \n"
 parcel_abatement_map_parcel_pt2 = " reçu par parcelle"
 parcel_abatement_map_line_pt1 = "Taux d'abattement des transferts \n"
@@ -404,8 +405,9 @@ watershed_transfer_map_line_pt2 = " reçus par chaque linéaire\n relativement a
 watershed_transfer_map_river_pt1 = "Transferts "
 watershed_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
-parcel_transfer_map_title_pt1 = "Cumul des transferts "
-parcel_transfer_map_title_pt2 = " reçus de l'amont par chaque parcelle ou linéaire relativement au maximum reçu par chaque type d'élément sur le bassin versant"
+parcel_transfer_map_title_pt1 = "Transferts "
+parcel_transfer_map_title_pt2 = " reçus par chaque parcelle ou linéaire en aval de la parcelle numéro "
+parcel_transfer_map_title_pt3 = " émétrice relativement au maximum reçu par chaque type d'élément sur le bassin versant"
 parcel_transfer_map_parcel_pt1 = "Transferts "
 parcel_transfer_map_parcel_pt2 = " reçus par chaque parcelle \nrelativement au maximum sur le bassin versant"
 parcel_transfer_map_line_pt1 = "Transferts "
@@ -413,7 +415,7 @@ parcel_transfer_map_line_pt2 = " reçus par chaque linéaire \nrelativement au m
 parcel_transfer_map_river_pt1 = "Transferts "
 parcel_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
-transfer_map_river_legend_pt1 = 'Pas de ruissellement entrant'
+transfer_map_river_legend_pt1 = 'Pas de transfert entrant'
 transfer_map_river_legend_pt2 = 'Traces'
 transfer_map_river_legend_pt3 = 'Très Faible'
 transfer_map_river_legend_pt4 = 'Faible'
@@ -450,13 +452,13 @@ watershed_production_potential_map_parcel_pt1 = " "
 watershed_production_potential_map_parcel_pt2 = " "
 watershed_production_potential_map_river = "Ruisseau"
 
-production_potential_map_parcel_legend_pt1 = 'Pas d applications'
-production_potential_map_parcel_legend_pt2 = '0% de transfert'
-production_potential_map_parcel_legend_pt3 = '1 - 25% de transfert'
-production_potential_map_parcel_legend_pt4 = '25 - 50% de transfert'
-production_potential_map_parcel_legend_pt5 = '50 - 75% de transfert'
-production_potential_map_parcel_legend_pt6 = '75 - 99% de transfert'
-production_potential_map_parcel_legend_pt7 = '100% de transfert'
+production_potential_map_parcel_legend_pt1 = 'Pas d\'application'#'Pas d applications'
+production_potential_map_parcel_legend_pt2 = 'Transfert nul'#'0% de transfert'
+production_potential_map_parcel_legend_pt3 = 'Transfert faible'#'1 - 25% de transfert'
+production_potential_map_parcel_legend_pt4 = 'Transfert moyen'#'25 - 50% de transfert'
+production_potential_map_parcel_legend_pt5 = 'Transfert fort'#'50 - 75% de transfert'
+production_potential_map_parcel_legend_pt6 = 'Transfert très fort'#'75 - 99% de transfert'
+production_potential_map_parcel_legend_pt7 = 'Transfert total'#'100% de transfert'
 
 watershed_production_area_map_title_pt1 = "Transferts "
 watershed_production_area_map_title_pt2 = " générés au sein de chaque parcelle relativement au potentiel maximal sur le bassin (ramenés au m²)"
@@ -464,19 +466,20 @@ watershed_production_area_map_parcel_pt1 = " "
 watershed_production_area_map_parcel_pt2 = " "
 watershed_production_area_map_river = "Ruisseau"
 
-production_area_map_parcel_legend_pt1 = 'Pas d applications'
-production_area_map_parcel_legend_pt2 = '0% de transfert'
-production_area_map_parcel_legend_pt3 = '1 - 25% de transfert'
-production_area_map_parcel_legend_pt4 = '25 - 50% de transfert'
-production_area_map_parcel_legend_pt5 = '50 - 75% de transfert'
-production_area_map_parcel_legend_pt6 = '75 - 99% de transfert'
-production_area_map_parcel_legend_pt7 = '100% de transfert'
+production_area_map_parcel_legend_pt1 = 'Pas d\'application'#'Pas d applications'
+production_area_map_parcel_legend_pt2 = 'Transfert nul'#'0% de transfert'
+production_area_map_parcel_legend_pt3 = 'Transfert faible'#'1 - 25% de transfert'
+production_area_map_parcel_legend_pt4 = 'Transfert moyen'#'25 - 50% de transfert'
+production_area_map_parcel_legend_pt5 = 'Transfert fort'#'50 - 75% de transfert'
+production_area_map_parcel_legend_pt6 = 'Transfert très fort'#'75 - 99% de transfert'
+production_area_map_parcel_legend_pt7 = 'Transfert total'#'100% de transfert'
 
 
-parcel_reception_map_title = "Contribution des parcelles\nà la contamination de la parcelle numéro "
+parcel_reception_map_title_1 = "Contribution des parcelles\nà la contamination de la parcelle numéro "
+parcel_reception_map_title_2 = "\net taux d'abattement des parcelles\net linéaires en amont "
 parcel_reception_map_parcel_production = "Contribution à la contamination\nde la parcelle sélectionnée"
-parcel_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\nde l'abattement maximale observé"
-parcel_reception_map_line = "Taux d'abattement des linéaires en fonction\nde de ce qu'ils réceptionnent"
+parcel_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\n de l'abattement maximal observé"
+parcel_reception_map_line = "Taux d'abattement des linéaires en fonction\n de l'abattement maximal observé"
 parcel_reception_map_river = "Cours d'eau sans aménagement"
 
 parcel_river_map_production_legend_pt1 = 'Pas de contribution'
@@ -494,8 +497,8 @@ parcel_river_map_production_legend_pt12 = '100 %'
 
 river_reception_map_title = "Contribution des parcelles\nà la contamination d'un tronçon de rivière"
 river_reception_map_parcel_production = "Contribution à la contamination\ndu tronçon de rivière sélectionné"
-river_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\nde l'abattement maximale observé"
-river_reception_map_line = "Taux d'abattement des linéaires en fonction\nde de ce qu'ils réceptionnent"
+river_reception_map_parcel_abatement = "Taux d'abattement des parcelles en fonction\n de l'abattement maximale observé"
+river_reception_map_line = "Taux d'abattement des linéaires en fonction\n de de ce qu'ils réceptionnent"
 river_reception_map_river = "Tronçon de rivière sélectionné"
 
 # Information and error message :

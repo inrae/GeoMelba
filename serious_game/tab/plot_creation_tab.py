@@ -229,6 +229,8 @@ class PlotCreationTab(TabManagement):
                 tab_id.append(feature.id())
         # If sum of inflow is equal to 0 (if the user delete all parcels which produce inflow), there is no data and the
         # division cannot be made.
+        print("sum_1")
+        print(sum_1)
         if sum_1 != 0:
             data_1 = []
             data_2 = []

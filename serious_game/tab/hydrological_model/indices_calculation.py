@@ -34,6 +34,7 @@ from PyQt5.QtCore import Qt
 # Personal Modules
 from .coeff_abatement import parcel_inflow_production, coefficient_abatement_UH, coefficient_abatement_lateral_TE, \
     coefficient_abatement_longitudinal_TE
+
 from ....dictionnaire import field_order, field_type_line_middle, null, field_incoming_flow, \
     field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_outgoing_flow, field_outgoing_flow_long, \
     field_outgoing_flow_lat, field_flow_abatement, field_flow_abatement_rating, \
@@ -158,7 +159,7 @@ class FlowCalculation:
                  production=None, production_water=None, production_mes=None, production_phyto=None, line_type=None,
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
                  abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
-                 abatement_lat_mes=None, abatement_lat_phyto=None):
+                 abatement_lat_mes=None, abatement_lat_phyto=None,output_path=None):
         """Class attributes are :
         - """
         super(FlowCalculation, self).__init__()
@@ -187,6 +188,7 @@ class FlowCalculation:
         self.abatement_lat_water = abatement_lat_water
         self.abatement_lat_mes = abatement_lat_mes
         self.abatement_lat_phyto = abatement_lat_phyto
+        self.output_path=output_path
 
     def prepare_layers(self, parcel_layer, line_layer):
         line_layer.startEditing()
@@ -776,7 +778,7 @@ class FlowCalculation:
             uh_up = attrs[line_layer.fields().indexFromName(field_line_parcel_above)]
             coef_minus_up = 1
             coef_minus_dwn = 1
-            if self.watershed_name == "morcille" or self.watershed_name == "emilie":
+            if self.watershed_name == "beaujolais" or self.watershed_name == "emilie":
                 if type_up == 800:
                     coef_minus_up = 0.5
                 if type_dwn == 800:
@@ -1299,7 +1301,7 @@ class FlowCalculation:
                     drain_outflow_up = attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
                     drain_outflow_total = drain_outflow_total + drain_outflow_up
                 entrant_total = entrant_total + drain_outflow_total - drain_outflow
-                abattement_ztha = drain_outflow_total * 0.50
+                abattement_ztha = drain_outflow_total * 0.40 #TODO : 0.4
                 history = update_flow_history_abat({}, history, 0.50)
                 line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
                     field_incoming_flow), drain_outflow_total)
@@ -1342,7 +1344,7 @@ class FlowCalculation:
                 if flow_history[0] != '':
                     for elem in flow_history:
                         dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
-                abattement_ztha = entrant_ztha * 0.5
+                abattement_ztha = entrant_ztha * 0.4#TODO : 0.4
                 sortant = sortant - abattement_ztha + entrant_ztha
                 abattement_total = abattement_total + abattement_ztha
                 entrant_total = entrant_total + entrant_ztha
@@ -1577,6 +1579,15 @@ class FlowCalculation:
             riviere_layer.changeAttributeValue(f.id(),
                                                riviere_layer.fields().indexFromName(field_incoming_flow_rating), indice)
         exutoire = sum(total_entrant)
+
+        # create file for exutoire value
+        filepath=os.path.join(self.output_path,'exutoire_value.csv')
+        f=open(filepath,"a")
+        f.write(str(exutoire))
+        f.write("\n")
+        f.close()
+
+
         riviere_layer.changeAttributeValue(exutoire_id, riviere_layer.fields().indexFromName(field_outlet_inflow),
                                            exutoire)
         riviere_layer.commitChanges()
@@ -2037,23 +2048,23 @@ class FlowCalculation:
             (production_potential_map_parcel_legend_pt1, '"{field_2}" = 0'.format(field_2=field_flow_production),
              QColor('#b4b0b0'), 1),
             (production_potential_map_parcel_legend_pt2, '"{field}" = 0 AND "{field_2}" > 0'.format(
-                field=field_flow_production_area_river, field_2=field_flow_production), QColor('#1a9641'), 1),
+                field=field_flow_production_area_river, field_2=field_flow_production), QColor('#8acc62'), 1),
             (production_potential_map_parcel_legend_pt3, '0 < "{field}" AND "{field}" <= 0.25'.format(
-                field=field_flow_production_area_river), QColor('#8acc62'), 1),
-            (production_potential_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(
-                field=field_flow_production_area_river), QColor('#dbf09e'), 1),
-            (production_potential_map_parcel_legend_pt5, '0.5 < "{field}" AND "{field}" <= 0.75'.format(
                 field=field_flow_production_area_river), QColor('#fedf9a'), 1),
+            (production_potential_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(
+                field=field_flow_production_area_river), QColor('#eba45b'), 1),
+            (production_potential_map_parcel_legend_pt5, '0.5 < "{field}" AND "{field}" <= 0.75'.format(
+                field=field_flow_production_area_river), QColor('#c58013'), 1),
             (production_potential_map_parcel_legend_pt6, '0.75 < "{field}" AND "{field}" < 1'.format(
-                field=field_flow_production_area_river), QColor('#f59053'), 1),
+                field=field_flow_production_area_river), QColor('#d7191c'), 1),
             (production_potential_map_parcel_legend_pt7, '"{field}" = 1'.format(field=field_flow_production_area_river),
-             QColor('#d7191c'), 1),
+             QColor('#751315'), 1),
         )
         self.create_symbology(parcel_layer_rela_prod, rules)
         QgsProject().instance().addMapLayer(parcel_layer_prod, False)
-        group.insertGroup(0, "Production de ruissellement des parcelles " + "BV " + str(count))
+        group.insertGroup(0, "Production de transfert des parcelles " + "BV " + str(count))
         group_prod = QgsProject.instance().layerTreeRoot().findGroup(
-            "Production de ruissellement des parcelles " + "BV " + str(count))
+            "Production de transfert des parcelles " + "BV " + str(count))
         QgsProject().instance().addMapLayer(parcel_layer_limit, False)
         group_prod.addLayer(parcel_layer_limit)
         group_prod.addLayer(parcel_layer_prod)
@@ -2061,17 +2072,17 @@ class FlowCalculation:
             (production_area_map_parcel_legend_pt1, '"{field_2}" = 0'.format(
                 field_2=field_flow_production), QColor('#b4b0b0'), 1),
             (production_area_map_parcel_legend_pt2, '"{field}" = 0 AND "{field_2}" > 0'.format(
-                field=field_flow_production_area, field_2=field_flow_production), QColor('#1a9641'), 1),
+                field=field_flow_production_area, field_2=field_flow_production), QColor('#8acc62'), 1),
             (production_area_map_parcel_legend_pt3, '0 < "{field}" AND "{field}" <= 0.25'.format(
-                field=field_flow_production_area), QColor('#8acc62'), 1),
-            (production_area_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(
-                field=field_flow_production_area), QColor('#dbf09e'), 1),
-            (production_area_map_parcel_legend_pt5, '0.5 < "{field}" AND "{field}" <= 0.75'.format(
                 field=field_flow_production_area), QColor('#fedf9a'), 1),
+            (production_area_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(
+                field=field_flow_production_area), QColor('#eba45b'), 1),
+            (production_area_map_parcel_legend_pt5, '0.5 < "{field}" AND "{field}" <= 0.75'.format(
+                field=field_flow_production_area), QColor('#c58013'), 1),
             (production_area_map_parcel_legend_pt6, '0.75 < "{field}" AND "{field}" < 1'.format(
-                field=field_flow_production_area), QColor('#f59053'), 1),
-            (production_area_map_parcel_legend_pt7, '"{field}" = 1'.format(
                 field=field_flow_production_area), QColor('#d7191c'), 1),
+            (production_area_map_parcel_legend_pt7, '"{field}" = 1'.format(
+                field=field_flow_production_area), QColor('#751315'), 1),
         )
         self.create_symbology(parcel_layer_prod, rules)
         return [parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement,

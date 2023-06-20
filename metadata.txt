@@ -6,14 +6,14 @@
 name=Geomelba Spirit
 qgisMinimumVersion=3.0
 description=Version Spirit de Geomelba déstiné à être utilisé avec le jeu sérieux CAUSERIE.
-version=1.1-beta2
-author=Jules Grillot / INRAE
-email=jules.grillot@inrae.fr
+version=1.1-beta7
+author=Michael Rabotin / INRAE
+email=michael.rabotin@inrae.fr
 
 about=Provide a brief description of the plugin and its purpose.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/inrae/GeoMelba/issues
+repository=https://github.com/inrae/GeoMelba
 # End of mandatory metadata
 
 # Recommended items:
@@ -25,7 +25,7 @@ hasProcessingProvider=no
 # Tags are comma separated with spaces allowed
 tags=python
 
-homepage=http://homepage
+homepage=https://github.com/inrae/GeoMelba
 category=Plugins
 icon=icon.png
 # experimental flag

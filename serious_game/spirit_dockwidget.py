@@ -196,7 +196,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                parcel_layer=self.parcel_layer, max_owner=self.max_owner)
 
         # Tab plot results
-        self.plot_creation = PlotCreationTab(parent=self.tab_widget_management)
+        #self.plot_creation = PlotCreationTab(parent=self.tab_widget_management)
 
         # Tab drain results
         self.drain_modification = DrainModificationTab(parent=self.tab_widget_management, path=path,
@@ -245,8 +245,8 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                        abatement_lat_phyto=self.config_files.abatement_lat_phyto,
                                                        output_path=self.output_path,
                                                        connexion_layer=self.connexion_layer,
-                                                       button_rollback=self.standard_tools.button_rollback,
-                                                       plot_creation=self.plot_creation)
+                                                       button_rollback=self.standard_tools.button_rollback)#,
+                                                       #plot_creation=self.plot_creation)
 
         # Layer control parameters
         self.parcel_layer.selectionChanged.connect(self.check_valid)

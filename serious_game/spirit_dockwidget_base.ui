@@ -120,7 +120,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <property name="documentMode">
        <bool>false</bool>
@@ -163,11 +163,6 @@
       <widget class="QWidget" name="tab_8">
        <attribute name="title">
         <string>Tab 8</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_9">
-       <attribute name="title">
-        <string>Tab 9</string>
        </attribute>
       </widget>
      </widget>
