@@ -182,7 +182,7 @@ class AdvancedLinesDialog(QDialog, FORM_CLASS):
         self.button_edit.setEnabled(False)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.show()
-        self.move((self.width/4) * 2.5, self.height/4)
+        self.move(int((self.width/4) * 2.5), int(self.height/4))
 
     def selected_line(self, selected):
         """Function to update the table value depending on the line selected.
@@ -216,8 +216,15 @@ class AdvancedLinesDialog(QDialog, FORM_CLASS):
                                                      line_table_vertical_header_middle,
                                                      line_table_vertical_header_bottom + " (" + str(dwn) + ")"])
             # Update the table with the feature attributes.
+            if not type_up:
+                type_up=0
             self.table_type.setItem(0, 0, QTableWidgetItem(str(int(type_up))))
+            if not type_mid:
+                type_mid=0
+
             self.table_type.setItem(1, 0, QTableWidgetItem(str(int(type_mid))))
+            if not type_dwn:
+                type_dwn=0
             self.table_type.setItem(2, 0, QTableWidgetItem(str(int(type_dwn))))
         else:
             # Not enabled until a feature is selected.

@@ -1956,6 +1956,8 @@ class FlowCalculation:
             dict_history = {}
             attrs = line.attributes()
             history = attrs[line_layer.fields().indexFromName(history_field)]
+            if not history:
+                history=''
             flow_history = history.split("; ")
             if flow_history[0] != '':
                 for elem in flow_history:
@@ -1963,6 +1965,9 @@ class FlowCalculation:
             history = update_flow_history(result, dict_history, 1)
             dict_history = {}
             history_abat = attrs[line_layer.fields().indexFromName(history_abatement_field)]
+            if not history_abat:
+                history_abat=''
+
             flow_history = history_abat.split("; ")
             if flow_history[0] != '':
                 for elem in flow_history:

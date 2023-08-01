@@ -271,7 +271,9 @@ class StandardTools:
             layer_name = layer.name()  # Layer name.
             field = layer.fields()[field_index].name()  # Field name.
             old_layer = QgsVectorLayer(layer.dataProvider().dataSourceUri(), "", "ogr")
-            old_value = int(old_layer.getFeature(feature_id).attributes()[field_index])  # Old Value.
+            old_value=0
+            if (old_layer.getFeature(feature_id).attributes()[field_index]):
+                old_value = int(old_layer.getFeature(feature_id).attributes()[field_index])  # Old Value.
             if layer.geometryType() == 1:
                 if field_index == old_layer.fields().indexFromName(field_line_drain_enabled) or self.drain:
                     multiple_actions = self.drain_modif.ui_creation.write_change()
