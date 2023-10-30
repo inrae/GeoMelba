@@ -3,11 +3,11 @@ haie,100,True,0.2,0.3,0.2,True,0.7,0.9,0.4
 haie double,110,True,0.2,0.3,0.2,True,0.7,0.9,0.7
 ripisylve,200,True,0.05,0.1,0.1,True,0.6,0.8,0.6
 drain,300,True,0,0,0,False,0,0,0
-fosse_nu_ou_betonne,310,True,0.05,0.1,0.1,False,0,0,0
-fosse_vegetalise,320,True,0.2,0.3,0.3,False,0.40,0.50,0
-chemin_enherbe,410,True,0.1,0.2,0.2,True,0.40,0.50,0.3
+fossé_nu_ou_bétonné,310,True,0.05,0.1,0.1,False,0,0,0
+fossé_végétalisé,320,True,0.2,0.3,0.3,False,0.40,0.50,0
+chemin_enherbé,410,True,0.1,0.2,0.2,True,0.40,0.50,0.3
 chemin_nu,420,True,0.05,0.1,0.1,True,0,0,0
 route,500,True,0,0,0,False,0,0,0
 cours d’eau,700,False,0,0,0,False,0,0,0
-bande_enherbee,800,False,0,0,0,True,0.7,0.9,0.8
-sans_element_paysager,0,False,0,0,0,False,0,0,0
+bande_enherbée,800,False,0,0,0,True,0.7,0.9,0.8
+sans_élément_paysager,0,False,0,0,0,False,0,0,0

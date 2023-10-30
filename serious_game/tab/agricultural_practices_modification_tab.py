@@ -54,7 +54,7 @@ class PracticesModificationTab (TabManagement):
         # Choose the owner tool
         label_owner = QLabel(self.tab_widget.widget(self.tab_index_agricultural_practices))
         label_owner.setFont(regular_font)
-        label_owner.setGeometry(330, 140, 130, 30)
+        label_owner.setGeometry(310, 140, 250, 30)
         label_owner.setText(owner_filter_multiple_modification_label)
         self.checkbox_owner = QCheckBox(self.tab_widget.widget(self.tab_index_agricultural_practices))
         self.checkbox_owner.setGeometry(460, 145, 20, 20)

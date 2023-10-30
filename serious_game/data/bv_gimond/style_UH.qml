@@ -21,7 +21,7 @@
       <rule label="prairie permanente mecanisable" filter=" &quot;type_sol&quot; = 310" key="{24404c1f-5c82-4ef2-9f86-4185e227a512}" symbol="5"/>
       <rule label="bois" filter=" &quot;type_sol&quot; = 500" key="{8895efc2-2772-4588-875a-ee6b27c1858d}" symbol="6"/>
       <rule label="habitation" filter=" &quot;type_sol&quot; = 700" key="{6cb843fd-9f80-4cf9-8345-63bb9ec2cff6}" symbol="7"/>
-      <rule label="mouillere" filter=" &quot;gm_d_type&quot; = 1 AND &quot;gm_d_actif&quot; = 0" key="{df3d0176-3756-4f50-ab66-62118c7dd1c3}" symbol="8"/>
+      <rule label="mouillère" filter=" &quot;gm_d_type&quot; = 1 AND &quot;gm_d_actif&quot; = 0" key="{df3d0176-3756-4f50-ab66-62118c7dd1c3}" symbol="8"/>
       <rule label="ztha" filter=" &quot;gm_d_type&quot; = 3" key="{a243e3b3-9af9-45bf-8736-6896d6c050f6}" symbol="9"/>
     </rules>
     <symbols>

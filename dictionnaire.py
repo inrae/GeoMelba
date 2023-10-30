@@ -279,20 +279,21 @@ watershed_selection_label = "Type de bassin versant :"
 folder_selection_text = "Choisir un dossier"
 advanced_line_button_name = "Linéaire avancé"
 
-owner_filter_multiple_modification_label = "Selon le propriétaire :"
+owner_filter_multiple_modification_label = " Selon le propriétaire "
 owner_filter_multiple_modification_spinbox_label = "Propriétaire "
-practices_multiple_modification_label_pt1 = "Modifier toutes les parcelles agricoles avec les pratiques :"
+practices_multiple_modification_label_pt1 = "Modifier toutes les parcelles agricoles\n"\
+                                             "avec les pratiques :"
 practices_multiple_modification_label_pt2 = "En parcelle avec une pratique :"
-practices_button_selection_label = "Sélectionner le type de pratique souhaité puis, sur la carte, cliquer sur la " \
-                                   "parcelle agricole à modifer:"
+practices_button_selection_label = "Sélectionner le type de pratique souhaité, puis sur la carte\n" \
+                                   "cliquer sur la parcelle agricole à modifier:"
 lines_multiple_modification_label_pt_1 = "Modifier tous les linéaires de type:"
 lines_multiple_modification_label_pt_2 = "En type :"
 parcels_multiple_modification_label_pt_1 = "Modifier toutes les parcelles de type:"
 parcels_multiple_modification_label_pt_2 = "En parcelle avec occupation du sol :"
-line_button_selection_label = "Sélectionner le type de linéaire souhaité puis, sur la carte cliquer sur le linéaire " \
-                              "à modifer:"
-parcel_button_selection_label = "Sélectionner le type d'occupation du sol souhaité puis, sur la carte cliquer sur la " \
-                              "parcelle à modifer:"
+line_button_selection_label = "Sélectionner le type de linéaire souhaité, puis sur la carte cliquer\n" \
+                              "sur le linéaire à modifier:"
+parcel_button_selection_label = "Sélectionner le type d'occupation du sol souhaité puis, sur la carte cliquer\n" \
+                              "sur la parcelle à modifier:"
 
 owner_selection_top_label = "Sélectionner le propriétaire que vous voulez étudier :"
 municipality_button_name = "Commune"

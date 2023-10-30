@@ -7,7 +7,7 @@
     "datePublished": "2022-07-04",
     "dateModified": "2023-01-31",
     "name": "GeoMelba-Spirit",
-    "version": "1.1-beta7",
+    "version": "1.1-beta10",
     "identifier": "swh:1:dir:4a9cacebef7ff2d1dd82d9fdb103a91aff9f5345",
     "description": "Outil de création d’un maillage et de connectivité des objets d’un paysage agricole pour le calcul d’indicateurs spatialisés de transferts hydrologiques et utilisation en ateliers participatifs (type formation continue des acteurs du monde agricole et gestionnaires de bassins versants)",
     "applicationCategory": "agronomy",

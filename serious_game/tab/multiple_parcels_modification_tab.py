@@ -45,7 +45,7 @@ class MultipleParcelsModificationTab(TabManagement):
         # Choose the owner tool
         label_owner = QLabel(self.tab_widget.widget(self.tab_index_multiple_parcels))
         label_owner.setFont(regular_font)
-        label_owner.setGeometry(310, 10, 130, 30)
+        label_owner.setGeometry(300, 10, 200, 30)
         label_owner.setText(owner_filter_multiple_modification_label)
         self.checkbox_owner = QCheckBox(self.tab_widget.widget(self.tab_index_multiple_parcels))
         self.checkbox_owner.setFont(regular_font)
