@@ -6,7 +6,7 @@
 name=Geomelba Spirit
 qgisMinimumVersion=3.0
 description=Version Spirit de Geomelba déstiné à être utilisé avec le jeu sérieux CAUSERIE.
-version=1.1-beta10
+version=1.2-beta1
 author=Jules Grillot, Michael Rabotin / INRAE
 email=michael.rabotin@inrae.fr
 

@@ -304,13 +304,14 @@ class FlowCalculation:
             area = attrs[parcel_layer.fields().indexFromName(field_parcel_area)]
             slope = attrs[parcel_layer.fields().indexFromName(field_parcel_slope)]
             label = attrs[parcel_layer.fields().indexFromName(field_parcel_practice)]
+            longueur = attrs[parcel_layer.fields().indexFromName(field_parcel_slope_length)]
             if parcel_type in self.production_type:
                 prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
                                                 self.production)
                 prod_water = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
                                                       self.production_water)
                 prod_mes = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                    self.production_mes)
+                                                    self.production_mes)*longueur
                 prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
                                                       self.production_phyto)
             else:
