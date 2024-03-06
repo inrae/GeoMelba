@@ -88,6 +88,10 @@ class GeomelbaSpirit:
         self.dockwidget = None
         self.watershed_creation = None
 
+        self.studied_elements=[]
+        self.coded_studied_elements=[]
+
+
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -294,6 +298,19 @@ class GeomelbaSpirit:
                 connexion_layer = None
                 self.pluginIsActive = True
 
+                # Try to put item of RadioButton into list coded_studied_element et studied_element
+                #studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+                #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
+                if self.dlg.RadioButton_studied_element2.isChecked():
+                    studied_elements=["de phytosanitaires"]
+                    coded_studied_elements=[2]
+                elif self.dlg.RadioButton_studied_element0.isChecked():
+                    studied_elements=["d'eau"]
+                    coded_studied_elements=[0]
+                else :
+                    studied_elements=["de MES"]
+                    coded_studied_elements=[1]
+                
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
                     self.dlg.watershed_button_group.checkedId()).accessibleName().lower()
@@ -456,7 +473,10 @@ class GeomelbaSpirit:
                                                            watershed_name=watershed_name, parcel_layer=new_parcel_layer,
                                                            line_layer=new_line_layer, style_line_layer=line_style,
                                                            connexion_layer=connexion_layer, crs=crs,
-                                                           output_path=output_directory)
+                                                           output_path=output_directory,
+                                                           coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
+
+
 
                         # Connect to provide cleanup on closing of dockwidget.
                         self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))

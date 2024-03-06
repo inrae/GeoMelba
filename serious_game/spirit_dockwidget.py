@@ -55,7 +55,8 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
     closingPlugin = pyqtSignal()
 
     def __init__(self, parent=None, iface=None, project=None, watershed_name=None, parcel_layer=None, line_layer=None,
-                 style_line_layer=None, connexion_layer=None, crs=None, output_path=None):
+                 style_line_layer=None, connexion_layer=None, crs=None, output_path=None,coded_studied_elements=None,studied_elements=None ):
+
         """The first part of the constructor list the variables and activate some function based on signal.
          Variables are :
         - qgis interface (iface)
@@ -82,6 +83,8 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         names = [layer.name() for layer in self.project.mapLayers().values()]
         root = self.project.layerTreeRoot()
         group = root.findGroup(original_layer_group_name)
+        self.coded_studied_elements=coded_studied_elements
+        self.studied_elements=studied_elements
 
         self.parcel_layer = parcel_layer
         # Add the parcel layer on top of the Qgis layer panel, with the legend expanded.
@@ -245,7 +248,9 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                        abatement_lat_phyto=self.config_files.abatement_lat_phyto,
                                                        output_path=self.output_path,
                                                        connexion_layer=self.connexion_layer,
-                                                       button_rollback=self.standard_tools.button_rollback)#,
+                                                       button_rollback=self.standard_tools.button_rollback,
+                                                       coded_studied_elements=self.coded_studied_elements,
+                                                       studied_elements=self.studied_elements)#,
                                                        #plot_creation=self.plot_creation)
 
         # Layer control parameters

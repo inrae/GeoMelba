@@ -51,7 +51,7 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     field_type_line_middle, regular_font, river, data_folder, watershed_prefix, flow_calculation_tab_name, \
     loader_title, loader_text, watershed_analysis_button_name, save_value_button_name, select_parcel_button_name, \
     parcel_emit_analysis_button_name, parcel_reception_analysis_button_name, river_reception_analysis_button_name, \
-    select_river_button_name, start_comparison_button_name, open_result_viewer_button_name, studied_elements, coded_studied_elements,\
+    select_river_button_name, start_comparison_button_name, open_result_viewer_button_name, \
     land_cover_map_title, land_cover_map_parcel, land_cover_map_line, watershed_abatement_map_title_pt1, \
     watershed_abatement_map_title_pt2, watershed_abatement_map_parcel_pt1, watershed_abatement_map_parcel_pt2, \
     watershed_abatement_map_line_pt1, watershed_abatement_map_line_pt2, watershed_transfer_map_title_pt1, \
@@ -82,7 +82,8 @@ class FlowCalculationTab(TabManagement):
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
                  abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
                  abatement_lat_mes=None, abatement_lat_phyto=None, output_path=None, connexion_layer=None,
-                 button_rollback=None):#, plot_creation=None):
+                 button_rollback=None,
+                 coded_studied_elements=None,studied_elements=None ):#, plot_creation=None):
         """Concern the tab creation of flow analysis :
         - 9 buttons to do analysis, select element or compare result.
 
@@ -100,6 +101,9 @@ class FlowCalculationTab(TabManagement):
         self.button_rollback = button_rollback
        # self.plot_creation = plot_creation
         self.tab_widget.setTabText(self._tab_index_abatement, flow_calculation_tab_name)
+        self.coded_studied_elements=coded_studied_elements
+        self.studied_elements=studied_elements
+
 
         # Counter variables
         self.count_referential = 0  # Test if values after a abatement analysis on the watershed are already saved.
@@ -259,7 +263,8 @@ class FlowCalculationTab(TabManagement):
         """Open the dialog to show the result of analysis.
         """
         self.result_viewer = ResultViewer(directory_path=self.output_path, count_turn=self.count_watershed_analysis,
-                                          line_layer=self.line_layer, parcel_layer=self.parcel_layer, crs=self.crs)
+                                          line_layer=self.line_layer, parcel_layer=self.parcel_layer, crs=self.crs,
+                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements)
         self.result_viewer.open_result_viewer()
 
     def return_signal(self):
@@ -331,11 +336,12 @@ class FlowCalculationTab(TabManagement):
         self.parcel_layer.commitChanges()
         self.line_layer.commitChanges()
         self.messagebox.show()
-        elements = studied_elements
-        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
-        # coded_studied_elements = [0,1,2]
+        elements = self.studied_elements
+        # Rappel :studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        # Rappel : coded_studied_elements = [0,1,2]
 
-        coded_elements=coded_studied_elements
+        coded_elements=self.coded_studied_elements
+        
         iter=0
         for i in coded_elements:
         #for i in range(len(elements)):
@@ -577,7 +583,7 @@ class FlowCalculationTab(TabManagement):
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
         elements = studied_elements
-        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        
         coded_elements=coded_studied_elements
         iter=0
         for i in coded_elements:
@@ -770,7 +776,7 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
-        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        
         coded_elements=coded_studied_elements
         iter=0
         for i in coded_elements:
@@ -960,7 +966,7 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
-        # studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+        
         coded_elements=coded_studied_elements
         iter=0
         for i in coded_elements:

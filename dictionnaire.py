@@ -275,6 +275,10 @@ create_watershed_button_name = "Créer son bassin versant (en développement)"
 crs_selection_label_name = "Système de projection :"
 output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
+studied_element_label=" Choix du thème de modélisation: "
+studied_element_button0_label="Eaux de ruissellement"
+studied_element_button1_label="Erosion"
+studied_element_button2_label="Produits phytosanitaires"
 watershed_selection_label = "Type de bassin versant :"
 folder_selection_text = "Choisir un dossier"
 advanced_line_button_name = "Linéaire avancé"
@@ -355,11 +359,6 @@ select_turn_spinbox_label = "Tour n° :"
 selected_turn_button_name = "Choix des cartes de sortie"
 
 # Map result after analysis variables:
-#studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
-studied_elements = ["de MES"]
-#coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
-#coded_studied_elements=[0,1,2]
-coded_studied_elements=[1]
 land_cover_map_title = "Occupation du sol"
 land_cover_map_parcel = "Occupation du sol"
 land_cover_map_line = "Elements paysagers"

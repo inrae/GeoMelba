@@ -25,7 +25,7 @@
 import os
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QMessageBox
-from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton
 from qgis.gui import QgsProjectionSelectionWidget
 from qgis.core import QgsUnitTypes
 from qgis.PyQt import uic
@@ -33,7 +33,8 @@ from qgis.PyQt import uic
 from .dictionnaire import regular_font, create_watershed_button_name, crs_selection_label_name, \
     output_selection_label, output_button_name, watershed_selection_label, information_crs_text_pt1, \
     information_crs_text_pt2, information_crs_text_pt3, folder_selection_text, information_folder_text_pt1, \
-    information_folder_text_pt2, serious_game_data_folder, watershed_prefix
+    information_folder_text_pt2, serious_game_data_folder, watershed_prefix, studied_element_label, \
+    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -64,7 +65,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         # Function to dynamically create buttons of the different watershed in the plugins.
         self.init_button_watershed(watershed_prefix)
 
-        # Creation of a button ton add another watershed to the plugin
+        # Creation of a button to add another watershed to the plugin
         button_create_watershed = QPushButton(self)
         button_create_watershed.setText(create_watershed_button_name)
         button_create_watershed.setAccessibleName("create_watershed")
@@ -74,6 +75,31 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         button_create_watershed.setFont(regular_font)
         # Connexion of the watershed button group with a function to check if the path chose by the user is valid.
         self.watershed_button_group.buttonToggled.connect(self.valid_path)
+
+        # Creation of three radiobutton for modelisation theme
+        # Label creation
+        label_element = QLabel(self)
+        label_element.setFont(regular_font)
+        label_element.setGeometry(30, 460, 400, 30)
+        label_element.setText(studied_element_label)
+
+        
+        self.RadioButton_studied_element0=QRadioButton(self)
+        self.RadioButton_studied_element0.setText(studied_element_button0_label)
+        self.RadioButton_studied_element0.setGeometry(30, 480, 340, 30)
+        
+        
+
+        self.RadioButton_studied_element1=QRadioButton(self)
+        self.RadioButton_studied_element1.setText(studied_element_button1_label)
+        self.RadioButton_studied_element1.setGeometry(30, 500, 340, 30)
+        
+
+        self.RadioButton_studied_element2=QRadioButton(self)
+        self.RadioButton_studied_element2.setText(studied_element_button2_label)
+        self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
+        self.RadioButton_studied_element2.setChecked(True)
+
 
         # Label creation
         label_crs = QLabel(self)
@@ -193,21 +219,25 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         """Function to check if all the conditions required to make the plugin works are good.
         As long as a watershed button is not checked, the output buttons are disabled.
         The output path is also check to be sure the path exist.
+        One of the three RadioButton must be checked
         If the output does not exist the button to validate the user's choice and launch the plugin is disabled.
         """
         # Check if a watershed button is pressed
-        if self.watershed_button_group.checkedButton() is not None:
+        if self.watershed_button_group.checkedButton() is not None :
             # Enable the widgets to get the output path.
             self.output_button.setEnabled(True)
             self.output_text.setEnabled(True)
+
             # If the output path exist, the user can launch the plugin.
             if os.path.exists(self.output_text.text()):
                 self.button_box.setEnabled(True)
                 # If the folder has already been used by the user to create a simulation, error message to tell the user
                 # data might be deleted.
                 if os.path.exists(self.output_text.text() + "/" + self.watershed_button_group.button(
-                        self.watershed_button_group.checkedId()).accessibleName().lower()):
-                    QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
+                   self.watershed_button_group.checkedId()).accessibleName().lower()):
+                   QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
+
+
             else:
                 # if the path doesn't exist, the user cannot launch the plugin.
                 self.button_box.setEnabled(False)

@@ -36,7 +36,7 @@ from qgis.core import QgsProject, QgsVectorLayer, QgsSimpleLineSymbolLayer, QgsS
 from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, map_watershed_transfer, \
     map_watershed_transfer_rate, map_watershed_potential_production, map_watershed_production_area, \
     map_parcel_abatement, map_parcel_transfer, map_parcel_received, map_river_received, \
-    infos_map_watershed_land_cover, infos_map_watershed_abatement, infos_map_watershed_transfer, studied_elements, coded_studied_elements, \
+    infos_map_watershed_land_cover, infos_map_watershed_abatement, infos_map_watershed_transfer, \
     infos_map_watershed_transfer_rate, infos_map_watershed_potential_production, infos_map_watershed_production_area, \
     infos_map_parcel_abatement, infos_map_parcel_transfer, infos_map_parcel_received, infos_map_river_received, \
     field_type_parcel, field_type_line_middle, regular_font, field_type_line_bottom, field_type_line_top, \
@@ -45,7 +45,8 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
 
 
 class ResultViewer(QMainWindow):
-    def __init__(self, directory_path=None, count_turn=None, line_layer=None, parcel_layer=None, crs=None):
+    def __init__(self, directory_path=None, count_turn=None, line_layer=None, parcel_layer=None, crs=None,
+                 coded_studied_elements=None,studied_elements=None):
         """This class concern the dialog used to view the different map created by the user during the serious game.
         It's the backend, checking for the map to show and changing their name, adding description for the map and
         creating the difference between two turn map.
@@ -62,6 +63,8 @@ class ResultViewer(QMainWindow):
         self.bridge = QgsLayerTreeMapCanvasBridge(self.project.layerTreeRoot(), self.canvas)
         self.bridge.setAutoSetupOnFirstLayer(False)
         self.canvas.setGeometry(QRect(0, 0, 0, 0))
+        self.coded_studied_elements=coded_studied_elements
+        self.studied_elements=studied_elements
 
         n = 0
         while n != QDesktopWidget().screenCount():
@@ -100,8 +103,8 @@ class ResultViewer(QMainWindow):
             # If the map is about land cover, the text area is smaller so the comparison map can be added.
             
             iter=0
-            for i in coded_studied_elements:
-                element = studied_elements[iter]
+            for i in self.coded_studied_elements:
+                element = self.studied_elements[iter]
                 element_underscore = element.replace(' ', '_').lower()
                 iter+=1
 
