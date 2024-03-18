@@ -1581,14 +1581,6 @@ class FlowCalculation:
                                                riviere_layer.fields().indexFromName(field_incoming_flow_rating), indice)
         exutoire = sum(total_entrant)
 
-        # create file for exutoire value
-        filepath=os.path.join(self.output_path,'exutoire_value.csv')
-        f=open(filepath,"a")
-        f.write(str(exutoire))
-        f.write("\n")
-        f.close()
-
-
         riviere_layer.changeAttributeValue(exutoire_id, riviere_layer.fields().indexFromName(field_outlet_inflow),
                                            exutoire)
         riviere_layer.commitChanges()
@@ -1723,7 +1715,7 @@ class FlowCalculation:
         )
         self.create_symbology(parcel_layer_transfert, rules)
         return parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement, \
-               layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_outflow_river
+               layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_outflow_river, exutoire
 
     def create_layers_received(self, parcel_layer, line_layer, intrant_total, abatement_total_p, list_parcel_id,
                                group_name_1, prefix):
@@ -1947,10 +1939,11 @@ class FlowCalculation:
         prefix = str(count)
         parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement, \
         layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, \
-        max_entrant_riviere = self.create_layers_emit(
+        max_entrant_riviere, max_value_exutoire = self.create_layers_emit(
             args, parcel_layer, line_layer, processed_poly, group_watershed_analysis + str(count),
                                                             group_abatement_analysis + "BV " + str(count),
                                                             group_flow_transfer + "BV " + str(count), prefix)
+
         result = {}
         select_river = QgsExpression("{champ_type} = {river}".format(champ_type=field_type_line_middle, river=river))
         for line in line_layer.getFeatures(QgsFeatureRequest(select_river)):
@@ -2092,7 +2085,7 @@ class FlowCalculation:
         )
         self.create_symbology(parcel_layer_prod, rules)
         return [parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement,
-                layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_entrant_riviere]
+                layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_entrant_riviere,max_value_exutoire]
 
     def ecoulement_emis(self, parcel_layer, line_layer, connexion_layer, count, element):
         if element == 0:

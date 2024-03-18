@@ -240,6 +240,7 @@ map_creation_information_pt1 = "Réalisée en "
 map_creation_information_pt2 = " par "
 turn_0_label = "état initial"
 turn_label = "Tour : "
+exutoire_label = "Valeur maximum à l'éxutoire de la rivière : "
 date_m_y = date.today().strftime('%B %Y')
 map_watershed_land_cover = "occupation_du_sol_"
 map_watershed_abatement = "taux_abattement_de_transferts_"

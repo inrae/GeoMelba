@@ -32,7 +32,7 @@ from qgis.core import QgsPrintLayout, QgsLayoutItemMap, QgsRectangle, QgsMapSett
     QgsApplication, QgsLayoutItemLabel, QgsLayoutItem, QgsLayoutExporter, QgsRuleBasedRenderer, \
     QgsSimpleLineSymbolLayer, QgsSymbol
 # Personal modules
-from ....dictionnaire import map_creation_information_pt1, map_creation_information_pt2, turn_0_label, turn_label
+from ....dictionnaire import map_creation_information_pt1, map_creation_information_pt2, turn_0_label, turn_label, exutoire_label
 
 
 class MapCreation:
@@ -119,7 +119,7 @@ class MapCreation:
         layer.triggerRepaint()
 
     def create_map_jpg(self, project, layers, names, title, extent, date, author_name, filename, path,
-                       count_watershed_analysis):
+                       count_watershed_analysis,max_value_exutoire,Bool_Exutoire):
         """Create and export map automatically.
         The mandatory arguments are :
         - the layers to represent on the map.
@@ -279,6 +279,20 @@ class MapCreation:
         layout.addLayoutItem(turn_number)
         turn_number.attemptMove(QgsLayoutPoint(250, 200, QgsUnitTypes.LayoutMillimeters))
         turn_number.setReferencePoint(QgsLayoutItem.LowerRight)
+        # Add exutoire value
+        if (Bool_Exutoire):
+            exutoire_value = QgsLayoutItemLabel(layout)
+            exutoire_value.setText(exutoire_label + str(round(max_value_exutoire,2)))
+            exutoire_value.setFont(QFont('Arial', 8))
+            exutoire_value.adjustSizeToText()
+            exutoire_value.setMinimumSize(QgsLayoutSize(10, 80, QgsUnitTypes.LayoutMillimeters))
+            # Add exutoire value to the layout.
+            layout.addLayoutItem(exutoire_value)
+            exutoire_value.attemptMove(QgsLayoutPoint(200, 190, QgsUnitTypes.LayoutMillimeters))
+            exutoire_value.setReferencePoint(QgsLayoutItem.LowerRight)
+
+
+
         # Export the layout as a JPEG.
         layout = manager.layoutByName(layout_name)
         exporter = QgsLayoutExporter(layout)
