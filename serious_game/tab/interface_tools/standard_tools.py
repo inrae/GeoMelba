@@ -25,7 +25,8 @@
 """
 import csv
 import processing
-from PyQt5.QtWidgets import QMessageBox, QLabel, QSpinBox, QPushButton
+from PyQt5.QtWidgets import QMessageBox, QLabel, QSpinBox, QPushButton, QShortcut
+from PyQt5.QtGui import QKeySequence
 from qgis.core import QgsVectorLayer
 from ....dictionnaire import field_parcel_id, history_table_name, history_field_action, history_field_feature, \
     history_field_layer, history_field_field, history_field_field_idx, history_field_previous, history_field_next, \
@@ -108,6 +109,15 @@ class StandardTools:
         self.button_rollback.setEnabled(False)
         self.button_rollback.clicked.connect(self.previous_state)
 
+        # Rollback shortcut
+        self.shortcut = QShortcut(QKeySequence("Ctrl+Z"), scrollAreaWidgetContents)
+        self.shortcut.activated.connect(self.handle_previous_state)
+        
+    # Handle function only to enable the shortcut
+    def handle_previous_state(self):
+        if self.button_rollback.isEnabled():
+            self.previous_state()
+        
     # Functions for standard tools
     # Function to zoom on the watershed
     def zoom_watershed(self):
