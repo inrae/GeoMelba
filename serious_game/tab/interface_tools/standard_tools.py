@@ -105,7 +105,7 @@ class StandardTools:
         self.button_rollback.setFont(regular_font)
         self.button_rollback.setText("Retour Arrière")
         self.button_rollback.setAccessibleName("rollback")
-        self.button_rollback.setGeometry(30, 50, 180, 50)
+        self.button_rollback.setGeometry(30, 50, 170, 50)
         self.button_rollback.setEnabled(False)
         self.button_rollback.clicked.connect(self.previous_state)
 
@@ -113,11 +113,107 @@ class StandardTools:
         self.shortcut = QShortcut(QKeySequence("Ctrl+Z"), scrollAreaWidgetContents)
         self.shortcut.activated.connect(self.handle_previous_state)
         
+        # Reset button
+        self.button_reset = QPushButton(scrollAreaWidgetContents)
+        self.button_reset.setFont(regular_font)
+        self.button_reset.setText("Reset")
+        self.button_reset.setAccessibleName("Reset")
+        self.button_reset.setGeometry(210, 50, 170, 50)
+        self.button_reset.setEnabled(False)
+        self.button_reset.clicked.connect(self.reset)
+        
+        
     # Handle function only to enable the shortcut
     def handle_previous_state(self):
         if self.button_rollback.isEnabled():
             self.previous_state()
         
+    # Function to make a reset
+    def reset(self):
+        """Similar to the previous_state() function, this function enables us to revert back not only for the specified action number but also for all lines of csv files."""
+        # With the CSV file open, it is read to find the line with the last action id.
+        with open(self.path + history_table_name, 'r') as csvfile:
+            file_reader = csv.DictReader(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            # Empty list to hold the lines of the field to rewrite.
+            lines = []
+            for row in file_reader:
+                # Stop the history of modification to no rewrite the rollback in the CSV.
+                self.signal_stop = 1
+                # Get information from file.
+                feature_id = int(row[history_field_feature])  # Id of the feature.
+                layer = self.project.mapLayersByName(row[history_field_layer])[0]  # Layer of the feature.
+                field = row[history_field_field]  # Field modified.
+                field_idx = int(row[history_field_field_idx])  # Index of the modified field.
+                old = row[history_field_previous]  # Previous value.
+                new = row[history_field_next]  # New value.
+                # Modification of the layer from new value to the previous value.
+                if layer.isEditable():
+                    layer.changeAttributeValue(feature_id, field_idx, old, new)
+                else:
+                    layer.startEditing()
+                    layer.changeAttributeValue(feature_id, field_idx, old, new)
+            layer.commitChanges()
+            layer.triggerRepaint()
+            if (field == field_parcel_practice and
+                    self.tab_widget.currentIndex() == self.tab_widget_management.tab_index_agricultural_practices):
+                # List the layers present in the project
+                names = [layer.name() for layer in self.project.mapLayers().values()]
+                # If a layer with the name of the cover exist, it is deleted.
+                for string in names:
+                    if string == agricultural_practices_layer_name:
+                        practices_layer = self.project.mapLayersByName(string)
+                        self.project.removeMapLayer(practices_layer[0].id())
+                self.parcel_layer.selectAll()
+                practices_layer = processing.run("native:saveselectedfeatures",
+                                                 {'INPUT': self.parcel_layer,
+                                                  'OUTPUT': 'memory:' + agricultural_practices_layer_name})['OUTPUT']
+                self.parcel_layer.removeSelection()
+                self.project.addMapLayers([practices_layer])
+                # Load a style for the cover.
+                practices_layer.loadNamedStyle(style_parcels_practices)
+                practices_layer.triggerRepaint()
+                # The layer when added to the project is not always added to the same place depending on the where
+                # the user clicked before creating the cover. The cover layer is duplicated at the top of the layer
+                # tree and then the first version is deleted.
+                root = self.project.layerTreeRoot()
+                layer_name = agricultural_practices_layer_name
+                practices_layer = self.project.mapLayersByName(layer_name)[0]
+                layer_id = root.findLayer(self.project.mapLayersByName(layer_name)[0].id())
+                parent_group = layer_id.parent()
+                if parent_group.name() != '':
+                    mygroup = self.project.layerTreeRoot().findGroup(parent_group.name())
+                    self.project.layerTreeRoot().insertLayer(0, practices_layer)
+                    mygroup.removeLayer(practices_layer)
+                    self.project.layerTreeRoot().findGroup(parent_group.name()).setExpanded(0)
+                else:
+                    order = root.customLayerOrder()
+                    order.insert(0, order.pop(order.index(practices_layer)))
+                    root.setCustomLayerOrder(order)
+            # Rewrite the file without the lines with the biggest action id.
+            with open(self.path + history_table_name, 'w') as writeFile:
+                fieldnames = [history_field_action, history_field_layer, history_field_feature, history_field_field,
+                              history_field_field_idx, history_field_previous, history_field_next]
+                writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=';', quotechar='|',
+                                        quoting=csv.QUOTE_MINIMAL)
+                writer.writeheader()
+                writer.writerows(lines)
+                # If there is no more line, the rollback and reset button is disable until a new action is realized.
+                if len(lines) == 0:
+                    self.button_reset.setEnabled(False)
+                    self.button_rollback.setEnabled(False)
+        # If the parcel layer is modified and the modified field concern the ownership of the parcel, the cover is
+        # recreated.
+        if layer.name() == parcel_layer_name and field == field_parcel_owner:
+            names = [layer.name() for layer in self.project.mapLayers().values()]
+            for string in names:
+                if len(string.split(owner_cover_layer_name, 1)) > 1:
+                    owner = string.split(owner_cover_layer_name, 1)[1]
+                    self.tab_widget_management.create_cover(owner)
+        # Start the history of modification to write changes in the CSV.
+        self.signal_stop = 0
+        # Decrease the action count by one.
+        self.decrement_action()
+
     # Functions for standard tools
     # Function to zoom on the watershed
     def zoom_watershed(self):
@@ -371,6 +467,7 @@ class StandardTools:
                     self.decrement_action()
                 # The rollback button is enabled because there is at least 1 line in the file.
                 self.button_rollback.setEnabled(True)
+                self.button_reset.setEnabled(True)
         self.signal_stop = 0
 
     def return_signal(self):

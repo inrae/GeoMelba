@@ -1,3 +1,9 @@
+Version 1.2-beta4
+=================
+ * Ajout de ctrl-z pour rollback
+ * Ajout du bouton reset
+ * Ajout de la couleur sur les boutons pour voir s'ils sont séléctionnés
+
 Version 1.2-beta3
 =================
  * Ajout de la valeur exutoire sur carte de sortie
