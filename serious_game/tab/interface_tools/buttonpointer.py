@@ -74,6 +74,8 @@ class ButtonPointer(QPushButton):
         self.layer = layer
         self.value = value
         self.field = field
+        self.setCheckable(True)
+        
         # The size of the pointer is different depending on the geometry type.
         geometry_type = QgsWkbTypes.geometryDisplayString(self.layer.geometryType())
         if geometry_type == "Polygon":
@@ -89,6 +91,15 @@ class ButtonPointer(QPushButton):
 
     def pointer(self):
         """Function to create the pointer."""
+        #loop to uncheck all button and check clicked button
+        for other_button in self.parentWidget().findChildren(QPushButton):
+            if other_button.isChecked():
+                other_button.setChecked(False)
+                #to reset the style
+                other_button.setStyleSheet("");
+        self.setChecked(True)
+        #set the inrae color on the button
+        self.setStyleSheet("QPushButton { background-color: #00a3a6; color: white; }");
 
         def select_element(point):
             """Function to select feature with the pointer."""

@@ -163,6 +163,7 @@ class UiCreationOwnerModification:
             for i in range(max_owner + 1):
                 button = QPushButton(tab_widget.widget(tab_index))
                 button.setFont(regular_font)
+                button.setCheckable(True)
                 # Buttons are vertically spaced (y-axis) by a value of 70 plus a multiple of 30.
                 # The first button (index 0) value is 70 (70 + 0 x 30),
                 # the second (index 1) is 70 as well (70 + (1 - 1) x 30),
@@ -182,10 +183,12 @@ class UiCreationOwnerModification:
                         button.setGeometry(350, (i - 1) * 30 + 70, 200, 40)
 
                 button.clicked.connect(lambda state, owner_number=i: self.tab_manager.create_cover(owner_number))
+                button.clicked.connect(lambda checked, btn=button: self.is_clicked(btn))
         # If there is more than 12 person, three columns of buttons are created.
         else:
             for i in range(max_owner + 1):
                 button = QPushButton(tab_widget.widget(tab_index))
+                button.setCheckable(True)
                 # Owner number 0 is the municipality
                 if i == 0:
                     button.setText(municipality_button_name)
@@ -194,6 +197,7 @@ class UiCreationOwnerModification:
 
                 button.setGeometry(x_place, y_place, 150, 40)
                 button.clicked.connect(lambda state, owner_number=i: self.tab_manager.create_cover(owner_number))
+                button.clicked.connect(lambda checked, btn=button: self.is_clicked(btn))
                 # Position of the next button
                 if x_place >= 450:
                     # After a certain value on the x-axis it's a new line is started.
@@ -210,6 +214,7 @@ class UiCreationOwnerModification:
         button_null.setGeometry(20, 420, 600, 30)
         # Function connected to the signal emitted by the button.
         button_null.clicked.connect(self.tab_manager.delete_cover)
+        button_null.clicked.connect(lambda checked, btn=button: self.null_is_clicked(btn))
         # Labels creation.
         label_switch = QLabel(tab_widget.widget(tab_index))
         label_switch.setFont(regular_font)
@@ -254,6 +259,27 @@ class UiCreationOwnerModification:
         button_switch.clicked.connect(self.switch_parcel)  # Function connected to the signal emitted by the button.
         # button_switch.clicked.connect(switch_parcel)  # Function connected to the signal emitted by the button.
 
+    #function to check and uncheck for owner
+    def is_clicked(self,button):
+        #acces other button with parent of clicked button
+        for other_button in button.parentWidget().findChildren(QPushButton):
+            if other_button.isChecked():
+                other_button.setChecked(False)
+                #to reset the style
+                other_button.setStyleSheet("");
+        button.setChecked(True)    
+        #set the inrae color on the button
+        button.setStyleSheet("QPushButton { background-color: #00a3a6; color: white; }");
+        
+            # Function to uncheck owner button when we click on null button
+    def null_is_clicked(self,button):
+        #acces other button with parent of clicked button
+        for other_button in button.parentWidget().findChildren(QPushButton):
+            if other_button.isChecked():
+                other_button.setChecked(False)
+                #to reset the style
+                other_button.setStyleSheet("");
+        
 # Functions to switch owner of a parcel
     def switch_parcel(self):
         """Switch the owners of two parcels. The parcels are selected with the 2 SpinBoxes.
