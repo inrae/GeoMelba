@@ -249,6 +249,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                        output_path=self.output_path,
                                                        connexion_layer=self.connexion_layer,
                                                        button_rollback=self.standard_tools.button_rollback,
+                                                       button_reset=self.standard_tools.button_reset,
                                                        coded_studied_elements=self.coded_studied_elements,
                                                        studied_elements=self.studied_elements)#,
                                                        #plot_creation=self.plot_creation)

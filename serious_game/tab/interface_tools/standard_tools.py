@@ -117,12 +117,12 @@ class StandardTools:
         self.button_reset = QPushButton(scrollAreaWidgetContents)
         self.button_reset.setFont(regular_font)
         self.button_reset.setText("Reset")
-        self.button_reset.setAccessibleName("Reset")
+        self.button_reset.setAccessibleName("reset")
         self.button_reset.setGeometry(210, 50, 170, 50)
         self.button_reset.setEnabled(False)
         self.button_reset.clicked.connect(self.reset)
         
-        
+
     # Handle function only to enable the shortcut
     def handle_previous_state(self):
         if self.button_rollback.isEnabled():
@@ -340,6 +340,7 @@ class StandardTools:
                 # If there is no more line, the rollback button is disable until a new action is realized.
                 if len(lines) == 0:
                     self.button_rollback.setEnabled(False)
+                    self.button_reset.setEnabled(False)
         # If the parcel layer is modified and the modified field concern the ownership of the parcel, the cover is
         # recreated.
         if layer.name() == parcel_layer_name and field == field_parcel_owner:

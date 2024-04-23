@@ -82,7 +82,7 @@ class FlowCalculationTab(TabManagement):
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
                  abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
                  abatement_lat_mes=None, abatement_lat_phyto=None, output_path=None, connexion_layer=None,
-                 button_rollback=None,
+                 button_rollback=None,  button_reset=None,
                  coded_studied_elements=None,studied_elements=None ):#, plot_creation=None):
         """Concern the tab creation of flow analysis :
         - 9 buttons to do analysis, select element or compare result.
@@ -99,6 +99,7 @@ class FlowCalculationTab(TabManagement):
         self.output_path = output_path
         self.connexion_layer = connexion_layer
         self.button_rollback = button_rollback
+        self.button_reset = button_reset
        # self.plot_creation = plot_creation
         self.tab_widget.setTabText(self._tab_index_abatement, flow_calculation_tab_name)
         self.coded_studied_elements=coded_studied_elements
@@ -509,6 +510,7 @@ class FlowCalculationTab(TabManagement):
             self.button_parcel_reception.setEnabled(False)
         # The rollback button is disabled because the history CSV is empty.
         self.button_rollback.setEnabled(False)
+        self.button_reset.setEnabled(False)
         # Update the comparison tools.
         if self.count_watershed_analysis > 0:
             # Update the range slider
