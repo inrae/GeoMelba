@@ -99,7 +99,37 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.RadioButton_studied_element2.setText(studied_element_button2_label)
         self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
         self.RadioButton_studied_element2.setChecked(True)
+         # Creation of a button group for modelisation theme buttons
+        self.modelisation_theme_button_group = QButtonGroup()
+        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element0)
+        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element1)
+        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element2)
+        self.modelisation_theme_button_group.setExclusive(True)
 
+        # Creation of two radiobutton for season choice
+        # Label creation
+        label_element = QLabel(self)
+        label_element.setFont(regular_font)
+        label_element.setGeometry(30, 560, 400, 30)
+        label_element.setText(season_choice_label)
+
+        
+        self.RadioButton_season_choice0=QRadioButton(self)
+        self.RadioButton_season_choice0.setText(season_choice_button0_label)
+        self.RadioButton_season_choice0.setGeometry(30, 580, 340, 30)
+        
+        
+
+        self.RadioButton_season_choice1=QRadioButton(self)
+        self.RadioButton_season_choice1.setText(season_choice_button1_label)
+        self.RadioButton_season_choice1.setGeometry(30, 600, 340, 30)
+        
+        # Creation of a button group for season choice buttons
+        self.season_choice_button_group = QButtonGroup()
+        self.season_choice_button_group.addButton(self.RadioButton_season_choice0)
+        self.season_choice_button_group.addButton(self.RadioButton_season_choice1)
+        self.season_choice_button_group.setExclusive(True)
+        
 
         # Label creation
         label_crs = QLabel(self)
