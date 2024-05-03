@@ -358,6 +358,7 @@ legend_element_not_modified_color = '#b4b0b0'
 tree_widget_header = "Cartes"
 select_turn_spinbox_label = "Tour n° :"
 selected_turn_button_name = "Choix des cartes de sortie"
+pdf_generator_button_name = "Générer le pdf"
 
 # Map result after analysis variables:
 land_cover_map_title = "Occupation du sol"

@@ -1,0 +1,103 @@
+@page {
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    margin-left: 0cm;
+    margin-right: 0cm;
+    background: #f2eae3;
+}
+
+body{
+    background-color: #f2eae3;
+    font-size: small;
+    margin: 0%;
+}
+
+.regular{
+    margin:1cm;
+}
+
+h1{
+    color:#3e8d62;
+}
+
+p{
+    color : #00a3a6;
+}
+
+li{
+    list-style-type: none;
+}
+
+#change{
+    display:flex;
+    text-align:justify;
+}
+
+.better{
+    color: green;
+}
+
+.bad{
+    color:red;
+}
+
+.equal{
+    color:grey;
+}
+
+#exploitation ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+#exploitation ul li {
+    flex: 0 0 50%;
+    padding-left: 25px;
+    box-sizing: border-box;
+}
+
+#pratique ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+#pratique ul li {
+    flex: 0 0 50%;
+    padding-left: 25px;
+    box-sizing: border-box;
+}
+
+#paysage ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+#paysage ul li{
+    flex: 0 0 50%;
+    padding-left: 25px;
+    box-sizing: border-box;
+}
+
+#paysage{
+    margin: 1%;
+}
+
+.greenbar{
+    background-color: #3e8d62;
+    display: flex;
+}
+
+.percent{
+    color: #5e5653;
+}
+
+img{
+    width: 350px;
+    margin: 10px;
+}

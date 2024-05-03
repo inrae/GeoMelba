@@ -266,7 +266,7 @@ class UiCreationOwnerModification:
             if other_button.isChecked():
                 other_button.setChecked(False)
                 #to reset the style
-                other_button.setStyleSheet("");
+                other_button.setStyleSheet("")
         button.setChecked(True)    
         #set the inrae color on the button
         button.setStyleSheet("QPushButton { background-color: #00a3a6; color: white; }");

@@ -1581,6 +1581,15 @@ class FlowCalculation:
                                                riviere_layer.fields().indexFromName(field_incoming_flow_rating), indice)
         exutoire = sum(total_entrant)
 
+         # write exutoire value on csv file
+        filepath = os.path.join(self.output_path, 'exutoire_value.csv')
+        # write key value at the creation of csv
+        if not os.path.exists(filepath):
+            with open(filepath, 'a') as f:
+                f.write("value\n")
+        with open(filepath, 'a') as f:
+            f.write(str(exutoire) + "\n")
+
         riviere_layer.changeAttributeValue(exutoire_id, riviere_layer.fields().indexFromName(field_outlet_inflow),
                                            exutoire)
         riviere_layer.commitChanges()

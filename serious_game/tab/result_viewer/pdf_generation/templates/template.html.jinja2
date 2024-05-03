@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche d'identité du bassin versant</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="regular">
+        <h1>Fiche d'identité du bassin versant {{ watershed_name }} </h1>
+        <h3>Tour {{ count }} </h3>
+        </div>
+    <div class="greenbar">
+        <img src="{{ output }}/ex_evolution.png">
+        <img src="{{ output }}/change.png">
+    </div>
+    <div class="regular">
+        <h2>Valeur à l'exutoire : {{ exutoire }} %
+            {% if evolution_exutoire == 0 %}
+                <span class='better'>⬊</span>
+            {% elif evolution_exutoire == 1 %}
+                <span class='bad'>⇗</span>
+            {% elif evolution_exutoire == 2 %}
+                <span class='equal'>=</span>
+            {% elif evolution_exutoire == 3 %}
+                <span></span>
+            {% endif %}
+        </h2>
+        <h2>Statistiques</h2>
+        <div id=stat>
+            <h3>Surface par type d'exploitation(ha)</h3> 
+            <div id='exploitation'>
+                <ul>
+                    {% for key in keys_surface %}
+                        <li>{{ key }} : {{ dict_surface[key]|round(1) }} ha <span class="percent">   
+                        {% if percent_surface[key] %}
+                            {{ percent_surface[key] }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                        </span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if keys_pratique != None%}
+            <h3>Surface par type de pratique (ha)</h3> 
+            <div id='pratique'>
+                <ul>
+                {% for key in keys_pratique %}
+                    <li>{{ key }} : {{ dict_pratique[key]|round(1) }} ha <span class="percent">   {{ percent_pratique[key] }}%</span></li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <h3>Element paysagé (m)</h3>
+            <div id='paysage'>
+                <ul>
+                    {% for key in keys_lineaire %}
+                        <li>{{ key }} : {{ dict_lineaire[key]|round(1) }} m</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

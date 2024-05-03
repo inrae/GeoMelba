@@ -65,7 +65,7 @@ class StandardTools:
 
         # Creation of the CSV file which contains all the modification on the parcel and line layers
         with open(self.path + history_table_name, 'w') as csvfile:
-            file_writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            file_writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             file_writer.writerow([history_field_action, history_field_layer, history_field_feature, history_field_field,
                                   history_field_field_idx, history_field_previous, history_field_next])
         # Creation of the widgets at the Top of the plugin, zoom on 1 parcel, zoom on all the watershed or rollback last
@@ -133,7 +133,7 @@ class StandardTools:
         """Similar to the previous_state() function, this function enables us to revert back not only for the specified action number but also for all lines of csv files."""
         # With the CSV file open, it is read to find the line with the last action id.
         with open(self.path + history_table_name, 'r') as csvfile:
-            file_reader = csv.DictReader(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             # Empty list to hold the lines of the field to rewrite.
             lines = []
             for row in file_reader:
@@ -193,7 +193,7 @@ class StandardTools:
             with open(self.path + history_table_name, 'w') as writeFile:
                 fieldnames = [history_field_action, history_field_layer, history_field_feature, history_field_field,
                               history_field_field_idx, history_field_previous, history_field_next]
-                writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=';', quotechar='|',
+                writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=',', quotechar='|',
                                         quoting=csv.QUOTE_MINIMAL)
                 writer.writeheader()
                 writer.writerows(lines)
@@ -269,7 +269,7 @@ class StandardTools:
         """
         # With the CSV file open, it is read to find the line with the last action id.
         with open(self.path + history_table_name, 'r') as csvfile:
-            file_reader = csv.DictReader(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             # Empty list to hold the lines of the field to rewrite.
             lines = []
             for row in file_reader:
@@ -333,7 +333,7 @@ class StandardTools:
             with open(self.path + history_table_name, 'w') as writeFile:
                 fieldnames = [history_field_action, history_field_layer, history_field_feature, history_field_field,
                               history_field_field_idx, history_field_previous, history_field_next]
-                writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=';', quotechar='|',
+                writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=',', quotechar='|',
                                         quoting=csv.QUOTE_MINIMAL)
                 writer.writeheader()
                 writer.writerows(lines)
@@ -451,7 +451,7 @@ class StandardTools:
 
                 # Write those information in the CSV file
                 with open(self.path + history_table_name, 'a+', newline='') as csvfile:
-                    file_writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                    file_writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                     file_writer.writerow([action, layer_name, feature_id, field, field_index, old_value, new_value])
                 # If the type of a parcel is modified from a production type to a non-production type, the agricultural
                 # practice is going to change as well, the next modification must have the same action number.

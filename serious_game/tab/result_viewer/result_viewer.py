@@ -31,7 +31,10 @@ from PyQt5.QtWidgets import QDialog, QDesktopWidget, QTreeWidget, QFrame, QAbstr
 from PyQt5.QtGui import QIcon, QPixmap, QColor
 from qgis.gui import QgsMapCanvas, QgsLayerTreeMapCanvasBridge, QgsLayerTreeView
 from qgis.core import QgsProject, QgsVectorLayer, QgsSimpleLineSymbolLayer, QgsSymbol, QgsRuleBasedRenderer,\
-    QgsLayerTreeModel
+    QgsLayerTreeModel,QgsLayoutExporter, QgsLayout, QgsLayoutItemMap, QgsRectangle
+
+from .pdf_generation.pdf_generator import Pdf_generator
+
 # Import personal modules
 from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, map_watershed_transfer, \
     map_watershed_transfer_rate, map_watershed_potential_production, map_watershed_production_area, \
@@ -41,12 +44,12 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
     infos_map_parcel_abatement, infos_map_parcel_transfer, infos_map_parcel_received, infos_map_river_received, \
     field_type_parcel, field_type_line_middle, regular_font, field_type_line_bottom, field_type_line_top, \
     legend_element_modified, legend_element_not_modified, legend_element_modified_color, \
-    legend_element_not_modified_color, tree_widget_header, select_turn_spinbox_label, selected_turn_button_name
+    legend_element_not_modified_color, tree_widget_header, select_turn_spinbox_label, selected_turn_button_name, pdf_generator_button_name
 
 
 class ResultViewer(QMainWindow):
     def __init__(self, directory_path=None, count_turn=None, line_layer=None, parcel_layer=None, crs=None,
-                 coded_studied_elements=None,studied_elements=None):
+                 coded_studied_elements=None,studied_elements=None,watershed_name=None):
         """This class concern the dialog used to view the different map created by the user during the serious game.
         It's the backend, checking for the map to show and changing their name, adding description for the map and
         creating the difference between two turn map.
@@ -65,6 +68,8 @@ class ResultViewer(QMainWindow):
         self.canvas.setGeometry(QRect(0, 0, 0, 0))
         self.coded_studied_elements=coded_studied_elements
         self.studied_elements=studied_elements
+        self.watershed_name = watershed_name
+        self.directory_path = directory_path
 
         n = 0
         while n != QDesktopWidget().screenCount():
@@ -73,7 +78,7 @@ class ResultViewer(QMainWindow):
             if QDesktopWidget().screenGeometry(n).width() < self.width:
                 self.width = QDesktopWidget().screenGeometry(n).width()
             n = n + 1
-        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn)
+        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn, watershed_name=self.watershed_name)
         self.ui.setupUi(self)
         self.ui.project_tree_widget.itemSelectionChanged.connect(self.checkPath)
         self.ui.graphics_view.installEventFilter(self)
@@ -224,6 +229,24 @@ class ResultViewer(QMainWindow):
         )
         self.create_symbology(line_layer, rules)
 
+        layout = QgsLayout(QgsProject.instance())
+        layout.initializeDefaults()
+
+        map_item = QgsLayoutItemMap(layout)
+        map_item.setRect(20, 20, 250, 250) #ici prblm en fonction du BV
+        map_item.setLayers([line_layer,parcel_layer])
+        combined_extent = QgsRectangle()
+        for layer in layers:
+            combined_extent.combineExtentWith(layer.extent())
+        map_item.setExtent(combined_extent)
+        map_item.setLayers(layers)
+        layout.addLayoutItem(map_item)
+
+        image_settings = QgsLayoutExporter.ImageExportSettings()
+        image_path = self.directory_path + "change" + '.png'
+        exporter = QgsLayoutExporter(layout)
+        exporter.exportToImage(image_path, image_settings)
+
     def create_symbology(self, layer, all_rules):
         """Create the symbology, in the futur, use the same function in the map_creation.py file.
         """
@@ -295,18 +318,21 @@ class ResultViewer(QMainWindow):
         # apply the renderer to the layer
         layer.setRenderer(renderer)
         layer.triggerRepaint()
+        
+        return layer
 
 
 class Ui_Dialog(object):
     """Create the dialog for the result viewer. Add all layers to the tree widget when a turn is selected.
     """
-    def __init__(self, directory_path=None, count_turn=None):
+    def __init__(self, directory_path=None, count_turn=None, watershed_name=None):
         self.directory_path = directory_path
         self.count_turn = count_turn
         self.project_tree_widget = None
         self.description_text = None
         self.spinbox = None
         self.graphics_view = None
+        self.watershed_name = watershed_name
 
     def setupUi(self, Dialog):
         """Add the different element to the dialog.
@@ -345,11 +371,18 @@ class Ui_Dialog(object):
         button_turn_selection = QPushButton(Dialog)
         button_turn_selection.setFont(regular_font)
         button_turn_selection.setText(selected_turn_button_name)
-        button_turn_selection.setGeometry(120, 35, 250, 30)
+        button_turn_selection.setGeometry(120, 35, 210, 30)
         button_turn_selection.clicked.connect(
             lambda state, path=self.directory_path, tree_widget=self.project_tree_widget: self.load_project_structure(
                 path, tree_widget))
-
+        
+        # Creation of pdf creation button
+        button_pdf_generator = QPushButton(Dialog)
+        button_pdf_generator.setFont(regular_font)
+        button_pdf_generator.setText(pdf_generator_button_name)
+        button_pdf_generator.setGeometry(345, 35, 130, 30)
+        button_pdf_generator.clicked.connect(self.on_click)
+        
         self.graphics_view = GraphicsView(parent=Dialog, project_tree_widget=self.project_tree_widget)
         self.graphics_view.setSizeIncrement(QSize(0, 0))
         self.graphics_view.setFrameShadow(QFrame.Raised)
@@ -363,6 +396,10 @@ class Ui_Dialog(object):
     def retranslate_ui(self, Dialog):
         _translate = QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Résultats"))
+        
+    def on_click(self):
+        pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn)
+        pdf_generator.start_generation()
 
     def load_project_structure(self, path, tree):
         """Load the different element in the path. Change the name to be more readable.

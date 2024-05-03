@@ -26,6 +26,7 @@
 import csv
 import os
 import processing
+import shutil
 from PyQt5.QtCore import QUrl, QSize, Qt
 from PyQt5.QtGui import QColor, QFont
 from qgis.PyQt.QtWidgets import QPushButton, QButtonGroup, QLabel, QDialog, QTextBrowser
@@ -265,7 +266,7 @@ class FlowCalculationTab(TabManagement):
         """
         self.result_viewer = ResultViewer(directory_path=self.output_path, count_turn=self.count_watershed_analysis,
                                           line_layer=self.line_layer, parcel_layer=self.parcel_layer, crs=self.crs,
-                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements)
+                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,watershed_name=self.watershed_name)
         self.result_viewer.open_result_viewer()
 
     def return_signal(self):
@@ -366,9 +367,13 @@ class FlowCalculationTab(TabManagement):
             max_value_exutoire=reference[-1]
             # The results are saved into the parcel and line layer.
             after_watershed_analysis(self.parcel_layer, self.line_layer, reference[2], self.count_watershed_analysis)
+            # Backup the csv for pdf generator
+            source = self.path + history_table_name
+            destination = self.output_path + history_table_name
+            shutil.copy(source, destination)
             # A new empty history CSV is created.
             with open(self.path + history_table_name, 'w') as csvfile:
-                file_writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                file_writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 file_writer.writerow(
                     [history_field_action, history_field_layer, history_field_feature, history_field_field,
                      history_field_field_idx, history_field_previous, history_field_next])
