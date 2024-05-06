@@ -32,7 +32,7 @@ from qgis.core import QgsVectorLayer
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
-from .....dictionnaire import path
+from .....dictionnaire import path, parcel_layer_name, line_layer_name
 
 
 class Pdf_generator:
@@ -60,13 +60,10 @@ class Pdf_generator:
         self.gpkg_path = os.path.join(self.output_path + "/donnees/donnees.gpkg") #gpkg file
         self.previous_path = os.path.join(self.json_path, 'previous_stade.json')
 
-        self.list_layer = ["lineaire_spirit_m","parcellaire_spirit"] #if a new layer is added to the gpkg file, it is important to add it here
+        self.list_layer = [line_layer_name,parcel_layer_name] #if a new layer is added to the gpkg file, it is important to add it here
         
-    def start_generation(self):
-        """
-        The main block of PDF generation. It is called in result_viewer.py
-        it will manage the calling of other functions in the code
-        """
+    def start_extraction(self):
+        """Make the calculation and extract"""
         
         self.table_to_csv() # This function transforms the attribute table in the .gpkg file into a csv
 
@@ -82,19 +79,11 @@ class Pdf_generator:
         # Load jinja2 template environment
         env = Environment(loader=FileSystemLoader(self.templates_path))
         template = env.get_template('template.html.jinja2')
-        
-        # Reset backup data if it's initial turn
-        if self.count_turn == 0 :
-            if os.path.isfile(self.previous_path):
-                os.remove(self.previous_path)
-                print("File deleted.")
-            else:
-                print("File does not exist.")
                 
         # We send all the data from the desired layer to its specific processing function
-        surface_out = self.parcellaire_by_type(donnees["parcellaire_spirit"])
-        practices_out = self.practices_by_type(donnees["parcellaire_spirit"])
-        lineaire_out = self.lineaire_by_type(donnees["lineaire_spirit_m"])
+        surface_out = self.parcellaire_by_type(donnees[parcel_layer_name])
+        practices_out = self.practices_by_type(donnees[parcel_layer_name])
+        lineaire_out = self.lineaire_by_type(donnees[line_layer_name])
         exutoire_out = self.exutoire_call()
         
         # jinja2 template render html with parameter 
@@ -104,6 +93,53 @@ class Pdf_generator:
                                dict_lineaire=lineaire_out[0], keys_lineaire=lineaire_out[1], ev_lineaire=lineaire_out[2],
                                dict_practices=practices_out[0],keys_practices=practices_out[1], percent_practices=practices_out[2], ev_practices=practices_out[3])
 
+        previous_stade_json_path = os.path.join(self.json_path, "previous_stade.json")
+
+        if self.count_turn != 0:
+            try :
+                with open(previous_stade_json_path, "r") as fichier_json:
+                    previous = json.load(fichier_json)
+                    previous_stade = [elt for elt in previous if elt['turn'] == self.count_turn]
+            except FileNotFoundError :
+                previous = None
+            
+            if previous : # If the file exist
+                if not previous_stade:  # If the current turn data doesn't exist in the history
+                    previous_stade = {
+                        "turn": self.count_turn,
+                        "surface_out": surface_out,
+                        "practices_out": practices_out,
+                        "lineaire_out": lineaire_out
+                    }
+                    previous.append(previous_stade)  # Add the new turn data to the history
+                else:
+                    # If the current turn data already exists, do nothing
+                    pass
+            else :
+                # Create backup of the current turn
+                previous = [{
+                    "turn": self.count_turn,
+                    "surface_out": surface_out,
+                    "practices_out": practices_out,
+                    "lineaire_out": lineaire_out
+                }]
+
+        else:
+            # Create backup of the current turn
+            previous = [{
+                "turn": self.count_turn,
+                "surface_out": surface_out,
+                "practices_out": practices_out,
+                "lineaire_out": lineaire_out
+            }]
+
+        with open(previous_stade_json_path, "w") as json_file:
+            json.dump(previous, json_file)
+        
+        
+        return html
+    
+    def start_pdf_generation(self,html):
         # Path definition
         filename = 'id_BV_'+str(self.count_turn)+'.pdf'
         input_html = os.path.join(self.actual_path, 'index.html')
@@ -116,18 +152,7 @@ class Pdf_generator:
 
         # convert html to pdf
         HTML(filename=input_html).write_pdf(output_pdf,stylesheets=[css])
-        
-        # create backup of the current turn
-        previous_stade = {
-            "turn": self.count_turn,
-            "surface_out": surface_out[0],
-            "practices_out": practices_out[0],
-            "lineaire_out": lineaire_out[0]
-        }
-            
-        with open(self.previous_path, "w") as json_file:
-            json.dump(previous_stade, json_file)
-        
+                      
     def table_to_csv(self):
         """
         From single attribute table to different csv
@@ -398,10 +423,25 @@ class Pdf_generator:
         except FileNotFoundError :
             previous = None
         
+        #with my implementation the function research -1 turn, he doesn't existe. This line prevent this case
+        if self.count_turn == 0 : 
+            previous = None
+            
+        if previous :
+            #find dictionnary of the previous turn, 'turn' contains primary key previous contain only one line
+            previous = [item for item in previous if item['turn'] == self.count_turn - 1]
+            print(self.count_turn)
+            print(previous)
+            print(previous[0])
+            if previous:
+                previous = previous[0] 
+            else:
+                previous = None
+                
         evolution = {}
         #return ex value and 0 if it's better and 1 if it's badless and 2 if it's equal and 3 if there is no past data
         if previous != None :
-            previous_type = previous[type]
+            previous_type = previous[type][0]
             for key in keys:
                 val_old = previous_type[key]
                 val_new = data[key]
@@ -416,3 +456,15 @@ class Pdf_generator:
                 evolution[key] = 3
         
         return evolution
+
+    def save_state_0(self):
+        """This function is important to save state 0 no matter what happens. Even if we skip PDF generation rounds, it's important for this function to be there for the evolution"""
+        # Reset backup data if it's initial turn
+        if self.count_turn == 0 :
+            if os.path.isfile(self.previous_path):
+                os.remove(self.previous_path)
+                print("File deleted.")
+            else:
+                print("File does not exist.")
+                
+        self.start_extraction()

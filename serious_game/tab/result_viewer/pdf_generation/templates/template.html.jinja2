@@ -15,7 +15,7 @@
         <img src="{{ output }}/change.png">
     </div>
     <div class="regular">
-        <h2>Valeur à l'exutoire : {{ exutoire }} %
+        <h2 id="exutoire">Valeur à l'exutoire : {{ exutoire }} %
             {% if evolution_exutoire == 0 %}
                 <span class='better'>⬊</span>
             {% elif evolution_exutoire == 1 %}
@@ -32,24 +32,29 @@
             <div id='exploitation'>
                 <ul>
                     {% for key in keys_surface %}
-                        <li>{{ key }} : {{ dict_surface[key]|round(1) }} ha <span class="percent">   
-                        {% if percent_surface[key] %}
-                            {{ percent_surface[key] }}%
-                        {% else %}
-                            0%
-                        {% endif %}
-                        </span>
-
-                        {% if ev_surface[key] == 0 %}
-                        <span>⬊</span>
-                        {% elif ev_surface[key] == 1 %}
-                            <span>⬈</span>
-                        {% elif ev_surface[key] == 2 %}
-                            <span>=</span>
-                        {% elif ev_surface[key] == 3 %}
-                            <span></span>
-                        {% endif %}
-
+                        <li class="list_item">
+                            <span class="key">{{ key }} : </span>
+                            <span class="value">
+                                <span class="surf">
+                                    {{ dict_surface[key]|round(1) }} ha
+                                </span>
+                                <span class="percent">   
+                                    {% if percent_surface[key] %}
+                                        {{ percent_surface[key] }}%
+                                    {% else %}
+                                        0%
+                                    {% endif %}
+                                </span>
+                                {% if ev_surface[key] == 0 %}
+                                <span>⬊</span>
+                                {% elif ev_surface[key] == 1 %}
+                                    <span>⬈</span>
+                                {% elif ev_surface[key] == 2 %}
+                                    <span class="equal">=</span>
+                                {% elif ev_surface[key] == 3 %}
+                                    <span></span>
+                                {% endif %}
+                            </span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -59,18 +64,25 @@
             <div id='practices'>
                 <ul>
                 {% for key in keys_practices %}
-                    <li>{{ key }} : {{ dict_practices[key]|round(1) }} ha <span class="percent">   {{ percent_practices[key] }}%</span>
-                    
-                        {% if ev_practices[key] == 0 %}
-                            <span>⬊</span>
-                        {% elif ev_practices[key] == 1 %}
-                            <span>⬈</span>
-                        {% elif ev_practices[key] == 2 %}
-                            <span>=</span>
-                        {% elif ev_practices[key] == 3 %}
-                            <span></span>
-                        {% endif %}
-                    
+                    <li class="list_item">
+                        <span class="key">{{ key }} : </span>
+                        <span class="value">
+                            <span class="surf">
+                            {{ dict_practices[key]|round(1) }} ha
+                            </span>
+                            <span class="percent">
+                                {{ percent_practices[key] }}%
+                            </span>
+                            {% if ev_practices[key] == 0 %}
+                                <span>⬊</span>
+                            {% elif ev_practices[key] == 1 %}
+                                <span>⬈</span>
+                            {% elif ev_practices[key] == 2 %}
+                                <span class="equal">=</span>
+                            {% elif ev_practices[key] == 3 %}
+                                <span></span>
+                            {% endif %}
+                        </span>
                     </li>
                 {% endfor %}
                 </ul>
@@ -80,18 +92,22 @@
             <div id='paysage'>
                 <ul>
                     {% for key in keys_lineaire %}
-                        <li>{{ key }} : {{ dict_lineaire[key]|round(1) }} m
-                        
-                        {% if ev_lineaire[key] == 0 %}
-                            <span>⬊</span>
-                        {% elif ev_lineaire[key] == 1 %}
-                            <span>⬈</span>
-                        {% elif ev_lineaire[key] == 2 %}
-                            <span>=</span>
-                        {% elif ev_lineaire[key] == 3 %}
-                            <span></span>
-                        {% endif %}
-                        
+                        <li class="list_item">
+                            <span class="key">{{ key }} : </span>
+                            <span class="value">
+                                <span class="surf">
+                                    {{ dict_lineaire[key]|round(1) }} m
+                                </span>
+                                {% if ev_lineaire[key] == 0 %}
+                                    <span>⬊</span>
+                                {% elif ev_lineaire[key] == 1 %}
+                                    <span>⬈</span>
+                                {% elif ev_lineaire[key] == 2 %}
+                                    <span class="equal">=</span>
+                                {% elif ev_lineaire[key] == 3 %}
+                                    <span></span>
+                                {% endif %}
+                            </span>
                         </li>
                     {% endfor %}
                 </ul>

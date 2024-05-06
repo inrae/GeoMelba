@@ -6,43 +6,64 @@
     background: #f2eae3;
 }
 
-body{
+body {
     background-color: #f2eae3;
-    font-size: small;
     margin: 0%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.regular{
-    margin:1cm;
+.list_item {
+    display: flex;
+    justify-content: space-between;
 }
 
-h1{
-    color:#3e8d62;
+.key {
+    order: 1;
 }
 
-p{
-    color : #00a3a6;
+.value {
+    order: 2;
 }
 
-li{
+.surf {
+    font-weight: bolder;
+}
+
+.regular {
+    margin: 1cm;
+}
+
+h1 {
+    color: #3e8d62;
+}
+
+p {
+    color: #00a3a6;
+}
+
+li {
     list-style-type: none;
 }
 
-#change{
-    display:flex;
-    text-align:justify;
+#change {
+    display: flex;
+    text-align: justify;
 }
 
-.better{
+.better {
     color: green;
 }
 
-.bad{
-    color:red;
+.bad {
+    color: red;
 }
 
-.equal{
-    color:grey;
+.equal {
+    color: grey;
+}
+
+#exutoire {
+    font-weight: bolder;
 }
 
 #exploitation ul {
@@ -58,46 +79,46 @@ li{
     box-sizing: border-box;
 }
 
-#pratique ul {
+#practices ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
 }
 
-#pratique ul li {
+#practices ul li {
     flex: 0 0 50%;
     padding-left: 25px;
     box-sizing: border-box;
 }
 
-#paysage ul{
+#paysage ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
 }
 
-#paysage ul li{
+#paysage ul li {
     flex: 0 0 50%;
     padding-left: 25px;
     box-sizing: border-box;
 }
 
-#paysage{
+#paysage {
     margin: 1%;
 }
 
-.greenbar{
+.greenbar {
     background-color: #3e8d62;
     display: flex;
 }
 
-.percent{
+.percent {
     color: #5e5653;
 }
 
-img{
+img {
     width: 350px;
     margin: 10px;
 }
