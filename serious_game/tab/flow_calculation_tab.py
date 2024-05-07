@@ -35,6 +35,7 @@ from qgis.core import QgsVectorLayer, QgsLineSymbol, QgsSingleSymbolRenderer,Qgs
 from .tab_management import TabManagement
 from .result_viewer.map_viewer import MapViewer
 from .result_viewer.result_viewer import ResultViewer
+from .result_viewer.pdf_generation.pdf_generator import Pdf_generator
 from .interface_tools.buttonpointer import ButtonPointer
 from .result_viewer.map_creation import MapCreation
 from .hydrological_model.indices_calculation import FlowCalculation
@@ -552,6 +553,10 @@ class FlowCalculationTab(TabManagement):
             self.max_input_line.append(self.referential[i][6])
             # River section reference.
             self.max_input_river_section.append(self.referential[i][7])
+            
+        if self.count_watershed_analysis == 0:
+            pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
+            pdf_generator_temp.save_state_0()
 
     def saving_values(self):
         """ Save references values of maximum inflow for parcels, lines and river section. Those values are used to

@@ -33,7 +33,7 @@
                 <ul>
                     {% for key in keys_surface %}
                         <li class="list_item">
-                            <span class="key">{{ key }} : </span>
+                            <span class="key">{{ key.replace('_', ' ') }} : </span>
                             <span class="value">
                                 <span class="surf">
                                     {{ dict_surface[key]|round(1) }} ha
@@ -65,7 +65,7 @@
                 <ul>
                 {% for key in keys_practices %}
                     <li class="list_item">
-                        <span class="key">{{ key }} : </span>
+                        <span class="key">{{ key.replace('_', ' ') }} : </span>
                         <span class="value">
                             <span class="surf">
                             {{ dict_practices[key]|round(1) }} ha
@@ -93,7 +93,7 @@
                 <ul>
                     {% for key in keys_lineaire %}
                         <li class="list_item">
-                            <span class="key">{{ key }} : </span>
+                            <span class="key">{{ key.replace('_', ' ') }} : </span>
                             <span class="value">
                                 <span class="surf">
                                     {{ dict_lineaire[key]|round(1) }} m

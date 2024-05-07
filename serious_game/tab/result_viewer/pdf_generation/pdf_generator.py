@@ -23,20 +23,20 @@
  *                                                                         *
  ***************************************************************************/
 """
-import json.tool
 import os
 import csv
 import json
+import json.tool
+from collections import defaultdict
 import matplotlib.pyplot as plt
 from qgis.core import QgsVectorLayer
-from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 from .....dictionnaire import path, parcel_layer_name, line_layer_name
 
 
 class Pdf_generator:
-    
+
     """
     Generation Schema
     Attribute Table ---> CSV ---> JSON ---> processing ---> Jinja2 ---> HTML ---> PDF
@@ -68,7 +68,7 @@ class Pdf_generator:
         self.table_to_csv() # This function transforms the attribute table in the .gpkg file into a csv
 
         # Dictionary to store all the data from the different layers
-        donnees = {} 
+        donnees = {}
         
         # It traverses the layers to find the associated CSV files and thus creates a JSON. Then, it loads the JSON file into donnees.
         for elt in self.list_layer :
@@ -81,10 +81,10 @@ class Pdf_generator:
         template = env.get_template('template.html.jinja2')
                 
         # We send all the data from the desired layer to its specific processing function
+        exutoire_out = self.exutoire_call()
         surface_out = self.parcellaire_by_type(donnees[parcel_layer_name])
         practices_out = self.practices_by_type(donnees[parcel_layer_name])
         lineaire_out = self.lineaire_by_type(donnees[line_layer_name])
-        exutoire_out = self.exutoire_call()
         
         # jinja2 template render html with parameter 
         html = template.render(output=self.output_path,count=self.count_turn, watershed_name=self.watershed_name,
@@ -92,40 +92,12 @@ class Pdf_generator:
                                dict_surface=surface_out[0], keys_surface=surface_out[1],percent_surface=surface_out[2], ev_surface=surface_out[3],
                                dict_lineaire=lineaire_out[0], keys_lineaire=lineaire_out[1], ev_lineaire=lineaire_out[2],
                                dict_practices=practices_out[0],keys_practices=practices_out[1], percent_practices=practices_out[2], ev_practices=practices_out[3])
-
+        
         previous_stade_json_path = os.path.join(self.json_path, "previous_stade.json")
 
-        if self.count_turn != 0:
-            try :
-                with open(previous_stade_json_path, "r") as fichier_json:
-                    previous = json.load(fichier_json)
-                    previous_stade = [elt for elt in previous if elt['turn'] == self.count_turn]
-            except FileNotFoundError :
-                previous = None
-            
-            if previous : # If the file exist
-                if not previous_stade:  # If the current turn data doesn't exist in the history
-                    previous_stade = {
-                        "turn": self.count_turn,
-                        "surface_out": surface_out,
-                        "practices_out": practices_out,
-                        "lineaire_out": lineaire_out
-                    }
-                    previous.append(previous_stade)  # Add the new turn data to the history
-                else:
-                    # If the current turn data already exists, do nothing
-                    pass
-            else :
-                # Create backup of the current turn
-                previous = [{
-                    "turn": self.count_turn,
-                    "surface_out": surface_out,
-                    "practices_out": practices_out,
-                    "lineaire_out": lineaire_out
-                }]
+        if self.count_turn == 0:
 
-        else:
-            # Create backup of the current turn
+            # create backup of the current turn, we can just use a dictionnary but list able a bigger modularity
             previous = [{
                 "turn": self.count_turn,
                 "surface_out": surface_out,
@@ -133,9 +105,8 @@ class Pdf_generator:
                 "lineaire_out": lineaire_out
             }]
 
-        with open(previous_stade_json_path, "w") as json_file:
-            json.dump(previous, json_file)
-        
+            with open(previous_stade_json_path, "w") as json_file:
+                json.dump(previous, json_file)
         
         return html
     
@@ -152,7 +123,7 @@ class Pdf_generator:
 
         # convert html to pdf
         HTML(filename=input_html).write_pdf(output_pdf,stylesheets=[css])
-                      
+
     def table_to_csv(self):
         """
         From single attribute table to different csv
@@ -207,7 +178,7 @@ class Pdf_generator:
         percent_dict = {key: round((value / total) * 100, 2) for key, value in data.items()}
         return percent_dict
 
-    def parcellaire_by_type(self,data):            
+    def parcellaire_by_type(self,data):
         """
         Processes surface data by soil types.
         Input:
@@ -240,6 +211,11 @@ class Pdf_generator:
                         mapping[int(row['value'])] = "vigne_enherbée"
                     elif row['value']=="112":
                         mapping[int(row['value'])] = "vigne_enherbée_avec_rases"                      
+                    else :
+                        mapping[int(row['value'])] = row['key']
+                elif self.watershed_name == "gimond":
+                    if row['value']=="310":
+                        mapping[int(row['value'])] = "prairie_mécanisable"
                     else :
                         mapping[int(row['value'])] = row['key']
                 else :
@@ -326,6 +302,9 @@ class Pdf_generator:
             lineaire_totals = defaultdict(int)
             for entry in data:
                 lineaire_totals[mapping[int(entry['type_cen'])]] += float(entry['gm_length'])
+                lineaire_totals[mapping[int(entry['type_amo'])]] += float(entry['gm_length'])
+                lineaire_totals[mapping[int(entry['type_ava'])]] += float(entry['gm_length'])
+                
             return lineaire_totals
 
         # Mapping to get real name instead of int value for keys
@@ -419,28 +398,28 @@ class Pdf_generator:
 
         try :
             with open(previous_stade_json_path, "r") as fichier_json:
-                previous = json.load(fichier_json)
+                previous = json.load(fichier_json) # contains all previous state
         except FileNotFoundError :
             previous = None
         
         #with my implementation the function research -1 turn, he doesn't existe. This line prevent this case
-        if self.count_turn == 0 : 
+        if self.count_turn == 0 :
+            print("tour 0")
             previous = None
             
         if previous :
             #find dictionnary of the previous turn, 'turn' contains primary key previous contain only one line
-            previous = [item for item in previous if item['turn'] == self.count_turn - 1]
-            print(self.count_turn)
-            print(previous)
-            print(previous[0])
-            if previous:
-                previous = previous[0] 
-            else:
-                previous = None
-                
+            previous = [item for item in previous if item['turn'] == 0]
+            previous = previous[0]
+
         evolution = {}
-        #return ex value and 0 if it's better and 1 if it's badless and 2 if it's equal and 3 if there is no past data
-        if previous != None :
+
+        # return ex value
+        # 0 if it's better
+        # 1 if it's badless
+        # 2 if it's equal
+        # 3 if there is no past data
+        if previous is not None :
             previous_type = previous[type][0]
             for key in keys:
                 val_old = previous_type[key]
@@ -454,11 +433,15 @@ class Pdf_generator:
         else :
             for key in keys:
                 evolution[key] = 3
-        
+
         return evolution
 
     def save_state_0(self):
-        """This function is important to save state 0 no matter what happens. Even if we skip PDF generation rounds, it's important for this function to be there for the evolution"""
+        """
+        This function is important for saving state 0 whatever happens. 
+        Even if we skip PDF generation cycles,
+        it is important that this fun is present for evolution.
+        """
         # Reset backup data if it's initial turn
         if self.count_turn == 0 :
             if os.path.isfile(self.previous_path):
@@ -466,5 +449,5 @@ class Pdf_generator:
                 print("File deleted.")
             else:
                 print("File does not exist.")
-                
+
         self.start_extraction()

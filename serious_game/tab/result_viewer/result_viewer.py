@@ -233,7 +233,7 @@ class ResultViewer(QMainWindow):
         layout.initializeDefaults()
 
         map_item = QgsLayoutItemMap(layout)
-        map_item.setRect(20, 20, 250, 270)
+        map_item.setRect(20, 20, 300, 300)
         map_item.setLayers([line_layer,parcel_layer])
         
         combined_extent = QgsRectangle()
@@ -246,8 +246,8 @@ class ResultViewer(QMainWindow):
 
         image_settings = QgsLayoutExporter.ImageExportSettings()
         image_settings.dpi = 300
-        image_settings.width = combined_extent.width() * 10
-        image_settings.height = combined_extent.height() * 10 
+        image_settings.width = 640
+        image_settings.height = 480
         image_path = self.directory_path + "change" + '.png'
         exporter = QgsLayoutExporter(layout)
         exporter.exportToImage(image_path, image_settings)
@@ -338,6 +338,8 @@ class Ui_Dialog(object):
         self.spinbox = None
         self.graphics_view = None
         self.watershed_name = watershed_name
+        self.pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn)
+
 
     def setupUi(self, Dialog):
         """Add the different element to the dialog.
@@ -382,15 +384,14 @@ class Ui_Dialog(object):
                 path, tree_widget))
         
         # Creation of pdf creation button
-        pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn)
-        pdf_generator.save_state_0()
+        # self.pdf_generator.save_state_0()
         
         button_pdf_generator = QPushButton(Dialog)
         button_pdf_generator.setFont(regular_font)
         button_pdf_generator.setText(pdf_generator_button_name)
         button_pdf_generator.setGeometry(345, 35, 130, 30)
-        button_pdf_generator.clicked.connect(lambda : self.on_click(pdf_generator))
-        
+        button_pdf_generator.clicked.connect(lambda : self.on_click())
+
         self.graphics_view = GraphicsView(parent=Dialog, project_tree_widget=self.project_tree_widget)
         self.graphics_view.setSizeIncrement(QSize(0, 0))
         self.graphics_view.setFrameShadow(QFrame.Raised)
@@ -405,9 +406,9 @@ class Ui_Dialog(object):
         _translate = QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Résultats"))
         
-    def on_click(self,pdf_generator):
-        html = pdf_generator.start_extraction()
-        pdf_generator.start_pdf_generation(html)
+    def on_click(self):
+        html = self.pdf_generator.start_extraction()
+        self.pdf_generator.start_pdf_generation(html)
         
     
     def load_project_structure(self, path, tree):
