@@ -59,9 +59,16 @@ class Pdf_generator:
         self.templates_path = os.path.join(self.actual_path + "templates") #jinja2 template directory
         self.gpkg_path = os.path.join(self.output_path + "/donnees/donnees.gpkg") #gpkg file
         self.previous_path = os.path.join(self.json_path, 'previous_stade.json')
+        # 0 if it's save data turn, 1 if not
+        self.global_state = 1
 
         self.list_layer = [line_layer_name,parcel_layer_name] #if a new layer is added to the gpkg file, it is important to add it here
         
+        self.previous_stade_json_path = os.path.join(self.json_path + "previous_stade.json")
+        
+        print("numero du tour depuis pdf")
+        print(self.count_turn)
+
     def start_extraction(self):
         """Make the calculation and extract"""
         
@@ -95,11 +102,12 @@ class Pdf_generator:
         
         previous_stade_json_path = os.path.join(self.json_path, "previous_stade.json")
 
-        if self.count_turn == 0:
+        if self.global_state == 0:
 
             # create backup of the current turn, we can just use a dictionnary but list able a bigger modularity
             previous = [{
                 "turn": self.count_turn,
+                "watershed": self.watershed_name,
                 "surface_out": surface_out,
                 "practices_out": practices_out,
                 "lineaire_out": lineaire_out
@@ -107,6 +115,8 @@ class Pdf_generator:
 
             with open(previous_stade_json_path, "w") as json_file:
                 json.dump(previous, json_file)
+        
+        self.global_state = 1
         
         return html
     
@@ -307,7 +317,7 @@ class Pdf_generator:
                 
             return lineaire_totals
 
-        # Mapping to get real name instead of int value for keys
+        # mapping to get real name instead of int value for keys
         mapping = {}
         with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/line_type.csv", newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -336,13 +346,28 @@ class Pdf_generator:
         with open(exutoire_json_path, "r") as fichier_json:
             donnees = json.load(fichier_json)
             
+        
         #return ex value and 0 if it's better and 1 if it's badless and 2 if it's equal and 3 if there is no past data
         def get_lastex_value(donnees):
+            
+            try :
+                with open(self.previous_stade_json_path, "r") as fichier_json:
+                    initial = json.load(fichier_json) # contains all previous state
+                    initial = initial[0]["turn"]
+            except FileNotFoundError as e:
+                print("erreur lors du chargement du json")
+                print(e)
+                initial = self.count_turn
+            
             if len(donnees) > 1:
-                temp = donnees[-2:]
-                val_old = float(temp[0]['value'])
-                val_new = float(temp[1]['value'])
-                first_value = float(donnees[0]['value'])
+                # to compare with last turn
+                # temp = donnees[-1:]
+                # val_old = float(temp[0]['value'])
+                # val_new = float(temp[1]['value'])
+                # to compare with initial turn
+                val_old = float(donnees[initial]['value'])
+                first_value = float(donnees[initial]['value'])
+                val_new = float(donnees[self.count_turn]['value']) #prend la valeur du tour actuel
                 if val_old > val_new:
                     ev = 0
                 elif val_new > val_old:
@@ -351,7 +376,7 @@ class Pdf_generator:
                     ev = 2
                 evolution_percentage = round((((val_new - first_value) / first_value) * 100),0)
             else:
-                val_new = float(donnees[0]['value'])
+                val_new = float(donnees[initial]['value'])
                 ev = 3
                 evolution_percentage = 0
 
@@ -394,22 +419,20 @@ class Pdf_generator:
             Dictionnary with 0 if it's higher and 1 if it's lower and 2 if it's equal and 3 if there is no past data for each element.
         """
         
-        previous_stade_json_path = os.path.join(self.json_path + "previous_stade.json")
-
         try :
-            with open(previous_stade_json_path, "r") as fichier_json:
+            with open(self.previous_stade_json_path, "r") as fichier_json:
                 previous = json.load(fichier_json) # contains all previous state
         except FileNotFoundError :
             previous = None
         
         #with my implementation the function research -1 turn, he doesn't existe. This line prevent this case
         if self.count_turn == 0 :
-            print("tour 0")
             previous = None
             
         if previous :
             #find dictionnary of the previous turn, 'turn' contains primary key previous contain only one line
-            previous = [item for item in previous if item['turn'] == 0]
+            # previous = [item for item in previous if item['turn'] == 0]
+            previous = [item for item in previous]
             previous = previous[0]
 
         evolution = {}
@@ -442,12 +465,14 @@ class Pdf_generator:
         Even if we skip PDF generation cycles,
         it is important that this fun is present for evolution.
         """
-        # Reset backup data if it's initial turn
-        if self.count_turn == 0 :
-            if os.path.isfile(self.previous_path):
-                os.remove(self.previous_path)
-                print("File deleted.")
-            else:
-                print("File does not exist.")
-
+        # Reset backup data if referencial button click
+        if os.path.isfile(self.previous_path):
+            os.remove(self.previous_path)
+            print("File deleted.")
+        else:
+            print("File does not exist.")
+        
+        self.global_state = 0
         self.start_extraction()
+
+# pour les fiches par agriculteurs on doit copier coller les fonctions en rajoutant un argument. C'est la seule façon en python ou alors changer la logique mais un peu galère franchement

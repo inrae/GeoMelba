@@ -233,7 +233,7 @@ class ResultViewer(QMainWindow):
         layout.initializeDefaults()
 
         map_item = QgsLayoutItemMap(layout)
-        map_item.setRect(20, 20, 300, 300)
+        map_item.setRect(20, 20, 200, 200)
         map_item.setLayers([line_layer,parcel_layer])
         
         combined_extent = QgsRectangle()

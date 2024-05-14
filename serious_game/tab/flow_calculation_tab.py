@@ -285,6 +285,22 @@ class FlowCalculationTab(TabManagement):
         for element in os.listdir(self.output_path):
             if element.replace(".jpg", "").split("_", -1)[-1] == str(self.count_watershed_analysis + 1):
                 os.remove(self.output_path + element)
+                
+        # reset exutoire_value.csv data and previous.json
+        if self.count_watershed_analysis+1 == 0:
+            try :
+                os.remove(self.output_path + "exutoire_value.csv")
+            except FileNotFoundError :
+                pass
+            try :
+                actual_path = os.path.dirname(__file__) + "/"
+                json_path = os.path.join(actual_path + "result_viewer/pdf_generation/json/")
+                os.remove(json_path + "previous_stade.json") # pas le bon path
+            except FileNotFoundError as e:
+                print("erreur dans le path")
+                print(e)
+                pass
+        
         # The count of turn is increased.
         self.new_watershed_analysis()
         # The signal for saving changes in the history CSV is stopped.
@@ -553,10 +569,6 @@ class FlowCalculationTab(TabManagement):
             self.max_input_line.append(self.referential[i][6])
             # River section reference.
             self.max_input_river_section.append(self.referential[i][7])
-            
-        if self.count_watershed_analysis == 0:
-            pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
-            pdf_generator_temp.save_state_0()
 
     def saving_values(self):
         """ Save references values of maximum inflow for parcels, lines and river section. Those values are used to
@@ -566,6 +578,9 @@ class FlowCalculationTab(TabManagement):
         # As long as a reference is not selected, the select parcel and river section button are disabled.
         self.button_select_parcel.setEnabled(True)
         self.button_select_river_section.setEnabled(True)
+        pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
+        pdf_generator_temp.save_state_0()
+        print("save state refe")
 
     def analysis_parcel_runoff_emit(self):
         """ Launch the analysis on a parcel to know where the runoff emitted from the parcel is going.

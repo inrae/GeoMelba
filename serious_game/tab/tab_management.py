@@ -34,14 +34,15 @@ from ...dictionnaire import owner_cover_layer_name, style_parcels_practices, sty
 
 
 class TabManagement:
-    # Count the number of turn, the first turn is the initial state (0).
-    _count_watershed_ = -1
+
 
     def __init__(self, tab_widget=None, project=None, canvas=None, iface=None, style_line_layer=None, line_layer=None,
                  parcel_layer=None, path=None, watershed_name=None, crs=None):
         """The first part of the constructor list the variables. This is the document where the order of the tab can be
         changed. Some function are also used to managed the layer order and the cover creation/removal.
         """
+        # Count the number of turn, the first turn is the initial state (0).
+        self._count_watershed_ = -1
         self.tab_widget = tab_widget
         self._project = project
         self.canvas = canvas
@@ -81,8 +82,9 @@ class TabManagement:
         number = number - 1
         return number
 
+    # to increment each turn 
     def new_watershed_analysis(self):
-        TabManagement._count_watershed_ += 1
+        self._count_watershed_ += 1
 
     @property
     def count_watershed_analysis(self) -> int:
