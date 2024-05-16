@@ -53,18 +53,27 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         super(GeomelbaSpiritDialog, self).__init__(parent)
         self.path = os.path.dirname(__file__) + serious_game_data_folder
         self.setupUi(self)
+        self.gpkg_file = None #to prevent bug
         # Add window tool, like minimize, maximize and close in top right corner.
         self.setWindowFlags(Qt.Window |
                             Qt.WindowSystemMenuHint |
                             Qt.WindowMinMaxButtonsHint |
                             Qt.WindowCloseButtonHint)
-
+        
         # Creation of a group of buttons, easier to enable or disable all the buttons.
-        self.watershed_button_group = QButtonGroup()
+        self.watershed_button_group = QButtonGroup(self)
         self.watershed_button_group.setExclusive(True)
         # Function to dynamically create buttons of the different watershed in the plugins.
         self.init_button_watershed(watershed_prefix)
 
+        button_load_watershed = QPushButton(self)
+        button_load_watershed.setFont(regular_font)
+        button_load_watershed.setText("charger une configuration")
+        button_load_watershed.setGeometry(30, 260, 340, 30)
+        button_load_watershed.setCheckable(True)
+        self.watershed_button_group.addButton(button_load_watershed)
+        button_load_watershed.clicked.connect(lambda : self.loader())
+        
         # Creation of a button to add another watershed to the plugin
         button_create_watershed = QPushButton(self)
         button_create_watershed.setText(create_watershed_button_name)
@@ -135,7 +144,13 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.output_button.clicked.connect(self.select_output_folder)
         # User cannot validate his selection while it's not valid, the start button is disabled.
         self.button_box.setEnabled(False)
-
+      
+    def loader(self):
+        self.gpkg_file = QFileDialog.getOpenFileName(self, folder_selection_text, "","GeoPackage File (*.gpkg)")
+        print(self.gpkg_file)
+        # default output for test
+        self.output_text.setText("/home/brousselot/Bureau/test6")
+                  
     def init_button_watershed(self, value_to_test):
         """Function to place the different watershed buttons in the dialog. They are based on folders in the
         plugin directory. They allow the user to select a watershed to analyze.

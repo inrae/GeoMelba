@@ -253,7 +253,7 @@ class GeomelbaSpirit:
         options.driverName = "GPKG"
         layer.setCrs(coordinate_system)
         QgsVectorFileWriter.writeAsVectorFormatV2(layer, out_path, context, options)
-
+                
     def run(self):
         """Set up the dialog for the user options and realize actions when the user clicked on the "OK" button.
         Several actions are realized :
@@ -354,9 +354,50 @@ class GeomelbaSpirit:
                         group.setExpanded(0)
                         group.setItemVisibilityChecked(False)
                     # Get the layers from the geopackage
-                    geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                    geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                    layers = geopackage.dataProvider().subLayers()
+                    if  self.dlg.gpkg_file != None :
+                        print("ici on choisi le bv")
+                        print(self.dlg.gpkg_file)
+                        geopackage_path = self.dlg.gpkg_file[0]
+                        watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
+                        geopackage_path_source = str(input_path+watershed_name) + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                        geopackage_source = QgsVectorLayer(geopackage_path_source, "", "ogr")
+                        layers = geopackage.dataProvider().subLayers()
+                        layers_source = geopackage_source.dataProvider().subLayers()
+                        layers.append(layers_source[2])
+                        layers[0].replace("name from dict","name from dict 2(mauvais)")
+                    else :
+                        geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                        layers = geopackage.dataProvider().subLayers()
+
+                        # loop to take only wanted layer
+                        # for elt in self.list_layer :
+                        #     layer = QgsVectorLayer(layer_path + "|layername=" + elt, elt, "ogr")
+
+                        #     # check if the layer exist in attribute table
+                        #     if not layer.isValid():
+                        #         print("The layer is not valid. Please check the GeoPackage file path and the layer name.")
+                        #     else:
+                        #         chemin_csv = os.path.join(self.actual_path + elt +"_data.csv")
+
+                        #         #create a csv with ; as separator
+                        #         with open(chemin_csv, "w") as fichier_csv:
+                        #             header = [field.name() for field in layer.fields()]
+                        #             fichier_csv.write(";".join(header) + "\n") 
+
+                        #             for feature in layer.getFeatures():
+                        #                 valeurs = [str(feature[field.name()]) for field in layer.fields()]
+                        #                 fichier_csv.write(";".join(valeurs) + "\n")
+
+                        #         print("csv export")
+                        
+                    print(watershed_name) #il faut le récupérer celui là
+                    print(geopackage_path)
+                    print(geopackage)
+                    print("voici les layers")
+                    print(layers)
+                    """ Ce ne sont pas les memes noms de layers"""
                     error_count = 0
                     for layer in layers:
                         name = layer.split('!!::!!')[1]
