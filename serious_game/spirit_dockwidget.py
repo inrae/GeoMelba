@@ -78,8 +78,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         self.iface = iface  # qgis interface
         self.project = project  # qgis project, used for layer management
         canvas = self.iface.mapCanvas()  # canvas, used for select tool
-        path = os.path.dirname(__file__) + "/"  # Path of the plugins files, to fetch styles, tables, etc...
-
+        path = os.path.dirname(__file__) + "/"  # Path of the plugins files, to fetch styles, tables, etc...        
         names = [layer.name() for layer in self.project.mapLayers().values()]
         root = self.project.layerTreeRoot()
         group = root.findGroup(original_layer_group_name)
