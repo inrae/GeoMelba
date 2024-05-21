@@ -64,7 +64,7 @@ parcel_layer_name = 'parcellaire_spirit'
 line_layer_name = 'lineaire_spirit_m'
 line_style_layer_name = 'lineaire_spirit'
 connexions_layer_name = 'connexions'
-data_layer = 'donnees'
+data_layer = 'bv_output_'
 agricultural_practices_layer_name = "pratiques_agricoles"
 owner_cover_layer_name = 'cache___'
 
@@ -511,6 +511,9 @@ information_crs_text_pt3 = "\n est actuellement en "
 information_folder_text_pt1 = "Dossier existant :"
 information_folder_text_pt2 = "Attention, le dossier utilisé pour enregistrer les résultats existe déjà, certaines " \
                               "données vont être effacées."
+information_loaded_watershed_type_pt1 = "Conflit de bassin versant séléctionné"
+information_loaded_watershed_type_pt2 = "Veuillez vérifier que le bassin versant sélectionné correspond bien au même que celui fichier.gpkg sélectionné"
+information_loaded_watershed_type_pt3 = "Veuilez séléctionner un bassin versant"
 information_geopackage_error_pt1 = "Erreur dans le geopackage :"
 information_geopackage_error_pt2 = "Il doit posséder les 3 couches suivantes:\ncadastre\nlineaire\nconnexions"
 information_selection_error = "Erreur de sélection :"

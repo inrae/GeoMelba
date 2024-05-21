@@ -41,7 +41,7 @@ from .serious_game.spirit_dockwidget import SpiritDockWidget
 from .serious_game.layers import ParcelLayer, LineLayer
 # Import variables from the dictionary
 from .dictionnaire import parcel_layer_name, line_layer_name, line_style_layer_name,\
-    original_layer_group_name, data_layer, field_type_parcel, field_type_parcel_origin, style_parcel,\
+    original_layer_group_name, data_layer, data_folder, field_type_parcel, field_type_parcel_origin, style_parcel,\
     field_type_line_middle, field_type_line_left, field_type_line_right, field_type_line_top, field_type_line_bottom,\
     field_top_line, style_multiple_line, field_parcel_id, field_type_line_origin, geopackage_layer_name_parcel, \
     geopackage_layer_name_line, geopackage_layer_name_connexions, information_geopackage_error_pt1, \
@@ -90,8 +90,7 @@ class GeomelbaSpirit:
 
         self.studied_elements=[]
         self.coded_studied_elements=[]
-
-
+        
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -314,6 +313,11 @@ class GeomelbaSpirit:
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
                     self.dlg.watershed_button_group.checkedId()).accessibleName().lower()
+                #check if loading button is checked
+                if self.dlg.button_load_watershed.isChecked():
+                    loading = True
+                else : 
+                    loading = False
                 # Path variables
                 if self.dlg.output_text.text()[-1] == "/":
                     output_path = self.dlg.output_text.text()
@@ -322,384 +326,355 @@ class GeomelbaSpirit:
                 # Get CRS from widget and set CRS for project
                 crs = self.dlg.crs_selector.crs()
                 self.project.setCrs(crs)
-
-                if watershed_name != "create_watershed" and watershed_name != "":
-                    """Attention code more ou useless qu'on va pouvoir enlever"""
-                    print("boucle new")
-                    input_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
-                    # Check if the linear and parcel layer already exist in th project, if so we change their name
-                    if self.project.mapLayersByName(line_style_layer_name):
-                        layer = self.project.mapLayersByName(line_style_layer_name)[0]
-                        layer.setName(line_style_layer_name + "_1")
-                    if self.project.mapLayersByName(line_layer_name):
-                        layer = self.project.mapLayersByName(line_layer_name)[0]
-                        layer.setName(line_layer_name + "_1")
-                    if self.project.mapLayersByName(parcel_layer_name):
-                        layer = self.project.mapLayersByName(parcel_layer_name)[0]
-                        layer.setName(parcel_layer_name + "_1")
-                    # All the layers already in the Qgis project are stored in a directory.
-                    root = self.project.layerTreeRoot()
-                    names = [layer.name() for layer in self.project.mapLayers().values()]
-                    if len(names) != 0:
-                        group = root.findGroup(original_layer_group_name)
-                        if not group:
-                            root.insertGroup(0, original_layer_group_name)
+                
+                #init data file with the name of the watershed
+                data_layer_file = data_layer + watershed_name
+                
+                if watershed_name != "create_watershed":
+                    if loading == False :
+                        """Attention code more ou useless qu'on va pouvoir enlever"""
+                        print("boucle new")
+                        input_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
+                        # Check if the linear and parcel layer already exist in th project, if so we change their name
+                        if self.project.mapLayersByName(line_style_layer_name):
+                            layer = self.project.mapLayersByName(line_style_layer_name)[0]
+                            layer.setName(line_style_layer_name + "_1")
+                        if self.project.mapLayersByName(line_layer_name):
+                            layer = self.project.mapLayersByName(line_layer_name)[0]
+                            layer.setName(line_layer_name + "_1")
+                        if self.project.mapLayersByName(parcel_layer_name):
+                            layer = self.project.mapLayersByName(parcel_layer_name)[0]
+                            layer.setName(parcel_layer_name + "_1")
+                        # All the layers already in the Qgis project are stored in a directory.
+                        root = self.project.layerTreeRoot()
+                        names = [layer.name() for layer in self.project.mapLayers().values()]
+                        if len(names) != 0:
                             group = root.findGroup(original_layer_group_name)
-                        for child in root.children():
-                            if child.name() == original_layer_group_name:
-                                pass
-                            else:
-                                my_clone = child.clone()
-                                parent = child.parent()
-                                group.insertChildNode(0, my_clone)
-                                parent.removeChildNode(child)
-                        group.setExpanded(0)
-                        group.setItemVisibilityChecked(False)
-                    # Get the layers from the geopackage
-                    if  self.dlg.gpkg_file != None :
-                        print("ici on choisi le bv")
-                        print(self.dlg.gpkg_file)
-                        geopackage_path = self.dlg.gpkg_file[0]
-                        watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
-                        geopackage_path_source = str(input_path+watershed_name) + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                        geopackage_source = QgsVectorLayer(geopackage_path_source, "", "ogr")
-                        layers = geopackage.dataProvider().subLayers()
-                        layers_source = geopackage_source.dataProvider().subLayers()
-                        layers.append(layers_source[2])
-                        layers[0].replace("name from dict","name from dict 2(mauvais)")
-                    else :
-                        geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                        layers = geopackage.dataProvider().subLayers()
-
-                    print(watershed_name) #il faut le récupérer celui là
-                    print(geopackage_path)
-                    print(geopackage)
-                    print("voici les layers")
-                    print(layers)
-                    """ Ce ne sont pas les memes noms de layers"""
-                    error_count = 0
-                    for layer in layers:
-                        name = layer.split('!!::!!')[1]
-                        uri = "%s|layername=%s" % (geopackage_path, name,)
-                        if name == geopackage_layer_name_parcel:
-                            parcel_layer = QgsVectorLayer(uri, name, 'ogr')
-                            error_count = error_count + 1
-                        elif name == geopackage_layer_name_line:
-                            line_layer = QgsVectorLayer(uri, name, 'ogr')
-                            error_count = error_count + 1
-                        elif name == geopackage_layer_name_connexions:
-                            connexion_layer = QgsVectorLayer(uri, name, 'ogr')
-                            connexion_layer.setCrs(crs)
-                            error_count = error_count + 1
-                    if error_count != 3:
-                        QMessageBox.information(
-                            None, information_geopackage_error_pt1, information_geopackage_error_pt2)
-                    else:
-                        # Test if the output folder and data folder exist, if not they are created
-                        output_directory = output_path + watershed_name + "/"
-                        if not os.path.exists(output_directory):
-                            os.makedirs(output_directory)
-                        data_directory = output_directory + data_layer + "/"
-                        if not os.path.exists(data_directory):
-                            os.makedirs(data_directory)
-                        # Save the layers into a new geopackage into the data folder.
-                        self.saving_geopackage(
-                            parcel_layer, parcel_layer_name, data_directory + data_layer + ".gpkg", crs, True)
-                        self.saving_geopackage(
-                            line_layer, line_layer_name, data_directory + data_layer + ".gpkg", crs, False)
-                        # Add the layers to the project.
-                        gpkg = QgsVectorLayer(data_directory + data_layer + ".gpkg", "", "ogr")
-                        layers = gpkg.dataProvider().subLayers()
+                            if not group:
+                                root.insertGroup(0, original_layer_group_name)
+                                group = root.findGroup(original_layer_group_name)
+                            for child in root.children():
+                                if child.name() == original_layer_group_name:
+                                    pass
+                                else:
+                                    my_clone = child.clone()
+                                    parent = child.parent()
+                                    group.insertChildNode(0, my_clone)
+                                    parent.removeChildNode(child)
+                            group.setExpanded(0)
+                            group.setItemVisibilityChecked(False)
+                        # Get the layers from the geopackage
+                        if  self.dlg.gpkg_file != None :
+                            print("ici on choisi le bv")
+                            print(self.dlg.gpkg_file)
+                            geopackage_path = self.dlg.gpkg_file[0]
+                            watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
+                            geopackage_path_source = str(input_path+watershed_name) + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                            geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                            geopackage_source = QgsVectorLayer(geopackage_path_source, "", "ogr")
+                            layers = geopackage.dataProvider().subLayers()
+                            layers_source = geopackage_source.dataProvider().subLayers()
+                            layers.append(layers_source[2])
+                            layers[0].replace("name from dict","name from dict 2(mauvais)")
+                        else :
+                            geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                            geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                            layers = geopackage.dataProvider().subLayers()
+                            
+                        error_count = 0
                         for layer in layers:
                             name = layer.split('!!::!!')[1]
-                            uri = "%s|layername=%s" % (data_directory + data_layer + ".gpkg", name,)
+                            uri = "%s|layername=%s" % (geopackage_path, name,)
+                            if name == geopackage_layer_name_parcel:
+                                parcel_layer = QgsVectorLayer(uri, name, 'ogr')
+                                error_count = error_count + 1
+                            elif name == geopackage_layer_name_line:
+                                line_layer = QgsVectorLayer(uri, name, 'ogr')
+                                error_count = error_count + 1
+                            elif name == geopackage_layer_name_connexions:
+                                connexion_layer = QgsVectorLayer(uri, name, 'ogr')
+                                connexion_layer.setCrs(crs)
+                                error_count = error_count + 1
+                        if error_count != 3:
+                            QMessageBox.information(
+                                None, information_geopackage_error_pt1, information_geopackage_error_pt2)
+                        else:
+                            # Test if the output folder and data folder exist, if not they are created
+                            output_directory = output_path + watershed_name + "/"
+                            if not os.path.exists(output_directory):
+                                os.makedirs(output_directory)
+                            data_directory = output_directory + data_folder + "/"
+                            if not os.path.exists(data_directory):
+                                os.makedirs(data_directory)
+                            # Save the layers into a new geopackage into the data folder.
+                            self.saving_geopackage(
+                                parcel_layer, parcel_layer_name, data_directory + data_layer_file + ".gpkg", crs, True)
+                            self.saving_geopackage(
+                                line_layer, line_layer_name, data_directory + data_layer_file + ".gpkg", crs, False)
+                            # Add the layers to the project.
+                            gpkg = QgsVectorLayer(data_directory + data_layer_file + ".gpkg", "", "ogr")
+                            layers = gpkg.dataProvider().subLayers()
+                            for layer in layers:
+                                name = layer.split('!!::!!')[1]
+                                uri = "%s|layername=%s" % (data_directory + data_layer_file + ".gpkg", name,)
+                                if name == parcel_layer_name:
+                                    new_parcel_layer = ParcelLayer(uri, name, 'ogr')
+                                    self.project.addMapLayer(new_parcel_layer)
+                                elif name == line_layer_name:
+                                    new_line_layer = LineLayer(uri, name, 'ogr')
+                                    self.project.addMapLayer(new_line_layer)
+                            # Create a new type attribute for the parcel layer.
+                            new_parcel_layer.startEditing()
+                            new_parcel_layer.addAttribute(QgsField(field_type_parcel, QVariant.Int, "int", 3))
+                            for parcel in new_parcel_layer.getFeatures():
+                                attrs = parcel.attributes()
+                                new_value = attrs[new_parcel_layer.fields().indexFromName(field_type_parcel_origin)]
+                                new_parcel_layer.changeAttributeValue(parcel.id(), new_parcel_layer.fields().indexFromName(
+                                    field_type_parcel), new_value)
+                            # Add a style to the parcel layer.
+                            new_parcel_layer.commitChanges()
+                            new_parcel_layer.triggerRepaint()
+                            new_parcel_layer.loadNamedStyle(input_path + "/" + style_parcel)
+                            label_settings = QgsPalLayerSettings()
+                            label_settings.drawLabels = True
+                            label_settings.fieldName = field_parcel_id
+                            new_parcel_layer.setLabelsEnabled(True)
+                            new_parcel_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
+                            new_parcel_layer.triggerRepaint()
+                            new_parcel_layer.saveStyleToDatabase(name="ocsol", description="example", useAsDefault=True,
+                                                                uiFileContent="")
+                            # Create new types attributes for the line layer.
+                            new_line_layer.startEditing()
+                            new_line_layer.addAttribute(QgsField(field_type_line_middle, QVariant.Int, "int", 1))
+                            new_line_layer.addAttribute(QgsField(field_type_line_top, QVariant.Int, "int", 1))
+                            new_line_layer.addAttribute(QgsField(field_type_line_bottom, QVariant.Int, "int", 1))
+                            # Check if left or right is the top or the bottom.
+                            for line in new_line_layer.getFeatures():
+                                attrs = line.attributes()
+                                up_side = attrs[new_line_layer.fields().indexFromName(field_top_line)]
+                                if up_side == "left":
+                                    type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
+                                    type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
+                                else:
+                                    type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
+                                    type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
+                                type_center = attrs[new_line_layer.fields().indexFromName(field_type_line_origin)]
+                                if type_center == 0 and (type_up != 0 or type_dwn != 0):
+                                    if type_up != 0 and type_dwn != 0:
+                                        type_center = type_dwn
+                                        type_dwn = 0
+                                    elif type_dwn == 0:
+                                        type_center = type_up
+                                        type_up = 0
+                                    elif type_up == 0:
+                                        type_center = type_dwn
+                                        type_dwn = 0
+                                new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
+                                    field_type_line_middle), type_center)
+                                new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
+                                    field_type_line_top), type_up)
+                                new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
+                                    field_type_line_bottom), type_dwn)
+                                new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
+                                    field_type_line_left), 0)
+                                new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
+                                    field_type_line_right), 0)
+                            # Add a style to the line layer.
+                            new_line_layer.commitChanges()
+                            new_line_layer.triggerRepaint()
+                            new_line_layer.loadNamedStyle(input_path + "/" + style_multiple_line)
+                            new_line_layer.triggerRepaint()
+                            new_line_layer.saveStyleToDatabase(name="line_type", description="example", useAsDefault=True,
+                                                            uiFileContent="")
+                            # Create a memory layer to be used as legend in QGIS.
+                            line_style = QgsVectorLayer("LineString", line_style_layer_name, "memory")
+                            layer_crs = line_style.crs()
+                            layer_crs.createFromId(crs.postgisSrid())
+                            line_style.setCrs(layer_crs)
+                            self.project.addMapLayer(line_style)
+                
+                    elif loading == True:
+                        print("boucle load")
+                        """
+                        Attention code mort ou useless qu'on va pouvoir enlever
+                        L'objectif c'est d'enlever toutes les références à l'input de base bv_xxxxx.gpkg
+                        cependant attention on a quand meme besoins de connexion_layer pour la carte ce qui va etre le plus difficile
+                        Première étape récupérer le watershed name
+                        """
+                        geopackage_path = self.dlg.gpkg_file[0]
+                        
+                        source_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
+                        print("source path")
+                        print(source_path)
+                        # Check if the linear and parcel layer already exist in th project, if so we change their name
+                        if self.project.mapLayersByName(line_style_layer_name):
+                            layer = self.project.mapLayersByName(line_style_layer_name)[0]
+                            layer.setName(line_style_layer_name + "_1")
+                        if self.project.mapLayersByName(line_layer_name):
+                            layer = self.project.mapLayersByName(line_layer_name)[0]
+                            layer.setName(line_layer_name + "_1")
+                        if self.project.mapLayersByName(parcel_layer_name):
+                            layer = self.project.mapLayersByName(parcel_layer_name)[0]
+                            layer.setName(parcel_layer_name + "_1")
+                        # All the layers already in the Qgis project are stored in a directory.
+                        root = self.project.layerTreeRoot()
+                        names = [layer.name() for layer in self.project.mapLayers().values()]
+                        if len(names) != 0:
+                            group = root.findGroup(original_layer_group_name)
+                            if not group:
+                                root.insertGroup(0, original_layer_group_name)
+                                group = root.findGroup(original_layer_group_name)
+                            for child in root.children():
+                                if child.name() == original_layer_group_name:
+                                    pass
+                                else:
+                                    my_clone = child.clone()
+                                    parent = child.parent()
+                                    group.insertChildNode(0, my_clone)
+                                    parent.removeChildNode(child)
+                            group.setExpanded(0)
+                            group.setItemVisibilityChecked(False)
+                        # Get the layers from the geopackage
+                        if  self.dlg.gpkg_file != None :
+                            print("ici on choisi le bv")
+                            print(self.dlg.gpkg_file)
+                            geopackage_path = self.dlg.gpkg_file[0]
+                            geopackage_source_path = str(source_path)+ "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                            geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                            
+                            #ici je crée un layer avec toutes les infos alors qu j'en ai pas besoins. Ce qui fait que j'ai deux layers avec les infos mauvaises et les bonnes alors qu'il me faut jsute les infos des connexions
+                            geopackage_source = QgsVectorLayer(geopackage_source_path, "", "ogr")
+                            connexion_layer = geopackage_source.dataProvider().subLayers()[2]
+                            
+                            layers = geopackage.dataProvider().subLayers()
+                            layers.append(connexion_layer)
+
+                            
+                        """ Ce ne sont pas les memes noms de layers"""
+                        error_count = 0
+                        print("voici les layers")
+                        print(layers)
+                        for layer in layers:
+                            name = layer.split('!!::!!')[1]
+                            uri = "%s|layername=%s" % (geopackage_path, name,)
                             if name == parcel_layer_name:
-                                new_parcel_layer = ParcelLayer(uri, name, 'ogr')
-                                self.project.addMapLayer(new_parcel_layer)
+                                parcel_layer = QgsVectorLayer(uri, name, 'ogr')
+                                error_count = error_count + 1
                             elif name == line_layer_name:
-                                new_line_layer = LineLayer(uri, name, 'ogr')
-                                self.project.addMapLayer(new_line_layer)
-                        # Create a new type attribute for the parcel layer.
-                        new_parcel_layer.startEditing()
-                        new_parcel_layer.addAttribute(QgsField(field_type_parcel, QVariant.Int, "int", 3))
-                        for parcel in new_parcel_layer.getFeatures():
-                            attrs = parcel.attributes()
-                            new_value = attrs[new_parcel_layer.fields().indexFromName(field_type_parcel_origin)]
-                            new_parcel_layer.changeAttributeValue(parcel.id(), new_parcel_layer.fields().indexFromName(
-                                field_type_parcel), new_value)
-                        # Add a style to the parcel layer.
-                        new_parcel_layer.commitChanges()
-                        new_parcel_layer.triggerRepaint()
-                        new_parcel_layer.loadNamedStyle(input_path + "/" + style_parcel)
-                        label_settings = QgsPalLayerSettings()
-                        label_settings.drawLabels = True
-                        label_settings.fieldName = field_parcel_id
-                        new_parcel_layer.setLabelsEnabled(True)
-                        new_parcel_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
-                        new_parcel_layer.triggerRepaint()
-                        new_parcel_layer.saveStyleToDatabase(name="ocsol", description="example", useAsDefault=True,
-                                                             uiFileContent="")
-                        # Create new types attributes for the line layer.
-                        new_line_layer.startEditing()
-                        new_line_layer.addAttribute(QgsField(field_type_line_middle, QVariant.Int, "int", 1))
-                        new_line_layer.addAttribute(QgsField(field_type_line_top, QVariant.Int, "int", 1))
-                        new_line_layer.addAttribute(QgsField(field_type_line_bottom, QVariant.Int, "int", 1))
-                        # Check if left or right is the top or the bottom.
-                        for line in new_line_layer.getFeatures():
-                            attrs = line.attributes()
-                            up_side = attrs[new_line_layer.fields().indexFromName(field_top_line)]
-                            if up_side == "left":
-                                type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
-                                type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
-                            else:
-                                type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
-                                type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
-                            type_center = attrs[new_line_layer.fields().indexFromName(field_type_line_origin)]
-                            if type_center == 0 and (type_up != 0 or type_dwn != 0):
-                                if type_up != 0 and type_dwn != 0:
-                                    type_center = type_dwn
-                                    type_dwn = 0
-                                elif type_dwn == 0:
-                                    type_center = type_up
-                                    type_up = 0
-                                elif type_up == 0:
-                                    type_center = type_dwn
-                                    type_dwn = 0
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_middle), type_center)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_top), type_up)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_bottom), type_dwn)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_left), 0)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_right), 0)
-                        # Add a style to the line layer.
-                        new_line_layer.commitChanges()
-                        new_line_layer.triggerRepaint()
-                        new_line_layer.loadNamedStyle(input_path + "/" + style_multiple_line)
-                        new_line_layer.triggerRepaint()
-                        new_line_layer.saveStyleToDatabase(name="line_type", description="example", useAsDefault=True,
-                                                           uiFileContent="")
-                        # Create a memory layer to be used as legend in QGIS.
-                        line_style = QgsVectorLayer("LineString", line_style_layer_name, "memory")
-                        layer_crs = line_style.crs()
-                        layer_crs.createFromId(crs.postgisSrid())
-                        line_style.setCrs(layer_crs)
-                        self.project.addMapLayer(line_style)
-                        # Open the dockwidget with arguments.
-                        self.dockwidget = SpiritDockWidget(parent=None, iface=self.iface, project=self.project,
-                                                           watershed_name=watershed_name, parcel_layer=new_parcel_layer,
-                                                           line_layer=new_line_layer, style_line_layer=line_style,
-                                                           connexion_layer=connexion_layer, crs=crs,
-                                                           output_path=output_directory,
-                                                           coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
+                                line_layer = QgsVectorLayer(uri, name, 'ogr')
+                                error_count = error_count + 1
+                        #ici problème car connexion n'existe pas dans le fichier de sauvegarde, il faut donc aller le chercher sans créer de problème
+                            elif name == geopackage_layer_name_connexions:
+                                uri_source = "%s|layername=%s" % (geopackage_source_path, name,)
+                                connexion_layer = QgsVectorLayer(uri_source, name, 'ogr')
+                                connexion_layer.setCrs(crs)
+                                error_count = error_count + 1
+                        if error_count != 3:
+                            print(error_count)
+                            QMessageBox.information(
+                                None, information_geopackage_error_pt1, information_geopackage_error_pt2)
+                        else:
+                            # Test if the output folder and data folder exist, if not they are created
+                            output_directory = output_path + watershed_name + "/"
+                            if not os.path.exists(output_directory):
+                                os.makedirs(output_directory)
+                            data_directory = output_directory + data_folder + "/"
+                            if not os.path.exists(data_directory):
+                                os.makedirs(data_directory)
+                            
+                            # Save the layers into a new geopackage into the data folder.
+                            self.saving_geopackage(
+                                parcel_layer, parcel_layer_name, data_directory + data_layer_file + ".gpkg", crs, True)
+                            self.saving_geopackage(
+                                line_layer, line_layer_name, data_directory + data_layer_file + ".gpkg", crs, False)
+                            # Add the layers to the project.
+                            gpkg = QgsVectorLayer(data_directory + data_layer_file + ".gpkg", "", "ogr")
+                            layers = gpkg.dataProvider().subLayers()
+                            # connexion_layer = geopackage_source.dataProvider().subLayers()[2]
+                            for layer in layers:
+                                print("On parcours les layers")
+                                name = layer.split('!!::!!')[1]
+                                uri = "%s|layername=%s" % (data_directory + data_layer_file + ".gpkg", name,)
+                                if name == parcel_layer_name:
+                                    new_parcel_layer = ParcelLayer(uri, name, 'ogr')
+                                    self.project.addMapLayer(new_parcel_layer)
+                                elif name == line_layer_name:
+                                    new_line_layer = LineLayer(uri, name, 'ogr')
+                                    self.project.addMapLayer(new_line_layer)
+                            # Create a new type attribute for the parcel layer.
+                            new_parcel_layer.startEditing()
+                            new_parcel_layer.addAttribute(QgsField(field_type_parcel, QVariant.Int, "int", 3))
+                            for parcel in new_parcel_layer.getFeatures():
+                                attrs = parcel.attributes()
+                                new_value = attrs[new_parcel_layer.fields().indexFromName(field_type_parcel_origin)]
+                                
+                            # Add a style to the parcel layer.
+                            new_parcel_layer.commitChanges()
+                            new_parcel_layer.triggerRepaint()
+                            print(source_path + "/" + style_parcel)
+                            
+                            new_parcel_layer.loadNamedStyle(source_path + "/" + style_parcel)
+                            label_settings = QgsPalLayerSettings()
+                            label_settings.drawLabels = True
+                            label_settings.fieldName = field_parcel_id
+                            new_parcel_layer.setLabelsEnabled(True)
+                            new_parcel_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
+                            new_parcel_layer.triggerRepaint()
+                            new_parcel_layer.saveStyleToDatabase(name="ocsol", description="example", useAsDefault=True,
+                                                                uiFileContent="")
+                            # Create new types attributes for the line layer.
+                            new_line_layer.startEditing()
+                            new_line_layer.addAttribute(QgsField(field_type_line_middle, QVariant.Int, "int", 1))
+                            new_line_layer.addAttribute(QgsField(field_type_line_top, QVariant.Int, "int", 1))
+                            new_line_layer.addAttribute(QgsField(field_type_line_bottom, QVariant.Int, "int", 1))
+                            # Check if left or right is the top or the bottom.
+                            for line in new_line_layer.getFeatures():
+                                attrs = line.attributes()
+                                up_side = attrs[new_line_layer.fields().indexFromName(field_top_line)]
+                                if up_side == "left":
+                                    type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
+                                    type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
+                                else:
+                                    type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
+                                    type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
+                                type_center = attrs[new_line_layer.fields().indexFromName(field_type_line_origin)]
+                                if type_center == 0 and (type_up != 0 or type_dwn != 0):
+                                    if type_up != 0 and type_dwn != 0:
+                                        type_center = type_dwn
+                                        type_dwn = 0
+                                    elif type_dwn == 0:
+                                        type_center = type_up
+                                        type_up = 0
+                                    elif type_up == 0:
+                                        type_center = type_dwn
+                                        type_dwn = 0
+                            # Add a style to the line layer.
+                            new_line_layer.commitChanges()
+                            new_line_layer.triggerRepaint()
+                            new_line_layer.loadNamedStyle(source_path + "/" + style_multiple_line)
+                            new_line_layer.triggerRepaint()
+                            new_line_layer.saveStyleToDatabase(name="line_type", description="example", useAsDefault=True,
+                                                            uiFileContent="")
+                            # Create a memory layer to be used as legend in QGIS.
+                            line_style = QgsVectorLayer("LineString", line_style_layer_name, "memory")
+                            layer_crs = line_style.crs()
+                            layer_crs.createFromId(crs.postgisSrid())
+                            line_style.setCrs(layer_crs)
+                            self.project.addMapLayer(line_style)
+                
+                    # Open the dockwidget with arguments.
+                    self.dockwidget = SpiritDockWidget(parent=None, iface=self.iface, project=self.project,
+                                                    watershed_name=watershed_name, parcel_layer=new_parcel_layer,
+                                                    line_layer=new_line_layer, style_line_layer=line_style,
+                                                    connexion_layer=connexion_layer, crs=crs,
+                                                    output_path=output_directory,
+                                                    coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
 
-
-
-                        # Connect to provide cleanup on closing of dockwidget.
-                        self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
-                        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
-                        self.dockwidget.show()
-                elif watershed_name == "":
-                    print("boucle load")
-                    """
-                    Attention code more ou useless qu'on va pouvoir enlever
-                    L'objectif c'est d'enlever toutes les références à l'input de base bv_xxxxx.gpkg
-                    cependant attention on a quand meme besoins de connexion_layer pour la carte ce qui va etre le plus difficile
-                    Première étape récupérer le watershed name
-                    """
-                    geopackage_path = self.dlg.gpkg_file[0]
-                    watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
+                    # Connect to provide cleanup on closing of dockwidget.
+                    self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
+                    self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
+                    self.dockwidget.show()
                     
-                    source_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
-                    print("source path")
-                    print(source_path)
-                    # Check if the linear and parcel layer already exist in th project, if so we change their name
-                    if self.project.mapLayersByName(line_style_layer_name):
-                        layer = self.project.mapLayersByName(line_style_layer_name)[0]
-                        layer.setName(line_style_layer_name + "_1")
-                    if self.project.mapLayersByName(line_layer_name):
-                        layer = self.project.mapLayersByName(line_layer_name)[0]
-                        layer.setName(line_layer_name + "_1")
-                    if self.project.mapLayersByName(parcel_layer_name):
-                        layer = self.project.mapLayersByName(parcel_layer_name)[0]
-                        layer.setName(parcel_layer_name + "_1")
-                    # All the layers already in the Qgis project are stored in a directory.
-                    root = self.project.layerTreeRoot()
-                    names = [layer.name() for layer in self.project.mapLayers().values()]
-                    if len(names) != 0:
-                        group = root.findGroup(original_layer_group_name)
-                        if not group:
-                            root.insertGroup(0, original_layer_group_name)
-                            group = root.findGroup(original_layer_group_name)
-                        for child in root.children():
-                            if child.name() == original_layer_group_name:
-                                pass
-                            else:
-                                my_clone = child.clone()
-                                parent = child.parent()
-                                group.insertChildNode(0, my_clone)
-                                parent.removeChildNode(child)
-                        group.setExpanded(0)
-                        group.setItemVisibilityChecked(False)
-                    # Get the layers from the geopackage
-                    if  self.dlg.gpkg_file != None :
-                        print("ici on choisi le bv")
-                        print(self.dlg.gpkg_file)
-                        geopackage_path = self.dlg.gpkg_file[0]
-                        geopackage_source_path = str(source_path)+ "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                        
-                        #ici je crée un layer avec toutes les infos alors qu j'en ai pas besoins. Ce qui fait que j'ai deux layers avec les infos mauvaises et les bonnes alors qu'il me faut jsute les infos des connexions
-                        # geopackage_source = QgsVectorLayer(geopackage_source_path, "", "ogr")
-                        
-                        layers = geopackage.dataProvider().subLayers()
-                        layers.append('2!!::!!connexions!!::!!710!!::!!MultiLineString!!::!!geom!!::!!')
-                        # layer_connexion = QgsVectorLayer(geopackage_source_path + "|layername=" + line_layer_name, line_layer_name, "ogr")
-                        
-                    """ Ce ne sont pas les memes noms de layers"""
-                    error_count = 0
-                    print("voici les layers")
-                    print(layers)
-                    for layer in layers:
-                        name = layer.split('!!::!!')[1]
-                        uri = "%s|layername=%s" % (geopackage_path, name,)
-                        if name == parcel_layer_name:
-                            parcel_layer = QgsVectorLayer(uri, name, 'ogr')
-                            error_count = error_count + 1
-                        elif name == line_layer_name:
-                            line_layer = QgsVectorLayer(uri, name, 'ogr')
-                            error_count = error_count + 1
-                            
-                #ici problème car connexion n'existe pas dans le fichier de sauvegarde, il faut donc aller le chercher sans créer de problème
-                        elif name == geopackage_layer_name_connexions:
-                            layer_connexion = QgsVectorLayer(uri, name, 'ogr')
-                            layer_connexion.setCrs(crs)
-                            error_count = error_count + 1
-                    if error_count != 3:
-                        print(error_count)
-                        QMessageBox.information(
-                            None, information_geopackage_error_pt1, information_geopackage_error_pt2)
-                    else:
-                        print("bravo on continue")
-                        # Test if the output folder and data folder exist, if not they are created
-                        output_directory = output_path + watershed_name + "/"
-                        if not os.path.exists(output_directory):
-                            os.makedirs(output_directory)
-                        data_directory = output_directory + data_layer + "/"
-                        if not os.path.exists(data_directory):
-                            os.makedirs(data_directory)
-                        
-                        # Save the layers into a new geopackage into the data folder.
-                        self.saving_geopackage(
-                            parcel_layer, parcel_layer_name, data_directory + data_layer + ".gpkg", crs, True)
-                        self.saving_geopackage(
-                            line_layer, line_layer_name, data_directory + data_layer + ".gpkg", crs, False)
-                        # Add the layers to the project.
-                        gpkg = QgsVectorLayer(data_directory + data_layer + ".gpkg", "", "ogr")
-                        layers = gpkg.dataProvider().subLayers()
-                        for layer in layers:
-                            print("On parcours les layers")
-                            name = layer.split('!!::!!')[1]
-                            uri = "%s|layername=%s" % (data_directory + data_layer + ".gpkg", name,)
-                            if name == parcel_layer_name:
-                                new_parcel_layer = ParcelLayer(uri, name, 'ogr')
-                                self.project.addMapLayer(new_parcel_layer)
-                            elif name == line_layer_name:
-                                new_line_layer = LineLayer(uri, name, 'ogr')
-                                self.project.addMapLayer(new_line_layer)
-                        # Create a new type attribute for the parcel layer.
-                        new_parcel_layer.startEditing()
-                        new_parcel_layer.addAttribute(QgsField(field_type_parcel, QVariant.Int, "int", 3))
-                        for parcel in new_parcel_layer.getFeatures():
-                            attrs = parcel.attributes()
-                            new_value = attrs[new_parcel_layer.fields().indexFromName(field_type_parcel_origin)]
-                            print("nouvelles valeurs")
-                            print(new_value)
-                            # new_parcel_layer.changeAttributeValue(parcel.id(), new_parcel_layer.fields().indexFromName(
-                            #     field_type_parcel), new_value)
-                            
-                        # Add a style to the parcel layer.
-                        new_parcel_layer.commitChanges()
-                        new_parcel_layer.triggerRepaint()
-                        print(source_path + "/" + style_parcel)
-                        
-                        new_parcel_layer.loadNamedStyle(source_path + "/" + style_parcel)
-                        label_settings = QgsPalLayerSettings()
-                        label_settings.drawLabels = True
-                        label_settings.fieldName = field_parcel_id
-                        new_parcel_layer.setLabelsEnabled(True)
-                        new_parcel_layer.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
-                        new_parcel_layer.triggerRepaint()
-                        new_parcel_layer.saveStyleToDatabase(name="ocsol", description="example", useAsDefault=True,
-                                                             uiFileContent="")
-                        # Create new types attributes for the line layer.
-                        new_line_layer.startEditing()
-                        new_line_layer.addAttribute(QgsField(field_type_line_middle, QVariant.Int, "int", 1))
-                        new_line_layer.addAttribute(QgsField(field_type_line_top, QVariant.Int, "int", 1))
-                        new_line_layer.addAttribute(QgsField(field_type_line_bottom, QVariant.Int, "int", 1))
-                        # Check if left or right is the top or the bottom.
-                        for line in new_line_layer.getFeatures():
-                            attrs = line.attributes()
-                            up_side = attrs[new_line_layer.fields().indexFromName(field_top_line)]
-                            if up_side == "left":
-                                type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
-                                type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
-                            else:
-                                type_up = attrs[new_line_layer.fields().indexFromName(field_type_line_right)]
-                                type_dwn = attrs[new_line_layer.fields().indexFromName(field_type_line_left)]
-                            type_center = attrs[new_line_layer.fields().indexFromName(field_type_line_origin)]
-                            if type_center == 0 and (type_up != 0 or type_dwn != 0):
-                                if type_up != 0 and type_dwn != 0:
-                                    type_center = type_dwn
-                                    type_dwn = 0
-                                elif type_dwn == 0:
-                                    type_center = type_up
-                                    type_up = 0
-                                elif type_up == 0:
-                                    type_center = type_dwn
-                                    type_dwn = 0
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_middle), type_center)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_top), type_up)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_bottom), type_dwn)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_left), 0)
-                            new_line_layer.changeAttributeValue(line.id(), new_line_layer.fields().indexFromName(
-                                field_type_line_right), 0)
-                        # Add a style to the line layer.
-                        new_line_layer.commitChanges()
-                        new_line_layer.triggerRepaint()
-                        new_line_layer.loadNamedStyle(source_path + "/" + style_multiple_line)
-                        new_line_layer.triggerRepaint()
-                        new_line_layer.saveStyleToDatabase(name="line_type", description="example", useAsDefault=True,
-                                                           uiFileContent="")
-                        # Create a memory layer to be used as legend in QGIS.
-                        line_style = QgsVectorLayer("LineString", line_style_layer_name, "memory")
-                        layer_crs = line_style.crs()
-                        layer_crs.createFromId(crs.postgisSrid())
-                        line_style.setCrs(layer_crs)
-                        self.project.addMapLayer(line_style)
-                        # Open the dockwidget with arguments.
-                        self.dockwidget = SpiritDockWidget(parent=None, iface=self.iface, project=self.project,
-                                                           watershed_name=watershed_name, parcel_layer=new_parcel_layer,
-                                                           line_layer=new_line_layer, style_line_layer=line_style,
-                                                           connexion_layer=connexion_layer, crs=crs,
-                                                           output_path=output_directory,
-                                                           coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
-
-
-
-                        # Connect to provide cleanup on closing of dockwidget.
-                        self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
-                        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
-                        self.dockwidget.show()
                 else:
                     # input_path = self.plugin_dir + serious_game_data_folder
                     self.watershed_creation = WatershedCreationDialog(parent=None, crs=crs, path=output_path)

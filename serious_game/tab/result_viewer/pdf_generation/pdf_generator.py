@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 from qgis.core import QgsVectorLayer
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
-from .....dictionnaire import path, parcel_layer_name, line_layer_name
+from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder
 
 
 class Pdf_generator:
@@ -57,7 +57,7 @@ class Pdf_generator:
         self.actual_path = os.path.dirname(__file__) + "/"
         self.json_path = os.path.join(self.actual_path + "json/") #json directory
         self.templates_path = os.path.join(self.actual_path + "templates") #jinja2 template directory
-        self.gpkg_path = os.path.join(self.output_path + "/donnees/donnees.gpkg") #gpkg file
+        self.gpkg_path = os.path.join(self.output_path + "/" + data_folder + "/" + data_layer + watershed_name + ".gpkg") #gpkg file changer ici le nom du fichier
         self.previous_path = os.path.join(self.json_path, 'previous_stade.json')
         # 0 if it's save data turn, 1 if not
         self.global_state = 1
