@@ -34,57 +34,70 @@ from PyQt5.QtCore import Qt
 # Personal Modules
 from .coeff_abatement import parcel_inflow_production, coefficient_abatement_UH, coefficient_abatement_lateral_TE, \
     coefficient_abatement_longitudinal_TE
+from geomelba_spirit import GeomelbaSpirit
+from ....dictionnaire import (
+    field_order, field_type_line_middle, null, field_incoming_flow,
+    field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_outgoing_flow, field_outgoing_flow_long,
+    field_outgoing_flow_lat, field_flow_abatement, field_flow_abatement_rating,
+    field_incoming_flow_rating, field_outgoing_flow_long_up, field_outgoing_flow_long_down, field_history,
+    field_history_abatement, field_history_abatement_lat, field_history_abatement_long, field_history_outflow_long,
+    field_history_outflow_long_up, field_history_outflow_long_down, field_history_abatement_long_up,
+    field_history_abatement_long_down, field_flow_production_water, field_flow_production_mes,
+    field_flow_production_phyto, field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area,
+    field_parcel_slope, field_parcel_practice, field_outgoing_flow_line_to_parcel, field_line_parcel_below,
+    field_line_parcel_above, field_connexions_parcel_above, field_connexions_flow_coefficient, field_parcel_id,
+    field_type_line_top, field_connexions_parcel_below, field_type_line_bottom, field_line_slope,
+    field_line_line_above, field_line_id, river, field_line_length, field_line_slope_angle, field_line_line_below,
+    drain, field_parcel_slope_length, lines_not_river_layer_name, river_incoming_flow_layer_name, field_outlet_inflow,
+    line_abatement_layer_name, line_transfer_layer_name, parcel_abatement_layer_name, parcel_transfer_layer_name,
+    field_flow_production_relative, field_flow_production_rating, parcel_contribution_layer_name,
+    group_watershed_analysis, group_abatement_analysis, group_flow_transfer, field_parcel_rating,
+    field_feature_selected, group_outgoing_flow_parcel, group_incoming_flow_parcel, field_connexions_river_below,
+    group_incoming_flow_river, field_parcel_outflow_drain, field_parcel_active_drain, field_flow_production_area,
+    field_flow_production_area_river, field_flow_river_rate, field_parcel_drain_type, field_river_direction,
+    field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, field_parcel_drain_id,
+    field_flow_production, field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water,
+    field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water,
+    field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water,
+    field_history_abatement_long_mes, field_history_abatement_long_phyto, river_direction_up, river_direction_dwn,
+    river_direction_different_direction, abatement_map_line_legend_pt1, abatement_map_line_legend_pt2,
+    abatement_map_line_legend_pt3, abatement_map_line_legend_pt4, abatement_map_line_legend_pt5,
+    abatement_map_line_legend_pt6, abatement_map_line_legend_pt7, abatement_map_line_legend_pt8,
+    abatement_map_parcel_legend_pt1, abatement_map_parcel_legend_pt2, abatement_map_parcel_legend_pt3,
+    abatement_map_parcel_legend_pt4, abatement_map_parcel_legend_pt5, abatement_map_parcel_legend_pt6,
+    abatement_map_parcel_legend_pt7, abatement_map_parcel_legend_pt8, transfer_map_river_legend_pt1,
+    transfer_map_river_legend_pt2, transfer_map_river_legend_pt3, transfer_map_river_legend_pt4,
+    transfer_map_river_legend_pt5, transfer_map_river_legend_pt6, transfer_map_river_legend_pt7,
+    transfer_map_river_legend_pt8, transfer_map_line_legend_pt1, transfer_map_line_legend_pt2,
+    transfer_map_line_legend_pt3, transfer_map_line_legend_pt4, transfer_map_line_legend_pt5,
+    transfer_map_line_legend_pt6, transfer_map_line_legend_pt7, transfer_map_parcel_legend_pt1,
+    transfer_map_parcel_legend_pt2, transfer_map_parcel_legend_pt3, transfer_map_parcel_legend_pt4,
+    transfer_map_parcel_legend_pt5, transfer_map_parcel_legend_pt6, transfer_map_parcel_legend_pt7,
+    production_potential_map_parcel_legend_pt1, production_potential_map_parcel_legend_pt2,
+    production_potential_map_parcel_legend_pt3, production_potential_map_parcel_legend_pt4,
+    production_potential_map_parcel_legend_pt5, production_potential_map_parcel_legend_pt6,
+    production_potential_map_parcel_legend_pt7, production_area_map_parcel_legend_pt1,
+    production_area_map_parcel_legend_pt2, production_area_map_parcel_legend_pt3,
+    production_area_map_parcel_legend_pt4, production_area_map_parcel_legend_pt5,
+    production_area_map_parcel_legend_pt6, production_area_map_parcel_legend_pt7,
+    parcel_river_map_production_legend_pt1, parcel_river_map_production_legend_pt2,
+    parcel_river_map_production_legend_pt3, parcel_river_map_production_legend_pt4,
+    parcel_river_map_production_legend_pt5, parcel_river_map_production_legend_pt6,
+    parcel_river_map_production_legend_pt7, parcel_river_map_production_legend_pt8,
+    parcel_river_map_production_legend_pt9, parcel_river_map_production_legend_pt10,
+    parcel_river_map_production_legend_pt11, parcel_river_map_production_legend_pt12, field_incoming_flow_summer,
+    field_outgoing_flow_summer, field_outgoing_flow_long_summer, field_outgoing_flow_long_up_summer, field_outgoing_flow_long_down_summer,
+    field_outgoing_flow_lat_summer, field_flow_abatement_summer, field_incoming_flow_from_parcel_summer, field_incoming_flow_from_line_summer,
+    field_outgoing_flow_line_to_parcel_summer, field_outlet_inflow_summer, field_parcel_rating_summer, field_flow_production_summer,
+    field_flow_production_mes_summer, field_flow_production_phyto_summer, field_flow_production_relative_summer,
+    field_outgoing_flow_winter, field_outgoing_flow_long_winter, field_outgoing_flow_long_up_winter, field_outgoing_flow_long_down_winter,
+    field_outgoing_flow_lat_winter, field_flow_abatement_winter, field_incoming_flow_from_parcel_winter, field_incoming_flow_from_line_winter,
+    field_outgoing_flow_line_to_parcel_winter, field_outlet_inflow_winter, field_parcel_rating_winter, field_flow_production_winter,
+    field_flow_production_water_winter, field_flow_production_mes_winter, field_flow_production_phyto_winter, field_flow_production_relative_winter,
+    field_incoming_flow_winter
+)
 
-from ....dictionnaire import field_order, field_type_line_middle, null, field_incoming_flow, \
-    field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_outgoing_flow, field_outgoing_flow_long, \
-    field_outgoing_flow_lat, field_flow_abatement, field_flow_abatement_rating, \
-    field_incoming_flow_rating, field_outgoing_flow_long_up, field_outgoing_flow_long_down, field_history, \
-    field_history_abatement, field_history_abatement_lat, field_history_abatement_long, field_history_outflow_long, \
-    field_history_outflow_long_up, field_history_outflow_long_down, field_history_abatement_long_up, \
-    field_history_abatement_long_down, field_flow_production_water, field_flow_production_mes, \
-    field_flow_production_phyto, field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area, \
-    field_parcel_slope, field_parcel_practice, field_outgoing_flow_line_to_parcel, field_line_parcel_below, \
-    field_line_parcel_above, field_connexions_parcel_above, field_connexions_flow_coefficient, field_parcel_id, \
-    field_type_line_top, field_connexions_parcel_below, field_type_line_bottom, field_line_slope, \
-    field_line_line_above, field_line_id, river, field_line_length, field_line_slope_angle, field_line_line_below, \
-    drain, field_parcel_slope_length, lines_not_river_layer_name, river_incoming_flow_layer_name, field_outlet_inflow, \
-    line_abatement_layer_name, line_transfer_layer_name, parcel_abatement_layer_name, parcel_transfer_layer_name, \
-    field_flow_production_relative, field_flow_production_rating, parcel_contribution_layer_name, \
-    group_watershed_analysis, group_abatement_analysis, group_flow_transfer, field_parcel_rating, \
-    field_feature_selected, group_outgoing_flow_parcel, group_incoming_flow_parcel, field_connexions_river_below, \
-    group_incoming_flow_river, field_parcel_outflow_drain, field_parcel_active_drain, field_flow_production_area, \
-    field_flow_production_area_river, field_flow_river_rate, field_parcel_drain_type, field_river_direction, \
-    field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, field_parcel_drain_id, \
-    field_flow_production, field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water, \
-    field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water, \
-    field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water, \
-    field_history_abatement_long_mes, field_history_abatement_long_phyto, river_direction_up, river_direction_dwn, \
-    river_direction_different_direction, abatement_map_line_legend_pt1, abatement_map_line_legend_pt2, \
-    abatement_map_line_legend_pt3, abatement_map_line_legend_pt4, abatement_map_line_legend_pt5, \
-    abatement_map_line_legend_pt6, abatement_map_line_legend_pt7, abatement_map_line_legend_pt8, \
-    abatement_map_parcel_legend_pt1, abatement_map_parcel_legend_pt2, abatement_map_parcel_legend_pt3, \
-    abatement_map_parcel_legend_pt4, abatement_map_parcel_legend_pt5, abatement_map_parcel_legend_pt6, \
-    abatement_map_parcel_legend_pt7, abatement_map_parcel_legend_pt8, transfer_map_river_legend_pt1, \
-    transfer_map_river_legend_pt2, transfer_map_river_legend_pt3, transfer_map_river_legend_pt4, \
-    transfer_map_river_legend_pt5, transfer_map_river_legend_pt6, transfer_map_river_legend_pt7, \
-    transfer_map_river_legend_pt8, transfer_map_line_legend_pt1, transfer_map_line_legend_pt2, \
-    transfer_map_line_legend_pt3, transfer_map_line_legend_pt4, transfer_map_line_legend_pt5, \
-    transfer_map_line_legend_pt6, transfer_map_line_legend_pt7, transfer_map_parcel_legend_pt1, \
-    transfer_map_parcel_legend_pt2, transfer_map_parcel_legend_pt3, transfer_map_parcel_legend_pt4, \
-    transfer_map_parcel_legend_pt5, transfer_map_parcel_legend_pt6, transfer_map_parcel_legend_pt7, \
-    production_potential_map_parcel_legend_pt1, production_potential_map_parcel_legend_pt2, \
-    production_potential_map_parcel_legend_pt3, production_potential_map_parcel_legend_pt4, \
-    production_potential_map_parcel_legend_pt5, production_potential_map_parcel_legend_pt6, \
-    production_potential_map_parcel_legend_pt7, production_area_map_parcel_legend_pt1, \
-    production_area_map_parcel_legend_pt2, production_area_map_parcel_legend_pt3, \
-    production_area_map_parcel_legend_pt4, production_area_map_parcel_legend_pt5, \
-    production_area_map_parcel_legend_pt6, production_area_map_parcel_legend_pt7, \
-    parcel_river_map_production_legend_pt1, parcel_river_map_production_legend_pt2, \
-    parcel_river_map_production_legend_pt3, parcel_river_map_production_legend_pt4, \
-    parcel_river_map_production_legend_pt5, parcel_river_map_production_legend_pt6, \
-    parcel_river_map_production_legend_pt7, parcel_river_map_production_legend_pt8, \
-    parcel_river_map_production_legend_pt9, parcel_river_map_production_legend_pt10, \
-    parcel_river_map_production_legend_pt11, parcel_river_map_production_legend_pt12
+
 
 path = os.path.dirname(__file__) + '/'
 
@@ -148,6 +161,40 @@ def order_feature(parcel_layer, line_layer, start_order, end_order):
             flow_list.append('parcel_' + str(parcel_layer.selectedFeatureIds()[0]))
         start_order = start_order + 1
     return flow_list
+def Filter_by_modelisation_theme(self, modelisation_theme):
+    # Function to filter by modelisation theme and launch corresponding class
+
+    if modelisation_theme == "EAU":
+        # Launch FlowCalculations_EAU class
+        flow_calculations = FlowCalculations_EAU()
+        # Perform calculations or other operations related to EAU
+
+    elif modelisation_theme == "MES":
+        # Launch FlowCalculations_MES class
+        flow_calculations = FlowCalculations_MES()
+        # Perform calculations or other operations related to MES
+
+    elif modelisation_theme == "PHYTO":
+        # Launch FlowCalculations_phyto class
+        flow_calculations = FlowCalculations_phyto()
+        # Perform calculations or other operations related to PHYTO
+
+    # Return the instance of the launched class
+    return flow_calculations
+
+
+def filter_by_season(self, season_button):
+    # Function to filter by season and extract the season information
+    if season_button == self.RadioButton_season_choice0:
+        # Return "winter" if button 0 is selected
+        return "winter"
+    elif season_button == self.RadioButton_season_choice1:
+        # Return "summer" if button 1 is selected
+        return "summer"
+    else:
+        # Handle unrecognized season button
+        print("Unrecognized season button")
+        return None
 
 
 class FlowCalculation:
