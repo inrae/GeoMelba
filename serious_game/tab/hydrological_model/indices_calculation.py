@@ -197,16 +197,15 @@ def filter_by_season(self, season_button):
         return None
 
 
-class FlowCalculation:
+class FlowCalculation_phyto:
     """
     """
-
     def __init__(self, watershed_name=None, practices=None, slope=None, land_cover=None, abatement_type=None,
-                 production_type=None, abatement=None, abatement_water=None, abatement_mes=None, abatement_phyto=None,
-                 production=None, production_water=None, production_mes=None, production_phyto=None, line_type=None,
-                 abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
-                 abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
-                 abatement_lat_mes=None, abatement_lat_phyto=None,output_path=None):
+                 production_type=None, abatement_phyto=None,
+                 production=None, production_phyto=None, line_type=None,
+                 abatement_type_long=None, abatement_type_lat=None, abatement_long=None,
+                 abatement_long_phyto=None, abatement_lat=None,
+                 abatement_lat_phyto=None, output_path=None):
         """Class attributes are :
         - """
         super(FlowCalculation, self).__init__()
