@@ -34,7 +34,8 @@ from .dictionnaire import regular_font, create_watershed_button_name, crs_select
     output_selection_label, output_button_name, watershed_selection_label, information_crs_text_pt1, \
     information_crs_text_pt2, information_crs_text_pt3, folder_selection_text, information_folder_text_pt1, \
     information_folder_text_pt2, serious_game_data_folder, watershed_prefix, studied_element_label, \
-    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label
+    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label, \
+    season_choice_label, season_choice_button0_label, season_choice_button1_label
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -83,23 +84,20 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         label_element.setGeometry(30, 460, 400, 30)
         label_element.setText(studied_element_label)
 
-        
-        self.RadioButton_studied_element0=QRadioButton(self)
+        self.RadioButton_studied_element0 = QRadioButton(self)
         self.RadioButton_studied_element0.setText(studied_element_button0_label)
         self.RadioButton_studied_element0.setGeometry(30, 480, 340, 30)
-        
-        
 
-        self.RadioButton_studied_element1=QRadioButton(self)
+        self.RadioButton_studied_element1 = QRadioButton(self)
         self.RadioButton_studied_element1.setText(studied_element_button1_label)
         self.RadioButton_studied_element1.setGeometry(30, 500, 340, 30)
-        
 
-        self.RadioButton_studied_element2=QRadioButton(self)
+        self.RadioButton_studied_element2 = QRadioButton(self)
         self.RadioButton_studied_element2.setText(studied_element_button2_label)
         self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
         self.RadioButton_studied_element2.setChecked(True)
-         # Creation of a button group for modelisation theme buttons
+
+        # Creation of a button group for modelisation theme buttons
         self.modelisation_theme_button_group = QButtonGroup()
         self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element0)
         self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element1)
@@ -113,23 +111,19 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         label_element.setGeometry(30, 560, 400, 30)
         label_element.setText(season_choice_label)
 
-        
-        self.RadioButton_season_choice0=QRadioButton(self)
+        self.RadioButton_season_choice0 = QRadioButton(self)
         self.RadioButton_season_choice0.setText(season_choice_button0_label)
         self.RadioButton_season_choice0.setGeometry(30, 580, 340, 30)
-        
-        
 
-        self.RadioButton_season_choice1=QRadioButton(self)
+        self.RadioButton_season_choice1 = QRadioButton(self)
         self.RadioButton_season_choice1.setText(season_choice_button1_label)
         self.RadioButton_season_choice1.setGeometry(30, 600, 340, 30)
-        
+
         # Creation of a button group for season choice buttons
         self.season_choice_button_group = QButtonGroup()
         self.season_choice_button_group.addButton(self.RadioButton_season_choice0)
         self.season_choice_button_group.addButton(self.RadioButton_season_choice1)
         self.season_choice_button_group.setExclusive(True)
-        
 
         # Label creation
         label_crs = QLabel(self)
@@ -140,6 +134,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.crs_selector = QgsProjectionSelectionWidget(self)
         self.crs_selector.setFont(regular_font)
         self.crs_selector.setGeometry(180, 350, 190, 30)
+
         # Function connected to the signal emitted when CRS is changed
         self.crs_selector.crsChanged.connect(self.crs_manager)
 
@@ -166,13 +161,37 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         # User cannot validate his selection while it's not valid, the start button is disabled.
         self.button_box.setEnabled(False)
 
+    def on_modelisation_theme_clicked_choice(self):
+        # Function to handle when a modelization theme choice button is clicked
+        selected_button = self.sender()  # Get the button that triggered the event
+
+        if selected_button == self.RadioButton_studied_element0:
+            # Handle selection of button 0 (eau)
+            return "EAU"
+        elif selected_button == self.RadioButton_studied_element1:
+            # Handle selection of button 1 (water)
+            return "MES"
+        elif selected_button == self.RadioButton_studied_element2:
+            # Handle selection of button 2 (MES)
+            return "PHYTO"
+
+    def on_season_clicked_choice(self):
+        # Function to handle when a season choice button is clicked
+        selected_button = self.sender()  # Get the button that triggered the event
+        if selected_button == self.RadioButton_season_choice0:
+            # Handle selection of button 0
+            return "winter"
+        elif selected_button == self.RadioButton_season_choice1:
+            # Handle selection of button 1
+            return "summer"
+
     def init_button_watershed(self, value_to_test):
         """Function to place the different watershed buttons in the dialog. They are based on folders in the
         plugin directory. They allow the user to select a watershed to analyze.
         The mandatory arguments are :
         - the prefix of the folders
 
-       For each  folder with the prefix in the directory a button is created with the suffix as label and value.
+       For each folder with the prefix in the directory a button is created with the suffix as label and value.
        The first button as a determined position, the other buttons are placed based on the first one
        and the place left on the line. If there is no place left, the button begins another line.
        The label are modified to fit the buttons, if its too long line breaks are added.
@@ -253,7 +272,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         If the output does not exist the button to validate the user's choice and launch the plugin is disabled.
         """
         # Check if a watershed button is pressed
-        if self.watershed_button_group.checkedButton() is not None :
+        if self.watershed_button_group.checkedButton() is not None:
             # Enable the widgets to get the output path.
             self.output_button.setEnabled(True)
             self.output_text.setEnabled(True)
@@ -265,9 +284,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
                 # data might be deleted.
                 if os.path.exists(self.output_text.text() + "/" + self.watershed_button_group.button(
                    self.watershed_button_group.checkedId()).accessibleName().lower()):
-                   QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
-
-
+                    QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
             else:
                 # if the path doesn't exist, the user cannot launch the plugin.
                 self.button_box.setEnabled(False)
