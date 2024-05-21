@@ -45,6 +45,48 @@ config_land_cover_file = "land_cover.csv"
 config_line_type_file = "line_type.csv"
 config_drain_file = "drain.csv"
 
+
+#variables_de_saisonnalité_summer
+field_incoming_flow_summer= 'gm_ent_s'
+field_outgoing_flow_summer = 'gm_sort_s'
+field_outgoing_flow_long_summer = 'sort_lo_s'
+field_outgoing_flow_long_up_summer = 'sort_lo_up_s'
+field_outgoing_flow_long_down_summer = 'sort_lo_dw_s'
+field_outgoing_flow_lat_summer = 'sort_la_s'
+field_flow_abatement_summer = 'gm_abatt_s'
+field_incoming_flow_from_parcel_summer = 'gm_ent_p_s'
+field_incoming_flow_from_line_summer = 'gm_ent_l_s'
+field_outgoing_flow_line_to_parcel_summer = 'gm_sort_p_s'
+field_outlet_inflow_summer = 'gm_exut_s'
+field_parcel_rating_summer = 'indice'
+field_flow_production_summer = 'prod_s'
+field_flow_production_water_summer = 'prod_eau_s'
+field_flow_production_mes_summer = 'prod_mes_s'
+field_flow_production_phyto_summer = 'prod_phyto_s'
+field_flow_production_relative_summer = 'gm_prod_t_s'
+ 
+
+#variables_de_saisonnalité_Winter
+field_incoming_flow_winter = 'gm_ent_w'
+field_outgoing_flow_winter = 'gm_sort_w'
+field_outgoing_flow_long_winter = 'sort_lo_w'
+field_outgoing_flow_long_up_winter = 'sort_lo_up_w'
+field_outgoing_flow_long_down_winter = 'sort_lo_dw_w'
+field_outgoing_flow_lat_winter = 'sort_la_w'
+field_flow_abatement_winter = 'gm_abatt_w'
+field_incoming_flow_from_parcel_winter = 'gm_ent_p_w'
+field_incoming_flow_from_line_winter = 'gm_ent_l_w'
+field_outgoing_flow_line_to_parcel_winter = 'gm_sort_p_w'
+field_outlet_inflow_winter = 'gm_exut_w'
+field_feature_selected_winter = 'selected_w'
+field_parcel_rating_winter = 'indice_w'
+field_flow_production_winter = 'prod_w'
+field_flow_production_water_winter = 'prod_eau_w'
+field_flow_production_mes_winter = 'prod_mes_w'
+field_flow_production_phyto_winter = 'prod_phyto_w'
+field_flow_production_relative_winter = 'gm_prod_t_w'
+
+
 # Varibales data type :
 line_type = "ligne"
 polygon_type = "parcelle"
@@ -240,7 +282,6 @@ map_creation_information_pt1 = "Réalisée en "
 map_creation_information_pt2 = " par "
 turn_0_label = "état initial"
 turn_label = "Tour : "
-exutoire_label = "Valeur maximum à l'éxutoire de la rivière : "
 date_m_y = date.today().strftime('%B %Y')
 map_watershed_land_cover = "occupation_du_sol_"
 map_watershed_abatement = "taux_abattement_de_transferts_"
@@ -277,6 +318,9 @@ crs_selection_label_name = "Système de projection :"
 output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
 studied_element_label=" Choix du thème de modélisation: "
+season_choice_label="choix du saison:"
+season_choice_button0_label="Winter"
+season_choice_button1_label="Summer"
 studied_element_button0_label="Eaux de ruissellement"
 studied_element_button1_label="Erosion"
 studied_element_button2_label="Produits phytosanitaires"
