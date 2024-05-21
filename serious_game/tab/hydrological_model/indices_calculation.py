@@ -237,7 +237,35 @@ class FlowCalculation_phyto:
         self.output_path=output_path
 
     def prepare_layers(self, parcel_layer, line_layer):
-        line_layer.startEditing()
+    line_layer.startEditing()
+
+    if selected_season == "summer":
+        line_layer.addAttribute(QgsField(field_incoming_flow_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_incoming_flow_from_line_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_incoming_flow_from_parcel_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_line_to_parcel_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_flow_abatement_summer, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_incoming_flow_rating_summer, QVariant.Int, "int", 2))
+        line_layer.addAttribute(QgsField(field_flow_abatement_rating_summer, QVariant.Int, "int", 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_up_summer, QVariant.Double, "double", 10, 5))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_down_summer, QVariant.Double, "double", 10, 5))
+
+    elif selected_season == "winter":
+        line_layer.addAttribute(QgsField(field_incoming_flow_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_incoming_flow_from_line_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_incoming_flow_from_parcel_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_lat_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_line_to_parcel_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_flow_abatement_winter, QVariant.Double, "double", 10, 2))
+        line_layer.addAttribute(QgsField(field_flow_abatement_rating_winter, QVariant.Int, "int", 2))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_up_winter, QVariant.Double, "double", 10, 5))
+        line_layer.addAttribute(QgsField(field_outgoing_flow_long_down_winter, QVariant.Double, "double", 10, 5))
+
+    else:
         line_layer.addAttribute(QgsField(field_incoming_flow, QVariant.Double, "double", 10, 2))
         line_layer.addAttribute(QgsField(field_incoming_flow_from_line, QVariant.Double, "double", 10, 2))
         line_layer.addAttribute(QgsField(field_incoming_flow_from_parcel, QVariant.Double, "double", 10, 2))
@@ -250,87 +278,80 @@ class FlowCalculation_phyto:
         line_layer.addAttribute(QgsField(field_incoming_flow_rating, QVariant.Int, "int", 2))
         line_layer.addAttribute(QgsField(field_outgoing_flow_long_up, QVariant.Double, "double", 10, 5))
         line_layer.addAttribute(QgsField(field_outgoing_flow_long_down, QVariant.Double, "double", 10, 5))
-        if line_layer.fields().indexFromName(field_history) != -1:
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_water))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_mes))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_phyto))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long_up))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long_down))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_up))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_down))
-        line_layer.addAttribute(QgsField(field_history, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_water, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_mes, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_phyto, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_water, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_mes, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_phyto, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_water, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_mes, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_phyto, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_water, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_mes, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_phyto, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_outflow_long, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_outflow_long_up, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_outflow_long_down, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_up, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_down, QVariant.String, "string", 10000))
 
-        for f in line_layer.getFeatures():
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_incoming_flow), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_incoming_flow_from_line), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_incoming_flow_from_parcel), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_outgoing_flow), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_outgoing_flow_lat), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_flow_abatement), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_flow_abatement_rating), 99)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_incoming_flow_rating), 99)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long_up), 0)
-            line_layer.changeAttributeValue(
-                f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long_down), 0)
-        line_layer.commitChanges()
-        line_layer.triggerRepaint()
+    if line_layer.fields().indexFromName(field_history) != -1:
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_phyto))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long_up))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long_down))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_up))
+        line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_down))
+    
+    line_layer.addAttribute(QgsField(field_history, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_water, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_mes, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_phyto, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_water, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_phyto, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_lat, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_lat_phyto, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_long, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_long_phyto, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_outflow_long, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_outflow_long_up, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_outflow_long_down, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_long_up, QVariant.String, "string", 10000))
+    line_layer.addAttribute(QgsField(field_history_abatement_long_down, QVariant.String, "string", 10000))
 
-        parcel_layer.startEditing()
-        if parcel_layer.fields().indexFromName(field_history) != -1:
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_water))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_mes))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_water))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_mes))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_phyto))
+    for f in line_layer.getFeatures():
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_incoming_flow), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_incoming_flow_from_line), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_incoming_flow_from_parcel), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_outgoing_flow), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_outgoing_flow_lat), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_flow_abatement), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_flow_abatement_rating), 99)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_incoming_flow_rating), 99)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long_up), 0)
+        line_layer.changeAttributeValue(f.id(), line_layer.fields().indexFromName(field_outgoing_flow_long_down), 0)
+    
+    line_layer.commitChanges()
+    line_layer.triggerRepaint()
+
+    parcel_layer.startEditing()
+    
+    if parcel_layer.fields().indexFromName(field_history) != -1:
+        parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production))
+        parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto))
+        parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history))
+        parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_phyto))
+
+    if selected_season == 'summer':
         parcel_layer.addAttribute(QgsField(field_flow_production, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_water, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_mes, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_winter, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_flow_production_phyto, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_phyto_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_phyto_winter, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_incoming_flow, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_incoming_flow_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_incoming_flow_winter, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_outgoing_flow, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_outgoing_flow_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_outgoing_flow_winter, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_parcel_outflow_drain, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_parcel_outflow_drain_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_parcel_outflow_drain_winter, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_flow_abatement, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(
-            QgsField(field_parcel_above, QVariant.String, "string", 100))
+        parcel_layer.addAttribute(QgsField(field_flow_abatement_summer, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_abatement_winter, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_parcel_above, QVariant.String, "string", 100))
         parcel_layer.addAttribute(QgsField(field_parcel_below, QVariant.String, "string", 100))
         parcel_layer.addAttribute(QgsField(field_history, QVariant.String, "string", 10000))
         parcel_layer.addAttribute(QgsField(field_history_water, QVariant.String, "string", 10000))
@@ -339,11 +360,11 @@ class FlowCalculation_phyto:
         parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_abatement))
         parcel_layer.addAttribute(QgsField(field_history_abatement, QVariant.String, "string", 10000))
         parcel_layer.addAttribute(QgsField(field_history_abatement_water, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_mes, QVariant.String, "string", 10000))
         parcel_layer.addAttribute(QgsField(field_history_abatement_phyto, QVariant.String, "string", 10000))
         parcel_layer.addAttribute(QgsField(field_flow_river_rate, QVariant.Double, "double", 10, 5))
         parcel_layer.addAttribute(QgsField(field_flow_production_area_river, QVariant.Double, "double", 10, 5))
         parcel_layer.addAttribute(QgsField(field_flow_production_area, QVariant.Double, "double", 10, 5))
+        
         for f in parcel_layer.getFeatures():
             attrs = f.attributes()
             parcel_type = attrs[parcel_layer.fields().indexFromName(field_type_parcel)]
@@ -351,35 +372,30 @@ class FlowCalculation_phyto:
             slope = attrs[parcel_layer.fields().indexFromName(field_parcel_slope)]
             label = attrs[parcel_layer.fields().indexFromName(field_parcel_practice)]
             longueur = attrs[parcel_layer.fields().indexFromName(field_parcel_slope_length)]
+            
             if parcel_type in self.production_type:
-                prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                self.production)
-                prod_water = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_water)
-                prod_mes = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                    self.production_mes)*longueur
-                prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_phyto)
+                prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope, self.production)
+                prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope, self.production_phyto)
+                prod_phyto_summer = parcel_inflow_production_summer(parcel_type, label, slope, area, self.slope, self.production_phyto)
+                prod_phyto_winter = parcel_inflow_production_winter(parcel_type, label, slope, area, self.slope, self.production_phyto)
             else:
                 prod = 0
-                prod_water = 0
-                prod_mes = 0
                 prod_phyto = 0
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
-                field_incoming_flow), 0)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
-                field_outgoing_flow), 0)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
-                field_parcel_outflow_drain), 0)
+            
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_incoming_flow), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_incoming_flow_summer), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_incoming_flow_winter), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_outgoing_flow), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_outgoing_flow_summer), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_outgoing_flow_winter), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_parcel_outflow_drain), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_parcel_outflow_drain_summer), 0)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_parcel_outflow_drain_winter), 0)
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production), prod)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_water),
-                                              prod_water)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_mes),
-                                              prod_mes)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto),
-                                              prod_phyto)
-        parcel_layer.commitChanges()
-        parcel_layer.triggerRepaint()
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto), prod_phyto)
+
+    parcel_layer.commitChanges()
+    parcel_layer.triggerRepaint()
 
     def line_analysis(self, line_layer, parcel_layer, connexion_layer, line_id, history_field,
                       history_abatement_field):
