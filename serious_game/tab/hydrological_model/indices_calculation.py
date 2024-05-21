@@ -215,24 +215,16 @@ class FlowCalculation_phyto:
         self.land_cover = land_cover
         self.abatement_type = abatement_type
         self.abatement = None
-        self.abatement_water = abatement_water
-        self.abatement_mes = abatement_mes
         self.abatement_phyto = abatement_phyto
         self.production_type = production_type
         self.production = None
-        self.production_water = production_water
-        self.production_mes = production_mes
         self.production_phyto = production_phyto
         self.line_type = line_type
         self.abatement_type_long = abatement_type_long
         self.abatement_type_lat = abatement_type_lat
         self.abatement_long = None
-        self.abatement_long_water = abatement_long_water
-        self.abatement_long_mes = abatement_long_mes
         self.abatement_long_phyto = abatement_long_phyto
         self.abatement_lat = None
-        self.abatement_lat_water = abatement_lat_water
-        self.abatement_lat_mes = abatement_lat_mes
         self.abatement_lat_phyto = abatement_lat_phyto
         self.output_path=output_path
 
