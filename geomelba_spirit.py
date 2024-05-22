@@ -90,7 +90,7 @@ class GeomelbaSpirit:
 
         self.studied_elements=[]
         self.coded_studied_elements=[]
-        
+
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -309,7 +309,7 @@ class GeomelbaSpirit:
                 else :
                     studied_elements=["de MES"]
                     coded_studied_elements=[1]
-                
+
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
                     self.dlg.watershed_button_group.checkedId()).accessibleName().lower()
@@ -326,14 +326,15 @@ class GeomelbaSpirit:
                 # Get CRS from widget and set CRS for project
                 crs = self.dlg.crs_selector.crs()
                 self.project.setCrs(crs)
-                
+
                 #init data file with the name of the watershed
                 data_layer_file = data_layer + watershed_name
-                
+
+                # if the type of watershed already exists
                 if watershed_name != "create_watershed":
-                    if loading == False :
-                        """Attention code more ou useless qu'on va pouvoir enlever"""
-                        print("boucle new")
+
+                    # if you whant a new default watershed
+                    if loading is False :
                         input_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
                         # Check if the linear and parcel layer already exist in th project, if so we change their name
                         if self.project.mapLayersByName(line_style_layer_name):
@@ -365,8 +366,6 @@ class GeomelbaSpirit:
                             group.setItemVisibilityChecked(False)
                         # Get the layers from the geopackage
                         if  self.dlg.gpkg_file != None :
-                            print("ici on choisi le bv")
-                            print(self.dlg.gpkg_file)
                             geopackage_path = self.dlg.gpkg_file[0]
                             watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
                             geopackage_path_source = str(input_path+watershed_name) + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
@@ -434,6 +433,7 @@ class GeomelbaSpirit:
                             # Add a style to the parcel layer.
                             new_parcel_layer.commitChanges()
                             new_parcel_layer.triggerRepaint()
+                            
                             new_parcel_layer.loadNamedStyle(input_path + "/" + style_parcel)
                             label_settings = QgsPalLayerSettings()
                             label_settings.drawLabels = True
@@ -492,20 +492,18 @@ class GeomelbaSpirit:
                             layer_crs.createFromId(crs.postgisSrid())
                             line_style.setCrs(layer_crs)
                             self.project.addMapLayer(line_style)
-                
-                    elif loading == True:
-                        print("boucle load")
+
+                    # if you whant to load file
+                    elif loading is True:
                         """
-                        Attention code mort ou useless qu'on va pouvoir enlever
-                        L'objectif c'est d'enlever toutes les références à l'input de base bv_xxxxx.gpkg
-                        cependant attention on a quand meme besoins de connexion_layer pour la carte ce qui va etre le plus difficile
-                        Première étape récupérer le watershed name
+                        Same overall operation as above. However one difference is that the loading of the parcel and linear comes from a file chosen by the user. 
+                        The Connection Layer comes from the default source. It does not change the attribute table when loaded
                         """
+                        # get selected geopackage file path
                         geopackage_path = self.dlg.gpkg_file[0]
-                        
+
+                        # get default watershed path
                         source_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
-                        print("source path")
-                        print(source_path)
                         # Check if the linear and parcel layer already exist in th project, if so we change their name
                         if self.project.mapLayersByName(line_style_layer_name):
                             layer = self.project.mapLayersByName(line_style_layer_name)[0]
@@ -535,25 +533,20 @@ class GeomelbaSpirit:
                             group.setExpanded(0)
                             group.setItemVisibilityChecked(False)
                         # Get the layers from the geopackage
-                        if  self.dlg.gpkg_file != None :
-                            print("ici on choisi le bv")
-                            print(self.dlg.gpkg_file)
+                        if self.dlg.gpkg_file is not None :
                             geopackage_path = self.dlg.gpkg_file[0]
                             geopackage_source_path = str(source_path)+ "/" + watershed_prefix + str(watershed_name) + '.gpkg'
                             geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
                             
-                            #ici je crée un layer avec toutes les infos alors qu j'en ai pas besoins. Ce qui fait que j'ai deux layers avec les infos mauvaises et les bonnes alors qu'il me faut jsute les infos des connexions
                             geopackage_source = QgsVectorLayer(geopackage_source_path, "", "ogr")
+                            # from default layers get only connexion one
                             connexion_layer = geopackage_source.dataProvider().subLayers()[2]
-                            
+                           
                             layers = geopackage.dataProvider().subLayers()
                             layers.append(connexion_layer)
 
-                            
-                        """ Ce ne sont pas les memes noms de layers"""
+                        # Check if all layer are present
                         error_count = 0
-                        print("voici les layers")
-                        print(layers)
                         for layer in layers:
                             name = layer.split('!!::!!')[1]
                             uri = "%s|layername=%s" % (geopackage_path, name,)
@@ -563,14 +556,13 @@ class GeomelbaSpirit:
                             elif name == line_layer_name:
                                 line_layer = QgsVectorLayer(uri, name, 'ogr')
                                 error_count = error_count + 1
-                        #ici problème car connexion n'existe pas dans le fichier de sauvegarde, il faut donc aller le chercher sans créer de problème
                             elif name == geopackage_layer_name_connexions:
+                                # change the uri source for connexion
                                 uri_source = "%s|layername=%s" % (geopackage_source_path, name,)
                                 connexion_layer = QgsVectorLayer(uri_source, name, 'ogr')
                                 connexion_layer.setCrs(crs)
                                 error_count = error_count + 1
                         if error_count != 3:
-                            print(error_count)
                             QMessageBox.information(
                                 None, information_geopackage_error_pt1, information_geopackage_error_pt2)
                         else:
@@ -590,9 +582,8 @@ class GeomelbaSpirit:
                             # Add the layers to the project.
                             gpkg = QgsVectorLayer(data_directory + data_layer_file + ".gpkg", "", "ogr")
                             layers = gpkg.dataProvider().subLayers()
-                            # connexion_layer = geopackage_source.dataProvider().subLayers()[2]
+
                             for layer in layers:
-                                print("On parcours les layers")
                                 name = layer.split('!!::!!')[1]
                                 uri = "%s|layername=%s" % (data_directory + data_layer_file + ".gpkg", name,)
                                 if name == parcel_layer_name:
@@ -611,7 +602,6 @@ class GeomelbaSpirit:
                             # Add a style to the parcel layer.
                             new_parcel_layer.commitChanges()
                             new_parcel_layer.triggerRepaint()
-                            print(source_path + "/" + style_parcel)
                             
                             new_parcel_layer.loadNamedStyle(source_path + "/" + style_parcel)
                             label_settings = QgsPalLayerSettings()
