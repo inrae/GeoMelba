@@ -17,6 +17,8 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
+weasyprint_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'dependency', 'weasyprint-62.1'))
+sys.path.insert(0, weasyprint_path)
 
 # -- General configuration -----------------------------------------------------
 

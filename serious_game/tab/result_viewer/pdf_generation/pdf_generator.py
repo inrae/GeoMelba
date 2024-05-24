@@ -65,9 +65,6 @@ class Pdf_generator:
         self.list_layer = [line_layer_name,parcel_layer_name] #if a new layer is added to the gpkg file, it is important to add it here
         
         self.previous_stade_json_path = os.path.join(self.json_path + "previous_stade.json")
-        
-        print("numero du tour depuis pdf")
-        print(self.count_turn)
 
     def start_extraction(self):
         """Make the calculation and extract"""
@@ -158,8 +155,6 @@ class Pdf_generator:
                     for feature in layer.getFeatures():
                         valeurs = [str(feature[field.name()]) for field in layer.fields()]
                         fichier_csv.write(";".join(valeurs) + "\n")
-
-                print("csv export")
             
     def csv_to_json(self,csv_file, json_file):
         """
@@ -355,8 +350,6 @@ class Pdf_generator:
                     initial = json.load(fichier_json) # contains all previous state
                     initial = initial[0]["turn"]
             except FileNotFoundError as e:
-                print("erreur lors du chargement du json")
-                print(e)
                 initial = self.count_turn
             
             if len(donnees) > 1:

@@ -68,12 +68,34 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.init_button_watershed(watershed_prefix)
 
 
+        # self.button_load_watershed = QPushButton(self)
+        # self.button_load_watershed.setFont(regular_font)
+        # self.button_load_watershed.setText("Charger une configuration")
+        # self.button_load_watershed.setGeometry(30, 260, 340, 30)
+        # self.button_load_watershed.setCheckable(True)
+        # self.button_load_watershed.clicked.connect(lambda : self.loader())
+        
+        # Label creation
+        label_load = QLabel(self)
+        label_load.setFont(regular_font)
+        label_load.setGeometry(30, 260, 400, 30)
+        label_load.setText("Charger une configuration :")
+        # Line edit for the output folder
+        self.load_text = QLineEdit(self)
+        self.load_text.setFont(regular_font)
+        self.load_text.setGeometry(220, 260, 120, 30)
+        self.load_text.setEnabled(False)
+        # Connexion of the output path text with a function to check if the path chose by the user is valid.
+        # self.load_text.textChanged.connect(self.valid_path)
+        # Button to find the output folder
         self.button_load_watershed = QPushButton(self)
         self.button_load_watershed.setFont(regular_font)
-        self.button_load_watershed.setText("Charger une configuration")
-        self.button_load_watershed.setGeometry(30, 260, 340, 30)
-        self.button_load_watershed.setCheckable(True)
+        self.button_load_watershed.setGeometry(340, 260, 30, 30)
+        self.button_load_watershed.setText(output_button_name)
+        self.button_load_watershed.setEnabled(True)
+        # Function connected to the signal emitted by the button.
         self.button_load_watershed.clicked.connect(lambda : self.loader())
+        # User cannot validate his selection while it's not valid, the start button is disabled.
         
         # Creation of a button to add another watershed to the plugin
         button_create_watershed = QPushButton(self)
@@ -152,6 +174,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         """
         # open selector file window
         self.gpkg_file = QFileDialog.getOpenFileName(self, folder_selection_text, "","GeoPackage File (*.gpkg)")
+        self.load_text.setText(self.gpkg_file[0])
         # check if watershed selected is the same as the .gpkg file
         try :
             checked_button = self.watershed_button_group.button(self.watershed_button_group.checkedId()).accessibleName().lower()
@@ -161,6 +184,8 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
                 QMessageBox.information(None, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt2)
                 self.button_load_watershed.setChecked(False)
                 self.gpkg_file = None
+                self.load_text.setText("")
+
         except Exception as e:
             QMessageBox.information(None, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt3)
             self.button_load_watershed.setChecked(False)
@@ -258,6 +283,18 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
             self.output_button.setEnabled(True)
             self.output_text.setEnabled(True)
 
+            try :
+                checked_button = self.watershed_button_group.button(self.watershed_button_group.checkedId()).accessibleName().lower()
+                watershed_name_from_file = os.path.basename(self.gpkg_file[0]).split('_')[2].split('.')[0]
+                if checked_button != watershed_name_from_file :
+                    QMessageBox.information(None, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt2)
+                    self.button_load_watershed.setChecked(False)
+                    self.gpkg_file = None
+                    self.load_text.setText("")
+                    
+            except Exception as e :
+                pass
+            
             # If the output path exist, the user can launch the plugin.
             if os.path.exists(self.output_text.text()):
                 self.button_box.setEnabled(True)
@@ -267,15 +304,6 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
                    self.watershed_button_group.checkedId()).accessibleName().lower()):
                    QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
             # check that the name of the watershed is the same as the gpkg
-            try :
-                checked_button = self.watershed_button_group.button(self.watershed_button_group.checkedId()).accessibleName().lower()
-                watershed_name_from_file = os.path.basename(self.gpkg_file[0]).split('_')[2].split('.')[0]
-                if checked_button != watershed_name_from_file :
-                    QMessageBox.information(None, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt2)
-                    self.button_load_watershed.setChecked(False)
-                    self.gpkg_file = None
-            except Exception as e :
-                pass
 
             else:
                 # if the path doesn't exist, the user cannot launch the plugin.

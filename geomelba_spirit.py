@@ -314,7 +314,7 @@ class GeomelbaSpirit:
                 watershed_name = self.dlg.watershed_button_group.button(
                     self.dlg.watershed_button_group.checkedId()).accessibleName().lower()
                 #check if loading button is checked
-                if self.dlg.button_load_watershed.isChecked():
+                if self.dlg.load_text.text() != "" :
                     loading = True
                 else : 
                     loading = False
@@ -365,20 +365,10 @@ class GeomelbaSpirit:
                             group.setExpanded(0)
                             group.setItemVisibilityChecked(False)
                         # Get the layers from the geopackage
-                        if  self.dlg.gpkg_file != None :
-                            geopackage_path = self.dlg.gpkg_file[0]
-                            watershed_name = geopackage_path.split("/")[-3] #get watershedname attention cependant si le chemin d'accès est + long ou différent ou meme si on change le nom
-                            geopackage_path_source = str(input_path+watershed_name) + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                            geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                            geopackage_source = QgsVectorLayer(geopackage_path_source, "", "ogr")
-                            layers = geopackage.dataProvider().subLayers()
-                            layers_source = geopackage_source.dataProvider().subLayers()
-                            layers.append(layers_source[2])
-                            layers[0].replace("name from dict","name from dict 2(mauvais)")
-                        else :
-                            geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
-                            geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
-                            layers = geopackage.dataProvider().subLayers()
+                        
+                        geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
+                        geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
+                        layers = geopackage.dataProvider().subLayers()
                             
                         error_count = 0
                         for layer in layers:
