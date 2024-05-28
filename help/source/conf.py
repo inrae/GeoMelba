@@ -11,14 +11,18 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys
+import os
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
-weasyprint_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'dependency', 'weasyprint-62.1'))
+weasyprint_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'dependency', 'weasyprint-62.1', 'weasyprint'))
+print(weasyprint_path)
 sys.path.insert(0, weasyprint_path)
+
+import weasyprint
 
 # -- General configuration -----------------------------------------------------
 
