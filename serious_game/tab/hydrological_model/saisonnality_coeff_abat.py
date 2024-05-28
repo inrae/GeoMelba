@@ -1,9 +1,8 @@
 import csv
 import os
 import sys
-import pandas as pd
 
-def get_file_path(land_cover.csv):
+def get_file_path(filename):
     # Get the directory of the current script
     current_dir = os.path.dirname(__file__)
     # Construct the file path by joining the current directory with the filename
@@ -11,8 +10,7 @@ def get_file_path(land_cover.csv):
 
 
 def coefficient_abatement_season_UH(season, land_type):
-    # Define the relative file path
-file_path = get_file_path("data/bv_gimond/land_cover.csv")
+    file_path = get_file_path("data/bv_gimond/land_cover.csv")
 
     # Initialize dictionaries to store summer and winter abatement values
     summer_coeffs = {}
@@ -54,16 +52,16 @@ file_path = get_file_path("data/bv_gimond/land_cover.csv")
         return winter_coeffs
     else:
         return None  # Return None if season is neither summer nor winter
+
+
+import csv
 
 
 def coefficient_abattement_season_TE(season, land_type):
-    # Define the relative file path
-file_path = get_file_path("data/bv_gimond/line_type.csv")
-    
-    # Initialize dictionaries to store summer and winter abatement values
+    file_path = get_file_path("data/bv_gimond/line_type.csv")
     summer_coeffs = {}
     winter_coeffs = {}
-    
+
     with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
@@ -90,12 +88,11 @@ file_path = get_file_path("data/bv_gimond/line_type.csv")
                         'abatement_lat_mes_value': float(row['abatement_lat_mes_value']),
                         'abatement_lat_phyto_value': float(row['abatement_lat_phyto_value'])
                     }
-    
+
     # Return dictionaries for summer and winter abatement values
     if season == 'summer':
         return summer_coeffs
     elif season == 'winter':
         return winter_coeffs
     else:
-        return None  # Return None if season is neither summer nor winter
-
+        return None
