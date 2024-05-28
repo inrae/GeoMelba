@@ -175,15 +175,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
             # Handle selection of button 2 (MES)
             return "PHYTO"
 
-    def on_season_clicked_choice(self):
-        # Function to handle when a season choice button is clicked
-        selected_button = self.sender()  # Get the button that triggered the event
-        if selected_button == self.RadioButton_season_choice0:
-            # Handle selection of button 0
-            return "winter"
-        elif selected_button == self.RadioButton_season_choice1:
-            # Handle selection of button 1
-            return "summer"
+   
 
     def init_button_watershed(self, value_to_test):
         """Function to place the different watershed buttons in the dialog. They are based on folders in the
