@@ -22,7 +22,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-
+import sys
+import os
+from .saisonnality_coeff_abat import coefficient_abatement_season_UH
+from .saisonnality_coeff_abat import coefficient_abattement_season_TE
 
 def parcel_inflow_production(land_cover, agricultural_practices, slope, area, slope_list, production_list):
     """Used to get the flow production of a feature depending on it's land cover, agricultural practice, slope and area.
@@ -46,52 +49,93 @@ def parcel_inflow_production(land_cover, agricultural_practices, slope, area, sl
     return flow_production
 
 
-def coefficient_abatement_UH(land_cover, slope, length, slope_list, abatement_list):
-    """Used to get the abatement coefficient of an UH based on it's land cover, slope and slope length.
-    The mandatory arguments are :
+def coefficient_abatement_UH(land_cover, slope, length, slope_list, season):
+    """Used to get the abatement coefficient of an UH based on it's land cover, slope, and slope length.
+    The mandatory arguments are:
     - the land cover type of the feature
     - the slope of the feature
     - the slope length of the feature
     - the list of the slopes range
-    - list of the abatement values for every land cover type depending on slope.
+    - list of the abatement values for every land cover type depending on slope
+    - the season ('summer' or 'winter') for which to retrieve abatement values.
     """
-    # If the slope is low, the slope is lower than the biggest value in the low slope range.
-    if slope < slope_list['low'][1]:
-        abatement = abatement_list[land_cover][0]
-    # If the slope is high, the slope is higher than the biggest value in the medium slope range.
-    elif slope > slope_list['medium'][1]:
-        abatement = abatement_list[land_cover][2]
-    # If the slope is medium
+    # Call coefficient_abatement_season_UH to get the abatement coefficients for the specified season and land cover
+    abatement_coeffs = coefficient_abatement_season_UH(season, land_cover)
+    
+    # If the abatement coefficients are found for the specified season and land cover
+    if abatement_coeffs is not None:
+        # Determine the abatement coefficient based on the slope
+        if slope < slope_list['low'][1]:
+            abatement = abatement_coeffs['abatement_eau_value_low_slope']
+        elif slope > slope_list['medium'][1]:
+            abatement = abatement_coeffs['abatement_eau_value_high_slope']
+        else:
+            abatement = abatement_coeffs['abatement_eau_value_medium_slope']
+        
+        # Calculate the coefficient
+        calculation = (length / 5) * abatement
+        coefficient = min(100, calculation) / 100
+        return coefficient
     else:
-        abatement = abatement_list[land_cover][1]
-    calculation = (length / 5) * abatement
-    coefficient = min(100, calculation) / 100
-    return coefficient
+        # Handle the case if the specified season or land cover is invalid
+        print(f"Error: Invalid season '{season}' or land cover '{land_cover}'.")
+        return None
 
-
-def coefficient_abatement_lateral_TE(type_line, abatement_lateral_list):
-    """Used to get the lateral abatement coefficient of a TE based on it's type.
-    The mandatory arguments are :
+def coefficient_abatement_lateral_TE(type_line, season):
+    """Used to get the lateral abatement coefficient of a TE based on its type and season.
+    The mandatory arguments are:
     - the type of the feature
+    - the season ('summer' or 'winter')
     - list of the lateral abatement values for every line type.
     """
-    # Get the coefficient from the excel file for this type of line.
-    coefficient = abatement_lateral_list[type_line]
-    return coefficient
+    # Call coefficient_abattement_season_TE to get the abatement coefficients
+    abatement_coeffs = coefficient_abattement_season_TE(season, type_line)
+    
+    # Extract the lateral abatement coefficient from the obtained values
+    if abatement_coeffs is not None:
+        # Check if the requested type_line is present in the obtained values
+        if 'abatement_lat' in abatement_coeffs:
+            return abatement_coeffs['abatement_lat']
+        else:
+            # Handle the case if 'abatement_lat' is not present in the obtained values
+            print(f"Error: 'abatement_lat' not found for the specified season '{season}' and land type '{type_line}'.")
+            return None
+    else:
+        # Handle the case if the specified season or land type is invalid
+        print(f"Error: Invalid season '{season}' or land type '{type_line}'.")
+        return None
 
 
-def coefficient_abatement_longitudinal_TE(type_line, length, abatement_longitudinal_list):
-    """Used to get the longitudinal abatement coefficient of a TE based on it's type and length.
-    The mandatory arguments are :
+def coefficient_abatement_longitudinal_TE(season, land_type, length):
+    """Used to get the longitudinal abatement coefficient of a TE based on its type, season, and length.
+    The mandatory arguments are:
+    - the season ('summer' or 'winter')
     - the type of the feature
     - the length of the feature
-    - list of the longitudinal abatement values for every line type.
+    - dictionary of longitudinal abatement values for summer and winter seasons
     """
-    # Get the abatement for a meter from the excel file for this type of line.
-    abatement = abatement_longitudinal_list[type_line]
-    # Create the coefficient by multiplying the abatement by the length and divide the product by 100.
-    coefficient = (abatement * length) / 100
-    # Assure the coefficient is not bigger than 1.
-    if coefficient > 1:
-        coefficient = 1
-    return coefficient
+    # Fetch the longitudinal abatement values for the specified season and land type
+    abatement_coeffs = coefficient_abattement_season_TE(season, land_type)
+    
+    # Extract the longitudinal abatement coefficient from the obtained values
+    if abatement_coeffs is not None:
+        # Check if the requested type_line is present in the obtained values
+        if 'abatement_long' in abatement_coeffs:
+            # Get the abatement for a meter
+            abatement = abatement_coeffs['abatement_long']
+            # Create the coefficient by multiplying the abatement by the length and divide the product by 100
+            coefficient = (abatement * length) / 100
+            # Assure the coefficient is not bigger than 1
+            if coefficient > 1:
+                coefficient = 1
+            return coefficient
+        else:
+            # Handle the case if 'abatement_long' is not present in the obtained values
+            print("Error: 'abatement_long' not found for the specified season and land type.")
+            return None
+    else:
+        # Handle the case if the specified season or land type is invalid
+        print("Error: Invalid season or land type.")
+        return None
+
+
