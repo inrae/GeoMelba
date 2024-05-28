@@ -27,10 +27,6 @@
 import os
 import sys
 
-weasyprint_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'dependency', 'weasyprint-62.1', 'weasyprint'))
-sys.path.insert(0, weasyprint_path)
-print(weasyprint_path)
-
 import csv
 import json
 import json.tool
