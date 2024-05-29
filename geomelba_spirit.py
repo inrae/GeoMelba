@@ -27,9 +27,8 @@
 import os
 import sys
 
-weasyprint_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'dependency', 'weasyprint-62.1'))
-sys.path.insert(0, weasyprint_path)
-print(weasyprint_path)
+
+sys.path.insert(0,os.path.abspath(os.path.join(os.path.dirname(__file__), 'libs')))
 
 import os.path
 from qgis.core import QgsVectorFileWriter, QgsProject, QgsCoordinateReferenceSystem, QgsVectorLayer, QgsField, \

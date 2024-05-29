@@ -1,0 +1,59 @@
+[build-system]
+requires = ['flit_core >=3.2,<4']
+build-backend = 'flit_core.buildapi'
+
+[project]
+name = 'cairocffi'
+description = 'cffi-based cairo bindings for Python'
+keywords = ['cairo', 'cffi', 'binding']
+authors = [{name = 'Simon Sapin', email = 'contact@courtbouillon.org'}]
+maintainers = [{name = 'CourtBouillon', email = 'contact@courtbouillon.org'}]
+requires-python = '>=3.8'
+readme = {file = 'README.rst', content-type = 'text/x-rst'}
+license = {file = 'LICENSE'}
+dependencies = [
+    'cffi >= 1.1.0',
+]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: POSIX :: Linux',
+    'Operating System :: MacOS :: MacOS X',
+    'Operating System :: Microsoft :: Windows',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Topic :: Multimedia :: Graphics',
+]
+dynamic = ['version']
+
+[project.urls]
+Documentation = 'https://doc.courtbouillon.org/cairocffi/'
+Code = 'https://github.com/Kozea/cairocffi/'
+Issues = 'https://github.com/Kozea/cairocffi/issues'
+Changelog = 'https://doc.courtbouillon.org/cairocffi/stable/changelog.html'
+Donation = 'https://opencollective.com/courtbouillon'
+
+[project.optional-dependencies]
+doc = ['sphinx', 'sphinx_rtd_theme']
+test = ['pytest', 'ruff', 'numpy', 'pikepdf']
+xcb = ['xcffib >= 1.4.0']
+
+[tool.flit.sdist]
+exclude = ['.*']
+
+[tool.coverage.run]
+branch = true
+include = ['cairocffi/*']
+
+[tool.coverage.report]
+exclude_lines = ['pragma: no cover', 'def __repr__', 'raise NotImplementedError']
+omit = ['.*']
+
+[tool.ruff.lint]
+select = ['E', 'W', 'F', 'I', 'N', 'RUF']
+ignore = ['RUF001', 'RUF002', 'RUF003']
