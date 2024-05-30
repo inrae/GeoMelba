@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+    <content>
     <div class="regular">
         <h1>Fiche d'identité du bassin versant {{ watershed_name }} </h1>
         <h3>Tour {{ count }} </h3>
@@ -114,5 +115,14 @@
             </div>
         </div>
     </div>
+    </content>
+    <footer>
+        {% if watershed_name == "gimond" or watershed_name == "beaujolais"%}
+            <img src="templates/{{ watershed_name }}_footer.jpg" style="height: 1.5cm"/>
+        {% else %}
+            <img src="templates/gimond_footer.jpg" style="height: 1.5cm;"/>
+        {% endif %}
+    </footer>
+    <div class="page-break"></div>
 </body>
 </html>

@@ -222,7 +222,7 @@ class UiCreationOwnerModification:
         label_switch.setText(switch_parcels_owner_label_pt1)
         label_switch_1 = QLabel(tab_widget.widget(tab_index))
         label_switch_1.setFont(regular_font)
-        label_switch_1.setGeometry(10, 530, 190, 30)
+        label_switch_1.setGeometry(10, 530, 210, 30)
         label_switch_1.setText(switch_parcels_owner_label_pt2)
         label_switch_2 = QLabel(tab_widget.widget(tab_index))
         label_switch_2.setFont(regular_font)
@@ -240,7 +240,7 @@ class UiCreationOwnerModification:
         self.first_spinbox = SpinBoxes(tab_widget.widget(tab_index))
         self.second_spinbox = SpinBoxes(tab_widget.widget(tab_index))
         # Place the SpinBoxes.
-        self.first_spinbox.setGeometry(210, 530, 71, 26)
+        self.first_spinbox.setGeometry(230, 530, 71, 26)
         self.second_spinbox.setGeometry(490, 530, 71, 26)
         # ManagerSpinBox creation. It will control the values of the SpinBoxes and correct them if needed.
         manager_spin_boxes = ManagerSpinBoxes()

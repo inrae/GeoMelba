@@ -1,15 +1,29 @@
 @page {
-    margin-top: 1cm;
-    margin-bottom: 1cm;
+    size : A4;
+    margin-top: 0.5cm;
+    margin-bottom: 1.5cm;
     margin-left: 0cm;
     margin-right: 0cm;
     background: #f2eae3;
+    @bottom-center {
+        content: element(footer)
+    }
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url('templates/Raleway/Raleway-Bold.ttf') format('truetype');
 }
 
 body {
     background-color: #f2eae3;
     margin: 0%;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: "Raleway",sans-serif; */
+}
+
+footer {
+    position: running(footer);
+    height: 1.5cm;
 }
 
 .list_item {
@@ -40,6 +54,7 @@ body {
 
 h1 {
     color: #3e8d62;
+    font-family: "Raleway",sans-serif;
 }
 
 p {
@@ -114,9 +129,10 @@ li {
 .greenbar {
     background-color: #3e8d62;
     display: flex;
+    justify-content: space-between;
 }
 
-img {
+.greenbar img{
     width: 350px;
     height: 262px;
     margin: 10px;

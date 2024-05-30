@@ -276,7 +276,7 @@ create_watershed_button_name = "Créer son bassin versant (en développement)"
 crs_selection_label_name = "Système de projection :"
 output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
-studied_element_label=" Choix du thème de modélisation: "
+studied_element_label=" Choix du thème de modélisation : "
 studied_element_button0_label="Eaux de ruissellement"
 studied_element_button1_label="Erosion"
 studied_element_button2_label="Produits phytosanitaires"
@@ -290,15 +290,15 @@ practices_multiple_modification_label_pt1 = "Modifier toutes les parcelles agric
                                              "avec les pratiques :"
 practices_multiple_modification_label_pt2 = "En parcelle avec une pratique :"
 practices_button_selection_label = "Sélectionner le type de pratique souhaité, puis sur la carte\n" \
-                                   "cliquer sur la parcelle agricole à modifier:"
-lines_multiple_modification_label_pt_1 = "Modifier tous les linéaires de type:"
+                                   "cliquer sur la parcelle agricole à modifier :"
+lines_multiple_modification_label_pt_1 = "Modifier tous les linéaires de type :"
 lines_multiple_modification_label_pt_2 = "En type :"
-parcels_multiple_modification_label_pt_1 = "Modifier toutes les parcelles de type:"
+parcels_multiple_modification_label_pt_1 = "Modifier toutes les parcelles de type :"
 parcels_multiple_modification_label_pt_2 = "En parcelle avec occupation du sol :"
 line_button_selection_label = "Sélectionner le type de linéaire souhaité, puis sur la carte cliquer\n" \
-                              "sur le linéaire à modifier:"
+                              "sur le linéaire à modifier :"
 parcel_button_selection_label = "Sélectionner le type d'occupation du sol souhaité puis, sur la carte cliquer\n" \
-                              "sur la parcelle à modifier:"
+                              "sur la parcelle à modifier :"
 
 owner_selection_top_label = "Sélectionner le propriétaire que vous voulez étudier :"
 municipality_button_name = "Commune"
@@ -401,9 +401,9 @@ abatement_map_parcel_legend_pt8 = 'Total (100%)'
 watershed_transfer_map_title_pt1 = "Cumul des transferts "
 watershed_transfer_map_title_pt2 = " reçus de l'amont par chaque parcelle ou linéaire relativement au maximum reçu par chaque type d'élément sur le bassin versant"
 watershed_transfer_map_parcel_pt1 = "Transferts "
-watershed_transfer_map_parcel_pt2 = " reçus par chaque parcelle\n relativement au maximum sur le bassin versant"
+watershed_transfer_map_parcel_pt2 = " reçus par chaque parcelle\nrelativement au maximum sur le bassin versant"
 watershed_transfer_map_line_pt1 = "Transferts "
-watershed_transfer_map_line_pt2 = " reçus par chaque linéaire\n relativement au maximum sur le bassin versant"
+watershed_transfer_map_line_pt2 = " reçus par chaque linéaire\nrelativement au maximum sur le bassin versant"
 watershed_transfer_map_river_pt1 = "Transferts "
 watershed_transfer_map_river_pt2 = " reçus\n par chaque tronçon du ruisseau"
 
@@ -515,7 +515,7 @@ information_loaded_watershed_type_pt1 = "Conflit de bassin versant séléctionn�
 information_loaded_watershed_type_pt2 = "Veuillez vérifier que le bassin versant sélectionné correspond bien au même que celui fichier .gpkg sélectionné \n Aucun gpkg n'a été séléctionné"
 information_loaded_watershed_type_pt3 = "Veuilez d'abord séléctionner un bassin versant"
 information_geopackage_error_pt1 = "Erreur dans le geopackage :"
-information_geopackage_error_pt2 = "Il doit posséder les 3 couches suivantes:\ncadastre\nlineaire\nconnexions"
+information_geopackage_error_pt2 = "Il doit posséder les 3 couches suivantes :\ncadastre\nlineaire\nconnexions"
 information_selection_error = "Erreur de sélection :"
 information_selection_error_parcel_1 = "Pas d'élément sélectionné.\nSeules les parcelles agricoles sont concernées " \
                                        "par ces pratiques.\nCliquer sur une parcelle agricole."
@@ -523,12 +523,12 @@ information_selection_error_parcel_2 = "Pas d'élément sélectionné.\nCette pr
                                        "parcelle.\nCliquer sur une autre parcelle agricole."
 information_selection_error_parcel_3 = "Pas d'élément sélectionné.\nVous avez cliquez sur une parcelle du même type " \
                                        "que votre outil.\nCliquer sur une parcelle avec une occupation du sol différente"
-information_selection_error_line_1 = "Pas d'élément sélectionné. \n Vous avez cliquez sur un linéaire du même type " \
+information_selection_error_line_1 = "Pas d'élément sélectionné. \nVous avez cliquez sur un linéaire du même type " \
                                      "que votre outil. \n Cliquer sur un linéaire avec un type différent"
-information_selection_error_line_2 = "Pas d'élément sélectionné. \n On ne peut pas modifier un cours d'eau. \nPour " \
+information_selection_error_line_2 = "Pas d'élément sélectionné. \nOn ne peut pas modifier un cours d'eau. \nPour " \
                                      "modifier les éléments en bordures de cours d'eau, veuillez utiliser l'outil " \
-                                     "'linéaires avancés'"
-information_selection_error_pt1 = "Pas d'élément sélectionné.\nCliquer sur un(e) "
+                                     "'linéaires avancés'."
+information_selection_error_pt1 = "Pas d'élément sélectionné.\nCliquer sur un(e)."
 information_switch_parcel_owner_error = "Les parcelles possèdent le même propriétaire. \n Echange impossible."
 information_modification_multiple_error_1 = "L'élément sélectionné n'est pas présent sur le bassin versant."
 information_modification_multiple_error_2 = "Pas d'élément sélectionné.\nVous n'avez choisi aucune parcelle à modifier."
