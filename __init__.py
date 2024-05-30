@@ -23,6 +23,11 @@
  This script initializes the plugin, making it known to QGIS.
 """
 
+import sys
+import os
+#cffi, cssselect2, fonttools, html5lib, Pillow, pydyf, Pyphen, tinycss2
+sys.path.insert(0,os.path.abspath(os.path.join(os.path.dirname(__file__), 'libs')))
+sys.path.insert(0,os.path.abspath(os.path.join(os.path.dirname(__file__), 'libs','_cffi_backend.cpython-310-x86_64-linux-gnu.so')))
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name

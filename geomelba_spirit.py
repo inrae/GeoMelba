@@ -25,10 +25,6 @@
 """
 
 import os
-import sys
-
-#cffi, cssselect2, fonttools, html5lib, Pillow, pydyf, Pyphen, tinycss2
-sys.path.insert(0,os.path.abspath(os.path.join(os.path.dirname(__file__), 'libs')))
 
 import os.path
 from qgis.core import QgsVectorFileWriter, QgsProject, QgsCoordinateReferenceSystem, QgsVectorLayer, QgsField, \
