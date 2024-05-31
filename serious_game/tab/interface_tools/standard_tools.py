@@ -24,6 +24,7 @@
  ***************************************************************************/
 """
 import csv
+import time
 import processing
 from PyQt5.QtWidgets import QMessageBox, QLabel, QSpinBox, QPushButton, QShortcut
 from PyQt5.QtGui import QKeySequence
@@ -134,9 +135,13 @@ class StandardTools:
         # With the CSV file open, it is read to find the line with the last action id.
         with open(self.path + history_table_name, 'r') as csvfile:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            rows_file_reader = list(file_reader)
+            # Reverse the list of rows
+            rows_file_reader.reverse()
             # Empty list to hold the lines of the field to rewrite.
             lines = []
-            for row in file_reader:
+            for row in rows_file_reader:
+                print(row)
                 # Stop the history of modification to no rewrite the rollback in the CSV.
                 self.signal_stop = 1
                 # Get information from file.

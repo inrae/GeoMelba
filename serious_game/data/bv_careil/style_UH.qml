@@ -14,13 +14,13 @@
   <renderer-v2 type="RuleRenderer" symbollevels="0" forceraster="0" enableorderby="0">
     <rules key="{0d6d9acd-aaa1-4b6b-b911-480402226b4f}">
       <rule key="{0dd946c1-e908-4c84-ba32-4ceb25c80394}" symbol="0" label="eau" filter=" &quot;type_sol&quot; // 100 = 1"/>
-      <rule key="{b80f5fe3-511b-4f6b-af6d-b87a6b735e60}" symbol="1" label="ble_tendre" filter="&quot;type_sol&quot; // 100 = 2"/>
+      <rule key="{b80f5fe3-511b-4f6b-af6d-b87a6b735e60}" symbol="1" label="ble tendre" filter="&quot;type_sol&quot; // 100 = 2"/>
       <rule key="{24404c1f-5c82-4ef2-9f86-4185e227a512}" symbol="2" label="prairies_permanentes" filter="&quot;type_sol&quot; // 100 =  3"/>
       <rule key="{8895efc2-2772-4588-875a-ee6b27c1858d}" symbol="3" label="bois" filter="&quot;type_sol&quot;  // 100 =  5"/>
       <rule key="{9a9d47ea-d0be-4d4c-ae44-e8dbc99cec6d}" symbol="4" label="prairies_temporaires" filter="&quot;type_sol&quot; // 100 =  4"/>
       <rule key="{9a9d47ea-d0be-4d4c-ae44-e8dbc99cec6d}" symbol="5" label="fourrage" filter="&quot;type_sol&quot; // 100 =  6"/>
       <rule key="{6cb843fd-9f80-4cf9-8345-63bb9ec2cff6}" symbol="6" label="bati" filter="&quot;type_sol&quot; // 100 =  7"/>
-      <rule key="{6cb843fd-9f80-4cf9-8345-63bb9ec2cff6}" symbol="8" label="Mais_grain" filter="&quot;type_sol&quot; // 100 =  8"/>
+      <rule key="{6cb843fd-9f80-4cf9-8345-63bb9ec2cff6}" symbol="8" label="mais grain" filter="&quot;type_sol&quot; // 100 =  8"/>
 
     </rules>
     <symbols>
@@ -72,28 +72,6 @@
         <layer enabled="1" class="SimpleFill" pass="0" locked="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="74,173,47,255"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0,0"/>
-          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="86,86,86,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.06"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="style" v="solid"/>
-          <data_defined_properties>
-            <Option type="Map">
-              <Option type="QString" name="name" value=""/>
-              <Option name="properties"/>
-              <Option type="QString" name="type" value="collection"/>
-            </Option>
-          </data_defined_properties>
-        </layer>
-      </symbol>
-       <symbol alpha="1" type="fill" force_rhr="0" clip_to_extent="1" name="8">
-        <layer enabled="1" class="SimpleFill" pass="0" locked="0">
-          <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
-          <prop k="color" v="240,191,43,255"/>
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
@@ -345,6 +323,28 @@
           <prop k="tweak_dash_pattern_on_corners" v="0"/>
           <prop k="use_custom_dash" v="0"/>
           <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" force_rhr="0" clip_to_extent="1" name="8">
+        <layer enabled="1" class="SimpleFill" pass="0" locked="0">
+          <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="color" v="240,191,43,255"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="86,86,86,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.06"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
               <Option type="QString" name="name" value=""/>
