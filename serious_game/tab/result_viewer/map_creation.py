@@ -292,7 +292,6 @@ class MapCreation:
             exutoire_value.setReferencePoint(QgsLayoutItem.LowerRight)
 
 
-
         # Export the layout as a JPEG.
         layout = manager.layoutByName(layout_name)
         exporter = QgsLayoutExporter(layout)
