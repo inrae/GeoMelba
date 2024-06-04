@@ -1,0 +1,9 @@
+"""
+To avoid any problems (or in case of problems) it is strongly advised to install locally these libraries.
+Here are the versions to install
+We juste have to do a pip install. Other bookstores will come in dependence with
+exemple : pip install weasyprint==62.1
+"""
+
+weasyprint==62.1
+matplotlib==3.5.1

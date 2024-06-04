@@ -31,10 +31,21 @@ import csv
 import json
 import json.tool
 from collections import defaultdict
-import matplotlib.pyplot as plt
 from qgis.core import QgsVectorLayer
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML
+try :
+    from weasyprint import HTML
+except Exception as e :
+    print("import exceptions for weasyprint lib")
+    print("some features can be unactivated")
+    print(e)
+try :
+    import matplotlib.pyplot as plt
+except Exception as e :
+    print("import exceptions for matplotlib")
+    print("some features can be unactivated")
+    print(e)
+
 from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder
 
 
@@ -132,7 +143,12 @@ class Pdf_generator:
             fichier_html.write(html)
 
         # convert html to pdf
-        HTML(filename=input_html).write_pdf(output_pdf,stylesheets=[css])
+        try :
+            HTML(filename=input_html).write_pdf(output_pdf,stylesheets=[css])
+        except Exception as e :
+                print("import exceptions for lib weasyprint and dependency. HTML file was created but not the pdf. You can find it here:")
+                print(input_html)
+                print(e)
 
     def table_to_csv(self):
         """
@@ -398,8 +414,12 @@ class Pdf_generator:
             plt.close()
         
         report = get_lastex_value(donnees)
-        graphe_creation(donnees)
-        
+        try :
+            graphe_creation(donnees)
+        except Exception as e :
+            print("import exceptions for lib matplotlib and dependency")
+            print(e)
+            
         return report  
 
     def evolution(self,data,keys,type):
