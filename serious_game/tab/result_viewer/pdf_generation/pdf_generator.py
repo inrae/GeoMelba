@@ -35,10 +35,17 @@ from qgis.core import QgsVectorLayer
 from jinja2 import Environment, FileSystemLoader
 try :
     from weasyprint import HTML
+except Exception as e :
+    print("import exceptions for weasyprint lib")
+    print("some features can be unactivated")
+    print(e)
+try :
     import matplotlib.pyplot as plt
 except Exception as e :
-    print("import exceptions for lib")
+    print("import exceptions for matplotlib")
+    print("some features can be unactivated")
     print(e)
+
 from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder
 
 
