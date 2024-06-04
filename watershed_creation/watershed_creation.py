@@ -30,7 +30,7 @@ from qgis.core import QgsProject, QgsSpatialIndex, QgsVectorLayer
 from PyQt5.QtCore import QVariant
 
 # Import Homemade module
-from .create_depressionless_slope_expo_vector import create_depressionless
+from .create_depressionless_slope_expo_vector import create_depressionless_dem
 from .create_table import create_table
 
 tf = tempfile.TemporaryDirectory()

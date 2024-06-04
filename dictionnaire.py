@@ -45,7 +45,7 @@ config_land_cover_file = "land_cover.csv"
 config_line_type_file = "line_type.csv"
 config_drain_file = "drain.csv"
 
-# Varibales data type :
+# Variables data type :
 line_type = "ligne"
 polygon_type = "parcelle"
 
@@ -532,3 +532,23 @@ information_selection_error_pt1 = "Pas d'élément sélectionné.\nCliquer sur u
 information_switch_parcel_owner_error = "Les parcelles possèdent le même propriétaire. \n Echange impossible."
 information_modification_multiple_error_1 = "L'élément sélectionné n'est pas présent sur le bassin versant."
 information_modification_multiple_error_2 = "Pas d'élément sélectionné.\nVous n'avez choisi aucune parcelle à modifier."
+
+# watershed creation interface
+label_watershed_name_step1="Nom du bassin versant"
+label_index_step1="Etape 1 : Sélection du MNT et création des parcelles"
+label_index_step2="Etape 2 : import des linéaires et calcul connexions"
+label_index_step3="Etape 3 : maj attributs et geopackage"
+label_dem_name_step1="MNT"
+label_select_dem_step1="Sélection du MNT"
+file_selection_text = "Choisir un fichier"
+label_select_watershed_step1="Sélection du polygone du Bassin Versant"
+label_clip_dem_step1="Découpage du MNT par étendue du Bassin Versant"
+label_import_PushButton_dem_step1="Import du MNT"
+label_field_name_step1="Parcelles"
+label_select_field_step1="Sélection des parcelles"
+label_select_field_PushButton_step1="Import des parcelles et vérification de la qualité"
+label_clip_field_1_step1="Découpage des parcelles par les talweg secs"
+label_clip_field_2_step1="Découpage des parcelles par couche de lignes expertes : "
+label_clip_field_PushButton_step1="Découpage des parcelles"
+label_export_field_step1="Export du maillage lignes de la couche de parcelles"
+label_export_field_PushButton_step1="Export"
