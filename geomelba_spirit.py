@@ -656,7 +656,7 @@ class GeomelbaSpirit:
                     self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
                     self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
                     self.dockwidget.show()
-                    
+                    print(watershed_name)
                 else:
                     # input_path = self.plugin_dir + serious_game_data_folder
                     self.watershed_creation = WatershedCreationDialog(parent=None, crs=crs, path=output_path)

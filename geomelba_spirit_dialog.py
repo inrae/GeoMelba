@@ -66,14 +66,6 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.watershed_button_group.setExclusive(True)
         # Function to dynamically create buttons of the different watershed in the plugins.
         self.init_button_watershed(watershed_prefix)
-
-
-        # self.button_load_watershed = QPushButton(self)
-        # self.button_load_watershed.setFont(regular_font)
-        # self.button_load_watershed.setText("Charger une configuration")
-        # self.button_load_watershed.setGeometry(30, 260, 340, 30)
-        # self.button_load_watershed.setCheckable(True)
-        # self.button_load_watershed.clicked.connect(lambda : self.loader())
         
         # Label creation
         label_load = QLabel(self)
@@ -190,7 +182,8 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
             QMessageBox.information(None, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt3)
             self.button_load_watershed.setChecked(False)
             self.gpkg_file = None
-                  
+            self.load_text.setText("")
+
     def init_button_watershed(self, value_to_test):
         """Function to place the different watershed buttons in the dialog. They are based on folders in the
         plugin directory. They allow the user to select a watershed to analyze.

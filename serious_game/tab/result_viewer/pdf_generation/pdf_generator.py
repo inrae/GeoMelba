@@ -26,7 +26,7 @@
 
 import os
 import sys
-
+import shutil
 import csv
 import json
 import json.tool
@@ -149,6 +149,11 @@ class Pdf_generator:
                 print("import exceptions for lib weasyprint and dependency. HTML file was created but not the pdf. You can find it here:")
                 print(input_html)
                 print(e)
+                #if pdf can't be generated html file are make in output folder
+                output_html = os.path.join(self.output_path, 'index.html')
+                shutil.copy(os.path.join(self.actual_path, 'style.css'),os.path.join(self.output_path, 'style.css'))
+                with open(output_html, "w") as fichier_html:
+                    fichier_html.write(html)
 
     def table_to_csv(self):
         """
