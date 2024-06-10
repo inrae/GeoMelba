@@ -27,7 +27,7 @@ from qgis.PyQt.QtCore import QVariant
 from qgis.core import QgsField, QgsExpression, QgsFeatureRequest
 from ....dictionnaire import field_incoming_flow, field_outgoing_flow, field_outgoing_flow_long, \
     field_outgoing_flow_lat, field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_flow_abatement, \
-    field_flow_abatement_rating, field_incoming_flow_rating, field_outlet_inflow, field_flow_production_phyto, \
+    field_flow_abatement_rating, field_incoming_flow_rating, field_outlet_inflow, field_flow_production_phyto_summer, \
     field_type_line_middle, field_line_id, river, field_type_parcel, field_type_line_bottom, field_type_line_top
 
 
@@ -55,7 +55,7 @@ def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
     new_field_flow_abatement_rating = field_flow_abatement_rating + "_" + str(count)
     new_field_incoming_flow_rating = field_incoming_flow_rating + "_" + str(count)
     new_field_outlet_inflow = field_outlet_inflow + "_" + str(count)
-    new_field_flow_production_phyto = field_flow_production_phyto + "_" + str(count)
+    new_field_flow_production_phyto = field_flow_production_phyto_summer + "_" + str(count)
 
     # Modification of the line layer.
     line_layer.startEditing()
@@ -148,7 +148,7 @@ def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
                                               parcel_layer.fields().indexFromName(field_type_parcel)])
         parcel_layer.changeAttributeValue(parcel.id(),
                                           parcel_layer.fields().indexFromName(new_field_flow_production_phyto), attrs[
-                                                parcel_layer.fields().indexFromName(field_flow_production_phyto)])
+                                                parcel_layer.fields().indexFromName(field_flow_production_phyto_summer)])
         parcel_layer.changeAttributeValue(parcel.id(), parcel_layer.fields().indexFromName(
             new_field_incoming_flow), attrs[parcel_layer.fields().indexFromName(field_incoming_flow)])
         parcel_layer.changeAttributeValue(parcel.id(), parcel_layer.fields().indexFromName(

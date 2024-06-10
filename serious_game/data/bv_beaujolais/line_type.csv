@@ -1,4 +1,4 @@
-key,value,abatement_long,abatement_long_eau_value,abatement_long_mes_value,abatement_long_phyto_value,abatement_lat,abatement_lat_eau_value,abatement_lat_mes_value,abatement_lat_phyto_value
+key,value,abatement_long,abatement_long_eau_value_summer,abatement_long_mes_value_summer,abatement_long_phyto_value_summer,abatement_lat,abatement_lat_eau_value_summer,abatement_lat_mes_value_summer,abatement_lat_phyto_value_summer
 haie,100,True,0.2,0.3,0.3,True,0.7,0.9,0.8
 ripisylve,200,True,0.2,0.3,0.3,True,0.7,0.9,0.8
 fossé_nu_ou_bétonné,310,True,0,0,0,False,0,0,0

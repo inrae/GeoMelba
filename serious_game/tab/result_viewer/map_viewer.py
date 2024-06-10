@@ -33,7 +33,7 @@ from qgis.PyQt.QtCore import QVariant
 # Personal Modules
 from .qrangeslider import QRangeSlider
 from ....dictionnaire import field_comparison, field_type_line_middle, river, null, field_incoming_flow, \
-    field_flow_production_phyto, field_flow_abatement, style_parcels_comparison, style_lines_comparison, regular_font, \
+    field_flow_production_phyto_summer, field_flow_abatement, style_parcels_comparison, style_lines_comparison, regular_font, \
     field_outgoing_flow, information_selection_error, comparison_window_title, sensitivity_label, \
     turn_comparison_label, comparison_button_name, information_selection_error_comparison_pt1, \
     information_selection_error_comparison_pt2, information_selection_error_comparison_pt3, \
@@ -226,10 +226,10 @@ class MapViewer(QMainWindow):
                 for parcel in self.dock_widget.parcel_layer.getFeatures():
                     attrs = parcel.attributes()
                     idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                        field_flow_production_phyto + "_" + str(turn_1))
+                        field_flow_production_phyto_summer + "_" + str(turn_1))
                     prod_1 = attrs[idx_prod_1]
                     idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                        field_flow_production_phyto + "_" + str(turn_2))
+                        field_flow_production_phyto_summer + "_" + str(turn_2))
                     prod_2 = attrs[idx_prod_2]
                     # Sensitivity threshold based on the initial value and the percent from the spinbox.
                     sensitivity_threshold = prod_1 * percent

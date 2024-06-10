@@ -92,6 +92,8 @@ class GeomelbaSpirit:
 
         self.studied_elements=[]
         self.coded_studied_elements=[]
+        self.season=[]
+        self.coded_season=[]
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -281,7 +283,8 @@ class GeomelbaSpirit:
             # If there is no layer in the project, the default CRS is 2154.
             if len(self.project.mapLayers()) == 0:
                 # self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(self.project.crs()))
-                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(2154))
+#                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(2154))
+                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem.fromEpsgId(2154))
             # If there is layers in the project, the default CRS is the one used by the mapCanvas.
             else:
                 self.dlg.crs_selector.setCrs(
@@ -311,6 +314,19 @@ class GeomelbaSpirit:
                 else :
                     studied_elements=["de MES"]
                     coded_studied_elements=[1]
+
+
+                #Put season into self.season
+                #season = ["Eté", "Hiver",]
+                #coded_season= 0 for summer, 1 for winter
+                if self.dlg.QCheckBox_season_element0.isChecked():
+                    season=["Eté"]
+                    coded_season=[0]
+                if self.dlg.QCheckBox_season_element1.isChecked():
+                    season=["Hiver"]
+                    coded_season=[1]
+
+
 
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
