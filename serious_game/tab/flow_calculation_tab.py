@@ -80,12 +80,18 @@ class FlowCalculationTab(TabManagement):
 
     def __init__(self, parent=None, canvas=None, production_type=None, practices=None, slope=None, land_cover=None,
                  abatement_type=None, abatement=None, abatement_water_summer=None, abatement_mes_summer=None, abatement_phyto_summer=None,
-                 production=None, production_water_summer=None, production_mes_summer=None, production_phyto_summer=None, line_type=None,
+                 abatement_water_winter=None, abatement_mes_winter=None, abatement_phyto_winter=None,
+                 production=None, production_water_summer=None, production_mes_summer=None, production_phyto_summer=None,
+                 production_water_winter=None, production_mes_winter=None, production_phyto_winter=None, line_type=None,
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water_summer=None,
                  abatement_long_mes_summer=None, abatement_long_phyto_summer=None, abatement_lat=None, abatement_lat_water_summer=None,
-                 abatement_lat_mes_summer=None, abatement_lat_phyto_summer=None, output_path=None, connexion_layer=None,
+                 abatement_lat_mes_summer=None, abatement_lat_phyto_summer=None,abatement_long_water_winter=None,
+                 abatement_long_mes_winter=None, abatement_long_phyto_winter=None, abatement_lat_water_winter=None,
+                 abatement_lat_mes_winter=None, abatement_lat_phyto_winter=None, output_path=None, connexion_layer=None,
                  button_rollback=None,  button_reset=None,
-                 coded_studied_elements=None,studied_elements=None ):#, plot_creation=None):
+                 coded_studied_elements=None,studied_elements=None,
+                 coded_season=None,season=None,
+                 DictElementSeason=None,CodedDictElementSeason=None ):#, plot_creation=None):
         """Concern the tab creation of flow analysis :
         - 9 buttons to do analysis, select element or compare result.
 
@@ -106,6 +112,10 @@ class FlowCalculationTab(TabManagement):
         self.tab_widget.setTabText(self._tab_index_abatement, flow_calculation_tab_name)
         self.coded_studied_elements=coded_studied_elements
         self.studied_elements=studied_elements
+        self.coded_season=coded_season
+        self.season=season
+        self.DictElementSeason=DictElementSeason
+        self.CodedDictElementSeason=CodedDictElementSeason
 
 
         # Counter variables
@@ -132,7 +142,7 @@ class FlowCalculationTab(TabManagement):
 
         self.signal_stop = 0
         # Object use for the comparison.
-        self.map_viewer = MapViewer()
+        self.map_viewer = MapViewer(coded_studied_elements=self.coded_studied_elements,coded_season=self.coded_season)
         self.map_viewer.init_map_viewer(self)
         # Creation of the interface.
         self.init_calculation_tab()
@@ -145,21 +155,33 @@ class FlowCalculationTab(TabManagement):
                                                 slope=slope, land_cover=land_cover,
                                                 abatement_type=abatement_type, abatement=abatement,
                                                 abatement_water_summer=abatement_water_summer, abatement_mes_summer=abatement_mes_summer,
-                                                abatement_phyto_summer=abatement_phyto_summer, production_type=self.production_type,
+                                                abatement_phyto_summer=abatement_phyto_summer,
+                                                abatement_water_winter=abatement_water_winter, abatement_mes_winter=abatement_mes_winter,
+                                                abatement_phyto_winter=abatement_phyto_winter,
+                                                production_type=self.production_type,
                                                 production=production,
                                                 production_water_summer=production_water_summer,
                                                 production_mes_summer=production_mes_summer,
                                                 production_phyto_summer=production_phyto_summer,
+                                                production_water_winter=production_water_winter,
+                                                production_mes_winter=production_mes_winter,
+                                                production_phyto_winter=production_phyto_winter,
                                                 line_type=line_type, abatement_type_long=abatement_type_long,
                                                 abatement_type_lat=abatement_type_lat,
                                                 abatement_long=abatement_long,
                                                 abatement_long_water_summer=abatement_long_water_summer,
                                                 abatement_long_mes_summer=abatement_long_mes_summer,
                                                 abatement_long_phyto_summer=abatement_long_phyto_summer,
+                                                abatement_long_water_winter=abatement_long_water_winter,
+                                                abatement_long_mes_winter=abatement_long_mes_winter,
+                                                abatement_long_phyto_winter=abatement_long_phyto_winter,
                                                 abatement_lat=abatement_lat,
                                                 abatement_lat_water_summer=abatement_lat_water_summer,
                                                 abatement_lat_mes_summer=abatement_lat_mes_summer,
                                                 abatement_lat_phyto_summer=abatement_lat_phyto_summer, 
+                                                abatement_lat_water_winter=abatement_lat_water_winter,
+                                                abatement_lat_mes_winter=abatement_lat_mes_winter,
+                                                abatement_lat_phyto_winter=abatement_lat_phyto_winter, 
                                                 output_path=self.output_path)
         # Object use to create maps.
         self.map_creation = MapCreation()
@@ -267,7 +289,8 @@ class FlowCalculationTab(TabManagement):
         """
         self.result_viewer = ResultViewer(directory_path=self.output_path, count_turn=self.count_watershed_analysis,
                                           line_layer=self.line_layer, parcel_layer=self.parcel_layer, crs=self.crs,
-                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,watershed_name=self.watershed_name)
+                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,
+                                          DictElementSeason=self.DictElementSeason, CodedDictElementSeason=self.CodedDictElementSeason,  watershed_name=self.watershed_name)
         self.result_viewer.open_result_viewer()
 
     def return_signal(self):
@@ -361,10 +384,24 @@ class FlowCalculationTab(TabManagement):
         # Rappel : coded_studied_elements = [0,1,2]
 
         coded_elements=self.coded_studied_elements
+        dict_global={}
+        coded_dict_global={}
+
+        for ElementKey in self.coded_studied_elements :
+            for SeasonKey in self.coded_season :
+                coded_dict_global[str(ElementKey)]=(SeasonKey)
+
+        for ElementKey in self.studied_elements :
+            for SeasonKey in self.season :
+                dict_global[str(ElementKey)]=(SeasonKey)        
+
+
+
         
         iter=0
-        for i in coded_elements:
+        for i in coded_dict_global:
         #for i in range(len(elements)):
+            j=coded_dict_global[i]
             element = elements[iter]
             iter +=1
             element_underscore = element.replace(' ', '_').lower()
@@ -372,12 +409,12 @@ class FlowCalculationTab(TabManagement):
             # If the save value button has not been clicked, no variables are added to the analysis.
             if self.count_referential == 0:
                 reference = self.flow_calculation.ecoulement_bv(self.parcel_layer, self.line_layer,
-                                                                self.connexion_layer, self.count_watershed_analysis, i)
+                                                                self.connexion_layer, self.count_watershed_analysis, i,j)
             # If the save value button has been clicked, max values are imported to compare the new result with data
             # from a previous turn.
             else:
                 reference = self.flow_calculation.ecoulement_bv(self.parcel_layer, self.line_layer,
-                                                                self.connexion_layer, self.count_watershed_analysis, i,
+                                                                self.connexion_layer, self.count_watershed_analysis, i,j,
                                                                 self.max_input_parcel, self.max_input_line,
                                                                 self.max_input_river_section)
             self._referential_.append(reference)
@@ -612,17 +649,29 @@ class FlowCalculationTab(TabManagement):
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
         elements = studied_elements
+
+        for ElementKey in self.coded_studied_elements :
+            for SeasonKey in self.coded_season :
+                coded_dict_global[str(ElementKey)]=(SeasonKey)
+
+        for ElementKey in self.studied_elements :
+            for SeasonKey in self.season :
+                dict_global[str(ElementKey)]=(SeasonKey)        
+
+
+
         
         coded_elements=coded_studied_elements
         iter=0
-        for i in coded_elements:
+        for i in coded_dict_global:
         #for i in range(len(elements)):  
+            j=coded_dict_global[i]
             element = elements[iter]
             iter +=1
             element_underscore = element.replace(' ', '_').lower()
             # Launch the analysis.
             self.flow_calculation.ecoulement_emis(self.parcel_layer, self.line_layer, self.connexion_layer,
-                                                  self.count_watershed_analysis, i)
+                                                  self.count_watershed_analysis, i,j)
             # Creation of the abatement map, only display the abatement layers.
             parent = self.project.layerTreeRoot().findGroup(
                 group_outgoing_flow_parcel + str(self.count_watershed_analysis) + " " + str(selected_parcel_id))
@@ -806,17 +855,27 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
+
+        for ElementKey in self.coded_studied_elements :
+            for SeasonKey in self.coded_season :
+                coded_dict_global[str(ElementKey)]=(SeasonKey)
+
+        for ElementKey in self.studied_elements :
+            for SeasonKey in self.season :
+                dict_global[str(ElementKey)]=(SeasonKey)        
+
         
         coded_elements=coded_studied_elements
         iter=0
-        for i in coded_elements:
+        for i in coded_dict_global:
         #for i in range(len(elements)):
+            j=coded_dict_global[i]
             element = elements[iter]
             iter+=1
             element_underscore = element.replace(' ', '_').lower()
             # Launch analysis.
             self.flow_calculation.ecoulement_recu(self.parcel_layer, self.line_layer, self.connexion_layer,
-                                                  self.count_watershed_analysis, i, quick_value)
+                                                  self.count_watershed_analysis, i,j, quick_value)
             # Creation of the map to show the impact of the parcels on the inflow of the selected parcels.
             # Map parameters.
             production = parcel_contribution_layer_name + str(self.count_watershed_analysis) + "_" + str(
@@ -996,17 +1055,28 @@ class FlowCalculationTab(TabManagement):
         else:
             quick_value = True
         elements = studied_elements
+
+        for ElementKey in self.coded_studied_elements :
+            for SeasonKey in self.coded_season :
+                coded_dict_global[str(ElementKey)]=(SeasonKey)
+
+        for ElementKey in self.studied_elements :
+            for SeasonKey in self.season :
+                dict_global[str(ElementKey)]=(SeasonKey)        
+
+
         
         coded_elements=coded_studied_elements
         iter=0
-        for i in coded_elements:
+        for i in coded_dict_global:
         #for i in range(len(elements)):
+            j=coded_dict_global[i]
             element = elements[iter]
             iter+=1
             element_underscore = element.replace(' ', '_').lower()
             self.flow_calculation.ecoulement_riviere(self.parcel_layer, self.line_layer, self.connexion_layer,
                                                      self.count_watershed_analysis,
-                                                     self.count_runoff_river_section_analysis, i, quick_value)
+                                                     self.count_runoff_river_section_analysis, i, j,quick_value)
             # Creation of the map to show the impact of the parcels on the inflow of the selected river section.
             # Map parameters.
             production = parcel_contribution_layer_name + str(self.count_watershed_analysis) + "_" + str(

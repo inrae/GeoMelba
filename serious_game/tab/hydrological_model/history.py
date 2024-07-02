@@ -28,7 +28,8 @@ from qgis.core import QgsField, QgsExpression, QgsFeatureRequest
 from ....dictionnaire import field_incoming_flow, field_outgoing_flow, field_outgoing_flow_long, \
     field_outgoing_flow_lat, field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_flow_abatement, \
     field_flow_abatement_rating, field_incoming_flow_rating, field_outlet_inflow, field_flow_production_phyto_summer, \
-    field_type_line_middle, field_line_id, river, field_type_parcel, field_type_line_bottom, field_type_line_top
+    field_type_line_middle, field_line_id, river, field_type_parcel, field_type_line_bottom, field_type_line_top, \
+    field_flow_production_phyto_winter
 
 
 def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
@@ -55,7 +56,8 @@ def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
     new_field_flow_abatement_rating = field_flow_abatement_rating + "_" + str(count)
     new_field_incoming_flow_rating = field_incoming_flow_rating + "_" + str(count)
     new_field_outlet_inflow = field_outlet_inflow + "_" + str(count)
-    new_field_flow_production_phyto = field_flow_production_phyto_summer + "_" + str(count)
+    new_field_flow_production_phyto_summer = field_flow_production_phyto_summer + "_" + str(count)
+    new_field_flow_production_phyto_winter = field_flow_production_phyto_winter + "_" + str(count)
 
     # Modification of the line layer.
     line_layer.startEditing()
@@ -134,7 +136,8 @@ def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
     parcel_layer.startEditing()
     # Field creation for the parcel layer.
     parcel_layer.addAttribute(QgsField(new_field_type_parcel, QVariant.Double, "int", 5))
-    parcel_layer.addAttribute(QgsField(new_field_flow_production_phyto, QVariant.Double, "double", 5, 2))
+    parcel_layer.addAttribute(QgsField(new_field_flow_production_phyto_summer, QVariant.Double, "double", 5, 2))
+    parcel_layer.addAttribute(QgsField(new_field_flow_production_phyto_winter, QVariant.Double, "double", 5, 2))
     parcel_layer.addAttribute(QgsField(new_field_incoming_flow, QVariant.Double, "double", 5, 2))
     parcel_layer.addAttribute(QgsField(new_field_outgoing_flow, QVariant.Double, "double", 5, 2))
     parcel_layer.addAttribute(QgsField(new_field_flow_abatement, QVariant.Double, "double", 5, 2))
@@ -147,8 +150,12 @@ def after_watershed_analysis(parcel_layer, line_layer, river_layer, count):
                                           parcel_layer.fields().indexFromName(new_field_type_parcel), attrs[
                                               parcel_layer.fields().indexFromName(field_type_parcel)])
         parcel_layer.changeAttributeValue(parcel.id(),
-                                          parcel_layer.fields().indexFromName(new_field_flow_production_phyto), attrs[
+                                          parcel_layer.fields().indexFromName(new_field_flow_production_phyto_summer), attrs[
                                                 parcel_layer.fields().indexFromName(field_flow_production_phyto_summer)])
+        parcel_layer.changeAttributeValue(parcel.id(),
+                                          parcel_layer.fields().indexFromName(new_field_flow_production_phyto_winter), attrs[
+                                                parcel_layer.fields().indexFromName(field_flow_production_phyto_winter)])
+
         parcel_layer.changeAttributeValue(parcel.id(), parcel_layer.fields().indexFromName(
             new_field_incoming_flow), attrs[parcel_layer.fields().indexFromName(field_incoming_flow)])
         parcel_layer.changeAttributeValue(parcel.id(), parcel_layer.fields().indexFromName(

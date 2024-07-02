@@ -206,6 +206,7 @@ class MapCreation:
         # Font style of the legend.
         legend.setStyleFont(QgsLegendStyle.Subgroup, QFont('Arial', 12, QFont.Bold))
         legend.setStyleFont(QgsLegendStyle.SymbolLabel, QFont('Arial', 12))
+
         # Add legend to layout.
         layout.addLayoutItem(legend)
         # Set the legend position.
