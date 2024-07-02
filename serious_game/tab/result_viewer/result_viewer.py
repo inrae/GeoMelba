@@ -49,7 +49,8 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
 
 class ResultViewer(QMainWindow):
     def __init__(self, directory_path=None, count_turn=None, line_layer=None, parcel_layer=None, crs=None,
-                 coded_studied_elements=None,studied_elements=None,watershed_name=None):
+                 coded_studied_elements=None,studied_elements=None,
+                 DictElementSeason=None, CodedDictElementSeason=None,watershed_name=None):
         """This class concern the dialog used to view the different map created by the user during the serious game.
         It's the backend, checking for the map to show and changing their name, adding description for the map and
         creating the difference between two turn map.
@@ -68,6 +69,9 @@ class ResultViewer(QMainWindow):
         self.canvas.setGeometry(QRect(0, 0, 0, 0))
         self.coded_studied_elements=coded_studied_elements
         self.studied_elements=studied_elements
+        self.DictElementSeason=DictElementSeason
+        self.CodedDictElementSeason=CodedDictElementSeason
+
         self.watershed_name = watershed_name
         self.directory_path = directory_path
 

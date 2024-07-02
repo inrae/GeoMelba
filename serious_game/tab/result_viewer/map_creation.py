@@ -27,10 +27,28 @@ import os
 # QT Modules
 from PyQt5.QtGui import QColor, QFont
 from qgis.PyQt.QtCore import Qt
-from qgis.core import QgsPrintLayout, QgsLayoutItemMap, QgsRectangle, QgsMapSettings, QgsLayoutPoint, QgsUnitTypes, \
-    QgsLayoutSize, QgsLayoutItemLegend, QgsLayerTree, QgsLegendStyle, QgsLayoutItemScaleBar, QgsLayoutItemPicture, \
-    QgsApplication, QgsLayoutItemLabel, QgsLayoutItem, QgsLayoutExporter, QgsRuleBasedRenderer, \
-    QgsSimpleLineSymbolLayer, QgsSymbol
+from qgis.core import (
+    QgsPrintLayout,
+    QgsLayoutItemMap,
+    QgsRectangle,
+    QgsMapSettings,
+    QgsLayoutPoint,
+    QgsUnitTypes,
+    QgsLayoutSize,
+    QgsLayoutItemLegend,
+    QgsLayerTree,
+    QgsLegendStyle,
+    QgsLayoutItemScaleBar,
+    QgsLayoutItemPicture,
+    QgsApplication,
+    QgsLayoutItemLabel,
+    QgsLayoutItem,
+    QgsLayoutExporter,
+    QgsRuleBasedRenderer,
+    QgsSimpleLineSymbolLayer,
+    QgsSymbol,
+    QgsTextFormat,
+)
 # Personal modules
 from ....dictionnaire import map_creation_information_pt1, map_creation_information_pt2, turn_0_label, turn_label, exutoire_label
 
@@ -188,6 +206,7 @@ class MapCreation:
         # Font style of the legend.
         legend.setStyleFont(QgsLegendStyle.Subgroup, QFont('Arial', 12, QFont.Bold))
         legend.setStyleFont(QgsLegendStyle.SymbolLabel, QFont('Arial', 12))
+
         # Add legend to layout.
         layout.addLayoutItem(legend)
         # Set the legend position.
@@ -198,7 +217,11 @@ class MapCreation:
         scalebar = QgsLayoutItemScaleBar(layout)
         # Style of the scalebar.
         scalebar.setStyle('Line Ticks Up')
-        scalebar.setFont(QFont('Arial', 12))
+#        scalebar.setFont(QFont('Arial', 12))
+        text_format03 = QgsTextFormat()
+        text_format03.setFont(QFont("Arial", 12))
+        scalebar.setTextFormat(text_format03)
+
         # Set the scalebar unit.
         scalebar.setUnits(QgsUnitTypes.DistanceMeters)
         scalebar.setUnitLabel('m')
@@ -236,7 +259,11 @@ class MapCreation:
         # Add a label to show the N of north on the arrow.
         north = QgsLayoutItemLabel(layout)
         north.setText("N")
-        north.setFont(QFont("Times", 18))
+        #north.setFont(QFont("Times", 18))
+        text_format02 = QgsTextFormat()
+        text_format02.setFont(QFont("Times", 8))
+        north.setTextFormat(text_format02)
+
         north.adjustSizeToText()
         layout.addLayoutItem(north)
         north.attemptMove(QgsLayoutPoint(20.5, 2, QgsUnitTypes.LayoutMillimeters))
@@ -244,7 +271,10 @@ class MapCreation:
         credit = QgsLayoutItemLabel(layout)
         # Text and style of the credits.
         credit.setText(map_creation_information_pt1 + date + map_creation_information_pt2 + author_name)
-        credit.setFont(QFont('Arial', 8))
+        #credit.setFont(QFont('Arial', 8))
+        text_format01 = QgsTextFormat()
+        text_format01.setFont(QFont("Arial", 8))
+        credit.setTextFormat(text_format01)
         credit.adjustSizeToText()
         credit.setMinimumSize(QgsLayoutSize(10, 80, QgsUnitTypes.LayoutMillimeters))
         # Add credits to the layout.
@@ -255,7 +285,12 @@ class MapCreation:
         # Set text, style and position of the title.
         title_layout.setText(title)
         #title_layout.setFont(QFont('Arial', 24, QFont.Bold))
-        title_layout.setFont(QFont('Arial', 16, QFont.Bold))
+        #title_layout.setFont(QFont('Arial', 16, QFont.Bold))
+        text_format0 = QgsTextFormat()
+        text_format0.setFont(QFont("Arial", 16,QFont.Bold))
+        title_layout.setTextFormat(text_format0)
+
+        
         title_layout.setHAlign(Qt.AlignRight)
         title_layout.adjustSizeToText()
         title_layout.setMinimumSize(QgsLayoutSize(5, 10, QgsUnitTypes.LayoutMillimeters))
@@ -272,7 +307,12 @@ class MapCreation:
         else:
             turn_count = count_watershed_analysis
         turn_number.setText(turn_label + str(turn_count))
-        turn_number.setFont(QFont('Arial', 8))
+        #turn_number.setFont(QFont('Arial', 8))
+        text_format = QgsTextFormat()
+        text_format.setFont(QFont("Arial", 8))
+        turn_number.setTextFormat(text_format)
+
+
         turn_number.adjustSizeToText()
         turn_number.setMinimumSize(QgsLayoutSize(10, 80, QgsUnitTypes.LayoutMillimeters))
         # Add turn number to the layout.
@@ -283,7 +323,12 @@ class MapCreation:
         if (Bool_Exutoire):
             exutoire_value = QgsLayoutItemLabel(layout)
             exutoire_value.setText(exutoire_label + str(round(max_value_exutoire,2)))
-            exutoire_value.setFont(QFont('Arial', 8))
+            #exutoire_value.setFont(QFont('Arial', 8))
+            text_format = QgsTextFormat()
+            text_format.setFont(QFont("Arial", 8))
+            exutoire_value.setTextFormat(text_format)
+
+
             exutoire_value.adjustSizeToText()
             exutoire_value.setMinimumSize(QgsLayoutSize(10, 80, QgsUnitTypes.LayoutMillimeters))
             # Add exutoire value to the layout.

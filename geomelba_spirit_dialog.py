@@ -25,7 +25,7 @@
 import os
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QMessageBox
-from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton, QCheckBox
 from qgis.gui import QgsProjectionSelectionWidget
 from qgis.core import QgsUnitTypes
 from qgis.PyQt import uic
@@ -35,7 +35,8 @@ from .dictionnaire import regular_font, create_watershed_button_name, crs_select
     information_crs_text_pt2, information_crs_text_pt3, folder_selection_text, information_folder_text_pt1, \
     information_folder_text_pt2, information_loaded_watershed_type_pt1, information_loaded_watershed_type_pt2, \
     information_loaded_watershed_type_pt3, serious_game_data_folder, watershed_prefix, studied_element_label, \
-    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label
+    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label, \
+    selected_season_label, selected_season_button0_label, selected_season_button1_label
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -124,6 +125,23 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
         self.RadioButton_studied_element2.setChecked(True)
         
+        # Creation of two checkBox for season theme
+        # Label creation
+        season_label_element = QLabel(self)
+        season_label_element.setFont(regular_font)
+        season_label_element.setGeometry(30, 540, 400, 30)
+        season_label_element.setText(selected_season_label)
+
+        self.QCheckBox_season_element0=QCheckBox(self)
+        self.QCheckBox_season_element0.setText(selected_season_button0_label)
+        self.QCheckBox_season_element0.setGeometry(30, 560, 340, 30)
+        
+        self.QCheckBox_season_element1=QCheckBox(self)
+        self.QCheckBox_season_element1.setText(selected_season_button1_label)
+        self.QCheckBox_season_element1.setGeometry(30, 580, 340, 30)        
+
+
+
 
         # Label creation
         label_crs = QLabel(self)

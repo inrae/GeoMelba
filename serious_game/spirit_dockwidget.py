@@ -55,8 +55,9 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
     closingPlugin = pyqtSignal()
 
     def __init__(self, parent=None, iface=None, project=None, watershed_name=None, parcel_layer=None, line_layer=None,
-                 style_line_layer=None, connexion_layer=None, crs=None, output_path=None,coded_studied_elements=None,studied_elements=None ):
-
+                 style_line_layer=None, connexion_layer=None, crs=None, output_path=None,coded_studied_elements=None,studied_elements=None,
+                 coded_season=None,season=None, DictElementSeason=None,CodedDictElementSeason=None):
+                         
         """The first part of the constructor list the variables and activate some function based on signal.
          Variables are :
         - qgis interface (iface)
@@ -84,6 +85,11 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         group = root.findGroup(original_layer_group_name)
         self.coded_studied_elements=coded_studied_elements
         self.studied_elements=studied_elements
+        self.coded_season=coded_season
+        self.season=season
+        self.DictElementSeason=DictElementSeason
+        self.CodedDictElementSeason=CodedDictElementSeason
+
 
         self.parcel_layer = parcel_layer
         # Add the parcel layer on top of the Qgis layer panel, with the legend expanded.
@@ -227,30 +233,46 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                        land_cover=self.config_files.land_cover,
                                                        abatement_type=self.config_files.abatement_type,
                                                        abatement=self.config_files.abatement,
-                                                       abatement_water=self.config_files.abatement_water,
-                                                       abatement_mes=self.config_files.abatement_mes,
-                                                       abatement_phyto=self.config_files.abatement_phyto,
+                                                       abatement_water_summer=self.config_files.abatement_water_summer,
+                                                       abatement_mes_summer=self.config_files.abatement_mes_summer,
+                                                       abatement_phyto_summer=self.config_files.abatement_phyto_summer,
+                                                       abatement_water_winter=self.config_files.abatement_water_winter,
+                                                       abatement_mes_winter=self.config_files.abatement_mes_winter,
+                                                       abatement_phyto_winter=self.config_files.abatement_phyto_winter,
                                                        production=self.config_files.production,
-                                                       production_water=self.config_files.production_water,
-                                                       production_mes=self.config_files.production_mes,
-                                                       production_phyto=self.config_files.production_phyto,
+                                                       production_water_summer=self.config_files.production_water_summer,
+                                                       production_mes_summer=self.config_files.production_mes_summer,
+                                                       production_phyto_summer=self.config_files.production_phyto_summer,
+                                                       production_water_winter=self.config_files.production_water_winter,
+                                                       production_mes_winter=self.config_files.production_mes_winter,
+                                                       production_phyto_winter=self.config_files.production_phyto_winter,
                                                        line_type=self.config_files.line_type,
                                                        abatement_type_long=self.config_files.abatement_type_long,
                                                        abatement_type_lat=self.config_files.abatement_type_lat,
                                                        abatement_long=self.config_files.abatement_long,
-                                                       abatement_long_water=self.config_files.abatement_long_water,
-                                                       abatement_long_mes=self.config_files.abatement_long_mes,
-                                                       abatement_long_phyto=self.config_files.abatement_long_phyto,
+                                                       abatement_long_water_summer=self.config_files.abatement_long_water_summer,
+                                                       abatement_long_mes_summer=self.config_files.abatement_long_mes_summer,
+                                                       abatement_long_phyto_summer=self.config_files.abatement_long_phyto_summer,
+                                                       abatement_long_water_winter=self.config_files.abatement_long_water_winter,
+                                                       abatement_long_mes_winter=self.config_files.abatement_long_mes_winter,
+                                                       abatement_long_phyto_winter=self.config_files.abatement_long_phyto_winter,
                                                        abatement_lat=self.config_files.abatement_lat,
-                                                       abatement_lat_water=self.config_files.abatement_lat_water,
-                                                       abatement_lat_mes=self.config_files.abatement_lat_mes,
-                                                       abatement_lat_phyto=self.config_files.abatement_lat_phyto,
+                                                       abatement_lat_water_summer=self.config_files.abatement_lat_water_summer,
+                                                       abatement_lat_mes_summer=self.config_files.abatement_lat_mes_summer,
+                                                       abatement_lat_phyto_summer=self.config_files.abatement_lat_phyto_summer,
+                                                       abatement_lat_water_winter=self.config_files.abatement_lat_water_winter,
+                                                       abatement_lat_mes_winter=self.config_files.abatement_lat_mes_winter,
+                                                       abatement_lat_phyto_winter=self.config_files.abatement_lat_phyto_winter,
                                                        output_path=self.output_path,
                                                        connexion_layer=self.connexion_layer,
                                                        button_rollback=self.standard_tools.button_rollback,
                                                        button_reset=self.standard_tools.button_reset,
                                                        coded_studied_elements=self.coded_studied_elements,
-                                                       studied_elements=self.studied_elements)#,
+                                                       studied_elements=self.studied_elements,
+                                                       coded_season=self.coded_season,
+                                                       season=self.season,
+                                                       DictElementSeason=self.DictElementSeason,
+                                                       CodedDictElementSeason=self.CodedDictElementSeason)#,
                                                        #plot_creation=self.plot_creation)
 
         # Layer control parameters

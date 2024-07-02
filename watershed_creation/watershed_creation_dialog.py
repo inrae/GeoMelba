@@ -23,16 +23,29 @@
  ***************************************************************************/
 """
 import os
+from datetime import date
 
 # Qgis & Qt Modules
+from qgis.core import *
 from qgis.gui import QgsMapLayerComboBox, QgsFieldComboBox
 from qgis.core import QgsMapLayerProxyModel
 from PyQt5.QtCore import pyqtSignal, QSize, Qt
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QTabWidget, QLabel, QLineEdit, QWidget, QCheckBox, \
-    QDialogButtonBox, QDialog, QMessageBox
+    QDialogButtonBox, QDialog, QMessageBox, QFrame, QFileDialog, QPushButton, QGroupBox, QVBoxLayout
+
+from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_index_step2,label_index_step3 ,label_dem_name_step1, \
+    label_select_dem_step1, output_button_name, regular_font, file_selection_text, label_select_watershed_step1,label_clip_dem_step1, \
+    label_import_PushButton_dem_step1, label_field_name_step1, label_select_field_step1, label_select_field_step1, \
+    label_select_field_PushButton_step1, label_clip_field_1_step1, label_clip_field_2_step1, label_clip_field_PushButton_step1, \
+    label_export_field_step1, label_export_field_PushButton_step1
+
+from .create_depressionless_slope_expo_vector import create_depressionless_dem
+
+from .managing_polygons import check_validity, clip_polygon_by_line
+
 
 # Personal modules
-from .watershed_creation import WatershedCreation
+#from .watershed_creation import WatershedCreation
 
 
 class WatershedCreationDialog(QMainWindow):
@@ -54,97 +67,155 @@ class WatershedCreationDialog(QMainWindow):
         self.setObjectName("Watershed Creation")
         self.crs = crs
         self.path = path
+        self.new_path=None
         self.watershed_name = None
         self.desktop_height = QDesktopWidget().screenGeometry(0).height()
         self.desktop_width = QDesktopWidget().screenGeometry(0).width()
-        self.height = self.desktop_height - self.desktop_height / 5
-        self.width = self.desktop_width - self.desktop_width / 2
-        self.setGeometry(self.desktop_width / 2 - self.width / 2, self.desktop_height / 2 - self.height / 2, self.width,
+        self.height = int(self.desktop_height - self.desktop_height / 5)
+        self.width = int(self.desktop_width - self.desktop_width / 2)
+        self.setGeometry(int(self.desktop_width / 2 - self.width / 2), int(self.desktop_height / 2 - self.height / 2), self.width,
                          self.height)
         self.setup_ui()
 
     def setup_ui(self):
         # Text box to specify the watershed name
         label_watershed_name = QLabel(self)
-        label_watershed_name.setGeometry(self.width - self.width / 2 - 300, 30, 250, 30)
-        label_watershed_name.setText("Watershed name:")
+        label_watershed_name.setGeometry(int(self.width - self.width / 2 - 300), 30, 250, 30)
+        label_watershed_name.setText(label_watershed_name_step1)
         self.line_edit_watershed_name = QLineEdit(self)
-        self.line_edit_watershed_name.setGeometry(self.width - self.width / 2, 30, 250, 30)
+        self.line_edit_watershed_name.setGeometry(int(self.width - self.width / 2), 30, 250, 30)
 
         # Creation of the tab widget
         self.tab_widget = QTabWidget(self)
         self.tab_widget.setGeometry(20, 70, self.width - 40, self.height - 100)
 
+        ################## STEP 1 #######################
         # First Tab.
-        self.tab_layer_index = self.add_tab(self.tab_widget, "Spatial data")
-        # Add a parcel layer to the process
-        label_parcel_layer_selector = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_parcel_layer_selector.setGeometry(70, 30, 250, 30)
-        label_parcel_layer_selector.setText("Parcel Layer:")
-        self.parcel_layer_selector = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.parcel_layer_selector.setGeometry(self.width - self.width / 2, 30, 250, 30)
-        self.parcel_layer_selector.setFilters(QgsMapLayerProxyModel.PolygonLayer)
-        self.parcel_layer_selector.setAllowEmptyLayer(0)
-        self.parcel_layer_selector.setCurrentIndex(0)
+        self.tab_step1_index = self.add_tab(self.tab_widget, label_index_step1)
+        vlayout = QVBoxLayout(self)
+        self.groupBoxDEM = QGroupBox(label_dem_name_step1, self.tab_widget.widget(self.tab_step1_index))
+        vlayout.addWidget(self.groupBoxDEM)
+        self.groupBoxDEM.resize(700,350)
+        self.groupBoxField = QGroupBox(label_field_name_step1, self.tab_widget.widget(self.tab_step1_index))
+        vlayout.addWidget(self.groupBoxField)
+        self.groupBoxField.setGeometry(0,350,700,350)
 
-        # Select the parcel ID field
-        label_parcels_id = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_parcels_id.setGeometry(100, 70, 200, 25)
-        label_parcels_id.setText("ID field:")
-        self.selection_parcels_id = QgsFieldComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.selection_parcels_id.setGeometry(self.width - self.width / 2 + 25, 70, 180, 25)
-        self.selection_parcels_id.setLayer(self.parcel_layer_selector.currentLayer())
-        self.selection_parcels_id.setAllowEmptyFieldName(1)
-        self.parcel_layer_selector.layerChanged.connect(self.selection_parcels_id.setLayer)
-        # Select the land cover field
-        label_parcels_type = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_parcels_type.setGeometry(100, 105, 200, 25)
-        label_parcels_type.setText("Land cover field:")
-        self.selection_parcels_type = QgsFieldComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.selection_parcels_type.setGeometry(self.width - self.width / 2 + 25, 105, 180, 25)
-        self.selection_parcels_type.setLayer(self.parcel_layer_selector.currentLayer())
-        self.selection_parcels_type.setAllowEmptyFieldName(1)
-        self.parcel_layer_selector.layerChanged.connect(self.selection_parcels_type.setLayer)
 
-        # Add a line layer to the process
-        label_line_layer_selector = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_line_layer_selector.setGeometry(70, 150, 250, 30)
-        label_line_layer_selector.setText("River layer:")
-        self.line_layer_selector = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.line_layer_selector.setGeometry(self.width - self.width / 2, 150, 250, 30)
-        self.line_layer_selector.setFilters(QgsMapLayerProxyModel.LineLayer)
-        self.line_layer_selector.setCurrentIndex(0)
-        self.line_layer_selector.setAllowEmptyLayer(1)
-        # Select the ID field of the river layer
-        label_line_id = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_line_id.setGeometry(100, 190, 200, 25)
-        label_line_id.setText("ID field:")
-        self.selection_line_id = QgsFieldComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.selection_line_id.setGeometry(self.width - self.width / 2 + 25, 190, 180, 25)
-        self.selection_line_id.setLayer(self.line_layer_selector.currentLayer())
-        self.selection_line_id.setAllowEmptyFieldName(1)
-        self.line_layer_selector.layerChanged.connect(self.selection_line_id.setLayer)
+        ######################### MNT ####################
+        # Add MNT frame
 
-        # Add a DEM raster to the process
-        label_dem = QLabel(self.tab_widget.widget(self.tab_layer_index))
-        label_dem.setGeometry(70, 235, 250, 30)
-        label_dem.setText("DEM raster:")
-        self.selection_dem = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_layer_index))
-        self.selection_dem.setGeometry(self.width - self.width / 2, 235, 250, 30)
-        self.selection_dem.setCurrentIndex(0)
-        self.selection_dem.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        # Add selected DEM 
+        label_import_dem_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
+        label_import_dem_step1.setFont(regular_font)
+        label_import_dem_step1.setGeometry(50, 50, 250, 30)
+        label_import_dem_step1.setText(label_select_dem_step1)
+        # QgsMapLayerComboBox for the selected DEM
+        self.selected_dem = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step1_index))
+        self.selected_dem.setGeometry(350, 50, 250, 30)
+        self.selected_dem.setCurrentIndex(0)
+        self.selected_dem.setFilters(QgsMapLayerProxyModel.RasterLayer)
 
-        # Fill empty polygon checkbox
-        self.fill_polygon = QCheckBox(self.tab_widget.widget(self.tab_layer_index))
-        self.fill_polygon.setGeometry(self.width - self.width / 2 - 150, 320, 150, 30)
-        self.fill_polygon.setText("Fill empty polygon")
-        self.fill_polygon.setChecked(0)
+        # Add radiocheckbutton label
+        self.clip_dem_step1=QCheckBox(self.tab_widget.widget(self.tab_step1_index))
+        self.clip_dem_step1.setFont(regular_font)
+        self.clip_dem_step1.setGeometry(120, 120, 450, 30)
+        self.clip_dem_step1.setText(label_clip_dem_step1)
 
-        ok_button = QDialogButtonBox(self.tab_widget.widget(self.tab_layer_index))
-        ok_button.setStandardButtons(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        ok_button.setGeometry(self.width - 300, self.height - 200, 200, 25)
-        ok_button.button(QDialogButtonBox.Ok).clicked.connect(self.launch_creation)
-        ok_button.button(QDialogButtonBox.Cancel).clicked.connect(self.close_window)
+        # Add selected watershed 
+        label_import_watershed_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
+        label_import_watershed_step1.setFont(regular_font)
+        label_import_watershed_step1.setGeometry(50, 180, 350, 30)
+        label_import_watershed_step1.setText(label_select_watershed_step1)
+
+        # QgsMapLayerComboBox for the selected watershed
+        self.selected_watershed = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step1_index))
+        self.selected_watershed.setGeometry(350, 180, 250, 30)
+        self.selected_watershed.setAllowEmptyLayer(0)
+        self.selected_watershed.setCurrentIndex(0)
+        self.selected_watershed.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+
+
+        # Add import button label
+        self.import_dem_step1Button=QPushButton(self.tab_widget.widget(self.tab_step1_index))
+        self.import_dem_step1Button.setFont(regular_font)
+        self.import_dem_step1Button.setGeometry(350, 250, 250, 30)
+        self.import_dem_step1Button.setText(label_import_PushButton_dem_step1)
+        self.import_dem_step1Button.setEnabled(True)
+        # Function connected to the signal emitted by the button.
+        self.import_dem_step1Button.clicked.connect(self.import_selected_dem)
+
+            
+
+       
+        ########################## FIELD ############################
+        # Add selected Field 
+        label_import_field_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
+        label_import_field_step1.setFont(regular_font)
+        label_import_field_step1.setGeometry(50, 400, 250, 30)
+        label_import_field_step1.setText(label_select_field_step1)
+
+        # QgsMapLayerComboBox for the selected watershed
+        self.selected_field = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step1_index))
+        self.selected_field.setGeometry(350, 400, 250, 30)
+        self.selected_field.setAllowEmptyLayer(0)
+        self.selected_field.setCurrentIndex(0)
+        self.selected_field.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+
+
+        # Add import button label
+        self.import_field_step1Button=QPushButton(self.tab_widget.widget(self.tab_step1_index))
+        self.import_field_step1Button.setFont(regular_font)
+        self.import_field_step1Button.setGeometry(300, 450, 350, 30)
+        self.import_field_step1Button.setText(label_select_field_PushButton_step1)
+        # Function connected to the signal emitted by the button.
+        self.import_field_step1Button.clicked.connect(self.import_selected_field)
+
+        # Add radiocheckbutton label
+        self.clip_field_1_step1=QCheckBox(self.tab_widget.widget(self.tab_step1_index))
+        self.clip_field_1_step1.setFont(regular_font)
+        self.clip_field_1_step1.setGeometry(120, 480, 450, 30)
+        self.clip_field_1_step1.setText(label_clip_field_1_step1)
+        self.clip_field_2_step1=QCheckBox(self.tab_widget.widget(self.tab_step1_index))
+        self.clip_field_2_step1.setFont(regular_font)
+        self.clip_field_2_step1.setGeometry(120, 500, 450, 30)
+        self.clip_field_2_step1.setText(label_clip_field_2_step1)
+
+
+
+        # QgsMapLayerComboBox for the clipping Line
+        self.selected_clip_field_2_button = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step1_index))
+        self.selected_clip_field_2_button.setGeometry(400, 530, 200, 30)
+        self.selected_clip_field_2_button.setAllowEmptyLayer(0)
+        self.selected_clip_field_2_button.setCurrentIndex(0)
+        self.selected_clip_field_2_button.setFilters(QgsMapLayerProxyModel.LineLayer)
+
+
+
+
+
+        # Add clipping field button label
+        self.selected_clipping_field_step1Button=QPushButton(self.tab_widget.widget(self.tab_step1_index))
+        self.selected_clipping_field_step1Button.setFont(regular_font)
+        self.selected_clipping_field_step1Button.setGeometry(450, 570, 250, 30)
+        self.selected_clipping_field_step1Button.setText(label_clip_field_PushButton_step1)
+        # Function connected to the signal emitted by the button.
+        self.selected_clipping_field_step1Button.clicked.connect(self.selected_clipping_field)
+
+        # Add export line
+        label_export_field_line_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
+        label_export_field_line_step1.setFont(regular_font)
+        label_export_field_line_step1.setGeometry(50, 600, 350, 30)
+        label_export_field_line_step1.setText(label_export_field_step1)
+
+        # Add export field button label
+        self.export_field_step1Button=QPushButton(self.tab_widget.widget(self.tab_step1_index))
+        self.export_field_step1Button.setFont(regular_font)
+        self.export_field_step1Button.setGeometry(70, 630, 150, 30)
+        self.export_field_step1Button.setText(label_export_field_PushButton_step1)
+        # Function connected to the signal emitted by the button.
+        self.export_field_step1Button.clicked.connect(self.export_field)
+
+
 
         # Loader variables
         self.messagebox = QDialog()
@@ -154,8 +225,8 @@ class WatershedCreationDialog(QMainWindow):
         self.label.resize(QSize(500, 500))
         self.label.move(100, 60)
 
-        self.tab_land_cover_index = self.add_tab(self.tab_widget, "Land Cover")
-        self.tab_line_type_index = self.add_tab(self.tab_widget, "Line Type")
+        self.tab_step2_index = self.add_tab(self.tab_widget, label_index_step2)
+        self.tab_step3_index = self.add_tab(self.tab_widget, label_index_step3)
 
     def add_tab(self, tab_widget, name):
         tab_index = tab_widget.count()
@@ -163,6 +234,70 @@ class WatershedCreationDialog(QMainWindow):
         tab.setGeometry(0, 0, tab_widget.width(), tab_widget.height())
         tab_widget.addTab(tab, name)
         return tab_index
+
+
+
+    def import_selected_dem(self):
+        """ Function to import selected dem into output path and clip (if user choose) the dem with the watershed polygon
+        """
+        self.watershed_name = self.line_edit_watershed_name.text()
+        StrWatershed_name=str(self.watershed_name)
+        if not StrWatershed_name :
+            today= date.today()
+            StrWatershed_name="watershed_creation"+str(today)
+
+
+        new_path = self.path + StrWatershed_name + "/"
+        keep_process = True
+        if os.path.exists(new_path):
+            mb = QMessageBox()
+            mb.setText("Dossier existant : Attention, le dossier utilisé pour enregistrer les résultats existe déjà, "
+                       "certaines données vont être effacées.")
+            mb.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            return_value = mb.exec()
+            if return_value != QMessageBox.Yes:
+                keep_process = False
+
+        if keep_process:
+            if not os.path.exists(new_path):
+                os.makedirs(new_path)
+            else:
+                for element in os.listdir(new_path):
+                    os.remove(new_path + element)
+        self.new_path=new_path
+        if self.clip_dem_step1.isChecked():
+           watershed =  self.selected_watershed.currentLayer()
+        else:
+           watershed = None 
+
+        depressionless_dem = create_depressionless_dem(self.selected_dem.currentLayer(),  watershed,self.crs,self.new_path)
+        QgsProject.instance().addMapLayer(depressionless_dem)
+
+                
+    def import_selected_field(self):
+        """ Function to import selected dem into output path and clip (if user choose) the dem with the watershed polygon
+        """
+        checkedField=check_validity(self.selected_field.currentLayer(),self.crs,self.new_path)
+        QgsProject.instance().addMapLayer(checkedField)
+
+
+    def selected_clipping_field(self):
+        """ Function to clip field 
+        """
+        #clipping by talweg
+#        if self.clip_field_1_step1.isChecked():
+        # clipping by line 
+        if self.clip_field_2_step1.isChecked():
+
+            clippedField=clip_polygon_by_line(self.selected_field.currentLayer(),self.selected_clip_field_2_button.currentLayer())
+
+
+    def export_field(self):
+        """ Function to export field into line 
+        """
+
+
+
 
     def launch_creation(self):
         self.watershed_name = self.line_edit_watershed_name.text()
@@ -199,15 +334,15 @@ class WatershedCreationDialog(QMainWindow):
             if self.fill_polygon.isChecked():
                 fill_polygon = True
             self.messagebox.show()
-            creation = WatershedCreation(crs=self.crs, path=new_path, parcel_layer=parcel_layer, line_layer=line_layer,
-                                         parcel_id=parcel_id, land_cover=land_cover, line_id=line_id,
-                                         dem_raster=dem_raster, fill_polygon=fill_polygon)
+        #    creation = WatershedCreation(crs=self.crs, path=new_path, parcel_layer=parcel_layer, line_layer=line_layer,
+        #                                 parcel_id=parcel_id, land_cover=land_cover, line_id=line_id,
+        #                                 dem_raster=dem_raster, fill_polygon=fill_polygon)
             creation.processing_chain()
             self.tab_widget.setTabEnabled(self.tab_land_cover_index, True)
             self.tab_widget.setTabEnabled(self.tab_line_type_index, True)
             self.line_edit_watershed_name.setEnabled(False)
             self.tab_widget.setCurrentIndex(self.tab_land_cover_index)
-            self.tab_widget.setTabEnabled(self.tab_layer_index, False)
+            self.tab_widget.setTabEnabled(self.tab_step1_index, False)
             self.messagebox.done(1)
         self.activateWindow()
 

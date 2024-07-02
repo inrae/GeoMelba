@@ -92,6 +92,12 @@ class GeomelbaSpirit:
 
         self.studied_elements=[]
         self.coded_studied_elements=[]
+        self.season=[]
+        self.coded_season=[]
+
+        self.DictElementSeason={}
+        self.CodedDictElementSeason={}
+
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -253,7 +259,7 @@ class GeomelbaSpirit:
         options.fileEncoding = layer.dataProvider().encoding()
         options.driverName = "GPKG"
         layer.setCrs(coordinate_system)
-        QgsVectorFileWriter.writeAsVectorFormatV2(layer, out_path, context, options)
+        QgsVectorFileWriter.writeAsVectorFormatV3(layer, out_path, context, options)
                 
     def run(self):
         """Set up the dialog for the user options and realize actions when the user clicked on the "OK" button.
@@ -281,7 +287,8 @@ class GeomelbaSpirit:
             # If there is no layer in the project, the default CRS is 2154.
             if len(self.project.mapLayers()) == 0:
                 # self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(self.project.crs()))
-                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(2154))
+#                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem(2154))
+                self.dlg.crs_selector.setCrs(QgsCoordinateReferenceSystem.fromEpsgId(2154))
             # If there is layers in the project, the default CRS is the one used by the mapCanvas.
             else:
                 self.dlg.crs_selector.setCrs(
@@ -303,14 +310,39 @@ class GeomelbaSpirit:
                 #studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
                 #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
                 if self.dlg.RadioButton_studied_element2.isChecked():
-                    studied_elements=["de phytosanitaires"]
-                    coded_studied_elements=[2]
+                    self.studied_elements=["de phytosanitaires"]
+                    self.coded_studied_elements=[2]
                 elif self.dlg.RadioButton_studied_element0.isChecked():
-                    studied_elements=["d'eau"]
-                    coded_studied_elements=[0]
+                    self.studied_elements=["d'eau"]
+                    self.coded_studied_elements=[0]
                 else :
-                    studied_elements=["de MES"]
-                    coded_studied_elements=[1]
+                    self.studied_elements=["de MES"]
+                    self.coded_studied_elements=[1]
+
+
+                #Put season into self.season
+                #season = ["Eté", "Hiver",]
+                #coded_season= 0 for summer, 1 for winter
+                if self.dlg.QCheckBox_season_element0.isChecked():
+                    self.season.append("Eté")
+                    self.coded_season.append(0)
+                if self.dlg.QCheckBox_season_element1.isChecked():
+                    self.season.append("Hiver")
+                    self.coded_season.append(1)
+                # if all box is unchecked, put summer season by default
+                if not self.dlg.QCheckBox_season_element0.isChecked() and not self.dlg.QCheckBox_season_element1.isChecked():
+                    self.season.append("Eté")
+                    self.coded_season.append(0)
+
+                # Put element and season into dictionnary DictElementSeason and CodedDictElementSeason
+                for i in self.coded_studied_elements:
+                    self.CodedDictElementSeason[str(i)]=self.coded_season
+
+                for i in self.studied_elements:
+                    self.DictElementSeason[i]=self.season
+
+
+
 
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
@@ -650,7 +682,9 @@ class GeomelbaSpirit:
                                                     line_layer=new_line_layer, style_line_layer=line_style,
                                                     connexion_layer=connexion_layer, crs=crs,
                                                     output_path=output_directory,
-                                                    coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
+                                                    coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,
+                                                    coded_season=self.coded_season,season=self.season,
+                                                    DictElementSeason=self.DictElementSeason,CodedDictElementSeason=self.CodedDictElementSeason)                               
 
                     # Connect to provide cleanup on closing of dockwidget.
                     self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
