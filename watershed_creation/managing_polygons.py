@@ -14,7 +14,8 @@ tf = tempfile.TemporaryDirectory()
 
 def check_validity(polygon_layer,crs,output_path):
     polygon_path = polygon_layer.dataProvider().dataSourceUri()
-    fix_geom_parameters = {'INPUT': polygon_path, 'OUTPUT': "memory:checked_parcel"}
+    checked_layer=output_path+"checked_parcel.shp"
+    fix_geom_parameters = {'INPUT': polygon_path,  'OUTPUT': "memory:checked_parcel"}
     parcel_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
     
 
@@ -128,7 +129,7 @@ def create_linear_from_polygon(polygon, output, crs):
 
 def delete_fields_fid(layer, name):
     refactor = []
-    QgsProject.instance().addMapLayer(layer)
+   # QgsProject.instance().addMapLayer(layer)
     for field in layer.fields():  # creation of a list with the field and field type of the layer.
         refactor_field = {}
         if field.name() != "fid" and field.name() != "cat" and field.name() != "gid":
@@ -158,7 +159,7 @@ def clip_polygon_by_line(parcels, lines_to_clip):
     fix_geom_parameters = {'INPUT': parcels, 'OUTPUT': "memory:fixed_parcel"}
     parcel_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
     print("1 1")
-    QgsProject.instance().addMapLayer(parcel_fixed)
+    #QgsProject.instance().addMapLayer(parcel_fixed)
     cleaned_layer = tf.name + '/cleaned.shp'
     clean_parameters = {'input': parcel_fixed, 'type': [4],
                         'tool': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'threshold': '', '-b': False, '-c': False,
@@ -168,7 +169,7 @@ def clip_polygon_by_line(parcels, lines_to_clip):
                         'GRASS_VECTOR_EXPORT_NOCAT': False}
     processing.run("grass7:v.clean", clean_parameters)
     parcel_layer = QgsVectorLayer(cleaned_layer, 'test', 'ogr')
-    QgsProject.instance().addMapLayer(parcel_layer)
+    #QgsProject.instance().addMapLayer(parcel_layer)
     print("1 2")
     fix_geom_parameters = {'INPUT': lines_to_clip, 'OUTPUT': tf.name + "/fixed_lines_to_clip.shp"}
     lines_to_clip_fixed = processing.run("native:fixgeometries", fix_geom_parameters)
@@ -251,7 +252,9 @@ def clip_polygon_by_line(parcels, lines_to_clip):
     snap_parameters = {'INPUT': new_parcel, 'REFERENCE_LAYER': new_parcel, 'TOLERANCE': 0.01, 'BEHAVIOR': 0,
                        'OUTPUT': 'memory:snapped'}
     snapped = processing.run("native:snapgeometries", snap_parameters)["OUTPUT"]
-    multi_to_single_part_parameters = {'INPUT': snapped, 'OUTPUT': 'memory:new_parcel'}
+    clipped_layer = tf.name + '/parcel_clipped.shp'
+
+    multi_to_single_part_parameters = {'INPUT': snapped, 'OUTPUT': 'memory:clipped_parcel'}
     new_parcel =processing.run("native:multiparttosingleparts", multi_to_single_part_parameters)["OUTPUT"]
 
     QgsProject.instance().addMapLayer(new_parcel)
