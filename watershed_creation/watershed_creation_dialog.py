@@ -41,7 +41,7 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
-from .managing_polygons import check_validity, clip_polygon_by_line
+from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
 
 
 # Personal modules
@@ -288,13 +288,21 @@ class WatershedCreationDialog(QMainWindow):
 #        if self.clip_field_1_step1.isChecked():
         # clipping by line 
         if self.clip_field_2_step1.isChecked():
-
-            clippedField=clip_polygon_by_line(self.selected_field.currentLayer(),self.selected_clip_field_2_button.currentLayer())
+            layers = QgsProject.instance().mapLayersByName('checked_parcel') 
+#            clippedField=clip_polygon_by_line(self.selected_field.currentLayer(),self.selected_clip_field_2_button.currentLayer())
+            clippedField=clip_polygon_by_line(layers[0],self.selected_clip_field_2_button.currentLayer())
 
 
     def export_field(self):
         """ Function to export field into line 
         """
+        layers = QgsProject.instance().mapLayersByName('clipped_parcel') 
+        if len(layers)==0:
+            layers = QgsProject.instance().mapLayersByName('checked_parcel')
+        LineLayer=create_linear_from_polygon(layers[0], self.new_path, "EPSG:2154")
+        QgsProject.instance().addMapLayer(LineLayer)
+
+        
 
 
 
