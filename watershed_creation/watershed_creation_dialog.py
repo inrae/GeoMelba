@@ -37,7 +37,10 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_select_dem_step1, output_button_name, regular_font, file_selection_text, label_select_watershed_step1,label_clip_dem_step1, \
     label_import_PushButton_dem_step1, label_field_name_step1, label_select_field_step1, label_select_field_step1, \
     label_select_field_PushButton_step1, label_clip_field_1_step1, label_clip_field_2_step1, label_clip_field_PushButton_step1, \
-    label_export_field_step1, label_export_field_PushButton_step1
+    label_export_field_step1, label_export_field_PushButton_step1, \
+    label_UH_name_step2, label_select_field_step2,label_select_line_step2, label_fields_UH_step2, \
+    label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
+    label_select_field_PushButton_step2
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
@@ -101,7 +104,7 @@ class WatershedCreationDialog(QMainWindow):
         self.groupBoxField.setGeometry(0,350,700,350)
 
 
-        ######################### MNT ####################
+        ######################### STEP 1 MNT ####################
         # Add MNT frame
 
         # Add selected DEM 
@@ -147,7 +150,7 @@ class WatershedCreationDialog(QMainWindow):
             
 
        
-        ########################## FIELD ############################
+        ########################## STEP 1 FIELD ############################
         # Add selected Field 
         label_import_field_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
         label_import_field_step1.setFont(regular_font)
@@ -201,6 +204,8 @@ class WatershedCreationDialog(QMainWindow):
         # Function connected to the signal emitted by the button.
         self.selected_clipping_field_step1Button.clicked.connect(self.selected_clipping_field)
 
+        ########################## STEP 1 LINE ############################
+
         # Add export line
         label_export_field_line_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
         label_export_field_line_step1.setFont(regular_font)
@@ -225,7 +230,77 @@ class WatershedCreationDialog(QMainWindow):
         self.label.resize(QSize(500, 500))
         self.label.move(100, 60)
 
+
+        ################## STEP 2 #######################
+
         self.tab_step2_index = self.add_tab(self.tab_widget, label_index_step2)
+        vlayout2 = QVBoxLayout(self)
+        self.groupBoxUH = QGroupBox(label_UH_name_step2, self.tab_widget.widget(self.tab_step2_index))
+        vlayout2.addWidget(self.groupBoxUH)
+        self.groupBoxUH.resize(700,250)
+        self.groupBoxFieldUH = QGroupBox(label_select_line_step2, self.tab_widget.widget(self.tab_step2_index))
+        vlayout2.addWidget(self.groupBoxFieldUH)
+        self.groupBoxFieldUH.setGeometry(0,250,700,350)
+
+
+        # Add selected UH
+        label_import_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_import_UH_step2.setFont(regular_font)
+        label_import_UH_step2.setGeometry(40, 50, 350, 30)
+        label_import_UH_step2.setText(label_select_field_step2)
+
+        # QgsMapLayerComboBox for the selected UH
+        self.selected_UH = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_UH.setGeometry(170, 50, 250, 30)
+        self.selected_UH.setAllowEmptyLayer(0)
+        self.selected_UH.setCurrentIndex(0)
+        self.selected_UH.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+
+        # Select UH attributes
+        label_attribute_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attribute_UH_step2.setFont(regular_font)
+        label_attribute_UH_step2.setGeometry(70, 80, 350, 30)
+        label_attribute_UH_step2.setText(label_fields_UH_step2)
+
+        label_attributeField1_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField1_UH_step2.setFont(regular_font)
+        label_attributeField1_UH_step2.setGeometry(100, 100, 350, 30)
+        label_attributeField1_UH_step2.setText(label_field1_UH_step2)
+
+        # QgsMapLayerComboBox for field1
+        self.selectedField1_UH = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selectedField1_UH.setGeometry(250, 102, 150, 20)
+
+        label_attributeField2_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField2_UH_step2.setFont(regular_font)
+        label_attributeField2_UH_step2.setGeometry(100, 130, 350, 30)
+        label_attributeField2_UH_step2.setText(label_field2_UH_step2)
+
+        # QgsMapLayerComboBox for field2
+        self.selectedField2_UH = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selectedField2_UH.setGeometry(250, 132, 150, 20)
+
+        label_attributeField3_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField3_UH_step2.setFont(regular_font)
+        label_attributeField3_UH_step2.setGeometry(100, 160, 350, 30)
+        label_attributeField3_UH_step2.setText(label_field3_UH_step2)
+
+        # QgsMapLayerComboBox for field3
+        self.selectedField3_UH = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selectedField3_UH.setGeometry(250, 162, 150, 20)
+
+        # Add Import UH button label
+        self.selected_ImportUH__step2Button=QPushButton(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_ImportUH__step2Button.setFont(regular_font)
+        self.selected_ImportUH__step2Button.setGeometry(450, 190, 250, 30)
+        self.selected_ImportUH__step2Button.setText(label_select_field_PushButton_step2)
+        # Function connected to the signal emitted by the button.
+        self.selected_ImportUH__step2Button.clicked.connect(self.connexionUH_UH)
+
+
+
+
+
         self.tab_step3_index = self.add_tab(self.tab_widget, label_index_step3)
 
     def add_tab(self, tab_widget, name):
@@ -302,8 +377,9 @@ class WatershedCreationDialog(QMainWindow):
         LineLayer=create_linear_from_polygon(layers[0], self.new_path, "EPSG:2154")
         QgsProject.instance().addMapLayer(LineLayer)
 
-        
-
+    def connexionUH_UH(self):        
+        """ Function to import UH layer and connexion UH-UH calculation
+        """
 
 
 
