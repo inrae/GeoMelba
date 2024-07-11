@@ -121,10 +121,25 @@ def create_linear_from_polygon(polygon, output, crs):
     line_final_layer.deleteAttributes(line_final_layer.attributeList())
     line_final_layer.commitChanges()
     line_final_layer.triggerRepaint()
-
     line_final_layer_crs = line_final_layer.crs()
     line_final_layer_crs.createFromString(crs)
     line_final_layer.setCrs(line_final_layer_crs)
+
+    line_final_layer.startEditing()
+    line_final_layer.addAttribute(QgsField('gm_id', QVariant.Int, "int", 10))
+    line_final_layer.addAttribute(QgsField('gm_type', QVariant.Int, "int", 10))
+    line_final_layer.addAttribute(QgsField('gm_length', QVariant.Double, "double", 10, 3))
+    
+
+    for f in line_final_layer.getFeatures():
+        line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('gm_id'),
+                                            f.id())
+        line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('gm_length'),
+                                                f.geometry().length())
+    
+    line_final_layer.commitChanges()
+    line_final_layer.triggerRepaint()
+
     return line_final_layer
 
 def delete_fields_fid(layer, name):

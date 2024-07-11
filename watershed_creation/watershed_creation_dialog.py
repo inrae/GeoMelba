@@ -40,12 +40,14 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_export_field_step1, label_export_field_PushButton_step1, \
     label_UH_name_step2, label_select_field_step2,label_select_line_step2, label_fields_UH_step2, \
     label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
-    label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2
+    label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
+    label_TE_name_step2, label_select_field_line_step2
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
 from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
 from .managing_UH import UH_UH_connexions, prepare_UH
+from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref
 
 
 # Personal modules
@@ -239,7 +241,7 @@ class WatershedCreationDialog(QMainWindow):
         self.groupBoxUH = QGroupBox(label_UH_name_step2, self.tab_widget.widget(self.tab_step2_index))
         vlayout2.addWidget(self.groupBoxUH)
         self.groupBoxUH.resize(700,250)
-        self.groupBoxFieldUH = QGroupBox(label_select_line_step2, self.tab_widget.widget(self.tab_step2_index))
+        self.groupBoxFieldUH = QGroupBox(label_TE_name_step2, self.tab_widget.widget(self.tab_step2_index))
         vlayout2.addWidget(self.groupBoxFieldUH)
         self.groupBoxFieldUH.setGeometry(0,250,700,350)
 
@@ -337,6 +339,15 @@ class WatershedCreationDialog(QMainWindow):
         # Function connected to the signal emitted by the button.
         self.selected_ImportTE__step2Button.clicked.connect(self.connexionsTE)
 
+        # Add label field TE
+        label_field_TE_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_field_TE_step2.setFont(regular_font)
+        label_field_TE_step2.setGeometry(40, 350, 600, 30)
+        label_field_TE_step2.setText(label_select_field_line_step2)
+
+
+
+
 
 
 
@@ -421,17 +432,26 @@ class WatershedCreationDialog(QMainWindow):
         """ Function to import UH layer and connexion UH-UH calculation
         """
         dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
-        print(self.label_attributeField1_UH_step2_Box.currentField())        
-        print(self.label_attributeField2_UH_step2_Box.currentField())    
-        print(self.label_attributeField3_UH_step2_Box.currentField())    
 
         centroids_layer = prepare_UH(self.selected_UH.currentLayer(), dem[0], self.label_attributeField1_UH_step2_Box.currentField(), self.label_attributeField2_UH_step2_Box.currentField(), self.label_attributeField3_UH_step2_Box.currentField(), self.new_path, self.crs)
         connexions_layer = UH_UH_connexions(self.selected_UH.currentLayer(), centroids_layer, self.crs, self.new_path)
         QgsProject.instance().addMapLayer(connexions_layer)
 
+
     def connexionsTE(self):   
         """ Function to import TE layer and connexion UH-TE, TE-TE and river calculations
         """
+        connexions = QgsProject.instance().mapLayersByName('connexions') 
+        UH_TE_connexions(self.selected_TE.currentLayer(), self.selected_UH.currentLayer(), connexions[0])
+        dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
+        TE_TE_connexions(self.selected_TE.currentLayer(), dem[0], self.crs)
+        # code_riviere = 700 and code_ripisylve = 200
+        connexions_river(self.selected_TE.currentLayer(), connexions[0], 700, 200)
+        centroids = QgsProject.instance().mapLayersByName('centroids_UH') 
+        inclinaison_pente_parcelle = ecoulement_pref (self.selected_UH.currentLayer(), connexions[0], self.selected_TE.currentLayer(), centroids[0], self.crs, self.new_path)
+
+
+
 
     def launch_creation(self):
         self.watershed_name = self.line_edit_watershed_name.text()
