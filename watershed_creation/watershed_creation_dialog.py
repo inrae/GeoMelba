@@ -47,7 +47,7 @@ from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
 from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
 from .managing_UH import UH_UH_connexions, prepare_UH
-from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref
+from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes
 
 
 # Personal modules
@@ -449,6 +449,9 @@ class WatershedCreationDialog(QMainWindow):
         connexions_river(self.selected_TE.currentLayer(), connexions[0], 700, 200)
         centroids = QgsProject.instance().mapLayersByName('centroids_UH') 
         inclinaison_pente_parcelle = ecoulement_pref (self.selected_UH.currentLayer(), connexions[0], self.selected_TE.currentLayer(), centroids[0], self.crs, self.new_path)
+        inclinaison_pente_lineaire = inclinaison_lineaire (self.selected_TE.currentLayer(), self.crs, self.new_path)
+        comparaison_angles_lignes(self.selected_TE.currentLayer(), inclinaison_pente_parcelle, inclinaison_pente_lineaire)
+        ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
 
 
 
