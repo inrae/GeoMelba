@@ -14,7 +14,6 @@ tf = tempfile.TemporaryDirectory()
 
 def check_validity(polygon_layer,crs,output_path):
     polygon_path = polygon_layer.dataProvider().dataSourceUri()
-    checked_layer=output_path+"checked_parcel.shp"
     fix_geom_parameters = {'INPUT': polygon_path,  'OUTPUT': "memory:checked_parcel"}
     parcel_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
     
@@ -84,7 +83,7 @@ def create_linear_from_polygon(polygon, output, crs):
     dissolve_parameters = {'INPUT': line_layer, 'FIELD': [], 'OUTPUT': 'memory:dissolve'}
     dissolve = processing.run("native:dissolve", dissolve_parameters)
 
-    line_final = output + 'polygon_outline.shp'
+    line_final = output + 'lineaire.shp'
     processing.run("grass7:v.edit", {
         'map': dissolve['OUTPUT'],
         'type': [1],
@@ -115,7 +114,7 @@ def create_linear_from_polygon(polygon, output, crs):
         'GRASS_VECTOR_DSCO': '',
         'GRASS_VECTOR_LCO': '',
         'GRASS_VECTOR_EXPORT_NOCAT': False})
-    line_final_layer = QgsVectorLayer(line_final, 'polygon_outline', 'ogr')
+    line_final_layer = QgsVectorLayer(line_final, 'lineaire', 'ogr')
 
     line_final_layer.startEditing()
     line_final_layer.deleteAttributes(line_final_layer.attributeList())

@@ -415,7 +415,6 @@ class WatershedCreationDialog(QMainWindow):
         # clipping by line 
         if self.clip_field_2_step1.isChecked():
             layers = QgsProject.instance().mapLayersByName('checked_parcel') 
-#            clippedField=clip_polygon_by_line(self.selected_field.currentLayer(),self.selected_clip_field_2_button.currentLayer())
             clippedField=clip_polygon_by_line(layers[0],self.selected_clip_field_2_button.currentLayer())
 
 
@@ -452,7 +451,8 @@ class WatershedCreationDialog(QMainWindow):
         inclinaison_pente_lineaire = inclinaison_lineaire (self.selected_TE.currentLayer(), self.crs, self.new_path)
         comparaison_angles_lignes(self.selected_TE.currentLayer(), inclinaison_pente_parcelle, inclinaison_pente_lineaire)
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
-
+        cadastre_shp=self.new_path+"cadastre.shp"
+        QgsVectorFileWriter.writeAsVectorFormat(self.selected_UH.currentLayer(),cadastre_shp,'utf-8',driverName='ESRI Shapefile')
 
 
 
