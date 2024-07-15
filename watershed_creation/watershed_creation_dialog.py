@@ -41,13 +41,15 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_UH_name_step2, label_select_field_step2,label_select_line_step2, label_fields_UH_step2, \
     label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
     label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
-    label_TE_name_step2, label_select_field_line_step2
+    label_TE_name_step2, label_select_field_line_step2, \
+    label_folder_name_step3,  label_create_folder_PushButton_step3
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
 from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
 from .managing_UH import UH_UH_connexions, prepare_UH
 from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes
+from .managing_Output import create_folder, create_csv_files, create_qml_files, create_geopackage
 
 
 # Personal modules
@@ -325,7 +327,7 @@ class WatershedCreationDialog(QMainWindow):
 
         # QgsMapLayerComboBox for the selected TE
         self.selected_TE = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
-        self.selected_TE.setGeometry(200, 300, 200, 30)
+        self.selected_TE.setGeometry(300, 300, 200, 30)
         self.selected_TE.setAllowEmptyLayer(0)
         self.selected_TE.setCurrentIndex(0)
         self.selected_TE.setFilters(QgsMapLayerProxyModel.LineLayer)
@@ -334,7 +336,7 @@ class WatershedCreationDialog(QMainWindow):
         # Add Import TE button label
         self.selected_ImportTE__step2Button=QPushButton(self.tab_widget.widget(self.tab_step2_index))
         self.selected_ImportTE__step2Button.setFont(regular_font)
-        self.selected_ImportTE__step2Button.setGeometry(450, 300, 250, 30)
+        self.selected_ImportTE__step2Button.setGeometry(450, 350, 250, 30)
         self.selected_ImportTE__step2Button.setText(label_select_TE_PushButton_step2)
         # Function connected to the signal emitted by the button.
         self.selected_ImportTE__step2Button.clicked.connect(self.connexionsTE)
@@ -342,17 +344,32 @@ class WatershedCreationDialog(QMainWindow):
         # Add label field TE
         label_field_TE_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
         label_field_TE_step2.setFont(regular_font)
-        label_field_TE_step2.setGeometry(40, 350, 600, 30)
+        label_field_TE_step2.setGeometry(40, 400, 600, 30)
         label_field_TE_step2.setText(label_select_field_line_step2)
 
 
-
-
-
-
-
-
+        ################## STEP 3 #######################
+        # third Tab.
         self.tab_step3_index = self.add_tab(self.tab_widget, label_index_step3)
+        vlayout = QVBoxLayout(self)
+        self.groupBoxFolder = QGroupBox(label_folder_name_step3, self.tab_widget.widget(self.tab_step3_index))
+        vlayout.addWidget(self.groupBoxFolder)
+        self.groupBoxFolder.resize(700,350)
+
+        # Add create folder button label
+        self.create_folder_step3Button=QPushButton(self.tab_widget.widget(self.tab_step3_index))
+        self.create_folder_step3Button.setFont(regular_font)
+        self.create_folder_step3Button.setGeometry(350, 250, 250, 30)
+        self.create_folder_step3Button.setText(label_create_folder_PushButton_step3)
+        self.create_folder_step3Button.setEnabled(True)
+        # Function connected to the signal emitted by the button.
+        self.create_folder_step3Button.clicked.connect(self.create_folder_files)
+
+
+
+
+
+        
 
     def add_tab(self, tab_widget, name):
         tab_index = tab_widget.count()
@@ -453,7 +470,14 @@ class WatershedCreationDialog(QMainWindow):
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
         cadastre_shp=self.new_path+"cadastre.shp"
         QgsVectorFileWriter.writeAsVectorFormat(self.selected_UH.currentLayer(),cadastre_shp,'utf-8',driverName='ESRI Shapefile')
+        cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
+        QgsProject.instance().addMapLayer(cadastre)
 
+    def create_folder_files(self):
+        create_folder(self.new_path,self.watershed_name)
+        create_csv_files(self.new_path,self.watershed_name)
+        create_qml_files(self.new_path,self.watershed_name)
+        create_geopackage(self.new_path,self.watershed_name)
 
 
     def launch_creation(self):

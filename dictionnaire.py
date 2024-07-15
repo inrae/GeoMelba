@@ -589,4 +589,7 @@ label_select_line_step2="Calcul des connexions des linéaires"
 label_select_field_PushButton_step2="Calcul connexions UH - UH"
 label_select_field_line_step2="Doit contenir un champ gm_type avec code 700 pour la rivière ou 200 pour la ripisylve"
 label_select_TE_PushButton_step2="Calcul connexions Linéaires"
+#step 3
+label_folder_name_step3="Création du dossier final"
+label_create_folder_PushButton_step3="Création du dossier final"
 
