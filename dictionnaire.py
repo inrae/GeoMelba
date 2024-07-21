@@ -41,10 +41,15 @@ watershed_prefix = 'bv_'
 # Variables config files :
 config_practices_file = "agricultural_practices.csv"
 config_slope_file = "slope.csv"
-config_land_cover_file = "land_cover.csv"
-config_line_type_file = "line_type.csv"
-config_drain_file = "drain.csv"
-
+config_land_cover_file = "land_cover"
+config_land_cover_file_summer = "land_cover_s.csv"
+config_land_cover_file_winter = "land_cover_w.csv"
+config_line_type_file = "line_type"
+config_line_type_file_summer = "line_type_s.csv"
+config_line_type_file_winter = "line_type_w.csv"
+config_drain_file = "drain"
+config_drain_file_summer = "drain_s.csv"
+config_drain_file_winter = "drain_w.csv"
 
 #variables_de_saisonnalité_summer
 field_incoming_flow_summer= 'gm_ent_s'
@@ -64,7 +69,7 @@ field_flow_production_water_summer = 'prod_eau_s'
 field_flow_production_mes_summer = 'prod_mes_s'
 field_flow_production_phyto_summer = 'prod_phyto_s'
 field_flow_production_relative_summer = 'gm_prod_t_s'
- 
+
 
 #variables_de_saisonnalité_Winter
 field_incoming_flow_winter = 'gm_ent_w'
@@ -74,6 +79,19 @@ field_outgoing_flow_long_up_winter = 'sort_lo_up_w'
 field_outgoing_flow_long_down_winter = 'sort_lo_dw_w'
 field_outgoing_flow_lat_winter = 'sort_la_w'
 field_flow_abatement_winter = 'gm_abatt_w'
+field_flow_abatement_1 = 'gm_abatt_1'
+field_flow_abatement_1_summer = 'gm_abatt_1_s'
+field_flow_abatement_1_winter = 'gm_abatt_1_s'
+
+
+field_flow_abatement_2= 'gm_abatt_2'
+field_flow_abatement_2_summer ='gm_abatt_2_s'
+field_flow_abatement_2_winter ='gm_abatt_2_w'
+field_flow_abatement_3 = 'gm_abatt_3'
+field_flow_abatement_3_summer ='gm_abatt_3_s'
+field_flow_abatement_3_winter ='gm_abatt_3_w'
+
+
 field_incoming_flow_from_parcel_winter = 'gm_ent_p_w'
 field_incoming_flow_from_line_winter = 'gm_ent_l_w'
 field_outgoing_flow_line_to_parcel_winter = 'gm_sort_p_w'
@@ -135,20 +153,64 @@ field_type_line_top = 'type_amo'
 field_type_line_bottom = 'type_ava'
 field_type_parcel = 'type_sol'
 field_incoming_flow = 'gm_ent'
+field_incoming_flow_1 = 'gm_ent_1'
+field_incoming_flow_1_summer = 'gm_ent_1_s'
+field_incoming_flow_1_winter = 'gm_ent_1_w'
+field_incoming_flow_2 = 'gm_ent_2'
+field_incoming_flow_2_summer = 'gm_ent_2_s'
+field_incoming_flow_2_winter = 'gm_ent_2_w'
+field_incoming_flow_3 = 'gm_ent_3'
+field_incoming_flow_3_summer = 'gm_ent_3_s'
+field_incoming_flow_3_winter = 'gm_ent_3_w'
 field_outgoing_flow = 'gm_sort'
 field_outgoing_flow_long = 'sort_lo'
 field_outgoing_flow_long_up = 'sort_lo_up'
 field_outgoing_flow_long_down = 'sort_lo_dw'
 field_outgoing_flow_lat = 'sort_la'
 field_flow_abatement = 'gm_abatt'
+field_flow_abatement_summer ='gm_abatt_s'
+field_flow_abatement_winter ='gm_abatt_w'
+
 field_incoming_flow_from_parcel = 'gm_ent_p'
 field_incoming_flow_from_line = 'gm_ent_l'
 field_outgoing_flow_line_to_parcel = 'gm_sort_p'
 field_outlet_inflow = 'gm_exut'
 field_feature_selected = 'selected'
 field_parcel_rating = 'indice'
+field_flow_abatement_1_rating = 'indice_a_1'
+
+field_flow_abatement_1_rating_summer = 'indice_a_1_s'
+field_flow_abatement_1_rating_winter = 'indice_a_1_w'
+
+field_flow_abatement_2_rating = 'indice_a_2'
+field_flow_abatement_2_rating_summer = 'indice_a_2_s'
+field_flow_abatement_2_rating_winter = 'indice_a_2_w'
+
+field_flow_abatement_3_rating = 'indice_a_3'
+field_flow_abatement_3_rating_summer = 'indice_a_3_s'
+field_flow_abatement_3_rating_winter = 'indice_a_3_w'
+
 field_flow_abatement_rating = 'indice_a'
+field_flow_abatement_rating_summer = 'indice_a_s'
+field_flow_abatement_rating_winter ='indice_a_w'
+
 field_incoming_flow_rating = 'indice_e'
+field_incoming_flow_rating_summer = 'indice_e_s'
+field_incoming_flow_rating_winter  = 'indice_e_w'
+field_incoming_flow_rating_1 = 'indice_e_1'
+field_incoming_flow_rating_1_summer = 'indice_e_1_s'
+field_incoming_flow_rating_1_winter = 'indice_e_1_w'
+
+
+field_incoming_flow_rating_2 = 'indice_e_2'
+field_incoming_flow_rating_2_summer = 'indice_e_2_s'
+field_incoming_flow_rating_2_winter = 'indice_e_2_s'
+
+field_incoming_flow_rating_3 = 'indice_e_3'
+field_incoming_flow_rating_3_summer = 'indice_e_3_s'
+field_incoming_flow_rating_3_winter = 'indice_e_3_w'
+
+
 field_flow_production_rating = 'indice_p'
 field_flow_production = 'prod'
 field_flow_production_water = 'prod_eau'
@@ -159,26 +221,64 @@ field_parcel_above = 'gm_uh_up'
 field_parcel_below = 'gm_uh_dwn'
 field_comparison = 'gm_comp'
 field_history = 'hist'
+field_history_summer ='hist_s'
+field_history_winter ='hist_w'
 field_history_water = 'hist_water'
+field_history_water_summer = 'hist_water_s'
+field_history_water_winter = 'hist_water_w'
 field_history_mes = 'hist_mes'
+field_history_mes_summer='hist_mes_s'
+field_history_mes_winter ='hist_mes_w'
 field_history_phyto = 'hist_phyto'
+field_history_phyto_summer ='hist_phyto_s'
+field_history_phyto_winter ='hist_phyto_w'
 field_history_abatement = 'hist_abat'
+field_history_abatement_summer ='hist_abat_s'
+field_history_abatement_winter ='hist_abat_w'
 field_history_abatement_water = 'hist_a_wat'
+field_history_abatement_water_summer='hist_a_wat_s'
+field_history_abatement_water_winter = 'hist_a_wat_w'
 field_history_abatement_mes = 'hist_a_mes'
 field_history_abatement_phyto = 'hist_a_phy'
+field_history_abatement_phyto_summer='hist_a_phy_s'
+field_history_abatement_phyto_winter = 'hist_a_phy_w'
 field_history_abatement_lat = 'hist_ab_la'
+field_history_abatement_lat_summer='hist_ab_la_s'
+field_history_abatement_lat_winter='hist_ab_la_w'
+
 field_history_abatement_lat_water = 'h_a_la_wat'
 field_history_abatement_lat_mes = 'h_a_la_mes'
 field_history_abatement_lat_phyto = 'h_a_la_phy'
+field_history_abatement_lat_phyto_summer ='h_a_la_phy_s'
+field_history_abatement_lat_phyto_winter ='h_a_la_phy_w'
 field_history_abatement_long = 'hist_ab_lo'
+field_history_abatement_long_summer ='hist_ab_lo_s'
+field_history_abatement_long_winter = 'hist_ab_lo_w'
 field_history_abatement_long_water = 'h_a_lo_wat'
 field_history_abatement_long_mes = 'h_a_lo_mes'
 field_history_abatement_long_phyto = 'h_a_lo_phy'
+field_history_abatement_long_phyto_summer = 'h_a_lo_phy_s'
+field_history_abatement_long_phyto_winter = 'h_a_lo_phy_w'
+
 field_history_outflow_long = 'hist_long'
+field_history_outflow_long_summer ='hist_long_s'
+field_history_outflow_long_winter ='hist_long_w'
 field_history_outflow_long_up = 'hist_lo_up'
+field_history_outflow_long_up_summer ='hist_lo_up_s'
+field_history_outflow_long_up_winter ='hist_lo_up_w'
+
 field_history_outflow_long_down = 'hist_lo_dw'
+field_history_outflow_long_down_summer ='hist_lo_dw_s'
+field_history_outflow_long_down_winter ='hist_lo_dw_w'
+
 field_history_abatement_long_up = 'hi_lo_ab_u'
+field_history_abatement_long_up_summer='hi_lo_ab_u_s'
+field_history_abatement_long_up_winter='hi_lo_ab_u_w'
 field_history_abatement_long_down = 'hi_lo_ab_d'
+field_history_abatement_long_down_summer= 'hi_lo_ab_d_s'
+field_history_abatement_long_down_winter= 'hi_lo_ab_d_w'
+
+
 field_parcel_outflow_drain = 'gm_sort_d'
 field_parcel_active_drain = 'gm_d_actif'
 field_flow_production_area = 'prod_m2'
@@ -319,8 +419,9 @@ output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
 studied_element_label=" Choix du thème de modélisation: "
 season_choice_label="choix du saison:"
-season_choice_button0_label="Winter"
-season_choice_button1_label="Summer"
+season_choice_button0_label="Hiver"
+season_choice_button1_label="Été"
+season_choice_button2_label="Hiver et Été "
 studied_element_button0_label="Eaux de ruissellement"
 studied_element_button1_label="Erosion"
 studied_element_button2_label="Produits phytosanitaires"
@@ -404,6 +505,11 @@ select_turn_spinbox_label = "Tour n° :"
 selected_turn_button_name = "Choix des cartes de sortie"
 
 # Map result after analysis variables:
+#studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+studied_elements = ["de PPP"]
+#coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
+#coded_studied_elements=[0,1,2]
+coded_studied_elements=[2]
 land_cover_map_title = "Occupation du sol"
 land_cover_map_parcel = "Occupation du sol"
 land_cover_map_line = "Elements paysagers"

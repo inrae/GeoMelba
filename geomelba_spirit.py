@@ -45,11 +45,12 @@ from .dictionnaire import parcel_layer_name, line_layer_name, line_style_layer_n
     field_type_line_middle, field_type_line_left, field_type_line_right, field_type_line_top, field_type_line_bottom,\
     field_top_line, style_multiple_line, field_parcel_id, field_type_line_origin, geopackage_layer_name_parcel, \
     geopackage_layer_name_line, geopackage_layer_name_connexions, information_geopackage_error_pt1, \
-    information_geopackage_error_pt2, serious_game_data_folder, watershed_prefix
+    information_geopackage_error_pt2, serious_game_data_folder, watershed_prefix, field_history_abatement_lat_water,\
+    field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_phyto
 
 
 class GeomelbaSpirit:
-    """QGIS Plugin Implementation."""
+    """QGIS Plugin Implementation.this is the main of the plugin """
 
     def __init__(self, iface):
         """Constructor.
@@ -87,10 +88,6 @@ class GeomelbaSpirit:
         self.pluginIsActive = False
         self.dockwidget = None
         self.watershed_creation = None
-
-        self.studied_elements=[]
-        self.coded_studied_elements=[]
-
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -224,6 +221,7 @@ class GeomelbaSpirit:
                     ltv.setRowHidden(index.row(), index.parent(), True)
                     ltv.setCurrentIndex(ltv.layerTreeModel().node2index(root))
             self.dockwidget.setParent(None)
+            
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -298,19 +296,6 @@ class GeomelbaSpirit:
                 connexion_layer = None
                 self.pluginIsActive = True
 
-                # Try to put item of RadioButton into list coded_studied_element et studied_element
-                #studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
-                #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
-                if self.dlg.RadioButton_studied_element2.isChecked():
-                    studied_elements=["de phytosanitaires"]
-                    coded_studied_elements=[2]
-                elif self.dlg.RadioButton_studied_element0.isChecked():
-                    studied_elements=["d'eau"]
-                    coded_studied_elements=[0]
-                else :
-                    studied_elements=["de MES"]
-                    coded_studied_elements=[1]
-                
                 # Watershed name used to find the data
                 watershed_name = self.dlg.watershed_button_group.button(
                     self.dlg.watershed_button_group.checkedId()).accessibleName().lower()
@@ -322,6 +307,11 @@ class GeomelbaSpirit:
                 # Get CRS from widget and set CRS for project
                 crs = self.dlg.crs_selector.crs()
                 self.project.setCrs(crs)
+                # get selected season
+                season = self.dlg.get_selected_season()
+                print(season)
+
+
 
                 if watershed_name != "create_watershed":
                     input_path = self.plugin_dir + serious_game_data_folder + watershed_prefix + str(watershed_name)
@@ -473,10 +463,7 @@ class GeomelbaSpirit:
                                                            watershed_name=watershed_name, parcel_layer=new_parcel_layer,
                                                            line_layer=new_line_layer, style_line_layer=line_style,
                                                            connexion_layer=connexion_layer, crs=crs,
-                                                           output_path=output_directory,
-                                                           coded_studied_elements=coded_studied_elements,studied_elements=studied_elements)
-
-
+                                                           output_path=output_directory,season=season)
 
                         # Connect to provide cleanup on closing of dockwidget.
                         self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))

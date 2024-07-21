@@ -9,7 +9,6 @@
                               -------------------
         begin                : 2021-08-24
         git sha              : $Format:%H$
-        copyright            : (C) 2021 by Jules Grillot / INRAE
         email                : jules.grillot@inrae.fr
  ***************************************************************************/
 
@@ -23,19 +22,23 @@
  ***************************************************************************/
 """
 import os
+import csv
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QMessageBox
-from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton, QDialogButtonBox, QVBoxLayout, QHBoxLayout
+
 from qgis.gui import QgsProjectionSelectionWidget
 from qgis.core import QgsUnitTypes
 from qgis.PyQt import uic
 
-from .dictionnaire import regular_font, create_watershed_button_name, crs_selection_label_name, \
-    output_selection_label, output_button_name, watershed_selection_label, information_crs_text_pt1, \
-    information_crs_text_pt2, information_crs_text_pt3, folder_selection_text, information_folder_text_pt1, \
-    information_folder_text_pt2, serious_game_data_folder, watershed_prefix, studied_element_label, \
-    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label, \
-    season_choice_label, season_choice_button0_label, season_choice_button1_label
+from .dictionnaire import (
+    regular_font, create_watershed_button_name, crs_selection_label_name, output_selection_label, output_button_name,
+    watershed_selection_label, information_crs_text_pt1, information_crs_text_pt2, information_crs_text_pt3,
+    folder_selection_text, information_folder_text_pt1, information_folder_text_pt2, serious_game_data_folder,
+    watershed_prefix, studied_element_label, studied_element_button0_label, studied_element_button1_label,
+    studied_element_button2_label, season_choice_label, season_choice_button0_label, season_choice_button1_label,
+    season_choice_button2_label
+)
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -44,239 +47,207 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        """Creation of the dialog interface appearing when clicking on the plugin button.
-        The interface contains :
-        - watershed selection buttons (based on folders in the plugin directory)
-        - a "create your watershed folder" button to add a new area
-        - a crs selector
-        - a directory output selector
-        """
         super(GeomelbaSpiritDialog, self).__init__(parent)
         self.path = os.path.dirname(__file__) + serious_game_data_folder
         self.setupUi(self)
-        # Add window tool, like minimize, maximize and close in top right corner.
         self.setWindowFlags(Qt.Window |
                             Qt.WindowSystemMenuHint |
                             Qt.WindowMinMaxButtonsHint |
                             Qt.WindowCloseButtonHint)
 
-        # Creation of a group of buttons, easier to enable or disable all the buttons.
-        self.watershed_button_group = QButtonGroup()
-        self.watershed_button_group.setExclusive(True)
-        # Function to dynamically create buttons of the different watershed in the plugins.
-        self.init_button_watershed(watershed_prefix)
+        # Create main layout
+        main_layout = QVBoxLayout()
+        main_layout.setSpacing(30)  # Set spacing between elements
 
-        # Creation of a button to add another watershed to the plugin
+        self.setLayout(main_layout)
+        # Initialization of the button box
+        self.button_box.accepted.connect(self.accept)
+        self.button_box.rejected.connect(self.reject)
+        self.button_box.setEnabled(False)
+
+        # Watershed buttons
+        self.watershed_button_group = QButtonGroup()
+
+        self.watershed_button_group.setExclusive(True)
+        self.init_button_watershed(watershed_prefix)
         button_create_watershed = QPushButton(self)
         button_create_watershed.setText(create_watershed_button_name)
+
         button_create_watershed.setAccessibleName("create_watershed")
-        button_create_watershed.setGeometry(30, 300, 340, 30)
         button_create_watershed.setCheckable(True)
-        self.watershed_button_group.addButton(button_create_watershed)
         button_create_watershed.setFont(regular_font)
-        # Connexion of the watershed button group with a function to check if the path chose by the user is valid.
+        button_create_watershed.setFixedSize(300, 30)  # Width: 150px, Height: 40px
+
+        self.watershed_button_group.addButton(button_create_watershed)
         self.watershed_button_group.buttonToggled.connect(self.valid_path)
-
-        # Creation of three radiobutton for modelisation theme
-        # Label creation
-        label_element = QLabel(self)
-        label_element.setFont(regular_font)
-        label_element.setGeometry(30, 460, 400, 30)
-        label_element.setText(studied_element_label)
-
-        self.RadioButton_studied_element0 = QRadioButton(self)
-        self.RadioButton_studied_element0.setText(studied_element_button0_label)
-        self.RadioButton_studied_element0.setGeometry(30, 480, 340, 30)
-
-        self.RadioButton_studied_element1 = QRadioButton(self)
-        self.RadioButton_studied_element1.setText(studied_element_button1_label)
-        self.RadioButton_studied_element1.setGeometry(30, 500, 340, 30)
-
-        self.RadioButton_studied_element2 = QRadioButton(self)
-        self.RadioButton_studied_element2.setText(studied_element_button2_label)
-        self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
-        self.RadioButton_studied_element2.setChecked(True)
-
-        # Creation of a button group for modelisation theme buttons
-        self.modelisation_theme_button_group = QButtonGroup()
-        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element0)
-        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element1)
-        self.modelisation_theme_button_group.addButton(self.RadioButton_studied_element2)
-        self.modelisation_theme_button_group.setExclusive(True)
-
-        # Creation of two radiobutton for season choice
-        # Label creation
-        label_element = QLabel(self)
-        label_element.setFont(regular_font)
-        label_element.setGeometry(30, 560, 400, 30)
-        label_element.setText(season_choice_label)
+        main_layout.addSpacing(10)
+        # Add watershed buttons to layout
+        watershed_layout = QVBoxLayout()
+        main_layout.addSpacing(50)
+        main_layout.addLayout(watershed_layout)
+        for button in self.watershed_button_group.buttons():
+            watershed_layout.addWidget(button)
+        
+        watershed_layout.addWidget(button_create_watershed)
+        watershed_layout.setSpacing(20)
+        # Add spacing between watershed buttons and season buttons
+        main_layout.addSpacing(150)
+        # Season choice buttons
+        label_season = QLabel(self)
+        label_season.setFont(regular_font)
+        label_season.setText(season_choice_label)
 
         self.RadioButton_season_choice0 = QRadioButton(self)
         self.RadioButton_season_choice0.setText(season_choice_button0_label)
-        self.RadioButton_season_choice0.setGeometry(30, 580, 340, 30)
 
         self.RadioButton_season_choice1 = QRadioButton(self)
         self.RadioButton_season_choice1.setText(season_choice_button1_label)
-        self.RadioButton_season_choice1.setGeometry(30, 600, 340, 30)
 
-        # Creation of a button group for season choice buttons
+        self.RadioButton_season_choice2 = QRadioButton(self)
+        self.RadioButton_season_choice2.setText(season_choice_button2_label)
+
         self.season_choice_button_group = QButtonGroup()
         self.season_choice_button_group.addButton(self.RadioButton_season_choice0)
         self.season_choice_button_group.addButton(self.RadioButton_season_choice1)
+        self.season_choice_button_group.addButton(self.RadioButton_season_choice2)
         self.season_choice_button_group.setExclusive(True)
 
-        # Label creation
+        # Add season buttons to layout
+        season_layout = QVBoxLayout()
+        season_layout.setSpacing(0)
+        season_layout.addWidget(label_season)
+        season_layout.setSpacing(0)
+
+        season_layout.addWidget(self.RadioButton_season_choice0)
+        season_layout.setSpacing(0)
+
+        season_layout.addWidget(self.RadioButton_season_choice1)
+        season_layout.setSpacing(0)
+
+        season_layout.addWidget(self.RadioButton_season_choice2)
+        season_layout.setSpacing(5)
+
+
+        main_layout.addLayout(season_layout)
+
         label_crs = QLabel(self)
         label_crs.setFont(regular_font)
-        label_crs.setGeometry(30, 350, 400, 30)
         label_crs.setText(crs_selection_label_name)
-        # Creation of the CRS selector
+
         self.crs_selector = QgsProjectionSelectionWidget(self)
         self.crs_selector.setFont(regular_font)
-        self.crs_selector.setGeometry(180, 350, 190, 30)
-
-        # Function connected to the signal emitted when CRS is changed
         self.crs_selector.crsChanged.connect(self.crs_manager)
 
-        # Label creation
+        # Add CRS selector to layout
+        crs_layout = QHBoxLayout()
+        crs_layout.addWidget(label_crs)
+        crs_layout.addWidget(self.crs_selector)
+        self.crs_selector.setFixedSize(200, 40)
+        main_layout.addLayout(crs_layout)
+
         label_output = QLabel(self)
         label_output.setFont(regular_font)
-        label_output.setGeometry(30, 410, 400, 30)
         label_output.setText(output_selection_label)
-        # Line edit for the output folder
+
+
         self.output_text = QLineEdit(self)
         self.output_text.setFont(regular_font)
-        self.output_text.setGeometry(180, 410, 160, 30)
         self.output_text.setEnabled(False)
-        # Connexion of the output path text with a function to check if the path chose by the user is valid.
         self.output_text.textChanged.connect(self.valid_path)
-        # Button to find the output folder
+
         self.output_button = QPushButton(self)
         self.output_button.setFont(regular_font)
-        self.output_button.setGeometry(340, 410, 30, 30)
         self.output_button.setText(output_button_name)
         self.output_button.setEnabled(False)
-        # Function connected to the signal emitted by the button.
         self.output_button.clicked.connect(self.select_output_folder)
-        # User cannot validate his selection while it's not valid, the start button is disabled.
-        self.button_box.setEnabled(False)
 
-    def on_modelisation_theme_clicked_choice(self):
-        # Function to handle when a modelization theme choice button is clicked
-        selected_button = self.sender()  # Get the button that triggered the event
+        # Add output selection to layout
+        output_layout = QHBoxLayout()
+        output_layout.addWidget(label_output)
+        output_layout.addWidget(self.output_text)
+        output_layout.addWidget(self.output_button)
+        main_layout.addLayout(output_layout)
 
-        if selected_button == self.RadioButton_studied_element0:
-            # Handle selection of button 0 (eau)
-            return "EAU"
-        elif selected_button == self.RadioButton_studied_element1:
-            # Handle selection of button 1 (water)
-            return "MES"
-        elif selected_button == self.RadioButton_studied_element2:
-            # Handle selection of button 2 (MES)
-            return "PHYTO"
-
-   
+        # Add button box to layout
+        main_layout.addWidget(self.button_box)
 
     def init_button_watershed(self, value_to_test):
-        """Function to place the different watershed buttons in the dialog. They are based on folders in the
-        plugin directory. They allow the user to select a watershed to analyze.
-        The mandatory arguments are :
-        - the prefix of the folders
-
-       For each folder with the prefix in the directory a button is created with the suffix as label and value.
-       The first button as a determined position, the other buttons are placed based on the first one
-       and the place left on the line. If there is no place left, the button begins another line.
-       The label are modified to fit the buttons, if its too long line breaks are added.
-       There is only 2 columns of buttons. Buttons need to be checkable.
-        """
-        # Label creation
         label_top = QLabel(self)
         label_top.setFont(regular_font)
-        label_top.setGeometry(15, 10, 400, 30)
         label_top.setText(watershed_selection_label)
 
-        # Position of the first button.
-        x_place = 45
-        y_place = 50
+
+
+        x_place = 500
+        y_place = 500
         i = 0
-        # Loop on all the folder in the path to create a button for every element.
         for name in os.listdir(self.path):
             if os.path.isdir(os.path.join(self.path, name)):
-                # Check if the folder has the prefix.
                 if len(name.split(value_to_test, 1)) > 1:
                     button = QPushButton(self)
                     button_name = name.split(value_to_test, 1)[1]
-                    # Change the name if it's too long for the button size.
                     if len(button_name) > 15:
-                        # Get indexes where there is a '_', so we can cut the labels between words and not in the
-                        # middle of one.
                         res = [i for i in range(len(button_name)) if button_name.startswith('_', i)]
                         for i in range(len(res)):
                             if res[i] > 17:
                                 button_name = button_name[0:res[i]] + '\n' + button_name[res[i] + 1:]
-                                while (res[i] < 30 and res[i] < len(
-                                        res)):  # Loop to avoid too much \n and potentially add one if >30.
+                                while res[i] < 30 and res[i] < len(res):
                                     i += 1
                                     if res[i] > 30:
                                         button_name = button_name[0:res[i]] + '\n' + button_name[res[i] + 1:]
                                         break
                                 break
-                    button_name = str(button_name.replace('_', ' ').capitalize())  # Transform last '_' to spaces.
+                    button_name = str(button_name.replace('_', ' ').capitalize())
                     button.setText(button_name)
-                    button.setAccessibleName(str(button_name))  # The action name is stocked inside the button.
-                    button.setGeometry(x_place, y_place, 140, 60)
+                    button.setAccessibleName(str(button_name))
                     button.setCheckable(True)
+                    button.setFixedSize(300, 30) 
                     self.watershed_button_group.addButton(button)
-                    # Position of the next button
                     i = i + 1
-                    if i % 2 == 0:
-                        # After a certain value on the x-axis it's a new line is started.
-                        x_place = 45
-                        y_place += 80
-                    else:
-                        # While the limit on the x-axis is not outmoded a button is added on the same line.
-                        x_place += 170
 
     def crs_manager(self):
-        """Function to manage the modification of the CRS by the user.
-        If the crs is not in a metric system some error can occur with the tools allowing the user to click on the map.
-        A message is shown to inform the user that the CRS he chose is not covered by the plugin.
-        """
         crs = self.crs_selector.crs()
-        # 0 is the value of the metric system for the method mapUnits of the QgsCoordinateReferenceSystem class
         if crs.mapUnits() != 0:
             unit = QgsUnitTypes.encodeUnit(crs.mapUnits())
             QMessageBox.information(None, information_crs_text_pt1, information_crs_text_pt2 + str(crs.authid()) +
                                     information_crs_text_pt3 + str(unit) + ".")
 
     def select_output_folder(self):
-        """Function to make a dialog box with a list of directories when a button is clicked.
-        Once the user chose a directory, it's written in textline. The path can be written directly in this line text.
-        """
         folder = QFileDialog.getExistingDirectory(self, folder_selection_text, "", QFileDialog.ShowDirsOnly)
         self.output_text.setText(folder)
 
     def valid_path(self):
-        """Function to check if all the conditions required to make the plugin works are good.
-        As long as a watershed button is not checked, the output buttons are disabled.
-        The output path is also check to be sure the path exist.
-        One of the three RadioButton must be checked
-        If the output does not exist the button to validate the user's choice and launch the plugin is disabled.
-        """
-        # Check if a watershed button is pressed
         if self.watershed_button_group.checkedButton() is not None:
-            # Enable the widgets to get the output path.
             self.output_button.setEnabled(True)
             self.output_text.setEnabled(True)
-
-            # If the output path exist, the user can launch the plugin.
             if os.path.exists(self.output_text.text()):
                 self.button_box.setEnabled(True)
-                # If the folder has already been used by the user to create a simulation, error message to tell the user
-                # data might be deleted.
                 if os.path.exists(self.output_text.text() + "/" + self.watershed_button_group.button(
-                   self.watershed_button_group.checkedId()).accessibleName().lower()):
+                        self.watershed_button_group.checkedId()).accessibleName().lower()):
                     QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
             else:
-                # if the path doesn't exist, the user cannot launch the plugin.
                 self.button_box.setEnabled(False)
+    def get_selected_season(self):
+        """Function to get the selected season from the radio buttons and store it in a variable."""
+        if self.RadioButton_season_choice1.isChecked():
+            selected_season = 'Été'
+        elif self.RadioButton_season_choice0.isChecked():
+            selected_season = 'Hiver'
+        elif self.RadioButton_season_choice2.isChecked():
+            selected_season = 'Hiver et Été'
+        else:
+            raise ValueError("No season selected")
+        print(f"The selected season is {selected_season}")
+        with open("season.csv", 'w', newline='') as csvfile:
+            csvfile.write(selected_season)
+        return selected_season
+
+    def accept(self):
+        try:
+            selected_season = self.get_selected_season()
+            summary_message = f"La saison sélectionnée c'est {selected_season}."
+            QMessageBox.information(self, "Selection Summary", summary_message)
+            super(GeomelbaSpiritDialog, self).accept()
+        except ValueError as e:
+            QMessageBox.warning(self, "Selection Error", str(e))
+
