@@ -295,15 +295,11 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
 
     return (connexions_layer)
 
-def update_UH_attributes(cadastre,inclinaison_pente_parcelle,crs, chemin,field_parcel_slope):
-  #linefeatures = {}
-  #cadastrefeatures = {}
+def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope):
   altiupDic = {}
   altidwnDic = {}
 
   for f in inclinaison_pente_parcelle.getFeatures():
-    #linefeatures[f.id()] = f
-
     attrs = f.attributes()
     alti_up = float(attrs[inclinaison_pente_parcelle.fields().indexFromName('alti_up')])
     alti_dwn = float(attrs[inclinaison_pente_parcelle.fields().indexFromName('alti_dwn')])
@@ -313,7 +309,7 @@ def update_UH_attributes(cadastre,inclinaison_pente_parcelle,crs, chemin,field_p
   
   cadastre.startEditing()
   for f in cadastre.getFeatures():
-    #cadastrefeatures[f.id()] = f
+
     attrs = f.attributes()
     gm_id= int(attrs[cadastre.fields().indexFromName('gm_id')])
     

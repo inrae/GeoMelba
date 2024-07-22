@@ -42,13 +42,13 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
     label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
     label_TE_name_step2, label_select_field_line_step2, \
-    label_folder_name_step3,  label_create_folder_PushButton_step3, field_parcel_slope
+    label_folder_name_step3,  label_create_folder_PushButton_step3, field_parcel_slope, field_line_slope
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
 from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
 from .managing_UH import UH_UH_connexions, prepare_UH, update_UH_attributes
-from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes
+from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes, update_TE_attributes
 from .managing_Output import create_folder, create_csv_files, create_qml_files, create_geopackage
 
 
@@ -470,11 +470,13 @@ class WatershedCreationDialog(QMainWindow):
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
         
         TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
-        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,self.crs, self.new_path,field_parcel_slope)
+        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope)
         cadastre_shp=self.new_path+"cadastre.shp"
         QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
         QgsProject.instance().addMapLayer(cadastre)
+        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope)
+        
 
 
     def create_folder_files(self):

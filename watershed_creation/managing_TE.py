@@ -696,3 +696,24 @@ def ordre_traitements(parcelle_layer, lineaire_layer, connexions_layer,code_rivi
     lineaire_layer.commitChanges()
     lineaire_layer.triggerRepaint()
 
+def update_TE_attributes(lineaire_layer,field_line_slope):
+  
+    lineaire_layer.startEditing()
+    lineaire_layer.addAttribute(QgsField(field_line_slope, QVariant.Double, "double", 10, 2))
+    for f in lineaire_layer.getFeatures():
+
+        attrs = f.attributes()
+        alti_up = float(attrs[lineaire_layer.fields().indexFromName('alti_up')])
+        alti_dwn = float(attrs[lineaire_layer.fields().indexFromName('alti_dwn')])
+        length=float(attrs[lineaire_layer.fields().indexFromName('gm_length')])
+        
+     
+     
+        slope = 100 * ((alti_up - alti_dwn) / length)
+        lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName(field_line_slope), slope)
+
+    lineaire_layer.commitChanges()
+    lineaire_layer.triggerRepaint()
+
+
+
