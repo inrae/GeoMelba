@@ -47,7 +47,7 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
 from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
-from .managing_UH import UH_UH_connexions, prepare_UH
+from .managing_UH import UH_UH_connexions, prepare_UH, update_UH_attributes
 from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes
 from .managing_Output import create_folder, create_csv_files, create_qml_files, create_geopackage
 
@@ -460,7 +460,7 @@ class WatershedCreationDialog(QMainWindow):
         connexions = QgsProject.instance().mapLayersByName('connexions') 
         UH_TE_connexions(self.selected_TE.currentLayer(), self.selected_UH.currentLayer(), connexions[0])
         dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
-        TE_TE_connexions(self.selected_TE.currentLayer(), dem[0], self.crs)
+        TE_TE_connexions(self.selected_TE.currentLayer(), dem[0], self.crs,'point_line','point',self.new_path)
         # code_riviere = 700 and code_ripisylve = 200
         connexions_river(self.selected_TE.currentLayer(), connexions[0], 700, 200)
         centroids = QgsProject.instance().mapLayersByName('centroids_UH') 
@@ -472,6 +472,8 @@ class WatershedCreationDialog(QMainWindow):
         QgsVectorFileWriter.writeAsVectorFormat(self.selected_UH.currentLayer(),cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
         QgsProject.instance().addMapLayer(cadastre)
+        TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
+        #update_UH_attributes(cadastre,inclinaison_pente_parcelle,self.crs, self.new_path)
 
     def create_folder_files(self):
         create_folder(self.new_path,self.watershed_name)

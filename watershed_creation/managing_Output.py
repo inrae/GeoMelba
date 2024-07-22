@@ -81,6 +81,13 @@ def create_csv_files(path,watershed_name):
         writer = csv.DictWriter(file, fieldnames = slope_fields)
         writer.writeheader()
 
+    #drain.csv
+    drain_fields=['key','type']
+    drain_file=folder_path+"/"+"drain.csv"
+    with open(drain_file, 'w', newline='') as file: 
+        writer = csv.DictWriter(file, fieldnames = drain_fields)
+        writer.writeheader()
+
 
 def create_qml_files(path,watershed_name):
     folder_path=path+"bv_"+watershed_name

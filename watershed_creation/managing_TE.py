@@ -77,12 +77,12 @@ def UH_TE_connexions(lineaire_layer, parcelle_layer, connexions_layer):
     lineaire_layer.commitChanges()
     lineaire_layer.triggerRepaint()
 
-def TE_TE_connexions(lineaire_layer, mnt, crs):
+def TE_TE_connexions(lineaire_layer, mnt, crs,point_line_name,point_name,chemin):
     line_index = QgsSpatialIndex()
     for f in lineaire_layer.getFeatures():
         line_index.addFeature(f)
 
-    point_line = tf.name + '/' + 'point_line.shp'
+    point_line = chemin  + point_line_name+'.shp'
     processing.run("grass7:v.net", {'input': lineaire_layer, 'points': None, 'file': '', 'operation': 0, 'threshold': 0,
                                     'arc_type': [0], '-s': True, '-c': True, 'output': point_line,
                                     'GRASS_REGION_PARAMETER': None, 'GRASS_SNAP_TOLERANCE_PARAMETER': -1,
@@ -96,7 +96,7 @@ def TE_TE_connexions(lineaire_layer, mnt, crs):
     point_lineaire_layer.addAttribute(QgsField('gm_alti', QVariant.Double, "double", 20, 5))
     point_lineaire_layer.commitChanges()
     point_lineaire_layer.triggerRepaint()
-    point = tf.name + '/' + 'point.shp'
+    point = chemin  + point_name+'.shp'
     processing.run("grass7:v.what.rast",
                    {'map': point_lineaire_layer, 'raster': mnt, 'type': 0, 'column': 'gm_alti', 'where': '', '-i': True,
                     'output': point, 'GRASS_REGION_PARAMETER': None, 'GRASS_REGION_CELLSIZE_PARAMETER': 0,
@@ -135,20 +135,28 @@ def TE_TE_connexions(lineaire_layer, mnt, crs):
         nodes = geom.asMultiPolyline()[0]
         first_node = geom.asMultiPolyline()[0][0]
         ids = point_index.intersects(f.geometry().boundingBox())
+        attrs_f = f.attributes()
+        id_lines_f = attrs_f[lineaire_layer.fields().indexFromName('gm_id')]
+              
+      
         for feat_id in ids:
             feat = point_layer.getFeature(feat_id)
             attrs = feat.attributes()
             id_lines = attrs[point_layer.fields().indexFromName('gm_id')]
             if len(ids) > 2:
                 list_id_line = list(str(id_lines).split(", "))
-                if str(f.id()) in list_id_line:
+      
+                if str(id_lines_f) in list_id_line:
                     id_point = feat.id()
                     alti = attrs[point_layer.fields().indexFromName('gm_alti')]
                     extremite[id_point] = alti
             else:
+      
                 id_point = feat.id()
                 alti = attrs[point_layer.fields().indexFromName('gm_alti')]
+      
                 extremite[id_point] = alti
+      
         min_alti = min(extremite.values())
         min_id = [key for key in extremite if extremite[key] == min_alti][0]
         max_alti = max(extremite.values())

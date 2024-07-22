@@ -68,6 +68,9 @@ def prepare_UH(parcelle_layer, mnt, prop_field, agri_field, type_field, chemin, 
     parcelle_layer.addAttribute(QgsField("gm_area", QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_length", QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_alti", QVariant.Double, "double", 10, 2))
+    parcelle_layer.addAttribute(QgsField("gm_alti_up", QVariant.Double, "double", 10, 2))
+    parcelle_layer.addAttribute(QgsField("gm_alti_dw", QVariant.Double, "double", 10, 2))
+    parcelle_layer.addAttribute(QgsField("pente", QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_prop", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_agri", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_type", QVariant.Int, "int", 9))
@@ -291,3 +294,21 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
     connexions_layer = iface.addVectorLayer(new_connex, '', 'ogr')
 
     return (connexions_layer)
+
+def update_UH_attributes(cadastre,inclinaison_pente_parcelle,crs, chemin):
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
