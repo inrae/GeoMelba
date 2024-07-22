@@ -42,7 +42,7 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
     label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
     label_TE_name_step2, label_select_field_line_step2, \
-    label_folder_name_step3,  label_create_folder_PushButton_step3
+    label_folder_name_step3,  label_create_folder_PushButton_step3, field_parcel_slope
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
@@ -449,7 +449,7 @@ class WatershedCreationDialog(QMainWindow):
         """
         dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
 
-        centroids_layer = prepare_UH(self.selected_UH.currentLayer(), dem[0], self.label_attributeField1_UH_step2_Box.currentField(), self.label_attributeField2_UH_step2_Box.currentField(), self.label_attributeField3_UH_step2_Box.currentField(), self.new_path, self.crs)
+        centroids_layer = prepare_UH(self.selected_UH.currentLayer(), dem[0], self.label_attributeField1_UH_step2_Box.currentField(), self.label_attributeField2_UH_step2_Box.currentField(), self.label_attributeField3_UH_step2_Box.currentField(), self.new_path, self.crs,field_parcel_slope)
         connexions_layer = UH_UH_connexions(self.selected_UH.currentLayer(), centroids_layer, self.crs, self.new_path)
         QgsProject.instance().addMapLayer(connexions_layer)
 
@@ -468,12 +468,14 @@ class WatershedCreationDialog(QMainWindow):
         inclinaison_pente_lineaire = inclinaison_lineaire (self.selected_TE.currentLayer(), self.crs, self.new_path)
         comparaison_angles_lignes(self.selected_TE.currentLayer(), inclinaison_pente_parcelle, inclinaison_pente_lineaire)
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
+        
+        TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
+        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,self.crs, self.new_path,field_parcel_slope)
         cadastre_shp=self.new_path+"cadastre.shp"
-        QgsVectorFileWriter.writeAsVectorFormat(self.selected_UH.currentLayer(),cadastre_shp,'utf-8',driverName='ESRI Shapefile')
+        QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
         QgsProject.instance().addMapLayer(cadastre)
-        TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
-        #update_UH_attributes(cadastre,inclinaison_pente_parcelle,self.crs, self.new_path)
+
 
     def create_folder_files(self):
         create_folder(self.new_path,self.watershed_name)

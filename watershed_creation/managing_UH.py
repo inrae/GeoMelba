@@ -62,7 +62,7 @@ def realcentroids(layer, point_path, crs):
 
 
 
-def prepare_UH(parcelle_layer, mnt, prop_field, agri_field, type_field, chemin, crs):
+def prepare_UH(parcelle_layer, mnt, prop_field, agri_field, type_field, chemin, crs,field_parcel_slope):
     parcelle_layer.startEditing()
     parcelle_layer.addAttribute(QgsField("gm_id", QVariant.Int, "int", 9))
     parcelle_layer.addAttribute(QgsField("gm_area", QVariant.Double, "double", 10, 2))
@@ -70,7 +70,7 @@ def prepare_UH(parcelle_layer, mnt, prop_field, agri_field, type_field, chemin, 
     parcelle_layer.addAttribute(QgsField("gm_alti", QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_alti_up", QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_alti_dw", QVariant.Double, "double", 10, 2))
-    parcelle_layer.addAttribute(QgsField("pente", QVariant.Double, "double", 10, 2))
+    parcelle_layer.addAttribute(QgsField(field_parcel_slope, QVariant.Double, "double", 10, 2))
     parcelle_layer.addAttribute(QgsField("gm_prop", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_agri", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_type", QVariant.Int, "int", 9))
@@ -295,7 +295,47 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
 
     return (connexions_layer)
 
-def update_UH_attributes(cadastre,inclinaison_pente_parcelle,crs, chemin):
+def update_UH_attributes(cadastre,inclinaison_pente_parcelle,crs, chemin,field_parcel_slope):
+  #linefeatures = {}
+  #cadastrefeatures = {}
+  altiupDic = {}
+  altidwnDic = {}
+
+  for f in inclinaison_pente_parcelle.getFeatures():
+    #linefeatures[f.id()] = f
+
+    attrs = f.attributes()
+    alti_up = float(attrs[inclinaison_pente_parcelle.fields().indexFromName('alti_up')])
+    alti_dwn = float(attrs[inclinaison_pente_parcelle.fields().indexFromName('alti_dwn')])
+    gm_id= int(attrs[inclinaison_pente_parcelle.fields().indexFromName('gm_id')])
+    altiupDic[gm_id] = alti_up
+    altidwnDic[gm_id] = alti_dwn
+  
+  cadastre.startEditing()
+  for f in cadastre.getFeatures():
+    #cadastrefeatures[f.id()] = f
+    attrs = f.attributes()
+    gm_id= int(attrs[cadastre.fields().indexFromName('gm_id')])
+    
+    #update gm_alti_dw of cadastre from alti_dwn from inclinaison_pente_parcelle
+    #update gm_alti_up of cadastre from alti_up from inclinaison_pente_parcelle
+
+    cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_alti_dw'), altidwnDic[gm_id])
+    cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_alti_up'), altiupDic[gm_id])
+
+    #calculate field_parcel_slope from gm_length, gm_alti_up and gm_alti_dw of cadastre
+    length = float(attrs[cadastre.fields().indexFromName('gm_length')])
+    slope = 100 * ((altiupDic[gm_id] - altidwnDic[gm_id]) / length)
+    cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName(field_parcel_slope), slope)
+
+  cadastre.commitChanges()
+  cadastre.triggerRepaint()
+
+  return (cadastre)
+
+
+
+
    
 
 
