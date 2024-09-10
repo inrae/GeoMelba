@@ -14,7 +14,7 @@ tf = tempfile.TemporaryDirectory()
 
 def check_validity(polygon_layer,crs,output_path):
     polygon_path = polygon_layer.dataProvider().dataSourceUri()
-    fix_geom_parameters = {'INPUT': polygon_path, 'OUTPUT': "memory:checked_parcel"}
+    fix_geom_parameters = {'INPUT': polygon_path,  'OUTPUT': "memory:checked_parcel"}
     parcel_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
     
 
@@ -83,7 +83,7 @@ def create_linear_from_polygon(polygon, output, crs):
     dissolve_parameters = {'INPUT': line_layer, 'FIELD': [], 'OUTPUT': 'memory:dissolve'}
     dissolve = processing.run("native:dissolve", dissolve_parameters)
 
-    line_final = output + 'polygon_outline.shp'
+    line_final = output + 'lineaire.shp'
     processing.run("grass7:v.edit", {
         'map': dissolve['OUTPUT'],
         'type': [1],
@@ -114,21 +114,36 @@ def create_linear_from_polygon(polygon, output, crs):
         'GRASS_VECTOR_DSCO': '',
         'GRASS_VECTOR_LCO': '',
         'GRASS_VECTOR_EXPORT_NOCAT': False})
-    line_final_layer = QgsVectorLayer(line_final, 'polygon_outline', 'ogr')
+    line_final_layer = QgsVectorLayer(line_final, 'lineaire', 'ogr')
 
     line_final_layer.startEditing()
     line_final_layer.deleteAttributes(line_final_layer.attributeList())
     line_final_layer.commitChanges()
     line_final_layer.triggerRepaint()
-
     line_final_layer_crs = line_final_layer.crs()
     line_final_layer_crs.createFromString(crs)
     line_final_layer.setCrs(line_final_layer_crs)
+
+    line_final_layer.startEditing()
+    line_final_layer.addAttribute(QgsField('gm_id', QVariant.Int, "int", 10))
+    line_final_layer.addAttribute(QgsField('gm_type', QVariant.Int, "int", 10))
+    line_final_layer.addAttribute(QgsField('gm_length', QVariant.Double, "double", 10, 3))
+    
+
+    for f in line_final_layer.getFeatures():
+        line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('gm_id'),
+                                            f.id())
+        line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('gm_length'),
+                                                f.geometry().length())
+    
+    line_final_layer.commitChanges()
+    line_final_layer.triggerRepaint()
+
     return line_final_layer
 
 def delete_fields_fid(layer, name):
     refactor = []
-    QgsProject.instance().addMapLayer(layer)
+   # QgsProject.instance().addMapLayer(layer)
     for field in layer.fields():  # creation of a list with the field and field type of the layer.
         refactor_field = {}
         if field.name() != "fid" and field.name() != "cat" and field.name() != "gid":
@@ -157,8 +172,8 @@ def clip_polygon_by_line(parcels, lines_to_clip):
 
     fix_geom_parameters = {'INPUT': parcels, 'OUTPUT': "memory:fixed_parcel"}
     parcel_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
-    print("1 1")
-    QgsProject.instance().addMapLayer(parcel_fixed)
+
+    #QgsProject.instance().addMapLayer(parcel_fixed)
     cleaned_layer = tf.name + '/cleaned.shp'
     clean_parameters = {'input': parcel_fixed, 'type': [4],
                         'tool': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'threshold': '', '-b': False, '-c': False,
@@ -168,13 +183,13 @@ def clip_polygon_by_line(parcels, lines_to_clip):
                         'GRASS_VECTOR_EXPORT_NOCAT': False}
     processing.run("grass7:v.clean", clean_parameters)
     parcel_layer = QgsVectorLayer(cleaned_layer, 'test', 'ogr')
-    QgsProject.instance().addMapLayer(parcel_layer)
-    print("1 2")
+    #QgsProject.instance().addMapLayer(parcel_layer)
+
     fix_geom_parameters = {'INPUT': lines_to_clip, 'OUTPUT': tf.name + "/fixed_lines_to_clip.shp"}
     lines_to_clip_fixed = processing.run("native:fixgeometries", fix_geom_parameters)
     lines_to_clip = QgsVectorLayer(lines_to_clip_fixed["OUTPUT"], '', 'ogr')
     lines_to_clip_fid_to_delete = delete_fields_fid(lines_to_clip, "lines_to_clip")
-    print("1 3")
+
     clean_parameters = {'input': lines_to_clip_fid_to_delete, 'type': [0, 1, 2, 3, 4, 5, 6],
                         'tool': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'threshold': '', '-b': False, '-c': False,
                         'output': 'TEMPORARY_OUTPUT', 'error': 'TEMPORARY_OUTPUT', 'GRASS_REGION_PARAMETER': None,
@@ -183,14 +198,14 @@ def clip_polygon_by_line(parcels, lines_to_clip):
                         'GRASS_VECTOR_EXPORT_NOCAT': False}
     cleaned_layer = processing.run("grass7:v.clean", clean_parameters)
     lines_to_clip = QgsVectorLayer(cleaned_layer['output'], '', 'ogr')
-    print("1 4")
+
     dissolve_parameters = {'INPUT': lines_to_clip, 'FIELD': [], 'OUTPUT': 'memory:dissolve'}
     dissolve = processing.run("native:dissolve", dissolve_parameters)
 
     split_with_lines_parameters = {'INPUT': dissolve['OUTPUT'], 'LINES': parcel_limit_layer,
                                    'OUTPUT': 'memory:line_to_clip'}
     split_with_lines = processing.run("native:splitwithlines", split_with_lines_parameters)
-    print("1 5")
+
     virtual_layer = QgsVectorLayer("LineString", "extended_lines", "memory")
     virtual_layer_crs = virtual_layer.crs()
     virtual_layer_crs.createFromString("EPSG:2154")
@@ -228,13 +243,13 @@ def clip_polygon_by_line(parcels, lines_to_clip):
     lines_to_clip = processing.run("native:deleteduplicategeometries", delete_duplicate_geometries_parameters)["OUTPUT"]
     # QgsProject.instance().addMapLayer(parcels)
     # QgsProject.instance().addMapLayer(lines_to_clip)
-    print("1 6")
+
     split_with_lines_parameters = {'INPUT': parcels, 'LINES': lines_to_clip, 'OUTPUT': 'memory:splitted_parcel'}
     split_with_lines = processing.run("native:splitwithlines", split_with_lines_parameters)["OUTPUT"]
 
     fix_geom_parameters = {'INPUT': split_with_lines, 'OUTPUT': 'memory:fixed_splitted_parcels'}
     splitted_parcels_fixed = processing.run("native:fixgeometries", fix_geom_parameters)["OUTPUT"]
-    print("1 7")
+
     cleaned_layer = tf.name + '/cleaned.shp'
     clean_parameters = {'input': splitted_parcels_fixed, 'type': [5],
                         'tool': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'threshold': '', '-b': False, '-c': False,
@@ -244,14 +259,16 @@ def clip_polygon_by_line(parcels, lines_to_clip):
                         'GRASS_VECTOR_EXPORT_NOCAT': False}
     processing.run("grass7:v.clean", clean_parameters)
     parcels_layer = QgsVectorLayer(cleaned_layer, 'cleaned', 'ogr')
-    print("1 8")
+
     parcel_limit_layer = create_linear_from_polygon(parcels_layer, tf.name + '/', 'EPSG:2154')
 
     new_parcel = delete_fields_fid(parcels_layer, "new_parcel")
     snap_parameters = {'INPUT': new_parcel, 'REFERENCE_LAYER': new_parcel, 'TOLERANCE': 0.01, 'BEHAVIOR': 0,
                        'OUTPUT': 'memory:snapped'}
     snapped = processing.run("native:snapgeometries", snap_parameters)["OUTPUT"]
-    multi_to_single_part_parameters = {'INPUT': snapped, 'OUTPUT': 'memory:new_parcel'}
+    clipped_layer = tf.name + '/parcel_clipped.shp'
+
+    multi_to_single_part_parameters = {'INPUT': snapped, 'OUTPUT': 'memory:clipped_parcel'}
     new_parcel =processing.run("native:multiparttosingleparts", multi_to_single_part_parameters)["OUTPUT"]
 
     QgsProject.instance().addMapLayer(new_parcel)

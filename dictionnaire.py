@@ -560,8 +560,9 @@ information_modification_multiple_error_2 = "Pas d'élément sélectionné.\nVou
 # watershed creation interface
 label_watershed_name_step1="Nom du bassin versant"
 label_index_step1="Etape 1 : Sélection du MNT et création des parcelles"
-label_index_step2="Etape 2 : import des linéaires et calcul connexions"
+label_index_step2="Etape 2 : Calcul des connexions"
 label_index_step3="Etape 3 : maj attributs et geopackage"
+#step 1
 label_dem_name_step1="MNT"
 label_select_dem_step1="Sélection du MNT"
 file_selection_text = "Choisir un fichier"
@@ -576,3 +577,19 @@ label_clip_field_2_step1="Découpage des parcelles par couche de lignes expertes
 label_clip_field_PushButton_step1="Découpage des parcelles"
 label_export_field_step1="Export du maillage lignes de la couche de parcelles"
 label_export_field_PushButton_step1="Export"
+#step 2
+label_UH_name_step2="Calcul des connexions des UH"
+label_TE_name_step2="Calcul des connexions des Linéaires"
+label_select_field_step2="Sélection des UH"
+label_fields_UH_step2="Sélection des attributs : "
+label_field1_UH_step2="Propriétaire"
+label_field2_UH_step2="Pratiques agricoles"
+label_field3_UH_step2="Occupation du sol"
+label_select_line_step2="Calcul des connexions des linéaires"
+label_select_field_PushButton_step2="Calcul connexions UH - UH"
+label_select_field_line_step2="Doit contenir un champ gm_type avec code 700 pour la rivière ou 200 pour la ripisylve"
+label_select_TE_PushButton_step2="Calcul connexions Linéaires"
+#step 3
+label_folder_name_step3="Création du dossier final"
+label_create_folder_PushButton_step3="Création du dossier final"
+

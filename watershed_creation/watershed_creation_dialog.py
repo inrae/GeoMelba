@@ -37,11 +37,19 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_select_dem_step1, output_button_name, regular_font, file_selection_text, label_select_watershed_step1,label_clip_dem_step1, \
     label_import_PushButton_dem_step1, label_field_name_step1, label_select_field_step1, label_select_field_step1, \
     label_select_field_PushButton_step1, label_clip_field_1_step1, label_clip_field_2_step1, label_clip_field_PushButton_step1, \
-    label_export_field_step1, label_export_field_PushButton_step1
+    label_export_field_step1, label_export_field_PushButton_step1, \
+    label_UH_name_step2, label_select_field_step2,label_select_line_step2, label_fields_UH_step2, \
+    label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
+    label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
+    label_TE_name_step2, label_select_field_line_step2, \
+    label_folder_name_step3,  label_create_folder_PushButton_step3, field_parcel_slope, field_line_slope
 
 from .create_depressionless_slope_expo_vector import create_depressionless_dem
 
-from .managing_polygons import check_validity, clip_polygon_by_line
+from .managing_polygons import check_validity, clip_polygon_by_line, create_linear_from_polygon
+from .managing_UH import UH_UH_connexions, prepare_UH, update_UH_attributes
+from .managing_TE import UH_TE_connexions, TE_TE_connexions, connexions_river, ecoulement_pref, inclinaison_lineaire, ordre_traitements, comparaison_angles_lignes, update_TE_attributes
+from .managing_Output import create_folder, create_csv_files, create_qml_files, create_geopackage
 
 
 # Personal modules
@@ -101,7 +109,7 @@ class WatershedCreationDialog(QMainWindow):
         self.groupBoxField.setGeometry(0,350,700,350)
 
 
-        ######################### MNT ####################
+        ######################### STEP 1 MNT ####################
         # Add MNT frame
 
         # Add selected DEM 
@@ -147,7 +155,7 @@ class WatershedCreationDialog(QMainWindow):
             
 
        
-        ########################## FIELD ############################
+        ########################## STEP 1 FIELD ############################
         # Add selected Field 
         label_import_field_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
         label_import_field_step1.setFont(regular_font)
@@ -201,6 +209,8 @@ class WatershedCreationDialog(QMainWindow):
         # Function connected to the signal emitted by the button.
         self.selected_clipping_field_step1Button.clicked.connect(self.selected_clipping_field)
 
+        ########################## STEP 1 LINE ############################
+
         # Add export line
         label_export_field_line_step1 = QLabel(self.tab_widget.widget(self.tab_step1_index))
         label_export_field_line_step1.setFont(regular_font)
@@ -225,8 +235,141 @@ class WatershedCreationDialog(QMainWindow):
         self.label.resize(QSize(500, 500))
         self.label.move(100, 60)
 
+
+        ################## STEP 2 #######################
+
         self.tab_step2_index = self.add_tab(self.tab_widget, label_index_step2)
+        vlayout2 = QVBoxLayout(self)
+        self.groupBoxUH = QGroupBox(label_UH_name_step2, self.tab_widget.widget(self.tab_step2_index))
+        vlayout2.addWidget(self.groupBoxUH)
+        self.groupBoxUH.resize(700,250)
+        self.groupBoxFieldUH = QGroupBox(label_TE_name_step2, self.tab_widget.widget(self.tab_step2_index))
+        vlayout2.addWidget(self.groupBoxFieldUH)
+        self.groupBoxFieldUH.setGeometry(0,250,700,350)
+
+
+        # Add selected UH
+        label_import_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_import_UH_step2.setFont(regular_font)
+        label_import_UH_step2.setGeometry(40, 50, 350, 30)
+        label_import_UH_step2.setText(label_select_field_step2)
+
+        # QgsMapLayerComboBox for the selected UH
+        self.selected_UH = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_UH.setGeometry(170, 50, 250, 30)
+        self.selected_UH.setAllowEmptyLayer(0)
+        self.selected_UH.setCurrentIndex(0)
+        self.selected_UH.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+
+        # Select UH attributes
+        label_attribute_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attribute_UH_step2.setFont(regular_font)
+        label_attribute_UH_step2.setGeometry(70, 80, 350, 30)
+        label_attribute_UH_step2.setText(label_fields_UH_step2)
+
+        # field Prop
+        label_attributeField1_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField1_UH_step2.setFont(regular_font)
+        label_attributeField1_UH_step2.setGeometry(100, 100, 350, 30)
+        label_attributeField1_UH_step2.setText(label_field1_UH_step2)
+
+        self.label_attributeField1_UH_step2_Box=QgsFieldComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.label_attributeField1_UH_step2_Box.setGeometry(250, 102, 150, 20)
+        self.label_attributeField1_UH_step2_Box.setLayer(self.selected_UH.currentLayer())
+        self.label_attributeField1_UH_step2_Box.setCurrentIndex(0)
+        self.selected_UH.layerChanged.connect(self.label_attributeField1_UH_step2_Box.setLayer)
+        
+    
+        #field agricultural practices
+        label_attributeField2_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField2_UH_step2.setFont(regular_font)
+        label_attributeField2_UH_step2.setGeometry(100, 130, 350, 30)
+        label_attributeField2_UH_step2.setText(label_field2_UH_step2)
+
+        self.label_attributeField2_UH_step2_Box=QgsFieldComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.label_attributeField2_UH_step2_Box.setGeometry(250, 132, 150, 20)
+        self.label_attributeField2_UH_step2_Box.setLayer(self.selected_UH.currentLayer())
+        self.label_attributeField2_UH_step2_Box.setCurrentIndex(0)
+        self.selected_UH.layerChanged.connect(self.label_attributeField2_UH_step2_Box.setLayer)
+
+
+        #field soil occupation
+        label_attributeField3_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_attributeField3_UH_step2.setFont(regular_font)
+        label_attributeField3_UH_step2.setGeometry(100, 160, 350, 30)
+        label_attributeField3_UH_step2.setText(label_field3_UH_step2)
+
+
+        # QgsMapLayerComboBox for field3
+        self.label_attributeField3_UH_step2_Box=QgsFieldComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.label_attributeField3_UH_step2_Box.setGeometry(250, 162, 150, 20)
+        self.label_attributeField3_UH_step2_Box.setLayer(self.selected_UH.currentLayer())
+        self.label_attributeField3_UH_step2_Box.setCurrentIndex(0)
+        self.selected_UH.layerChanged.connect(self.label_attributeField3_UH_step2_Box.setLayer)
+
+
+
+
+        # Add Import UH button label
+        self.selected_ImportUH__step2Button=QPushButton(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_ImportUH__step2Button.setFont(regular_font)
+        self.selected_ImportUH__step2Button.setGeometry(450, 190, 250, 30)
+        self.selected_ImportUH__step2Button.setText(label_select_field_PushButton_step2)
+        # Function connected to the signal emitted by the button.
+        self.selected_ImportUH__step2Button.clicked.connect(self.connexionsUH_UH)
+
+
+        # Add selected TE
+        label_import_TE_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_import_TE_step2.setFont(regular_font)
+        label_import_TE_step2.setGeometry(40, 300, 350, 30)
+        label_import_TE_step2.setText(label_select_line_step2)
+
+        # QgsMapLayerComboBox for the selected TE
+        self.selected_TE = QgsMapLayerComboBox(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_TE.setGeometry(300, 300, 200, 30)
+        self.selected_TE.setAllowEmptyLayer(0)
+        self.selected_TE.setCurrentIndex(0)
+        self.selected_TE.setFilters(QgsMapLayerProxyModel.LineLayer)
+
+
+        # Add Import TE button label
+        self.selected_ImportTE__step2Button=QPushButton(self.tab_widget.widget(self.tab_step2_index))
+        self.selected_ImportTE__step2Button.setFont(regular_font)
+        self.selected_ImportTE__step2Button.setGeometry(450, 350, 250, 30)
+        self.selected_ImportTE__step2Button.setText(label_select_TE_PushButton_step2)
+        # Function connected to the signal emitted by the button.
+        self.selected_ImportTE__step2Button.clicked.connect(self.connexionsTE)
+
+        # Add label field TE
+        label_field_TE_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_field_TE_step2.setFont(regular_font)
+        label_field_TE_step2.setGeometry(40, 400, 600, 30)
+        label_field_TE_step2.setText(label_select_field_line_step2)
+
+
+        ################## STEP 3 #######################
+        # third Tab.
         self.tab_step3_index = self.add_tab(self.tab_widget, label_index_step3)
+        vlayout = QVBoxLayout(self)
+        self.groupBoxFolder = QGroupBox(label_folder_name_step3, self.tab_widget.widget(self.tab_step3_index))
+        vlayout.addWidget(self.groupBoxFolder)
+        self.groupBoxFolder.resize(700,350)
+
+        # Add create folder button label
+        self.create_folder_step3Button=QPushButton(self.tab_widget.widget(self.tab_step3_index))
+        self.create_folder_step3Button.setFont(regular_font)
+        self.create_folder_step3Button.setGeometry(350, 250, 250, 30)
+        self.create_folder_step3Button.setText(label_create_folder_PushButton_step3)
+        self.create_folder_step3Button.setEnabled(True)
+        # Function connected to the signal emitted by the button.
+        self.create_folder_step3Button.clicked.connect(self.create_folder_files)
+
+
+
+
+
+        
 
     def add_tab(self, tab_widget, name):
         tab_index = tab_widget.count()
@@ -288,63 +431,60 @@ class WatershedCreationDialog(QMainWindow):
 #        if self.clip_field_1_step1.isChecked():
         # clipping by line 
         if self.clip_field_2_step1.isChecked():
-
-            clippedField=clip_polygon_by_line(self.selected_field.currentLayer(),self.selected_clip_field_2_button.currentLayer())
+            layers = QgsProject.instance().mapLayersByName('checked_parcel') 
+            clippedField=clip_polygon_by_line(layers[0],self.selected_clip_field_2_button.currentLayer())
 
 
     def export_field(self):
         """ Function to export field into line 
         """
+        layers = QgsProject.instance().mapLayersByName('clipped_parcel') 
+        if len(layers)==0:
+            layers = QgsProject.instance().mapLayersByName('checked_parcel')
+        LineLayer=create_linear_from_polygon(layers[0], self.new_path, "EPSG:2154")
+        QgsProject.instance().addMapLayer(LineLayer)
+
+    def connexionsUH_UH(self):        
+        """ Function to import UH layer and connexion UH-UH calculation
+        """
+        dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
+
+        centroids_layer = prepare_UH(self.selected_UH.currentLayer(), dem[0], self.label_attributeField1_UH_step2_Box.currentField(), self.label_attributeField2_UH_step2_Box.currentField(), self.label_attributeField3_UH_step2_Box.currentField(), self.new_path, self.crs,field_parcel_slope)
+        connexions_layer = UH_UH_connexions(self.selected_UH.currentLayer(), centroids_layer, self.crs, self.new_path)
+        QgsProject.instance().addMapLayer(connexions_layer)
 
 
+    def connexionsTE(self):   
+        """ Function to import TE layer and connexion UH-TE, TE-TE and river calculations
+        """
+        connexions = QgsProject.instance().mapLayersByName('connexions') 
+        UH_TE_connexions(self.selected_TE.currentLayer(), self.selected_UH.currentLayer(), connexions[0])
+        dem = QgsProject.instance().mapLayersByName('depressionless_dem') 
+        TE_TE_connexions(self.selected_TE.currentLayer(), dem[0], self.crs,'point_line','point',self.new_path)
+        # code_riviere = 700 and code_ripisylve = 200
+        connexions_river(self.selected_TE.currentLayer(), connexions[0], 700, 200)
+        centroids = QgsProject.instance().mapLayersByName('centroids_UH') 
+        inclinaison_pente_parcelle = ecoulement_pref (self.selected_UH.currentLayer(), connexions[0], self.selected_TE.currentLayer(), centroids[0], self.crs, self.new_path)
+        inclinaison_pente_lineaire = inclinaison_lineaire (self.selected_TE.currentLayer(), self.crs, self.new_path)
+        comparaison_angles_lignes(self.selected_TE.currentLayer(), inclinaison_pente_parcelle, inclinaison_pente_lineaire)
+        ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
+        
+        TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
+        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope)
+        cadastre_shp=self.new_path+"cadastre.shp"
+        QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
+        cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
+        QgsProject.instance().addMapLayer(cadastre)
+        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope)
+        
 
 
-    def launch_creation(self):
-        self.watershed_name = self.line_edit_watershed_name.text()
-        new_path = self.path + str(self.watershed_name) + "/"
-        keep_process = True
-        if os.path.exists(new_path):
-            mb = QMessageBox()
-            mb.setText("Dossier existant : Attention, le dossier utilisé pour enregistrer les résultats existe déjà, "
-                       "certaines données vont être effacées.")
-            mb.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            return_value = mb.exec()
-            if return_value != QMessageBox.Yes:
-                keep_process = False
-
-        if keep_process:
-            if not os.path.exists(new_path):
-                os.makedirs(new_path)
-            else:
-                for element in os.listdir(new_path):
-                    os.remove(new_path + element)
-            parcel_layer = self.parcel_layer_selector.currentLayer()
-            line_layer = self.line_layer_selector.currentLayer()
-            parcel_id = self.selection_parcels_id.currentField()
-            land_cover = self.selection_parcels_type.currentField()
-            line_id = self.selection_line_id.currentField()
-            dem_raster = self.selection_dem.currentLayer()
-            if parcel_id == '':
-                parcel_id = None
-            if land_cover == '':
-                land_cover = None
-            if line_id == '':
-                line_id = None
-            fill_polygon = None
-            if self.fill_polygon.isChecked():
-                fill_polygon = True
-            self.messagebox.show()
-        #    creation = WatershedCreation(crs=self.crs, path=new_path, parcel_layer=parcel_layer, line_layer=line_layer,
-        #                                 parcel_id=parcel_id, land_cover=land_cover, line_id=line_id,
-        #                                 dem_raster=dem_raster, fill_polygon=fill_polygon)
-            creation.processing_chain()
-            self.tab_widget.setTabEnabled(self.tab_land_cover_index, True)
-            self.tab_widget.setTabEnabled(self.tab_line_type_index, True)
-            self.line_edit_watershed_name.setEnabled(False)
-            self.tab_widget.setCurrentIndex(self.tab_land_cover_index)
-            self.tab_widget.setTabEnabled(self.tab_step1_index, False)
-            self.messagebox.done(1)
-        self.activateWindow()
+    def create_folder_files(self):
+        create_folder(self.new_path,self.watershed_name)
+        create_csv_files(self.new_path,self.watershed_name)
+        create_qml_files(self.new_path,self.watershed_name)
+        create_geopackage(self.new_path,self.watershed_name)
+    
 
     def close_window(self):
         self.close()
