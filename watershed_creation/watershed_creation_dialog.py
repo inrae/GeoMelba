@@ -484,54 +484,7 @@ class WatershedCreationDialog(QMainWindow):
         create_csv_files(self.new_path,self.watershed_name)
         create_qml_files(self.new_path,self.watershed_name)
         create_geopackage(self.new_path,self.watershed_name)
-
-
-    def launch_creation(self):
-        self.watershed_name = self.line_edit_watershed_name.text()
-        new_path = self.path + str(self.watershed_name) + "/"
-        keep_process = True
-        if os.path.exists(new_path):
-            mb = QMessageBox()
-            mb.setText("Dossier existant : Attention, le dossier utilisé pour enregistrer les résultats existe déjà, "
-                       "certaines données vont être effacées.")
-            mb.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            return_value = mb.exec()
-            if return_value != QMessageBox.Yes:
-                keep_process = False
-
-        if keep_process:
-            if not os.path.exists(new_path):
-                os.makedirs(new_path)
-            else:
-                for element in os.listdir(new_path):
-                    os.remove(new_path + element)
-            parcel_layer = self.parcel_layer_selector.currentLayer()
-            line_layer = self.line_layer_selector.currentLayer()
-            parcel_id = self.selection_parcels_id.currentField()
-            land_cover = self.selection_parcels_type.currentField()
-            line_id = self.selection_line_id.currentField()
-            dem_raster = self.selection_dem.currentLayer()
-            if parcel_id == '':
-                parcel_id = None
-            if land_cover == '':
-                land_cover = None
-            if line_id == '':
-                line_id = None
-            fill_polygon = None
-            if self.fill_polygon.isChecked():
-                fill_polygon = True
-            self.messagebox.show()
-        #    creation = WatershedCreation(crs=self.crs, path=new_path, parcel_layer=parcel_layer, line_layer=line_layer,
-        #                                 parcel_id=parcel_id, land_cover=land_cover, line_id=line_id,
-        #                                 dem_raster=dem_raster, fill_polygon=fill_polygon)
-            creation.processing_chain()
-            self.tab_widget.setTabEnabled(self.tab_land_cover_index, True)
-            self.tab_widget.setTabEnabled(self.tab_line_type_index, True)
-            self.line_edit_watershed_name.setEnabled(False)
-            self.tab_widget.setCurrentIndex(self.tab_land_cover_index)
-            self.tab_widget.setTabEnabled(self.tab_step1_index, False)
-            self.messagebox.done(1)
-        self.activateWindow()
+    
 
     def close_window(self):
         self.close()

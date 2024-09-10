@@ -97,6 +97,8 @@ def create_qml_files(path,watershed_name):
     cadastre[0].saveNamedStyle(cadastre_qml_path)
     simple_line_qml_path=folder_path+"/"+"style_TE.qml"
     lineaire[0].saveNamedStyle(simple_line_qml_path)
+    multiple_line_qml_path=folder_path+"/"+"style_TE_multiple.qml"
+    lineaire[0].saveNamedStyle(multiple_line_qml_path)
 
 
 def create_geopackage(path,watershed_name):
