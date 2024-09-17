@@ -27,7 +27,9 @@ import csv
 import os
 # Import personnal modules
 from ..dictionnaire import data_folder, watershed_prefix, config_practices_file, config_slope_file, \
-    config_land_cover_file, config_line_type_file, config_drain_file
+    config_land_cover_file, config_line_type_file, config_drain_file,\
+    config_land_cover_file_winter, config_line_type_file_winter, config_drain_file_winter,\
+    config_land_cover_file_summer, config_line_type_file_summer, config_drain_file_summer
 
 
 class ConfigFilesImport:
@@ -39,37 +41,25 @@ class ConfigFilesImport:
         self.land_cover = {}
         self.abatement_type = []
         self.abatement = {}
-        self.abatement_water_summer = {}
-        self.abatement_mes_summer = {}
-        self.abatement_phyto_summer = {}
-        self.abatement_water_winter = {}
-        self.abatement_mes_winter = {}
-        self.abatement_phyto_winter = {}
+        self.abatement_water = {}
+        self.abatement_mes = {}
+        self.abatement_phyto = {}
         self.production_type = []
         self.production = {}
-        self.production_water_summer = {}
-        self.production_mes_summer = {}
-        self.production_phyto_summer = {}
-        self.production_water_winter = {}
-        self.production_mes_winter = {}
-        self.production_phyto_winter = {}
+        self.production_water = {}
+        self.production_mes = {}
+        self.production_phyto = {}
         self.line_type = {}
         self.abatement_type_long = []
         self.abatement_type_lat = []
         self.abatement_long = {}
-        self.abatement_long_water_summer = {}
-        self.abatement_long_mes_summer = {}
-        self.abatement_long_phyto_summer = {}
-        self.abatement_long_water_winter = {}
-        self.abatement_long_mes_winter = {}
-        self.abatement_long_phyto_winter = {}
+        self.abatement_long_water = {}
+        self.abatement_long_mes = {}
+        self.abatement_long_phyto = {}
         self.abatement_lat = {}
-        self.abatement_lat_water_summer = {}
-        self.abatement_lat_mes_summer = {}
-        self.abatement_lat_phyto_summer = {}
-        self.abatement_lat_water_winter = {}
-        self.abatement_lat_mes_winter = {}
-        self.abatement_lat_phyto_winter = {}
+        self.abatement_lat_water = {}
+        self.abatement_lat_mes = {}
+        self.abatement_lat_phyto = {}
         self.drain_type = {}
         self.path = path + data_folder + watershed_prefix + watershed_name + "/"
         self.import_config_files()
@@ -95,30 +85,21 @@ class ConfigFilesImport:
                 self.land_cover[row["key"]] = int(row["value"])
                 if row["abatement"] == str(True):
                     self.abatement_type.append(int(row["value"]))
-                    self.abatement[int(row["value"])] = [int(row["abatement_phyto_value_low_slope_summer"]),
-                                                         int(row["abatement_phyto_value_medium_slope_summer"]),
-                                                         int(row["abatement_phyto_value_high_slope_summer"])]
-                    self.abatement_water_summer[int(row["value"])] = [int(row["abatement_eau_value_low_slope_summer"]),
-                                                               int(row["abatement_eau_value_medium_slope_summer"]),
-                                                               int(row["abatement_eau_value_high_slope_summer"])]
-                    self.abatement_mes_summer[int(row["value"])] = [int(row["abatement_mes_value_low_slope_summer"]),
-                                                             int(row["abatement_mes_value_medium_slope_summer"]),
-                                                             int(row["abatement_mes_value_high_slope_summer"])]
-                    self.abatement_phyto_summer[int(row["value"])] = [int(row["abatement_phyto_value_low_slope_summer"]),
-                                                               int(row["abatement_phyto_value_medium_slope_summer"]),
-                                                               int(row["abatement_phyto_value_high_slope_summer"])]
+                    self.abatement[int(row["value"])] = [int(row["abatement_phyto_value_low_slope"]),
+                                                         int(row["abatement_phyto_value_medium_slope"]),
+                                                         int(row["abatement_phyto_value_high_slope"])]
+                    self.abatement_water[int(row["value"])] = [int(row["abatement_eau_value_low_slope"]),
+                                                               int(row["abatement_eau_value_medium_slope"]),
+                                                               int(row["abatement_eau_value_high_slope"])]
+                    self.abatement_mes[int(row["value"])] = [int(row["abatement_mes_value_low_slope"]),
+                                                             int(row["abatement_mes_value_medium_slope"]),
+                                                             int(row["abatement_mes_value_high_slope"])]
+                    self.abatement_phyto[int(row["value"])] = [int(row["abatement_phyto_value_low_slope"]),
+                                                               int(row["abatement_phyto_value_medium_slope"]),
+                                                               int(row["abatement_phyto_value_high_slope"])]
 
 
-                    self.abatement_water_winter[int(row["value"])] = [int(row["abatement_eau_value_low_slope_winter"]),
-                                                               int(row["abatement_eau_value_medium_slope_winter"]),
-                                                               int(row["abatement_eau_value_high_slope_winter"])]
-                    self.abatement_mes_winter[int(row["value"])] = [int(row["abatement_mes_value_low_slope_winter"]),
-                                                             int(row["abatement_mes_value_medium_slope_winter"]),
-                                                             int(row["abatement_mes_value_high_slope_winter"])]
-                    self.abatement_phyto_winter[int(row["value"])] = [int(row["abatement_phyto_value_low_slope_winter"]),
-                                                               int(row["abatement_phyto_value_medium_slope_winter"]),
-                                                               int(row["abatement_phyto_value_high_slope_winter"])]
-
+              
 
 
 
@@ -128,59 +109,36 @@ class ConfigFilesImport:
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [float(row["phyto_production_value_practice" + str(n) + "_low_slope_summer"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_medium_slope_summer"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_high_slope_summer"])]
+                        practices_values[n] = [float(row["phyto_production_value_practice" + str(n) + "_low_slope"]),
+                                               float(row["phyto_production_value_practice" + str(n) + "_medium_slope"]),
+                                               float(row["phyto_production_value_practice" + str(n) + "_high_slope"])]
                     self.production[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [float(row["eau_production_value_practice" + str(n) + "_low_slope_summer"]),
-                                               float(row["eau_production_value_practice" + str(n) + "_medium_slope_summer"]),
-                                               float(row["eau_production_value_practice" + str(n) + "_high_slope_summer"])]
-                    self.production_water_summer[int(row["value"])] = practices_values
+                        practices_values[n] = [float(row["eau_production_value_practice" + str(n) + "_low_slope"]),
+                                               float(row["eau_production_value_practice" + str(n) + "_medium_slope"]),
+                                               float(row["eau_production_value_practice" + str(n) + "_high_slope"])]
+                    self.production_water[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [float(row["mes_production_value_practice" + str(n) + "_low_slope_summer"]),
-                                               float(row["mes_production_value_practice" + str(n) + "_medium_slope_summer"]),
-                                               float(row["mes_production_value_practice" + str(n) + "_high_slope_summer"])]
-                    self.production_mes_summer[int(row["value"])] = practices_values
+                        practices_values[n] = [float(row["mes_production_value_practice" + str(n) + "_low_slope"]),
+                                               float(row["mes_production_value_practice" + str(n) + "_medium_slope"]),
+                                               float(row["mes_production_value_practice" + str(n) + "_high_slope"])]
+                    self.production_mes[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [float(row["phyto_production_value_practice" + str(n) + "_low_slope_summer"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_medium_slope_summer"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_high_slope_summer"])]
-                    self.production_phyto_summer[int(row["value"])] = practices_values
+                        practices_values[n] = [float(row["phyto_production_value_practice" + str(n) + "_low_slope"]),
+                                               float(row["phyto_production_value_practice" + str(n) + "_medium_slope"]),
+                                               float(row["phyto_production_value_practice" + str(n) + "_high_slope"])]
+                    self.production_phyto[int(row["value"])] = practices_values
 
-                    n = 0
-                    practices_values = {}
-                    while n < len(self.practices):
-                        n = n + 1
-                        practices_values[n] = [float(row["eau_production_value_practice" + str(n) + "_low_slope_winter"]),
-                                               float(row["eau_production_value_practice" + str(n) + "_medium_slope_winter"]),
-                                               float(row["eau_production_value_practice" + str(n) + "_high_slope_winter"])]
-                    self.production_water_winter[int(row["value"])] = practices_values
-                    n = 0
-                    practices_values = {}
-                    while n < len(self.practices):
-                        n = n + 1
-                        practices_values[n] = [float(row["mes_production_value_practice" + str(n) + "_low_slope_winter"]),
-                                               float(row["mes_production_value_practice" + str(n) + "_medium_slope_winter"]),
-                                               float(row["mes_production_value_practice" + str(n) + "_high_slope_winter"])]
-                    self.production_mes_winter[int(row["value"])] = practices_values
-                    n = 0
-                    practices_values = {}
-                    while n < len(self.practices):
-                        n = n + 1
-                        practices_values[n] = [float(row["phyto_production_value_practice" + str(n) + "_low_slope_winter"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_medium_slope_winter"]),
-                                               float(row["phyto_production_value_practice" + str(n) + "_high_slope_winter"])]
-                    self.production_phyto_winter[int(row["value"])] = practices_values
+                  
 
 
 
@@ -191,23 +149,17 @@ class ConfigFilesImport:
                 self.line_type[row["key"]] = int(row["value"])
                 if row["abatement_long"] == str(True):
                     self.abatement_type_long.append(int(row["value"]))
-                    self.abatement_long[int(row["value"])] = float(row["abatement_long_phyto_value_summer"])
-                    self.abatement_long_water_summer[int(row["value"])] = float(row["abatement_long_eau_value_summer"])
-                    self.abatement_long_mes_summer[int(row["value"])] = float(row["abatement_long_mes_value_summer"])
-                    self.abatement_long_phyto_summer[int(row["value"])] = float(row["abatement_long_phyto_value_summer"])
-                    self.abatement_long_water_winter[int(row["value"])] = float(row["abatement_long_eau_value_winter"])
-                    self.abatement_long_mes_winter[int(row["value"])] = float(row["abatement_long_mes_value_winter"])
-                    self.abatement_long_phyto_winter[int(row["value"])] = float(row["abatement_long_phyto_value_winter"])
-
+                    self.abatement_long[int(row["value"])] = float(row["abatement_long_phyto_value"])
+                    self.abatement_long_water[int(row["value"])] = float(row["abatement_long_eau_value"])
+                    self.abatement_long_mes[int(row["value"])] = float(row["abatement_long_mes_value"])
+                    self.abatement_long_phyto[int(row["value"])] = float(row["abatement_long_phyto_value"])
+              
                 if row["abatement_lat"] == str(True):
                     self.abatement_type_lat.append(int(row["value"]))
-                    self.abatement_lat[int(row["value"])] = float(row["abatement_lat_phyto_value_summer"])
-                    self.abatement_lat_water_summer[int(row["value"])] = float(row["abatement_lat_eau_value_summer"])
-                    self.abatement_lat_mes_summer[int(row["value"])] = float(row["abatement_lat_mes_value_summer"])
-                    self.abatement_lat_phyto_summer[int(row["value"])] = float(row["abatement_lat_phyto_value_summer"])
-                    self.abatement_lat_water_winter[int(row["value"])] = float(row["abatement_lat_eau_value_winter"])
-                    self.abatement_lat_mes_winter[int(row["value"])] = float(row["abatement_lat_mes_value_winter"])
-                    self.abatement_lat_phyto_winter[int(row["value"])] = float(row["abatement_lat_phyto_value_winter"])
+                    self.abatement_lat[int(row["value"])] = float(row["abatement_lat_phyto_value"])
+                    self.abatement_lat_water[int(row["value"])] = float(row["abatement_lat_eau_value"])
+                    self.abatement_lat_mes[int(row["value"])] = float(row["abatement_lat_mes_value"])
+                    self.abatement_lat_phyto[int(row["value"])] = float(row["abatement_lat_phyto_value"])
 
 
         table_name = config_drain_file

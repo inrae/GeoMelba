@@ -41,8 +41,8 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     field_incoming_flow_rating, field_outgoing_flow_long_up, field_outgoing_flow_long_down, field_history, \
     field_history_abatement, field_history_abatement_lat, field_history_abatement_long, field_history_outflow_long, \
     field_history_outflow_long_up, field_history_outflow_long_down, field_history_abatement_long_up, \
-    field_history_abatement_long_down, field_flow_production_water_summer, field_flow_production_mes_summer, \
-    field_flow_production_phyto_summer, field_flow_production_water_winter, field_flow_production_mes_winter, field_flow_production_phyto_winter, \
+    field_history_abatement_long_down, field_flow_production_water, field_flow_production_mes, \
+    field_flow_production_phyto, \
     field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area, \
     field_parcel_slope, field_parcel_practice, field_outgoing_flow_line_to_parcel, field_line_parcel_below, \
     field_line_parcel_above, field_connexions_parcel_above, field_connexions_flow_coefficient, field_parcel_id, \
@@ -56,14 +56,11 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     group_incoming_flow_river, field_parcel_outflow_drain, field_parcel_active_drain, field_flow_production_area, \
     field_flow_production_area_river, field_flow_river_rate, field_parcel_drain_type, field_river_direction, \
     field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, field_parcel_drain_id, \
-    field_flow_production, field_history_water_summer, field_history_mes_summer, field_history_phyto_summer, field_history_abatement_water_summer, \
-    field_history_abatement_mes_summer, field_history_abatement_phyto_summer, field_history_abatement_lat_water_summer, \
-    field_history_abatement_lat_mes_summer, field_history_abatement_lat_phyto_summer, field_history_abatement_long_water_summer, \
-    field_history_abatement_long_mes_summer, field_history_abatement_long_phyto_summer, \
-    field_flow_production, field_history_water_winter, field_history_mes_winter, field_history_phyto_winter, field_history_abatement_water_winter, \
-    field_history_abatement_mes_winter, field_history_abatement_phyto_winter, field_history_abatement_lat_water_winter, \
-    field_history_abatement_lat_mes_winter, field_history_abatement_lat_phyto_winter, field_history_abatement_long_water_winter, \
-    field_history_abatement_long_mes_winter, field_history_abatement_long_phyto_winter, \
+    field_flow_production, field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water, \
+    field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water, \
+    field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water, \
+    field_history_abatement_long_mes, field_history_abatement_long_phyto, \
+    field_flow_production, \
     river_direction_up, river_direction_dwn, \
     river_direction_different_direction, abatement_map_line_legend_pt1, abatement_map_line_legend_pt2, \
     abatement_map_line_legend_pt3, abatement_map_line_legend_pt4, abatement_map_line_legend_pt5, \
@@ -161,15 +158,12 @@ class FlowCalculation:
     """
 
     def __init__(self, watershed_name=None, practices=None, slope=None, land_cover=None, abatement_type=None,
-                 production_type=None, abatement=None, abatement_water_summer=None, abatement_mes_summer=None, abatement_phyto_summer=None,
-                 abatement_water_winter=None, abatement_mes_winter=None, abatement_phyto_winter=None,
-                 production=None, production_water_summer=None, production_mes_summer=None, production_phyto_summer=None, 
-                 production_water_winter=None, production_mes_winter=None, production_phyto_winter=None,line_type=None,
-                 abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water_summer=None,
-                 abatement_long_mes_summer=None, abatement_long_phyto_summer=None, abatement_lat=None, abatement_lat_water_summer=None,
-                 abatement_lat_mes_summer=None, abatement_lat_phyto_summer=None,
-                 abatement_long_water_winter=None,abatement_long_mes_winter=None, abatement_long_phyto_winter=None, 
-                 abatement_lat_water_winter=None, abatement_lat_mes_winter=None, abatement_lat_phyto_winter=None,
+                 production_type=None, abatement=None, abatement_water=None, abatement_mes=None, abatement_phyto=None,
+                 production=None, production_water=None, production_mes=None, production_phyto=None, 
+                 line_type=None,
+                 abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
+                 abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
+                 abatement_lat_mes=None, abatement_lat_phyto=None,
                  output_path=None):
         """Class attributes are :
         - """
@@ -180,37 +174,25 @@ class FlowCalculation:
         self.land_cover = land_cover
         self.abatement_type = abatement_type
         self.abatement = None
-        self.abatement_water_summer = abatement_water_summer
-        self.abatement_mes_summer = abatement_mes_summer
-        self.abatement_phyto_summer = abatement_phyto_summer
-        self.abatement_water_winter = abatement_water_winter
-        self.abatement_mes_winter = abatement_mes_winter
-        self.abatement_phyto_winter = abatement_phyto_winter
+        self.abatement_water = abatement_water
+        self.abatement_mes = abatement_mes
+        self.abatement_phyto = abatement_phyto
         self.production_type = production_type
         self.production = None
-        self.production_water_summer = production_water_summer
-        self.production_mes_summer = production_mes_summer
-        self.production_phyto_summer = production_phyto_summer
-        self.production_water_winter = production_water_winter
-        self.production_mes_winter = production_mes_winter
-        self.production_phyto_winter = production_phyto_winter
+        self.production_water = production_water
+        self.production_mes = production_mes
+        self.production_phyto = production_phyto
         self.line_type = line_type
         self.abatement_type_long = abatement_type_long
         self.abatement_type_lat = abatement_type_lat
         self.abatement_long = None
-        self.abatement_long_water_summer = abatement_long_water_summer
-        self.abatement_long_mes_summer = abatement_long_mes_summer
-        self.abatement_long_phyto_summer = abatement_long_phyto_summer
-        self.abatement_long_water_winter = abatement_long_water_winter
-        self.abatement_long_mes_winter = abatement_long_mes_winter
-        self.abatement_long_phyto_winter = abatement_long_phyto_winter
+        self.abatement_long_water = abatement_long_water
+        self.abatement_long_mes = abatement_long_mes
+        self.abatement_long_phyto = abatement_long_phyto
         self.abatement_lat = None
-        self.abatement_lat_water_summer = abatement_lat_water_summer
-        self.abatement_lat_mes_summer = abatement_lat_mes_summer
-        self.abatement_lat_phyto_summer = abatement_lat_phyto_summer
-        self.abatement_lat_water_winter = abatement_lat_water_winter
-        self.abatement_lat_mes_winter = abatement_lat_mes_winter
-        self.abatement_lat_phyto_winter = abatement_lat_phyto_winter
+        self.abatement_lat_water = abatement_lat_water
+        self.abatement_lat_mes = abatement_lat_mes
+        self.abatement_lat_phyto = abatement_lat_phyto
         self.output_path=output_path
 
     def prepare_layers(self, parcel_layer, line_layer):
@@ -232,12 +214,9 @@ class FlowCalculation:
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_water_summer))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_mes_summer))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_phyto_summer))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_water_winter))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_mes_winter))
-            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_phyto_winter))
+            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_water))
+            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_mes))
+            line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_lat_phyto))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_outflow_long_up))
@@ -245,33 +224,21 @@ class FlowCalculation:
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_up))
             line_layer.deleteAttribute(line_layer.fields().indexFromName(field_history_abatement_long_down))
         line_layer.addAttribute(QgsField(field_history, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_water_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_mes_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_phyto_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_water_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_mes_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_phyto_winter, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_water, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_mes, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_phyto, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_abatement, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_water_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_mes_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_phyto_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_water_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_mes_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_phyto_winter, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_water, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_mes, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_phyto, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_abatement_lat, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_water_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_mes_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_phyto_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_water_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_mes_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_lat_phyto_winter, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_lat_water, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_lat_mes, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_lat_phyto, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_abatement_long, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_water_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_mes_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_phyto_summer, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_water_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_mes_winter, QVariant.String, "string", 10000))
-        line_layer.addAttribute(QgsField(field_history_abatement_long_phyto_winter, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_long_water, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_long_mes, QVariant.String, "string", 10000))
+        line_layer.addAttribute(QgsField(field_history_abatement_long_phyto, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_outflow_long, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_outflow_long_up, QVariant.String, "string", 10000))
         line_layer.addAttribute(QgsField(field_history_outflow_long_down, QVariant.String, "string", 10000))
@@ -307,26 +274,17 @@ class FlowCalculation:
         parcel_layer.startEditing()
         if parcel_layer.fields().indexFromName(field_history) != -1:
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_water_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_mes_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_water_winter))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_mes_winter))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto_winter))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_water))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_mes))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto))
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_water_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_mes_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_phyto_summer))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_water_winter))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_mes_winter))
-            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_phyto_winter))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_water))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_mes))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_phyto))
         parcel_layer.addAttribute(QgsField(field_flow_production, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_water_summer, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_mes_summer, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_phyto_summer, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_water_winter, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_mes_winter, QVariant.Double, "double", 5, 2))
-        parcel_layer.addAttribute(QgsField(field_flow_production_phyto_winter, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_water, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_mes, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_phyto, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_incoming_flow, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_outgoing_flow, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_parcel_outflow_drain, QVariant.Double, "double", 5, 2))
@@ -335,20 +293,14 @@ class FlowCalculation:
             QgsField(field_parcel_above, QVariant.String, "string", 100))
         parcel_layer.addAttribute(QgsField(field_parcel_below, QVariant.String, "string", 100))
         parcel_layer.addAttribute(QgsField(field_history, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_water_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_mes_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_phyto_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_water_winter, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_mes_winter, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_phyto_winter, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_water, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_mes, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_phyto, QVariant.String, "string", 10000))
         parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_abatement))
         parcel_layer.addAttribute(QgsField(field_history_abatement, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_water_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_mes_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_phyto_summer, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_water_winter, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_mes_winter, QVariant.String, "string", 10000))
-        parcel_layer.addAttribute(QgsField(field_history_abatement_phyto_winter, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_abatement_water, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_abatement_mes, QVariant.String, "string", 10000))
+        parcel_layer.addAttribute(QgsField(field_history_abatement_phyto, QVariant.String, "string", 10000))
         parcel_layer.addAttribute(QgsField(field_flow_river_rate, QVariant.Double, "double", 10, 5))
         parcel_layer.addAttribute(QgsField(field_flow_production_area_river, QVariant.Double, "double", 10, 5))
         parcel_layer.addAttribute(QgsField(field_flow_production_area, QVariant.Double, "double", 10, 5))
@@ -364,30 +316,20 @@ class FlowCalculation:
 
                 prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
                                                 self.production)
-                prod_water_summer = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_water_summer)
-                prod_mes_summer = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                    self.production_mes_summer)*longueur
-                prod_phyto_summer = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_phyto_summer)
-
-                prod_water_winter = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_water_winter)
-                prod_mes_winter = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                    self.production_mes_winter)*longueur
-                prod_phyto_winter = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
-                                                      self.production_phyto_winter)
+                prod_water = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                                                      self.production_water)
+                prod_mes = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                                                    self.production_mes)*longueur
+                prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                                                      self.production_phyto)
 
               
 
             else:
                 prod = 0
-                prod_water_summer = 0
-                prod_mes_summer = 0
-                prod_phyto_summer = 0
-                prod_water_winter = 0
-                prod_mes_winter = 0
-                prod_phyto_winter = 0
+                prod_water = 0
+                prod_mes = 0
+                prod_phyto = 0
 
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
                 field_incoming_flow), 0)
@@ -396,19 +338,13 @@ class FlowCalculation:
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
                 field_parcel_outflow_drain), 0)
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production), prod)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_water_summer),
-                                              prod_water_summer)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_mes_summer),
-                                              prod_mes_summer)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto_summer),
-                                              prod_phyto_summer)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_water),
+                                              prod_water)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_mes),
+                                              prod_mes)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto),
+                                              prod_phyto)
 
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_water_winter),
-                                              prod_water_winter)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_mes_winter),
-                                              prod_mes_winter)
-            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto_winter),
-                                              prod_phyto_winter)
 
 
         parcel_layer.commitChanges()
@@ -1952,54 +1888,33 @@ class FlowCalculation:
 
     def ecoulement_bv(self, parcel_layer, line_layer, connexion_layer, count, element, season, *args):
         if int(element) == 0:
-            if season == 0:
-                self.abatement = self.abatement_water_summer
-                self.production = self.production_water_summer
-                self.abatement_long = self.abatement_long_water_summer
-                self.abatement_lat = self.abatement_lat_water_summer
-                history_field = field_history_water_summer
-                history_abatement_field = field_history_abatement_water_summer
-            elif season == 1 :
-                self.abatement = self.abatement_water_winter
-                self.production = self.production_water_winter
-                self.abatement_long = self.abatement_long_water_winter
-                self.abatement_lat = self.abatement_lat_water_winter
-                history_field = field_history_water_winter
-                history_abatement_field = field_history_abatement_water_winter
+            
+                self.abatement = self.abatement_water
+                self.production = self.production_water
+                self.abatement_long = self.abatement_long_water
+                self.abatement_lat = self.abatement_lat_water
+                history_field = field_history_water
+                history_abatement_field = field_history_abatement_water
 
 
 
         elif int(element) == 1:
-            if season == 0:
-                self.abatement = self.abatement_mes_summer
-                self.production = self.production_mes_summer
-                self.abatement_long = self.abatement_long_mes_summer
-                self.abatement_lat = self.abatement_lat_mes_summer
-                history_field = field_history_mes_summer
-                history_abatement_field = field_history_abatement_mes_summer
-            elif season == 1 :
-                self.abatement = self.abatement_mes_winter
-                self.production = self.production_mes_winter
-                self.abatement_long = self.abatement_long_mes_winter
-                self.abatement_lat = self.abatement_lat_mes_winter
-                history_field = field_history_mes_winter
-                history_abatement_field = field_history_abatement_mes_winter
+
+                self.abatement = self.abatement_mes
+                self.production = self.production_mes
+                self.abatement_long = self.abatement_long_mes
+                self.abatement_lat = self.abatement_lat_mes
+                history_field = field_history_mes
+                history_abatement_field = field_history_abatement_mes
 
         elif int(element) == 2:
-            if season == 0 :
-                self.abatement = self.abatement_phyto_summer
-                self.production = self.production_phyto_summer
-                self.abatement_long = self.abatement_long_phyto_summer
-                self.abatement_lat = self.abatement_lat_phyto_summer
-                history_field = field_history_phyto_summer
-                history_abatement_field = field_history_abatement_phyto_summer
-            elif season ==1  :
-                self.abatement = self.abatement_phyto_winter
-                self.production = self.production_phyto_winter
-                self.abatement_long = self.abatement_long_phyto_winter
-                self.abatement_lat = self.abatement_lat_phyto_winter
-                history_field = field_history_phyto_winter
-                history_abatement_field = field_history_abatement_phyto_winter
+
+                self.abatement = self.abatement_phyto
+                self.production = self.production_phyto
+                self.abatement_long = self.abatement_long_phyto
+                self.abatement_lat = self.abatement_lat_phyto
+                history_field = field_history_phyto
+                history_abatement_field = field_history_abatement_phyto
 
  
         parcelle_id_selected = []
@@ -2207,52 +2122,32 @@ class FlowCalculation:
 
     def ecoulement_emis(self, parcel_layer, line_layer, connexion_layer, count, element,season):
         if element == 0:
-            if season == 0 :
-                self.abatement = self.abatement_water_summer
-                self.production = self.production_water_summer
-                self.abatement_long = self.abatement_long_water_summer
-                self.abatement_lat = self.abatement_lat_water_summer
-                history_field = field_history_water_summer
-                history_abatement_field = field_history_abatement_water_summer
-            elif season == 1 :
-                self.abatement = self.abatement_water_winter
-                self.production = self.production_water_winter
-                self.abatement_long = self.abatement_long_water_winter
-                self.abatement_lat = self.abatement_lat_water_winter
-                history_field = field_history_water_winter
-                history_abatement_field = field_history_abatement_water_winter
+         
+                self.abatement = self.abatement_water
+                self.production = self.production_water
+                self.abatement_long = self.abatement_long_water
+                self.abatement_lat = self.abatement_lat_water
+                history_field = field_history_water
+                history_abatement_field = field_history_abatement_water
 
         elif element == 1:
-            if season == 0 :
-                self.abatement = self.abatement_mes_summer
-                self.production = self.production_mes_summer
-                self.abatement_long = self.abatement_long_mes_summer
-                self.abatement_lat = self.abatement_lat_mes_summer
-                history_field = field_history_mes_summer
-                history_abatement_field = field_history_abatement_mes_summer
-            elif season == 1 :
-                self.abatement = self.abatement_mes_winter
-                self.production = self.production_mes_winter
-                self.abatement_long = self.abatement_long_mes_winter
-                self.abatement_lat = self.abatement_lat_mes_winter
-                history_field = field_history_mes_winter
-                history_abatement_field = field_history_abatement_mes_winter
+
+                self.abatement = self.abatement_mes
+                self.production = self.production_mes
+                self.abatement_long = self.abatement_long_mes
+                self.abatement_lat = self.abatement_lat_mes
+                history_field = field_history_mes
+                history_abatement_field = field_history_abatement_mes
 
         elif element == 2:
-            if season ==0 :
-                self.abatement = self.abatement_phyto_summer
-                self.production = self.production_phyto_summer
-                self.abatement_long = self.abatement_long_phyto_summer
-                self.abatement_lat = self.abatement_lat_phyto_summer
-                history_field = field_history_phyto_summer
-                history_abatement_field = field_history_abatement_phyto_summer
-            elif season == 1 :
-                self.abatement = self.abatement_phyto_winter
-                self.production = self.production_phyto_winter
-                self.abatement_long = self.abatement_long_phyto_winter
-                self.abatement_lat = self.abatement_lat_phyto_winter
-                history_field = field_history_phyto_winter
-                history_abatement_field = field_history_abatement_phyto_winter
+
+                self.abatement = self.abatement_phyto
+                self.production = self.production_phyto
+                self.abatement_long = self.abatement_long_phyto
+                self.abatement_lat = self.abatement_lat_phyto
+                history_field = field_history_phyto
+                history_abatement_field = field_history_abatement_phyto
+      
 
         parcelle_id_selected = [parcel_layer.selectedFeatures()[0].attributes()[
                                     parcel_layer.fields().indexFromName(field_parcel_id)]]
@@ -2341,52 +2236,31 @@ class FlowCalculation:
 
     def ecoulement_recu(self, parcel_layer, line_layer, connexion_layer, count, element, season,quick_value):
         if element == 0:
-            if season ==0:
-                self.abatement = self.abatement_water_summer
-                self.production = self.production_water_summer
-                self.abatement_long = self.abatement_long_water_summer
-                self.abatement_lat = self.abatement_lat_water_summer
-                history_field = field_history_water_summer
-                history_abatement_field = field_history_abatement_water_summer
-            elif season == 1 :
-                self.abatement = self.abatement_water_winter
-                self.production = self.production_water_winter
-                self.abatement_long = self.abatement_long_water_winter
-                self.abatement_lat = self.abatement_lat_water_winter
-                history_field = field_history_water_winter
-                history_abatement_field = field_history_abatement_water_winter
+
+                self.abatement = self.abatement_water
+                self.production = self.production_water
+                self.abatement_long = self.abatement_long_water
+                self.abatement_lat = self.abatement_lat_water
+                history_field = field_history_water
+                history_abatement_field = field_history_abatement_water
 
         elif element == 1:
-            if season == 0:
-                self.abatement = self.abatement_mes_summer
-                self.production = self.production_mes_summer
-                self.abatement_long = self.abatement_long_mes_summer
-                self.abatement_lat = self.abatement_lat_mes_summer
-                history_field = field_history_mes_summer
-                history_abatement_field = field_history_abatement_mes_summer
-            elif season == 1 :
-                self.abatement = self.abatement_mes_winter
-                self.production = self.production_mes_winter
-                self.abatement_long = self.abatement_long_mes_winter
-                self.abatement_lat = self.abatement_lat_mes_winter
-                history_field = field_history_mes_winter
-                history_abatement_field = field_history_abatement_mes_winter
+
+                self.abatement = self.abatement_mes
+                self.production = self.production_mes
+                self.abatement_long = self.abatement_long_mes
+                self.abatement_lat = self.abatement_lat_mes
+                history_field = field_history_mes
+                history_abatement_field = field_history_abatement_mes
 
         elif element == 2:
-            if season == 0 :
-                self.abatement = self.abatement_phyto_summer
-                self.production = self.production_phyto_summer
-                self.abatement_long = self.abatement_long_phyto_summer
-                self.abatement_lat = self.abatement_lat_phyto_summer
-                history_field = field_history_phyto_summer
-                history_abatement_field = field_history_abatement_phyto_summer
-            elif season == 1  :
-                self.abatement = self.abatement_phyto_winter
-                self.production = self.production_phyto_winter
-                self.abatement_long = self.abatement_long_phyto_winter
-                self.abatement_lat = self.abatement_lat_phyto_winter
-                history_field = field_history_phyto_winter
-                history_abatement_field = field_history_abatement_phyto_winter
+      
+                self.abatement = self.abatement_phyto
+                self.production = self.production_phyto
+                self.abatement_long = self.abatement_long_phyto
+                self.abatement_lat = self.abatement_lat_phyto
+                history_field = field_history_phyto
+                history_abatement_field = field_history_abatement_phyto
 
         parcelle_id_select = parcel_layer.selectedFeatures()[0].attributes()[
             parcel_layer.fields().indexFromName(field_parcel_id)]
@@ -2523,52 +2397,31 @@ class FlowCalculation:
 
     def ecoulement_riviere(self, parcel_layer, line_layer, connexion_layer, count, count_riviere, element, season,quick_value):
         if element == 0:
-            if season == 0 :
-                self.abatement = self.abatement_water_summer
-                self.production = self.production_water_summer
-                self.abatement_long = self.abatement_long_water_summer
-                self.abatement_lat = self.abatement_lat_water_summer
-                history_field = field_history_water_summer
-                history_abatement_field = field_history_abatement_water_summer
-            elif season == 1 :
-                self.abatement = self.abatement_water_winter
-                self.production = self.production_water_winter
-                self.abatement_long = self.abatement_long_water_winter
-                self.abatement_lat = self.abatement_lat_water_winter
-                history_field = field_history_water_winter
-                history_abatement_field = field_history_abatement_water_winter
+         
+                self.abatement = self.abatement_water
+                self.production = self.production_water
+                self.abatement_long = self.abatement_long_water
+                self.abatement_lat = self.abatement_lat_water
+                history_field = field_history_water
+                history_abatement_field = field_history_abatement_water
             
         elif element == 1:
-            if season == 0:
-                self.abatement = self.abatement_mes_summer
-                self.production = self.production_mes_summer
-                self.abatement_long = self.abatement_long_mes_summer
-                self.abatement_lat = self.abatement_lat_mes_summer
-                history_field = field_history_mes_summer
-                history_abatement_field = field_history_abatement_mes_summer
-            elif season == 1:
-                self.abatement = self.abatement_mes_winter
-                self.production = self.production_mes_winter
-                self.abatement_long = self.abatement_long_mes_winter
-                self.abatement_lat = self.abatement_lat_mes_winter
-                history_field = field_history_mes_winter
-                history_abatement_field = field_history_abatement_mes_winter
+
+                self.abatement = self.abatement_mes
+                self.production = self.production_mes
+                self.abatement_long = self.abatement_long_mes
+                self.abatement_lat = self.abatement_lat_mes
+                history_field = field_history_mes
+                history_abatement_field = field_history_abatement_mes
 
         elif element == 2:
-            if season == 0 :
-                self.abatement = self.abatement_phyto_summer
-                self.production = self.production_phyto_summer
-                self.abatement_long = self.abatement_long_phyto_summer
-                self.abatement_lat = self.abatement_lat_phyto_summer
-                history_field = field_history_phyto_summer
-                history_abatement_field = field_history_abatement_phyto_summer
-            elif season == 1:
-                self.abatement = self.abatement_phyto_winter
-                self.production = self.production_phyto_winter
-                self.abatement_long = self.abatement_long_phyto_winter
-                self.abatement_lat = self.abatement_lat_phyto_winter
-                history_field = field_history_phyto_winter
-                history_abatement_field = field_history_abatement_phyto_winter
+
+                self.abatement = self.abatement_phyto
+                self.production = self.production_phyto
+                self.abatement_long = self.abatement_long_phyto
+                self.abatement_lat = self.abatement_lat_phyto
+                history_field = field_history_phyto
+                history_abatement_field = field_history_abatement_phyto
 
         riviere_id_selected = line_layer.selectedFeatureIds()[0]
         list_limit = []
