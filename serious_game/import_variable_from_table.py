@@ -34,7 +34,7 @@ from ..dictionnaire import data_folder, watershed_prefix, config_practices_file,
 
 class ConfigFilesImport:
 
-    def __init__(self, path=None, watershed_name=None):
+    def __init__(self, path=None, watershed_name=None,season=None):
         # Get multiple parameters from the CSV in the watershed directory.
         self.practices = {}
         self.slope = {}
@@ -62,6 +62,8 @@ class ConfigFilesImport:
         self.abatement_lat_phyto = {}
         self.drain_type = {}
         self.path = path + data_folder + watershed_prefix + watershed_name + "/"
+        self.season=season
+        
         self.import_config_files()
 
     def import_config_files(self):
@@ -77,8 +79,14 @@ class ConfigFilesImport:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
                 self.slope[row["key"]] = [int(row["slope_min"]), int(row["slope_max"])]
-
-        table_name = config_land_cover_file
+        print("season")
+        print(self.season)
+        print("end season")
+        if self.season[0]=='Eté':
+            table_name = config_land_cover_file_summer
+        elif self.season[0]=='Hiver':
+            table_name = config_land_cover_file_winter
+            print("here")
         with open(self.path + table_name, 'r', newline='') as csvfile:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
@@ -141,8 +149,10 @@ class ConfigFilesImport:
                   
 
 
-
-        table_name = config_line_type_file
+        if self.season[0]=='Eté':
+            table_name = config_line_type_file_summer
+        elif self.season[0]=='Hiver':
+            table_name = config_line_type_file_winter
         with open(self.path + table_name, 'r', newline='') as csvfile:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
@@ -161,8 +171,10 @@ class ConfigFilesImport:
                     self.abatement_lat_mes[int(row["value"])] = float(row["abatement_lat_mes_value"])
                     self.abatement_lat_phyto[int(row["value"])] = float(row["abatement_lat_phyto_value"])
 
-
-        table_name = config_drain_file
+        if self.season[0]=='Eté':
+            table_name = config_drain_file_summer
+        elif self.season[0]=='Hiver':
+            table_name = config_drain_file_winter
         if os.path.exists(self.path + table_name):
             with open(self.path + table_name, 'r', newline='') as csvfile:
                 file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
