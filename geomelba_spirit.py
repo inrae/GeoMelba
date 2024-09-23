@@ -323,14 +323,14 @@ class GeomelbaSpirit:
                 #Put season into self.season
                 #season = ["Eté", "Hiver",]
                 #coded_season= 0 for summer, 1 for winter
-                if self.dlg.QCheckBox_season_element0.isChecked():
+                if self.dlg.RadioButton_season_element0.isChecked():
                     self.season.append("Eté")
                     self.coded_season.append(0)
-                if self.dlg.QCheckBox_season_element1.isChecked():
+                if self.dlg.RadioButton_season_element1.isChecked():
                     self.season.append("Hiver")
                     self.coded_season.append(1)
                 # if all box is unchecked, put summer season by default
-                if not self.dlg.QCheckBox_season_element0.isChecked() and not self.dlg.QCheckBox_season_element1.isChecked():
+                if not self.dlg.RadioButton_season_element0.isChecked() and not self.dlg.RadioButton_season_element1.isChecked():
                     self.season.append("Eté")
                     self.coded_season.append(0)
 

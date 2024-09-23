@@ -370,7 +370,7 @@ class FlowCalculationTab(TabManagement):
         # Rappel :studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
         # Rappel : coded_studied_elements = [0,1,2]
 
-        coded_elements=self.coded_studied_elements
+       
         dict_global={}
         coded_dict_global={}
 
@@ -396,12 +396,12 @@ class FlowCalculationTab(TabManagement):
             # If the save value button has not been clicked, no variables are added to the analysis.
             if self.count_referential == 0:
                 reference = self.flow_calculation.ecoulement_bv(self.parcel_layer, self.line_layer,
-                                                                self.connexion_layer, self.count_watershed_analysis, i,j)
+                                                                self.connexion_layer, self.count_watershed_analysis, int(i),j)
             # If the save value button has been clicked, max values are imported to compare the new result with data
             # from a previous turn.
             else:
                 reference = self.flow_calculation.ecoulement_bv(self.parcel_layer, self.line_layer,
-                                                                self.connexion_layer, self.count_watershed_analysis, i,j,
+                                                                self.connexion_layer, self.count_watershed_analysis, int(i),j,
                                                                 self.max_input_parcel, self.max_input_line,
                                                                 self.max_input_river_section)
             self._referential_.append(reference)
@@ -443,7 +443,7 @@ class FlowCalculationTab(TabManagement):
             layers = [parcels_layer, lines_layer]
             names = [watershed_abatement_map_parcel_pt1 + str(element) + watershed_abatement_map_parcel_pt2,
                      watershed_abatement_map_line_pt1 + str(element) + watershed_abatement_map_line_pt2]
-            title = watershed_abatement_map_title_pt1 + str(element) + watershed_abatement_map_title_pt2
+            title = watershed_abatement_map_title_pt1 + str(element) + watershed_abatement_map_title_pt2+'_'+self.season[0]
             name = map_watershed_abatement + str(element_underscore) + '_' + str(self.count_watershed_analysis)
             rect = parcels_layer.extent()
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
@@ -464,7 +464,7 @@ class FlowCalculationTab(TabManagement):
             names = [watershed_transfer_map_parcel_pt1 + str(element) + watershed_transfer_map_parcel_pt2,
                      watershed_transfer_map_line_pt1 + str(element) + watershed_transfer_map_line_pt2,
                      watershed_transfer_map_river_pt1 + str(element) + watershed_transfer_map_river_pt2]
-            title = watershed_transfer_map_title_pt1 + str(element) + watershed_transfer_map_title_pt2
+            title = watershed_transfer_map_title_pt1 + str(element) + watershed_transfer_map_title_pt2+'_'+self.season[0]
             name = map_watershed_transfer + str(element_underscore) + '_' + str(self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
                                              self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
@@ -495,7 +495,7 @@ class FlowCalculationTab(TabManagement):
             #         watershed_transfer_rate_map_parcel_pt1 + str(element) + watershed_transfer_rate_map_parcel_pt2]
             names = [watershed_transfer_rate_map_river,
                      watershed_transfer_rate_map_parcel_pt1 +  watershed_transfer_rate_map_parcel_pt2]
-            title = watershed_transfer_rate_map_title_pt1 + str(element) + watershed_transfer_rate_map_title_pt2
+            title = watershed_transfer_rate_map_title_pt1 + str(element) + watershed_transfer_rate_map_title_pt2+'_'+self.season[0]
             name = map_watershed_transfer_rate + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
@@ -517,7 +517,7 @@ class FlowCalculationTab(TabManagement):
                      watershed_production_potential_map_parcel_pt1 + 
                      watershed_production_potential_map_parcel_pt2]
             title = watershed_production_potential_map_title_pt1 + str(
-                element) + watershed_production_potential_map_title_pt2
+                element) + watershed_production_potential_map_title_pt2+'_'+self.season[0]
             name = map_watershed_potential_production + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
@@ -536,7 +536,7 @@ class FlowCalculationTab(TabManagement):
             #         watershed_production_area_map_parcel_pt1 + str(element) + watershed_production_area_map_parcel_pt2]
             names = [watershed_production_area_map_river,
                      watershed_production_area_map_parcel_pt1  + watershed_production_area_map_parcel_pt2]
-            title = watershed_production_area_map_title_pt1 + str(element) + watershed_production_area_map_title_pt2
+            title = watershed_production_area_map_title_pt1 + str(element) + watershed_production_area_map_title_pt2+'_'+self.season[0]
             name = map_watershed_production_area + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
@@ -601,7 +601,11 @@ class FlowCalculationTab(TabManagement):
         self.count_referential = self.incrementation(self.count_referential)
         # As long as a reference is not selected, the select parcel and river section button are disabled.
         self.button_select_parcel.setEnabled(True)
+        self.button_parcel_emit.setEnabled(True)
+        self.button_parcel_reception.setEnabled(True)
+        print("enabled true")
         self.button_select_river_section.setEnabled(True)
+        self.button_river_reception.setEnabled(True)
         pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
         pdf_generator_temp.save_state_0()
         print("save state refe")
@@ -635,7 +639,9 @@ class FlowCalculationTab(TabManagement):
                     self.project.removeMapLayer(cover_layer[0].id())
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
-        elements = studied_elements
+        elements = self.studied_elements
+        dict_global={}
+        coded_dict_global={}
 
         for ElementKey in self.coded_studied_elements :
             for SeasonKey in self.coded_season :
@@ -648,7 +654,7 @@ class FlowCalculationTab(TabManagement):
 
 
         
-        coded_elements=coded_studied_elements
+        
         iter=0
         for i in coded_dict_global:
         #for i in range(len(elements)):  
@@ -658,7 +664,7 @@ class FlowCalculationTab(TabManagement):
             element_underscore = element.replace(' ', '_').lower()
             # Launch the analysis.
             self.flow_calculation.ecoulement_emis(self.parcel_layer, self.line_layer, self.connexion_layer,
-                                                  self.count_watershed_analysis, i,j)
+                                                  self.count_watershed_analysis, int(i),j)
             # Creation of the abatement map, only display the abatement layers.
             parent = self.project.layerTreeRoot().findGroup(
                 group_outgoing_flow_parcel + str(self.count_watershed_analysis) + " " + str(selected_parcel_id))
@@ -672,7 +678,7 @@ class FlowCalculationTab(TabManagement):
             layers = [parcels_layer, lines_layer]
             names = [parcel_abatement_map_parcel_pt1 + str(element) + parcel_abatement_map_parcel_pt2,
                      parcel_abatement_map_line_pt1 + str(element) + parcel_abatement_map_line_pt2]
-            title = parcel_abatement_map_title_pt1 + str(element) + parcel_abatement_map_title_pt2 + str(selected_parcel_id) + parcel_abatement_map_title_pt3
+            title = parcel_abatement_map_title_pt1 + str(element) + parcel_abatement_map_title_pt2 + str(selected_parcel_id) + parcel_abatement_map_title_pt3+'_'+self.season[0]
       ##      label_settings0 = QgsPalLayerSettings()
       ##      label_settings0.drawLabels = True
        ##     label_settings0.fieldName = field_parcel_id
@@ -767,7 +773,7 @@ class FlowCalculationTab(TabManagement):
             names = [parcel_transfer_map_parcel_pt1 + str(element) + parcel_transfer_map_parcel_pt2,
                      parcel_transfer_map_line_pt1 + str(element) + parcel_transfer_map_line_pt2,
                      parcel_transfer_map_river_pt1 + str(element) + parcel_transfer_map_river_pt2]
-            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3 
+            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3+'_'+self.season[0] 
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_transfer.split("_", -1)[0:2]:
@@ -841,7 +847,9 @@ class FlowCalculationTab(TabManagement):
             quick_value = False
         else:
             quick_value = True
-        elements = studied_elements
+        elements = self.studied_elements
+        dict_global={}
+        coded_dict_global={}
 
         for ElementKey in self.coded_studied_elements :
             for SeasonKey in self.coded_season :
@@ -852,7 +860,7 @@ class FlowCalculationTab(TabManagement):
                 dict_global[str(ElementKey)]=(SeasonKey)        
 
         
-        coded_elements=coded_studied_elements
+        
         iter=0
         for i in coded_dict_global:
         #for i in range(len(elements)):
@@ -862,7 +870,7 @@ class FlowCalculationTab(TabManagement):
             element_underscore = element.replace(' ', '_').lower()
             # Launch analysis.
             self.flow_calculation.ecoulement_recu(self.parcel_layer, self.line_layer, self.connexion_layer,
-                                                  self.count_watershed_analysis, i,j, quick_value)
+                                                  self.count_watershed_analysis, int(i),j, quick_value)
             # Creation of the map to show the impact of the parcels on the inflow of the selected parcels.
             # Map parameters.
             production = parcel_contribution_layer_name + str(self.count_watershed_analysis) + "_" + str(
@@ -948,7 +956,7 @@ class FlowCalculationTab(TabManagement):
             layers = [river_layer, production_layer, lines_layer, abatement_layer]
             names = [parcel_reception_map_river, parcel_reception_map_parcel_production, parcel_reception_map_line,
                      parcel_reception_map_parcel_abatement]
-            title = parcel_reception_map_title_1 + str(selected_parcel_id)+ parcel_reception_map_title_2
+            title = parcel_reception_map_title_1 + str(selected_parcel_id)+ parcel_reception_map_title_2+'_'+self.season[0]
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_received.split("_", -1)[0:2]:
@@ -1041,7 +1049,9 @@ class FlowCalculationTab(TabManagement):
             quick_value = False
         else:
             quick_value = True
-        elements = studied_elements
+        elements = self.studied_elements
+        dict_global={}
+        coded_dict_global={}
 
         for ElementKey in self.coded_studied_elements :
             for SeasonKey in self.coded_season :
@@ -1053,7 +1063,7 @@ class FlowCalculationTab(TabManagement):
 
 
         
-        coded_elements=coded_studied_elements
+        
         iter=0
         for i in coded_dict_global:
         #for i in range(len(elements)):
@@ -1063,7 +1073,7 @@ class FlowCalculationTab(TabManagement):
             element_underscore = element.replace(' ', '_').lower()
             self.flow_calculation.ecoulement_riviere(self.parcel_layer, self.line_layer, self.connexion_layer,
                                                      self.count_watershed_analysis,
-                                                     self.count_runoff_river_section_analysis, i, j,quick_value)
+                                                     self.count_runoff_river_section_analysis, int(i), j,quick_value)
             # Creation of the map to show the impact of the parcels on the inflow of the selected river section.
             # Map parameters.
             production = parcel_contribution_layer_name + str(self.count_watershed_analysis) + "_" + str(
@@ -1092,7 +1102,7 @@ class FlowCalculationTab(TabManagement):
             layers = [production_layer, lines_layer, abatement_layer, river_layer]
             names = [river_reception_map_parcel_production, river_reception_map_line,
                      river_reception_map_parcel_abatement, river_reception_map_river]
-            title = river_reception_map_title
+            title = river_reception_map_title+'_'+self.season[0]
             name = map_river_received + str(element_underscore) + '_' + str(
                 self.count_runoff_river_section_analysis) + "_" + str(
                 self.count_watershed_analysis)

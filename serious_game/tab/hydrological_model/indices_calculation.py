@@ -1887,6 +1887,8 @@ class FlowCalculation:
         parcel_layer.removeSelection()
 
     def ecoulement_bv(self, parcel_layer, line_layer, connexion_layer, count, element, season, *args):
+        history_field=""
+        history_abatement_field=""
         if int(element) == 0:
             
                 self.abatement = self.abatement_water
@@ -2121,6 +2123,8 @@ class FlowCalculation:
                 layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_entrant_riviere,max_value_exutoire]
 
     def ecoulement_emis(self, parcel_layer, line_layer, connexion_layer, count, element,season):
+        history_field=""
+        history_abatement_field=""        
         if element == 0:
          
                 self.abatement = self.abatement_water
@@ -2140,15 +2144,12 @@ class FlowCalculation:
                 history_abatement_field = field_history_abatement_mes
 
         elif element == 2:
-
                 self.abatement = self.abatement_phyto
                 self.production = self.production_phyto
                 self.abatement_long = self.abatement_long_phyto
                 self.abatement_lat = self.abatement_lat_phyto
                 history_field = field_history_phyto
                 history_abatement_field = field_history_abatement_phyto
-      
-
         parcelle_id_selected = [parcel_layer.selectedFeatures()[0].attributes()[
                                     parcel_layer.fields().indexFromName(field_parcel_id)]]
         args = None
@@ -2206,6 +2207,7 @@ class FlowCalculation:
         parcel_abat = []
         line_layer.startEditing()
         parcel_layer.startEditing()
+
         for f_id in list_ecoulement:
             id_split = int(f_id.split('_')[1])
             if f_id.split('_')[0] == 'line':  # Selection of linear element in the list of parcel and linear.
@@ -2226,7 +2228,7 @@ class FlowCalculation:
         prefix = str(count) + '_' + str(parcelle_id_selected[0])
         parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement, \
         layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, \
-        max_entrant_riviere = self.create_layers_emit(
+        max_entrant_riviere,max_value_exutoire = self.create_layers_emit(
             args, parcel_layer, line_layer, processed_poly,
             group_outgoing_flow_parcel + str(count) + " " + str(parcelle_id_selected[0]),
             group_abatement_analysis + str(count) + ' ' + str(parcelle_id_selected[0]),
@@ -2235,6 +2237,8 @@ class FlowCalculation:
                layer_lineaire_abattement
 
     def ecoulement_recu(self, parcel_layer, line_layer, connexion_layer, count, element, season,quick_value):
+        history_field=""
+        history_abatement_field=""        
         if element == 0:
 
                 self.abatement = self.abatement_water
@@ -2272,6 +2276,7 @@ class FlowCalculation:
 
         parcelle_id_selected = []
         list_id_parcel = []
+        
         for parcelle in parcel_layer.getFeatures():
             parcel_layer.changeAttributeValue(
                 parcelle.id(), parcel_layer.fields().indexFromName(field_flow_production_rating), 99)
@@ -2396,6 +2401,8 @@ class FlowCalculation:
                                     list_parcel_id, group_name_1, prefix)
 
     def ecoulement_riviere(self, parcel_layer, line_layer, connexion_layer, count, count_riviere, element, season,quick_value):
+        history_field=""
+        history_abatement_field=""
         if element == 0:
          
                 self.abatement = self.abatement_water
@@ -2456,11 +2463,13 @@ class FlowCalculation:
         n = 0
         list_ecoulement = order_feature(parcel_layer, line_layer, n, limit)
         list_ecoulement.append('line_' + str(riviere_id_selected))
+
         if not quick_value:
             processed_poly = []
             parcel_abat = []
             line_layer.startEditing()
             parcel_layer.startEditing()
+        
             for f_id in list_ecoulement:
                 id_split = int(f_id.split('_')[1])
                 if f_id.split('_')[0] == 'line':  # Selection of linear element in the list of parcel and linear.
