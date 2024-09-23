@@ -103,6 +103,10 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
 
         # Creation of three radiobutton for modelisation theme
         # Label creation
+
+        self.element_button_group = QButtonGroup(self)
+        self.element_button_group.setExclusive(True)
+        
         label_element = QLabel(self)
         label_element.setFont(regular_font)
         label_element.setGeometry(30, 460, 400, 30)
@@ -112,33 +116,41 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
         self.RadioButton_studied_element0=QRadioButton(self)
         self.RadioButton_studied_element0.setText(studied_element_button0_label)
         self.RadioButton_studied_element0.setGeometry(30, 480, 340, 30)
-        
+        self.element_button_group.addButton(self.RadioButton_studied_element0)
         
 
         self.RadioButton_studied_element1=QRadioButton(self)
         self.RadioButton_studied_element1.setText(studied_element_button1_label)
         self.RadioButton_studied_element1.setGeometry(30, 500, 340, 30)
-        
+        self.element_button_group.addButton(self.RadioButton_studied_element1)
 
         self.RadioButton_studied_element2=QRadioButton(self)
         self.RadioButton_studied_element2.setText(studied_element_button2_label)
         self.RadioButton_studied_element2.setGeometry(30, 520, 340, 30)
+        self.element_button_group.addButton(self.RadioButton_studied_element2)
         self.RadioButton_studied_element2.setChecked(True)
+
         
         # Creation of two checkBox for season theme
         # Label creation
+        self.season_button_group = QButtonGroup(self)
+        self.season_button_group.setExclusive(True)
+
         season_label_element = QLabel(self)
         season_label_element.setFont(regular_font)
         season_label_element.setGeometry(30, 540, 400, 30)
         season_label_element.setText(selected_season_label)
 
-        self.QCheckBox_season_element0=QCheckBox(self)
-        self.QCheckBox_season_element0.setText(selected_season_button0_label)
-        self.QCheckBox_season_element0.setGeometry(30, 560, 340, 30)
-        
-        self.QCheckBox_season_element1=QCheckBox(self)
-        self.QCheckBox_season_element1.setText(selected_season_button1_label)
-        self.QCheckBox_season_element1.setGeometry(30, 580, 340, 30)        
+        self.RadioButton_season_element0=QRadioButton(self)
+        self.RadioButton_season_element0.setText(selected_season_button0_label)
+        self.RadioButton_season_element0.setGeometry(30, 560, 340, 30)
+        self.season_button_group.addButton(self.RadioButton_season_element0)        
+
+        self.RadioButton_season_element1=QRadioButton(self)
+        self.RadioButton_season_element1.setText(selected_season_button1_label)
+        self.RadioButton_season_element1.setGeometry(30, 580, 340, 30)        
+        self.season_button_group.addButton(self.RadioButton_season_element1)
+        self.RadioButton_season_element1.setChecked(True)
 
 
 

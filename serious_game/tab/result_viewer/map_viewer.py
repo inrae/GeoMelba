@@ -33,8 +33,7 @@ from qgis.PyQt.QtCore import QVariant
 # Personal Modules
 from .qrangeslider import QRangeSlider
 from ....dictionnaire import field_comparison, field_type_line_middle, river, null, field_incoming_flow, \
-    field_flow_production_phyto_summer, field_flow_production_mes_summer,field_flow_production_water_summer,\
-    field_flow_production_phyto_winter, field_flow_production_mes_winter,field_flow_production_water_winter,\
+    field_flow_production_phyto, field_flow_production_mes,field_flow_production_water,\
     field_flow_abatement, style_parcels_comparison, style_lines_comparison, regular_font, \
     field_outgoing_flow, information_selection_error, comparison_window_title, sensitivity_label, \
     turn_comparison_label, comparison_button_name, information_selection_error_comparison_pt1, \
@@ -233,54 +232,31 @@ class MapViewer(QMainWindow):
                     prod_1=None
                     prod_2=None
                     #TODO : manage case winter AND summer comparison map ??
-                    if self.coded_studied_elements[0] == 0 and self.coded_season[0] == 0: # water and summer
+                    if self.coded_studied_elements[0] == 0 : # water 
                         idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_water_summer + "_" + str(turn_1))
+                            field_flow_production_water + "_" + str(turn_1))
                         prod_1 = attrs[idx_prod_1]
                         idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_water_summer + "_" + str(turn_2))
+                            field_flow_production_water + "_" + str(turn_2))
                         prod_2 = attrs[idx_prod_2]
 
-                    if self.coded_studied_elements[0] == 1 and self.coded_season[0] == 0: # MES and summer
+                    if self.coded_studied_elements[0] == 1 : # MES
                         idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_mes_summer + "_" + str(turn_1))
+                            field_flow_production_mes + "_" + str(turn_1))
                         prod_1 = attrs[idx_prod_1]
                         idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_mes_summer + "_" + str(turn_2))
+                            field_flow_production_mes + "_" + str(turn_2))
                         prod_2 = attrs[idx_prod_2]
 
-                    if self.coded_studied_elements[0] == 2 and self.coded_season[0] == 0: # PPP and summer
+                    if self.coded_studied_elements[0] == 2 : # PPP
                         idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_phyto_summer + "_" + str(turn_1))
+                            field_flow_production_phyto + "_" + str(turn_1))
                         prod_1 = attrs[idx_prod_1]
                         idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_phyto_summer + "_" + str(turn_2))
+                            field_flow_production_phyto + "_" + str(turn_2))
                         prod_2 = attrs[idx_prod_2]
 
-                    if self.coded_studied_elements[0] == 0 and self.coded_season[0] == 1: # water and winter
-                        idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_water_winter + "_" + str(turn_1))
-                        prod_1 = attrs[idx_prod_1]
-                        idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_water_winter + "_" + str(turn_2))
-                        prod_2 = attrs[idx_prod_2]
-
-                    if self.coded_studied_elements[0] == 1 and self.coded_season[0] == 1: # MES and winter
-                        idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_mes_winter + "_" + str(turn_1))
-                        prod_1 = attrs[idx_prod_1]
-                        idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_mes_winter + "_" + str(turn_2))
-                        prod_2 = attrs[idx_prod_2]
-
-                    if self.coded_studied_elements[0] == 2 and self.coded_season[0] == 1: # PPP and winter
-                        idx_prod_1 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_phyto_winter + "_" + str(turn_1))
-                        prod_1 = attrs[idx_prod_1]
-                        idx_prod_2 = self.dock_widget.parcel_layer.fields().indexFromName(
-                            field_flow_production_phyto_winter + "_" + str(turn_2))
-                        prod_2 = attrs[idx_prod_2]
-
+                    
 
 
 

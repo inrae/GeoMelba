@@ -31,31 +31,19 @@ def create_csv_files(path,watershed_name):
         writer.writeheader()
     
     # land_cover.csv
-    land_cover_fields=['key','value','abatement','abatement_eau_value_low_slope_summer','abatement_eau_value_medium_slope_summer',
-'abatement_eau_value_high_slope_summer','abatement_mes_value_low_slope_summer','abatement_mes_value_medium_slope_summer',
-'abatement_mes_value_high_slope_summer','abatement_phyto_value_low_slope_summer','abatement_phyto_value_medium_slope_summer',
-'abatement_phyto_value_high_slope_summer','abatement_eau_value_low_slope_winter','abatement_eau_value_medium_slope_winter',
-'abatement_eau_value_high_slope_winter','abatement_mes_value_low_slope_winter','abatement_mes_value_medium_slope_winter',
-'abatement_mes_value_high_slope_winter','abatement_phyto_value_low_slope_winter','abatement_phyto_value_medium_slope_winter',
-'abatement_phyto_value_high_slope_winter','production','eau_production_value_practice1_low_slope_summer','eau_production_value_practice1_medium_slope_summer',
-'eau_production_value_practice1_high_slope_summer','eau_production_value_practice2_low_slope_summer','eau_production_value_practice2_medium_slope_summer',
-'eau_production_value_practice2_high_slope_summer','eau_production_value_practice3_low_slope_summer','eau_production_value_practice3_medium_slope_summer',
-'eau_production_value_practice3_high_slope_summer','mes_production_value_practice1_low_slope_summer','mes_production_value_practice1_medium_slope_summer',
-'mes_production_value_practice1_high_slope_summer','mes_production_value_practice2_low_slope_summer','mes_production_value_practice2_medium_slope_summer',
-'mes_production_value_practice2_high_slope_summer','mes_production_value_practice3_low_slope_summer','mes_production_value_practice3_medium_slope_summer',
-'mes_production_value_practice3_high_slope_summer','phyto_production_value_practice1_low_slope_summer','phyto_production_value_practice1_medium_slope_summer',
-'phyto_production_value_practice1_high_slope_summer','phyto_production_value_practice2_low_slope_summer','phyto_production_value_practice2_medium_slope_summer',
-'phyto_production_value_practice2_high_slope_summer','phyto_production_value_practice3_low_slope_summer','phyto_production_value_practice3_medium_slope_summer',
-'phyto_production_value_practice3_high_slope_summer','eau_production_value_practice1_low_slope_winter','eau_production_value_practice1_medium_slope_winter',
-'eau_production_value_practice1_high_slope_winter','eau_production_value_practice2_low_slope_winter','eau_production_value_practice2_medium_slope_winter',
-'eau_production_value_practice2_high_slope_winter','eau_production_value_practice3_low_slope_winter','eau_production_value_practice3_medium_slope_winter',
-'eau_production_value_practice3_high_slope_winter','mes_production_value_practice1_low_slope_winter','mes_production_value_practice1_medium_slope_winter',
-'mes_production_value_practice1_high_slope_winter','mes_production_value_practice2_low_slope_winter','mes_production_value_practice2_medium_slope_winter',
-'mes_production_value_practice2_high_slope_winter','mes_production_value_practice3_low_slope_winter','mes_production_value_practice3_medium_slope_winter',
-'mes_production_value_practice3_high_slope_winter','phyto_production_value_practice1_low_slope_winter','phyto_production_value_practice1_medium_slope_winter',
-'phyto_production_value_practice1_high_slope_winter','phyto_production_value_practice2_low_slope_winter','phyto_production_value_practice2_medium_slope_winter',
-'phyto_production_value_practice2_high_slope_winter','phyto_production_value_practice3_low_slope_winter','phyto_production_value_practice3_medium_slope_winter',
-'phyto_production_value_practice3_high_slope_winter']
+    land_cover_fields=['key','value','abatement','abatement_eau_value_low_slope','abatement_eau_value_medium_slope',
+'abatement_eau_value_high_slope','abatement_mes_value_low_slope','abatement_mes_value_medium_slope',
+'abatement_mes_value_high_slope','abatement_phyto_value_low_slope','abatement_phyto_value_medium_slope',
+'abatement_phyto_value_high_slope','production','eau_production_value_practice1_low_slope','eau_production_value_practice1_medium_slope',
+'eau_production_value_practice1_high_slope','eau_production_value_practice2_low_slope','eau_production_value_practice2_medium_slope',
+'eau_production_value_practice2_high_slope','eau_production_value_practice3_low_slope','eau_production_value_practice3_medium_slope',
+'eau_production_value_practice3_high_slope','mes_production_value_practice1_low_slope','mes_production_value_practice1_medium_slope',
+'mes_production_value_practice1_high_slope','mes_production_value_practice2_low_slope','mes_production_value_practice2_medium_slope',
+'mes_production_value_practice2_high_slope','mes_production_value_practice3_low_slope','mes_production_value_practice3_medium_slope',
+'mes_production_value_practice3_high_slope','phyto_production_value_practice1_low_slope','phyto_production_value_practice1_medium_slope',
+'phyto_production_value_practice1_high_slope','phyto_production_value_practice2_low_slope','phyto_production_value_practice2_medium_slope',
+'phyto_production_value_practice2_high_slope','phyto_production_value_practice3_low_slope','phyto_production_value_practice3_medium_slope',
+'phyto_production_value_practice3_high_slope']
 
     land_cover_file=folder_path+"/"+"land_cover.csv"
     with open(land_cover_file, 'w', newline='') as file: 
@@ -63,10 +51,8 @@ def create_csv_files(path,watershed_name):
         writer.writeheader()
     
     #line_type.csv
-    line_type_fields=['key','value','abatement_long','abatement_long_eau_value_summer','abatement_long_mes_value_summer',
-'abatement_long_phyto_value_summer','abatement_long_eau_value_winter','abatement_long_mes_value_winter','abatement_long_phyto_value_winter',
-'abatement_lat','abatement_lat_eau_value_summer','abatement_lat_mes_value_summer','abatement_lat_phyto_value_summer',
-'abatement_lat_eau_value_winter','abatement_lat_mes_value_winter','abatement_lat_phyto_value_winter']
+    line_type_fields=['key','value','abatement_long','abatement_long_eau_value','abatement_long_mes_value',
+'abatement_long_phyto_value','abatement_lat','abatement_lat_eau_value','abatement_lat_mes_value','abatement_lat_phyto_value']
 
     line_type_file=folder_path+"/"+"line_type.csv"
     with open(line_type_file, 'w', newline='') as file: 
