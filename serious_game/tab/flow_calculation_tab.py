@@ -603,12 +603,11 @@ class FlowCalculationTab(TabManagement):
         self.button_select_parcel.setEnabled(True)
         self.button_parcel_emit.setEnabled(True)
         self.button_parcel_reception.setEnabled(True)
-        print("enabled true")
         self.button_select_river_section.setEnabled(True)
         self.button_river_reception.setEnabled(True)
         pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
         pdf_generator_temp.save_state_0()
-        print("save state refe")
+
 
     def analysis_parcel_runoff_emit(self):
         """ Launch the analysis on a parcel to know where the runoff emitted from the parcel is going.

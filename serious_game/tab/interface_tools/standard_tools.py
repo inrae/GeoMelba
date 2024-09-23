@@ -141,7 +141,7 @@ class StandardTools:
             # Empty list to hold the lines of the field to rewrite.
             lines = []
             for row in rows_file_reader:
-                print(row)
+
                 # Stop the history of modification to no rewrite the rollback in the CSV.
                 self.signal_stop = 1
                 # Get information from file.

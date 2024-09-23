@@ -79,14 +79,11 @@ class ConfigFilesImport:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
                 self.slope[row["key"]] = [int(row["slope_min"]), int(row["slope_max"])]
-        print("season")
-        print(self.season)
-        print("end season")
         if self.season[0]=='Eté':
             table_name = config_land_cover_file_summer
         elif self.season[0]=='Hiver':
             table_name = config_land_cover_file_winter
-            print("here")
+
         with open(self.path + table_name, 'r', newline='') as csvfile:
             file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
