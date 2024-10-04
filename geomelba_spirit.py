@@ -403,7 +403,7 @@ class GeomelbaSpirit:
                         geopackage_path = input_path + "/" + watershed_prefix + str(watershed_name) + '.gpkg'
                         geopackage = QgsVectorLayer(geopackage_path, "", "ogr")
                         layers = geopackage.dataProvider().subLayers()
-                            
+                           
                         error_count = 0
                         for layer in layers:
                             name = layer.split('!!::!!')[1]
@@ -574,6 +574,8 @@ class GeomelbaSpirit:
                         for layer in layers:
                             name = layer.split('!!::!!')[1]
                             uri = "%s|layername=%s" % (geopackage_path, name,)
+                           
+                
                             if name == parcel_layer_name:
                                 parcel_layer = QgsVectorLayer(uri, name, 'ogr')
                                 error_count = error_count + 1

@@ -707,8 +707,6 @@ def update_TE_attributes(lineaire_layer,field_line_slope):
         alti_dwn = float(attrs[lineaire_layer.fields().indexFromName('alti_dwn')])
         length=float(attrs[lineaire_layer.fields().indexFromName('gm_length')])
         
-     
-     
         slope = 100 * ((alti_up - alti_dwn) / length)
         lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName(field_line_slope), slope)
 

@@ -1,3 +1,9 @@
+Version 1.2-beta5
+=================
+ * Ajout saisonnalité
+ * Ajout du BV Lunain (sans drainage)
+ * Corrections de bug divers
+
 Version 1.2-beta4
 =================
  * Ajout de ctrl-z pour rollback

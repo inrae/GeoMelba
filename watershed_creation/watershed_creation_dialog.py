@@ -470,7 +470,7 @@ class WatershedCreationDialog(QMainWindow):
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
         
         TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
-        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope)
+        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope,connexions[0])
         cadastre_shp=self.new_path+"cadastre.shp"
         QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")

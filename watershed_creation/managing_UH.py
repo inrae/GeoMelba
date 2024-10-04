@@ -74,6 +74,8 @@ def prepare_UH(parcelle_layer, mnt, prop_field, agri_field, type_field, chemin, 
     parcelle_layer.addAttribute(QgsField("gm_prop", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_agri", QVariant.Int, "int", 3))
     parcelle_layer.addAttribute(QgsField("gm_type", QVariant.Int, "int", 9))
+    parcelle_layer.addAttribute(QgsField('gm_uh_up', QVariant.String, "string", 100))
+    parcelle_layer.addAttribute(QgsField('gm_uh_dwn', QVariant.String, "string", 100))
     for f in parcelle_layer.getFeatures():
         attrs = f.attributes()
         proprietaire = attrs[parcelle_layer.fields().indexFromName(prop_field)]
@@ -295,7 +297,7 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
 
     return (connexions_layer)
 
-def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope):
+def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope,connexions):
   altiupDic = {}
   altidwnDic = {}
 
@@ -306,6 +308,36 @@ def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope)
     gm_id= int(attrs[inclinaison_pente_parcelle.fields().indexFromName('gm_id')])
     altiupDic[gm_id] = alti_up
     altidwnDic[gm_id] = alti_dwn
+
+  UHDownDic={}
+  UHUpDic={}
+  for f in connexions.getFeatures():
+    attrs = f.attributes()
+    UH_up=0
+    UH_dwn=0
+    
+    if str(attrs[connexions.fields().indexFromName('UH_up')]) is not 'NULL':
+        UH_up = int(attrs[connexions.fields().indexFromName('UH_up')])
+    if str(attrs[connexions.fields().indexFromName('UH_dwn')]) is not 'NULL':
+        UH_dwn = int(attrs[connexions.fields().indexFromName('UH_dwn')])
+
+    if UH_dwn in UHUpDic:
+        listUH_up=UHUpDic.get(UH_dwn)
+        if UH_up not in listUH_up: 
+            UHUpDic[UH_dwn].append(UH_up)
+            
+
+    else:
+        UHUpDic[UH_dwn]=[UH_up]
+
+    if UH_up in UHDownDic:
+        listUH_dwn=UHDownDic.get(UH_up)
+        if UH_dwn not in listUH_dwn: 
+            UHDownDic[UH_up].append(UH_dwn)
+    else:
+        UHDownDic[UH_up]=[UH_dwn]
+
+
   
   cadastre.startEditing()
   for f in cadastre.getFeatures():
@@ -318,7 +350,14 @@ def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope)
 
     cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_alti_dw'), altidwnDic[gm_id])
     cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_alti_up'), altiupDic[gm_id])
-
+        
+    if gm_id in UHDownDic:
+        gm_uh_dwn_combined = ','.join(str(e) for e in UHDownDic[gm_id])
+        cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_uh_dwn'), gm_uh_dwn_combined)
+    if gm_id in UHUpDic:
+        gm_uh_up_combined = ','.join(str(e) for e in UHUpDic[gm_id])
+        cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_uh_up'), gm_uh_up_combined)
+   
     #calculate field_parcel_slope from gm_length, gm_alti_up and gm_alti_dw of cadastre
     length = float(attrs[cadastre.fields().indexFromName('gm_length')])
     slope = 100 * ((altiupDic[gm_id] - altidwnDic[gm_id]) / length)

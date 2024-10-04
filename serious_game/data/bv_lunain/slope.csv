@@ -1,0 +1,4 @@
+key,slope_min,slope_max
+low,0,10
+medium,10,25
+high,25,100
