@@ -475,7 +475,7 @@ class WatershedCreationDialog(QMainWindow):
         QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
         QgsProject.instance().addMapLayer(cadastre)
-        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope)
+        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope,centroids[0])
         
 
 

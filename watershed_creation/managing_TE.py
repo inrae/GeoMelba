@@ -696,10 +696,14 @@ def ordre_traitements(parcelle_layer, lineaire_layer, connexions_layer,code_rivi
     lineaire_layer.commitChanges()
     lineaire_layer.triggerRepaint()
 
-def update_TE_attributes(lineaire_layer,field_line_slope):
+def update_TE_attributes(lineaire_layer,field_line_slope,centroids_layer):
   
     lineaire_layer.startEditing()
     lineaire_layer.addAttribute(QgsField(field_line_slope, QVariant.Double, "double", 10, 2))
+    lineaire_layer.addAttribute(QgsField("dir_river", QVariant.String, "string", 100))
+    lineaire_layer.addAttribute(QgsField("up_side", QVariant.String, "string", 10))
+
+    DicTERiver={}
     for f in lineaire_layer.getFeatures():
 
         attrs = f.attributes()
@@ -709,6 +713,40 @@ def update_TE_attributes(lineaire_layer,field_line_slope):
         
         slope = 100 * ((alti_up - alti_dwn) / length)
         lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName(field_line_slope), slope)
+        
+    # update up_side attribute
+        UH_up=0
+        if str(attrs[lineaire_layer.fields().indexFromName('UH_up')]) is not 'NULL':        
+            UH_up=int(attrs[lineaire_layer.fields().indexFromName('UH_up')])
+        elif  str(attrs[lineaire_layer.fields().indexFromName('UH_side')]) is not 'NULL':   
+            UH_up=int(attrs[lineaire_layer.fields().indexFromName('UH_side')])
+        elif str(attrs[lineaire_layer.fields().indexFromName('UH_within')]) is not 'NULL':   
+            UH_up=int(attrs[lineaire_layer.fields().indexFromName('UH_within')])
+
+        if UH_up != 0:
+
+            centroids_layer.selectByExpression("{column} = '{value}' ".format(column='gm_id', value=UH_up))
+            feat_id=0
+            for feature in centroids_layer.selectedFeatures():
+                feat_id = feature.id()
+            Point= centroids_layer.getFeature(int(feat_id))
+
+            side=  f.geometry().closestSegmentWithContext(Point.geometry().asPoint())[3]
+            if side < 0 :
+                lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName("up_side"), "left")
+            elif side > 0 :
+                lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName("up_side"), "right")
+            elif side == 0 :
+                lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName("up_side"), "none")
+
+    # update dir_river attribute
+#        type_mid=0
+ #       if str(attrs[lineaire_layer.fields().indexFromName('type_mid')]) is not 'NULL':        
+  #          type_mid=int(attrs[lineaire_layer.fields().indexFromName('type_mid')])
+  #          if type_mid==700:
+  #              TE_up_list=string(attrs[lineaire_layer.fields().indexFromName('TE_up')])
+
+
 
     lineaire_layer.commitChanges()
     lineaire_layer.triggerRepaint()
