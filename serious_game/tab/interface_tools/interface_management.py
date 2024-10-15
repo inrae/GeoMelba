@@ -378,6 +378,7 @@ class UiCreationDrainModification:
         y_place = 75
 
         for elem in drain_type:
+
             # Every button is a ButtonPointer.
             button = QPushButton(tab_widget.widget(tab_index))
             button.setFont(regular_font)

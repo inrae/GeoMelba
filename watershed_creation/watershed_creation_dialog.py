@@ -23,6 +23,7 @@
  ***************************************************************************/
 """
 import os
+import shutil
 from datetime import date
 
 # Qgis & Qt Modules
@@ -100,12 +101,16 @@ class WatershedCreationDialog(QMainWindow):
         ################## STEP 1 #######################
         # First Tab.
         self.tab_step1_index = self.add_tab(self.tab_widget, label_index_step1)
+
         vlayout = QVBoxLayout(self)
+
         self.groupBoxDEM = QGroupBox(label_dem_name_step1, self.tab_widget.widget(self.tab_step1_index))
         vlayout.addWidget(self.groupBoxDEM)
+    
         self.groupBoxDEM.resize(700,350)
         self.groupBoxField = QGroupBox(label_field_name_step1, self.tab_widget.widget(self.tab_step1_index))
         vlayout.addWidget(self.groupBoxField)
+    
         self.groupBoxField.setGeometry(0,350,700,350)
 
 
@@ -239,7 +244,9 @@ class WatershedCreationDialog(QMainWindow):
         ################## STEP 2 #######################
 
         self.tab_step2_index = self.add_tab(self.tab_widget, label_index_step2)
+
         vlayout2 = QVBoxLayout(self)
+
         self.groupBoxUH = QGroupBox(label_UH_name_step2, self.tab_widget.widget(self.tab_step2_index))
         vlayout2.addWidget(self.groupBoxUH)
         self.groupBoxUH.resize(700,250)
@@ -351,7 +358,9 @@ class WatershedCreationDialog(QMainWindow):
         ################## STEP 3 #######################
         # third Tab.
         self.tab_step3_index = self.add_tab(self.tab_widget, label_index_step3)
+
         vlayout = QVBoxLayout(self)
+
         self.groupBoxFolder = QGroupBox(label_folder_name_step3, self.tab_widget.widget(self.tab_step3_index))
         vlayout.addWidget(self.groupBoxFolder)
         self.groupBoxFolder.resize(700,350)
@@ -405,8 +414,8 @@ class WatershedCreationDialog(QMainWindow):
             if not os.path.exists(new_path):
                 os.makedirs(new_path)
             else:
-                for element in os.listdir(new_path):
-                    os.remove(new_path + element)
+                shutil.rmtree(new_path, ignore_errors=True)
+                os.makedirs(new_path)
         self.new_path=new_path
         if self.clip_dem_step1.isChecked():
            watershed =  self.selected_watershed.currentLayer()
@@ -470,12 +479,12 @@ class WatershedCreationDialog(QMainWindow):
         ordre_traitements(self.selected_UH.currentLayer(), self.selected_TE.currentLayer(), connexions[0],700, 200)
         
         TE_TE_connexions(inclinaison_pente_parcelle, dem[0], self.crs,'point_inclinaison_line','point_inclinaison',self.new_path)
-        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope)
+        cadastre=update_UH_attributes(self.selected_UH.currentLayer(),inclinaison_pente_parcelle,field_parcel_slope,connexions[0])
         cadastre_shp=self.new_path+"cadastre.shp"
         QgsVectorFileWriter.writeAsVectorFormat(cadastre,cadastre_shp,'utf-8',driverName='ESRI Shapefile')
         cadastre=QgsVectorLayer(cadastre_shp,os.path.basename(cadastre_shp)[:8],"ogr")
         QgsProject.instance().addMapLayer(cadastre)
-        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope)
+        update_TE_attributes(self.selected_TE.currentLayer(),field_line_slope,centroids[0])
         
 
 
