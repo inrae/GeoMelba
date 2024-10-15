@@ -126,7 +126,7 @@ def create_linear_from_polygon(polygon, output, crs):
 
     line_final_layer.startEditing()
     line_final_layer.addAttribute(QgsField('gm_id', QVariant.Int, "int", 10))
-    line_final_layer.addAttribute(QgsField('gm_type', QVariant.Int, "int", 10))
+    line_final_layer.addAttribute(QgsField('type_mid', QVariant.Int, "int", 10))
     line_final_layer.addAttribute(QgsField('gm_length', QVariant.Double, "double", 10, 3))
     
 
@@ -135,6 +135,9 @@ def create_linear_from_polygon(polygon, output, crs):
                                             f.id())
         line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('gm_length'),
                                                 f.geometry().length())
+
+        line_final_layer.changeAttributeValue(f.id(), line_final_layer.fields().indexFromName('type_mid'),
+                                                0)
     
     line_final_layer.commitChanges()
     line_final_layer.triggerRepaint()

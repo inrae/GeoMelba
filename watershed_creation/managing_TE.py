@@ -739,13 +739,74 @@ def update_TE_attributes(lineaire_layer,field_line_slope,centroids_layer):
             elif side == 0 :
                 lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName("up_side"), "none")
 
-    # update dir_river attribute
-#        type_mid=0
- #       if str(attrs[lineaire_layer.fields().indexFromName('type_mid')]) is not 'NULL':        
-  #          type_mid=int(attrs[lineaire_layer.fields().indexFromName('type_mid')])
-  #          if type_mid==700:
-  #              TE_up_list=string(attrs[lineaire_layer.fields().indexFromName('TE_up')])
+    lineaire_layer.commitChanges()
+    lineaire_layer.triggerRepaint()
 
+    lineaire_layer.startEditing()
+    # update dir_river attribute
+    for f in lineaire_layer.getFeatures():
+        type_mid=0
+        attrs = f.attributes()
+        strDirRiver=""
+
+        if str(attrs[lineaire_layer.fields().indexFromName('type_mid')]) is not 'NULL':        
+            type_mid=int(attrs[lineaire_layer.fields().indexFromName('type_mid')])
+            up_side=str(attrs[lineaire_layer.fields().indexFromName('up_side')])
+            if type_mid==700:
+                TE_up_str=str(attrs[lineaire_layer.fields().indexFromName('TE_up')])
+                TE_up_list=TE_up_str.split(",")
+                for TE in TE_up_list:
+                    #TODO : améliorer cet algo pour éviter boucle for sur tous les TE
+                    for fUp in lineaire_layer.getFeatures():
+                        attrsUp=fUp.attributes()
+                        gm_ID_up=int(attrsUp[lineaire_layer.fields().indexFromName('gm_id')])
+
+                        if str(gm_ID_up) is not 'NULL' :
+                            if str(TE) is not 'NULL':
+                                if int(gm_ID_up) == int(TE):
+
+                                    type_mid_Up=int(attrsUp[lineaire_layer.fields().indexFromName('type_mid')])
+                                    up_side_Up=str(attrsUp[lineaire_layer.fields().indexFromName('up_side')])
+                                    if type_mid==type_mid_Up: # for TE river
+                                        if up_side_Up == up_side:
+                                          strDirRiver=str(gm_ID_up)+":same_direction"
+                                        else:
+                                          strDirRiver=str(gm_ID_up)+":different_direction"
+                                    else: # for TE up or down
+                                        lineaire_layer.selectByExpression("{column} = '{value}' ".format(column='gm_id', value=int(gm_ID_up)))
+                                        feat_id=0
+                                        for feature in lineaire_layer.selectedFeatures():
+                                            feat_id = feature.id()
+                                        Line= lineaire_layer.getFeature(int(feat_id))
+
+                                        geom = Line.geometry() #QgsGeometry representing your line
+                                        length = geom.length() #length of geometry in the layer CRS. If EPSG:4326 this will be degrees
+                                        point = geom.interpolate(length/2.0) #QgsGeometry representing the mid point
+                                        side=  f.geometry().closestSegmentWithContext(point.asPoint())[3]
+                                        if side < 0 and up_side=='right':
+                                            if strDirRiver == "":
+                                                strDirRiver = str(gm_ID_up)+":dwn"
+                                            else:
+                                                strDirRiver = strDirRiver+","+str(gm_ID_up)+":dwn"
+                                        elif side > 0 and up_side=='left':
+                                            if strDirRiver == "":
+                                                strDirRiver = str(gm_ID_up)+":dwn"
+                                            else:
+                                                strDirRiver = strDirRiver+","+str(gm_ID_up)+":dwn"
+                                        elif side < 0 and up_side=='left':
+                                            if strDirRiver == "":
+                                                strDirRiver = str(gm_ID_up)+":up"
+                                            else:
+                                                strDirRiver = strDirRiver+","+str(gm_ID_up)+":up"
+                                        elif side > 0 and up_side=='right':
+                                            if strDirRiver == "":
+                                                strDirRiver = str(gm_ID_up)+":up"
+                                            else:
+                                                strDirRiver = strDirRiver+","+str(gm_ID_up)+":up"
+                                
+
+                                    
+            lineaire_layer.changeAttributeValue(f.id(), lineaire_layer.fields().indexFromName("dir_river"), strDirRiver)
 
 
     lineaire_layer.commitChanges()
