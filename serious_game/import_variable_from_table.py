@@ -27,9 +27,9 @@ import csv
 import os
 # Import personnal modules
 from ..dictionnaire import data_folder, watershed_prefix, config_practices_file, config_slope_file, \
-    config_land_cover_file, config_line_type_file, config_drain_file,\
-    config_land_cover_file_winter, config_line_type_file_winter, config_drain_file_winter,\
-    config_land_cover_file_summer, config_line_type_file_summer, config_drain_file_summer
+    config_land_cover_file, config_line_type_file, config_ztha_file,\
+    config_land_cover_file_winter, config_line_type_file_winter, config_ztha_file_winter,\
+    config_land_cover_file_summer, config_line_type_file_summer, config_ztha_file_summer
 
 
 class ConfigFilesImport:
@@ -60,9 +60,9 @@ class ConfigFilesImport:
         self.abatement_lat_water = {}
         self.abatement_lat_mes = {}
         self.abatement_lat_phyto = {}
-        self.drain_type = {}
+        self.ztha_type = {}
         self.path = path + data_folder + watershed_prefix + watershed_name + "/"
-        self.season=season
+        self.season = season
         
         self.import_config_files()
 
@@ -169,11 +169,11 @@ class ConfigFilesImport:
                     self.abatement_lat_phyto[int(row["value"])] = float(row["abatement_lat_phyto_value"])
 
         if self.season[0]=='Eté':
-            table_name = config_drain_file_summer
+            table_name = config_ztha_file_summer
         elif self.season[0]=='Hiver':
-            table_name = config_drain_file_winter
+            table_name = config_ztha_file_winter
         if os.path.exists(self.path + table_name):
             with open(self.path + table_name, 'r', newline='') as csvfile:
                 file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 for row in file_reader:
-                    self.drain_type[row["key"]] = row["type"]
+                    self.ztha_type[row["key"]] = row["type"]

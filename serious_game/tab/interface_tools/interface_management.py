@@ -33,7 +33,7 @@ from ....dictionnaire import field_parcel_owner, field_parcel_drain_id, field_pa
     owner_selection_top_label, municipality_button_name, owner_button_name, remove_cover_button_name, \
     switch_parcels_owner_label_pt1, switch_parcels_owner_label_pt2, switch_parcels_owner_label_pt3, \
     switch_parcel_owner_button_name, information_selection_error, information_switch_parcel_owner_error, \
-    owner_cover_layer_name, drain_selection_top_label, drain, information_modification_multiple_error_1, \
+    owner_cover_layer_name, ztha_selection_top_label, drain, information_modification_multiple_error_1, \
     information_modification_multiple_error_2
 
 
@@ -329,7 +329,7 @@ class UiCreationOwnerModification:
         return self.multiple_actions
 
 
-class UiCreationDrainModification:
+class UiCreationZthaModification:
     def __init__(self, tab_widget=None, parcel_layer=None, line_layer=None):
         """Arguments are :
         - tab widget
@@ -342,11 +342,11 @@ class UiCreationDrainModification:
 
         This object concern the creation of the DrainTab's user interface.
 
-        The "init_drain" function automatically create the interfaces depending on the presence of the config file
-        drain.csv.
+        The "init_ztha" function automatically create the interfaces depending on the presence of the config file
+        ztha.csv.
         The "modif..." functions allow the user to add or remove ztha or mouillere.
         The "write_change" function transfer a variable to the function which keep tracks of all modifications.
-        Those function are other method from the class UiCreationDrainModification. Each of them are described in their
+        Those function are other method from the class UiCreationZthaModification. Each of them are described in their
         individual docstring.
         """
         self.tab_widget = tab_widget
@@ -354,11 +354,11 @@ class UiCreationDrainModification:
         self.line_layer = line_layer
         self.multiple_actions = []  # List used when multiple features are modified at the same time. Every feature
 
-    # Functions to create the interface on drain management
-    def init_drain(self, tab_widget, tab_index, drain_type):
-        """Place the buttons on the drain management tab.
+    # Functions to create the interface on ztha management
+    def init_ztha(self, tab_widget, tab_index, ztha_type):
+        """Place the buttons on the ztha management tab.
         The mandatory arguments are :
-        - the index of the drain tab
+        - the index of the ztha tab
 
         For each number between 0 and the maximum number of owner a button is created.
         The first one (0) is the municipality, all the other have a label "Owner " plus the owner number.
@@ -371,18 +371,18 @@ class UiCreationDrainModification:
         label_top = QLabel(tab_widget.widget(tab_index))
         label_top.setFont(regular_font)
         label_top.setGeometry(10, 25, 650, 30)
-        label_top.setText(drain_selection_top_label)
+        label_top.setText(ztha_selection_top_label)
 
         # First button position
         x_place = 25
         y_place = 75
 
-        for elem in drain_type:
+        for elem in ztha_type:
 
             # Every button is a ButtonPointer.
             button = QPushButton(tab_widget.widget(tab_index))
             button.setFont(regular_font)
-            button_name = str(drain_type[elem]) + " " + str(elem)
+            button_name = str(ztha_type[elem]) + " " + str(elem)
             # Change the name if it's too long for the button size.
             if len(button_name) > 15:
                 # Get indexes where there is a '_', so we can cut the labels between words and not in the middle of one.
@@ -400,7 +400,7 @@ class UiCreationDrainModification:
             button_name = str(button_name.replace('_', ' ').capitalize())  # Transform last '_' to spaces.
             button.setText(button_name)
             button.setGeometry(x_place, y_place, 175, 35)
-            if drain_type[elem] != "ZTHA":
+            if ztha_type[elem] != "ZTHA":
                 # Function of the QPushButton used when the button is clicked. Launch the modification of the feature.
                 button.clicked.connect(lambda state, id_parcel_drain=int(elem): self.modif_mouillere(id_parcel_drain))
             else:

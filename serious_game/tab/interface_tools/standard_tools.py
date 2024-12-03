@@ -39,7 +39,7 @@ from ....dictionnaire import field_parcel_id, history_table_name, history_field_
 class StandardTools:
 
     def __init__(self, parcel_layer=None, iface=None, path=None, project=None, scrollAreaWidgetContents=None,
-                 tab_widget=None, tab_widget_management=None, config_files=None, drain_modif=None,
+                 tab_widget=None, tab_widget_management=None, config_files=None, ztha_modif=None,
                  multiple_lines_modif=None, multiple_parcels_modif=None, practices_modification=None,
                  cover_creation=None, drain=None):
         self.parcel_layer = parcel_layer
@@ -49,7 +49,7 @@ class StandardTools:
         self.tab_widget = tab_widget
         self.tab_widget_management = tab_widget_management
         self.config_files = config_files
-        self.drain_modif = drain_modif
+        self.ztha_modif = ztha_modif
         self.multiple_lines_modif = multiple_lines_modif
         self.multiple_parcels_modif = multiple_parcels_modif
         self.practices_modification = practices_modification
@@ -388,7 +388,7 @@ class StandardTools:
                 old_value = int(old_layer.getFeature(feature_id).attributes()[field_index])  # Old Value.
             if layer.geometryType() == 1:
                 if field_index == old_layer.fields().indexFromName(field_line_drain_enabled) or self.drain:
-                    multiple_actions = self.drain_modif.ui_creation.write_change()
+                    multiple_actions = self.ztha_modif.ui_creation.write_change()
                     self.drain = True
                     if field_index == old_layer.fields().indexFromName(field_type_line_middle):
                         self.drain = None
@@ -396,7 +396,7 @@ class StandardTools:
                     multiple_actions = self.multiple_lines_modif.ui_creation.write_change()
             elif layer.geometryType() == 2:
                 if field_index == old_layer.fields().indexFromName(field_parcel_drain_enabled):
-                    multiple_actions = self.drain_modif.ui_creation.write_change()
+                    multiple_actions = self.ztha_modif.ui_creation.write_change()
                 elif field_index == old_layer.fields().indexFromName(field_parcel_owner):
                     multiple_actions = self.cover_creation.ui_creation.write_change()
                 elif field_index == old_layer.fields().indexFromName(field_parcel_practice) and \

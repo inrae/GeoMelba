@@ -25,25 +25,25 @@
 """
 import os
 from .tab_management import TabManagement
-from .interface_tools.interface_management import UiCreationDrainModification
-from ...dictionnaire import data_folder, watershed_prefix, config_drain_file, drain_tab_name
+from .interface_tools.interface_management import UiCreationZthaModification
+from ...dictionnaire import data_folder, watershed_prefix, config_ztha_file, ztha_tab_name
 
 
-class DrainModificationTab(TabManagement):
+class ZthaModificationTab(TabManagement):
 
-    def __init__(self, parent=None, path=None, watershed_name=None, drain_type=None, parcel_layer=None,
+    def __init__(self, parent=None, path=None, watershed_name=None, ztha_type=None, parcel_layer=None,
                  line_layer=None):
-        """Concern the tab creation of the drain modification :
+        """Concern the tab creation of the ztha modification :
         - multiple buttons to activate/deactivate the drained areas
         """
-        super(DrainModificationTab, self).__init__(tab_widget=parent.tab_widget)
-        self.tab_widget.setTabText(self.tab_index_drain, drain_tab_name)
-        self.tab_widget.setTabEnabled(self.tab_index_drain, False)
-        if os.path.exists(path + data_folder + watershed_prefix + watershed_name + "/" + config_drain_file):
-            self.tab_widget.setTabEnabled(self.tab_index_drain, True)
+        super(ZthaModificationTab, self).__init__(tab_widget=parent.tab_widget)
+        self.tab_widget.setTabText(self.tab_index_ztha, ztha_tab_name)
+        self.tab_widget.setTabEnabled(self.tab_index_ztha, False)
+        if os.path.exists(path + data_folder + watershed_prefix + watershed_name + "/" + config_ztha_file):
+            self.tab_widget.setTabEnabled(self.tab_index_ztha, True)
             # Button and checkbox creation
-            self.ui_creation = UiCreationDrainModification(tab_widget=self.tab_widget, parcel_layer=parcel_layer,
+            self.ui_creation = UiCreationZthaModification(tab_widget=self.tab_widget, parcel_layer=parcel_layer,
                                                            line_layer=line_layer)
-            self.ui_creation.init_drain(self.tab_widget, self.tab_index_drain, drain_type)
+            self.ui_creation.init_ztha(self.tab_widget, self.tab_index_ztha, ztha_type)
         # Zoom on the watershed.
         # self.zoom_watershed()

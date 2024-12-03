@@ -67,11 +67,11 @@ def create_csv_files(path,watershed_name):
         writer = csv.DictWriter(file, fieldnames = slope_fields)
         writer.writeheader()
 
-    #drain.csv
-    drain_fields=['key','type']
-    drain_file=folder_path+"/"+"drain.csv"
-    with open(drain_file, 'w', newline='') as file: 
-        writer = csv.DictWriter(file, fieldnames = drain_fields)
+    #ztha.csv
+    ztha_fields=['key','type']
+    ztha_file=folder_path+"/"+"ztha.csv"
+    with open(ztha_file, 'w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames = ztha_fields)
         writer.writeheader()
 
 

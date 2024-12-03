@@ -42,7 +42,7 @@ from .tab.agricultural_practices_modification_tab import PracticesModificationTa
 from .tab.create_cover_tab import CoverCreationTab
 from .tab.flow_calculation_tab import FlowCalculationTab
 from .tab.plot_creation_tab import PlotCreationTab
-from .tab.drain_modification_tab import DrainModificationTab
+from .tab.ztha_modification_tab import ZthaModificationTab
 from .tab.interface_tools.standard_tools import StandardTools
 from ..dictionnaire import original_layer_group_name, style_line, field_parcel_owner, river, data_folder, \
     watershed_prefix
@@ -206,10 +206,10 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         # Tab plot results
         #self.plot_creation = PlotCreationTab(parent=self.tab_widget_management)
 
-        # Tab drain results
-        self.drain_modification = DrainModificationTab(parent=self.tab_widget_management, path=path,
+        # Tab ztha results
+        self.ztha_modification = ZthaModificationTab(parent=self.tab_widget_management, path=path,
                                                        watershed_name=watershed_name,
-                                                       drain_type=self.config_files.drain_type,
+                                                       ztha_type=self.config_files.ztha_type,
                                                        parcel_layer=self.parcel_layer,
                                                        line_layer=self.line_layer)
 
@@ -219,7 +219,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                             project=self.project,
                                             scrollAreaWidgetContents=self.scrollAreaWidgetContents,
                                             tab_widget=self.tabWidget, tab_widget_management=self.tab_widget_management,
-                                            config_files=self.config_files, drain_modif=self.drain_modification,
+                                            config_files=self.config_files, ztha_modif=self.ztha_modification,
                                             multiple_lines_modif=self.multiple_lines_modification,
                                             multiple_parcels_modif=self.multiple_parcels_modification,
                                             practices_modification=self.practices_modification,

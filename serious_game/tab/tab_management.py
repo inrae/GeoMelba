@@ -61,7 +61,7 @@ class TabManagement:
         self._tab_index_owner = 3
         self._tab_index_one_line = 4
         self._tab_index_multiple_lines = 5
-        self._tab_index_drain = 6
+        self._tab_index_ztha = 6
         self._tab_index_abatement = 7
         self._tab_index_plot = 8
 
@@ -127,8 +127,8 @@ class TabManagement:
         return self._tab_index_plot
 
     @property
-    def tab_index_drain(self) -> int:
-        return self._tab_index_drain
+    def tab_index_ztha(self) -> int:
+        return self._tab_index_ztha
 
     def addLayers(self, layer):  # add spinbox to its list
         """Add a spinbox to the manager.
