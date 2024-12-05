@@ -65,7 +65,7 @@ def coefficient_abatement_UH(land_cover, slope, length, slope_list, abatement_li
     else:
         abatement = abatement_list[land_cover][1]
     calculation = (length / 5) * abatement
-    coefficient = min(100, calculation) / 100
+    coefficient = min(1, calculation) 
     return coefficient
 
 

@@ -90,18 +90,18 @@ class ConfigFilesImport:
                 self.land_cover[row["key"]] = int(row["value"])
                 if row["abatement"] == str(True):
                     self.abatement_type.append(int(row["value"]))
-                    self.abatement[int(row["value"])] = [int(row["abatement_phyto_value_low_slope"]),
-                                                         int(row["abatement_phyto_value_medium_slope"]),
-                                                         int(row["abatement_phyto_value_high_slope"])]
-                    self.abatement_water[int(row["value"])] = [int(row["abatement_eau_value_low_slope"]),
-                                                               int(row["abatement_eau_value_medium_slope"]),
-                                                               int(row["abatement_eau_value_high_slope"])]
-                    self.abatement_mes[int(row["value"])] = [int(row["abatement_mes_value_low_slope"]),
-                                                             int(row["abatement_mes_value_medium_slope"]),
-                                                             int(row["abatement_mes_value_high_slope"])]
-                    self.abatement_phyto[int(row["value"])] = [int(row["abatement_phyto_value_low_slope"]),
-                                                               int(row["abatement_phyto_value_medium_slope"]),
-                                                               int(row["abatement_phyto_value_high_slope"])]
+                    self.abatement[int(row["value"])] = [float(row["abatement_phyto_value_low_slope"]),
+                                                         float(row["abatement_phyto_value_medium_slope"]),
+                                                         float(row["abatement_phyto_value_high_slope"])]
+                    self.abatement_water[int(row["value"])] = [float(row["abatement_eau_value_low_slope"]),
+                                                               float(row["abatement_eau_value_medium_slope"]),
+                                                               float(row["abatement_eau_value_high_slope"])]
+                    self.abatement_mes[int(row["value"])] = [float(row["abatement_mes_value_low_slope"]),
+                                                             float(row["abatement_mes_value_medium_slope"]),
+                                                             float(row["abatement_mes_value_high_slope"])]
+                    self.abatement_phyto[int(row["value"])] = [float(row["abatement_phyto_value_low_slope"]),
+                                                               float(row["abatement_phyto_value_medium_slope"]),
+                                                               float(row["abatement_phyto_value_high_slope"])]
 
 
               
