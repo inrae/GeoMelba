@@ -204,6 +204,33 @@ class ConfigFilesImportJS:
                         self.production=copy.deepcopy(self.production_phyto)
 
         # TE
+        if self.season[0] == 'Eté':
+            table_name = config_line_type_file_summer_json
+        elif self.season[0] == 'Hiver':
+            table_name = config_line_type_file_winter_json
+
+        with open(self.path + table_name) as jsfile:
+            data_line_type = json.load(jsfile)
+            if "TE" in data_line_type:
+                for line_type_dict in data_line_type["TE"]:
+                    self.line_type[line_type_dict] = int(data_line_type["TE"][line_type_dict]["value"])
+                    if data_line_type["TE"][line_type_dict]["abatement_long"] == str(True):
+                        dict_abatement_long = {"eau": self.abatement_long_water, "PPP": self.abatement_long_phyto,
+                                                      "mes": self.abatement_long_mes}
+                        self.abatement_type_long.append(int(data_line_type["TE"][line_type_dict]["value"]))
+                        for thematique in dict_abatement_long:
+                            dict_abatement_long[thematique]=float(data_line_type["TE"][line_type_dict][thematique]["abatement_long"])
+                        self.abatement_long=copy.deepcopy(self.abatement_long_phyto)
+
+
+                    if data_line_type["TE"][line_type_dict]["abatement_lat"] == str(True):
+                        dict_abatement_lat = {"eau": self.abatement_lat_water, "PPP": self.abatement_lat_phyto,
+                                               "mes": self.abatement_lat_mes}
+                        self.abatement_type_lat.append(int(data_line_type["TE"][line_type_dict]["value"]))
+                        for thematique in dict_abatement_lat:
+                            dict_abatement_lat[thematique] = float(data_line_type["TE"][line_type_dict][thematique]["abatement_lat"])
+                        self.abatement_lat = copy.deepcopy(self.abatement_lat_phyto)
+
 
 
 
