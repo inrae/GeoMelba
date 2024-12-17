@@ -1,0 +1,2304 @@
+{
+  "UH": {
+    "rotation courte (assurantiel)": {
+      "value":"101",
+      "abatement":"False",
+      "production":"True",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":"0",
+            "pente moyenne ":"0",
+            "pente forte":"0"
+          },
+          "1 : drainage plein ":{
+            "pente faible ":"0",
+            "pente moyenne ":"0",
+            "pente forte":"0"
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":"0",
+            "pente moyenne ":"0",
+            "pente forte":"0"
+          },
+          "3 : mouillère active ":{
+            "pente faible ":"0.1",
+            "pente moyenne ":"0.1",
+            "pente forte":"0.1"
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+            
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+            
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "rotation courte (optimisée)": {
+      "value":"102",
+      "abatement":"False",
+      "production":"True",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+        
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{            },
+            "pente moyenne ":{            },
+            "pente forte":{            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "rotation longue (optimisée)": {
+      "value":"103",
+      "abatement":"False",
+      "production":"True",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "rotation longue (0 chimie)": {
+      "value":"104",
+      "abatement":"False",
+      "production":"True",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "prairie permanente": {
+      "value":"300",
+      "abatement":"True",
+      "production":"False",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "prairie permanente mécanisable": {
+      "value":"310",
+      "abatement":"True",
+      "production":"False",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+      
+    },
+    "bois": {
+      "value":"500",
+      "abatement":"True",
+      "production":"False",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    },
+    "habitation": {
+      "value":"700",
+      "abatement":"False",
+      "production":"False",
+      "eau":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "PPP":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      },
+      "mes":{
+        "abatement":{
+          "0 : sans drainage ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{},
+            "pente moyenne ":{},
+            "pente forte":{}
+          }
+        },
+        "production":{
+          "0 : sans drainage ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "1 : drainage plein ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "2 : mouillère drainée ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          },
+          "3 : mouillère active ":{
+            "pente faible ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente moyenne ":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            },
+            "pente forte":{
+              "production totale ":{},
+              "production drain ":{},
+              "production ruissellement":{}
+            }
+          }
+        }
+      }
+    }
+  }
+}

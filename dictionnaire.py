@@ -51,6 +51,27 @@ config_ztha_file = "ztha.csv"
 config_ztha_file_summer = "ztha_s.csv"
 config_ztha_file_winter = "ztha_w.csv"
 
+# Variables config files json:
+config_practices_file_json = "agricultural_practices.json"
+config_slope_file_json = "slope.json"
+
+# if config_land_cover_file_summer_json or config_land_cover_file_winter_json not found, we used config_land_cover_file_json
+config_land_cover_file_json = "UH_coeff.json"
+config_land_cover_file_summer_json = "UH_coeff_s.json"
+config_land_cover_file_winter_json = "UH_coeff_w.json"
+
+# if config_line_type_file_summer_json or config_line_type_file_winter_json not found, we used config_line_type_file_json
+config_line_type_file_json = "line_type.json"
+config_line_type_file_summer_json = "line_type_s.json"
+config_line_type_file_winter_json = "line_type_w.json"
+
+# if config_ztha_file_summer_json or config_ztha_file_summer_json not found, we used config_ztha_file_json
+config_ztha_file_json = "ztha.json"
+config_ztha_file_summer_json = "ztha_s.json"
+config_ztha_file_winter_json = "ztha_w.json"
+information_jsonfile_error = "Le fichier de configuration json suivant n'est pas conforme : "
+
+
 # Variables data type :
 line_type = "ligne"
 polygon_type = "parcelle"
@@ -186,6 +207,7 @@ field_parcel_slope = 'pente'
 field_parcel_drain_id = 'gm_drain'
 field_parcel_drain_enabled = 'gm_d_actif'
 field_parcel_drain_type = 'gm_d_type'
+field_parcel_drain_connexion='gm_d_con'
 field_parcel_slope_length = 'gm_length'
 
 

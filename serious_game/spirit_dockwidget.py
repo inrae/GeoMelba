@@ -33,6 +33,7 @@ from qgis.PyQt.QtWidgets import QDockWidget
 from qgis.PyQt.QtCore import pyqtSignal
 # Personal modules
 from .import_variable_from_table import ConfigFilesImport
+from .import_variable_from_json import ConfigFilesImportJS
 from .tab.tab_management import TabManagement
 from .tab.one_line_modification_tab import OneLineModificationTab
 from .tab.multiple_lines_modification_tab import MultipleLinesModificationTab
@@ -146,7 +147,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         self.output_path = output_path
 
         # Get config value.
-        self.config_files = ConfigFilesImport(path=path, watershed_name=watershed_name,season=self.season)
+        self.config_files = ConfigFilesImportJS(path=path, watershed_name=watershed_name,season=self.season)
         self.drain = None
         self.parcel_layer.set_parameters(self.config_files.production_type, self.config_files.practices)
 
