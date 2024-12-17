@@ -25,6 +25,7 @@
 """
 
 import json
+import copy
 import os
 # Import personnal modules
 from ..dictionnaire import data_folder, watershed_prefix, config_practices_file_json, config_slope_file_json, \
@@ -110,16 +111,41 @@ class ConfigFilesImportJS:
         elif self.season[0] == 'Hiver':
             table_name = config_land_cover_file_winter_json
 
+        # UH; #TODO: ajouter gestion drainage
         with open(self.path + table_name) as jsfile:
             data_land_cover = json.load(jsfile)
             if "UH" in data_land_cover:
                 for land_cover_dict in data_land_cover["UH"]:
                     self.land_cover[land_cover_dict] = int(data_land_cover["UH"][land_cover_dict]["value"])
                     if data_land_cover["UH"][land_cover_dict]["abatement"] == str(True):
-                        # drainage type and slope type are optional, we need to test if absence :
-                        # attention à l'ordre : drainage en premier (4 items), slope en second (3 items)
-
+                        # pas de practices pour abatement
                         self.abatement_type.append(int(data_land_cover["UH"][land_cover_dict]["value"]))
+                        slope_key_bool = True
+                        dict_thematique_abatement = {"eau": self.abatement_water, "PPP": self.abatement_phyto,
+                                                      "mes": self.abatement_mes}
+                        for thematique in dict_thematique_abatement:
+                            for test_key in data_land_cover["UH"][land_cover_dict][thematique]["abatement"]:
+                                # test if slope keys :
+                                if not test_key == "low_slope" and not test_key == "medium_slope" and not test_key == "high_slope":
+                                    slope_key_bool = False
+                                list_key = []
+                                if slope_key_bool:  # plusieurs classes de pentes
+                                    for key in data_land_cover["UH"][land_cover_dict][thematique]["abatement"]:
+                                        list_key.append(
+                                            float(
+                                                data_land_cover["UH"][land_cover_dict][thematique]["abatement"][key]))
+                                else:  # une seule classe de pente
+                                    list_key.append(
+                                        float(data_land_cover["UH"][land_cover_dict][thematique]["abatement"]))
+                                    list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique][
+                                                              "abatement"]))  # on copie trois fois pour "mimer" les 3 classes de pente
+                                    list_key.append(
+                                        float(data_land_cover["UH"][land_cover_dict][thematique]["abatement"]))
+
+                            dict_thematique_abatement[thematique][
+                                int(data_land_cover["UH"][land_cover_dict]["value"])] = list_key
+                            slope_key_bool = True
+                        self.abatement = copy.deepcopy(self.abatement_phyto)
 
                     if data_land_cover["UH"][land_cover_dict]["production"] == str(True):
                         self.production_type.append(int(data_land_cover["UH"][land_cover_dict]["value"]))
@@ -129,48 +155,55 @@ class ConfigFilesImportJS:
                         practices_key_bool = True
                         slope_key_bool = True
 
-                        # eau
-                        for test_practice_key in data_land_cover["UH"][land_cover_dict]["eau"]["production"]:
-                            if not test_practice_key.startswith('practice'):
-                                practices_key_bool = False
-                                # test if slope keys :
-                                if not test_practice_key == "low_slope" and not test_practice_key == "medium_slope" and not test_practice_key == "high_slope":
-                                    slope_key_bool = False
+                        dict_thematique_production={"eau" : self.production_water,"PPP" : self.production_phyto,
+                                                    "mes":self.production_mes}
+                        for thematique in dict_thematique_production:
+                            for test_key in data_land_cover["UH"][land_cover_dict][thematique]["production"]:
+                                if not test_key.startswith('practice'):
+                                    practices_key_bool = False
+                                    # test if slope keys :
+                                    if not test_key == "low_slope" and not test_key == "medium_slope" and not test_key == "high_slope":
+                                        slope_key_bool = False
 
-                        n = 0
-                        practices_values = {}
-                        while n < len(self.practices):
-                            n = n + 1
-                            list_key = []
-                            if not practices_key_bool:  # une seule pratique
-                                if slope_key_bool:  # une seule pratique et plusieurs classes de pentes
-                                    for key in data_land_cover["UH"][land_cover_dict]["eau"]["production"]:
+                            n = 0
+                            practices_values = {}
+                            while n < len(self.practices):
+                                n = n + 1
+                                list_key = []
+                                if not practices_key_bool:  # une seule pratique
+                                    if slope_key_bool:  # une seule pratique et plusieurs classes de pentes
+                                        for key in data_land_cover["UH"][land_cover_dict][thematique]["production"]:
+                                            list_key.append(
+                                                float(data_land_cover["UH"][land_cover_dict][thematique]["production"][key]))
+                                    else:  # une seule pratique et une seule classe de pente
+                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"]))
+                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique][
+                                                                  "production"]))  # on copie trois fois pour "mimer" les 3 classes de pente
+                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"]))
+                                else:  # plusieurs pratiques
+                                    if slope_key_bool:  # plusieurs pratiques et plusieurs classes de pente
+                                        nb_practice = "practice" + str(n)
+                                        for key in data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]:
+                                            list_key.append(float(
+                                                data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice][
+                                                    key]))
+                                    else:  # plusieurs pratiques et une seule classe de pente
+                                        nb_practice = "practice" + str(n)
                                         list_key.append(
-                                            float(data_land_cover["UH"][land_cover_dict]["eau"]["production"][key]))
-                                else:  # une seule pratique et une seule classe de pente
-                                    list_key.append(float(data_land_cover["UH"][land_cover_dict]["eau"]["production"]))
-                                    list_key.append(float(data_land_cover["UH"][land_cover_dict]["eau"][
-                                                              "production"]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                    list_key.append(float(data_land_cover["UH"][land_cover_dict]["eau"]["production"]))
-                            else:  # plusieurs pratiques
-                                if slope_key_bool:  # plusieurs pratiques et plusieurs classes de pente
-                                    nb_practice = "practice" + str(n)
-                                    for key in data_land_cover["UH"][land_cover_dict]["eau"]["production"][nb_practice]:
-                                        list_key.append(float(
-                                            data_land_cover["UH"][land_cover_dict]["eau"]["production"][nb_practice][
-                                                key]))
-                                else:  # plusieurs pratiques et une seule classe de pente
-                                    nb_practice = "practice" + str(n)
-                                    list_key.append(
-                                        float(data_land_cover["UH"][land_cover_dict]["eau"]["production"][nb_practice]))
-                                    list_key.append(float(data_land_cover["UH"][land_cover_dict]["eau"]["production"][
-                                                              nb_practice]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                    list_key.append(
-                                        float(data_land_cover["UH"][land_cover_dict]["eau"]["production"][nb_practice]))
+                                            float(data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]))
+                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"][
+                                                                  nb_practice]))  # on copie trois fois pour "mimer" les 3 classes de pente
+                                        list_key.append(
+                                            float(data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]))
 
-                            practices_values[n] = list_key
+                                practices_values[n] = list_key
 
-                        self.production_water[int(data_land_cover["UH"][land_cover_dict]["value"])] = practices_values
+                            dict_thematique_production[thematique][int(data_land_cover["UH"][land_cover_dict]["value"])] = practices_values
+                            practices_key_bool = True
+                            slope_key_bool = True
+                        self.production=copy.deepcopy(self.production_phyto)
+
+        # TE
 
 
 
