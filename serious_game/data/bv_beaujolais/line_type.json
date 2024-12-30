@@ -4,15 +4,15 @@
       "value":"100",
       "abatement_long":"True",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.2",
         "abatement_lat":"0.7"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.3",
         "abatement_lat":"0.9"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.3",
         "abatement_lat":"0.8"
       }
@@ -21,15 +21,15 @@
       "value":"200",
       "abatement_long":"True",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.2",
         "abatement_lat":"0.7"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.3",
         "abatement_lat":"0.9"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.3",
         "abatement_lat":"0.8"
       }
@@ -38,15 +38,15 @@
       "value":"310",
       "abatement_long":"True",
       "abatement_lat":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0",
         "abatement_lat":"0"
       }
@@ -55,15 +55,15 @@
       "value":"320",
       "abatement_long":"True",
       "abatement_lat":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.2",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.3",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.3",
         "abatement_lat":"0"
       }
@@ -72,15 +72,15 @@
       "value":"410",
       "abatement_long":"True",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.1",
         "abatement_lat":"0.4"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.2",
         "abatement_lat":"0.5"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.2",
         "abatement_lat":"0.45"
       }
@@ -89,15 +89,15 @@
       "value":"420",
       "abatement_long":"True",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.05",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.1",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.1",
         "abatement_lat":"0"
       }
@@ -106,15 +106,15 @@
       "value":"500",
       "abatement_long":"True",
       "abatement_lat":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0",
         "abatement_lat":"0"
       }
@@ -123,15 +123,15 @@
       "value":"600",
       "abatement_long":"True",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0.05",
         "abatement_lat":"0.7"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0.1",
         "abatement_lat":"0.9"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0.1",
         "abatement_lat":"0.8"
       }
@@ -140,15 +140,15 @@
       "value":"700",
       "abatement_long":"False",
       "abatement_lat":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0",
         "abatement_lat":"0"
       }
@@ -157,15 +157,15 @@
       "value":"800",
       "abatement_long":"False",
       "abatement_lat":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0",
         "abatement_lat":"0.7"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0",
         "abatement_lat":"0.9"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0",
         "abatement_lat":"0.8"
       }
@@ -174,15 +174,15 @@
       "value":"0",
       "abatement_long":"False",
       "abatement_lat":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement_long":"0",
         "abatement_lat":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement_long":"0",
         "abatement_lat":"0"
       }

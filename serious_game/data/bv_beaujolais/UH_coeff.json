@@ -4,7 +4,7 @@
       "value":"100",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":{
             "low_slope":"0.7",
@@ -13,7 +13,7 @@
           
         }
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -33,7 +33,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -58,7 +58,7 @@
       "value":"101",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":{
           "low_slope":"0.5",
@@ -66,7 +66,7 @@
             "high_slope":"0.7"
         }
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -86,7 +86,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -111,7 +111,7 @@
       "value":"102",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":{
           "low_slope":"0.5",
@@ -119,7 +119,7 @@
             "high_slope":"0.7"
         }
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -139,7 +139,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -164,11 +164,11 @@
       "value":"110",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":"0.9"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -188,7 +188,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -213,11 +213,11 @@
       "value":"111",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":"0.7"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -237,7 +237,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -262,11 +262,11 @@
       "value":"112",
       "abatement":"False",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":"0.7"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -286,7 +286,7 @@
           }
         }
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":{
           "practice1":{
@@ -311,15 +311,15 @@
       "value":"200",
       "abatement":"True",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0.7",
         "production":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0.8",
         "production":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0.9",
         "production":{
           "practice1":{
@@ -344,15 +344,15 @@
       "value":"300",
       "abatement":"True",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0.7",
         "production":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0.8",
         "production":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0.9",
         "production":{
           "practice1":{
@@ -377,7 +377,7 @@
       "value":"400",
       "abatement":"True",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":{
           "low_slope":"0.7",
           "medium_slope":"0.6",
@@ -385,7 +385,7 @@
         },
         "production":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":{
           "low_slope":"0.8",
           "medium_slope":"0.7",
@@ -393,7 +393,7 @@
         },
         "production":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement":{
           "low_slope":"0.9",
           "medium_slope":"0.8",
@@ -422,15 +422,15 @@
       "value":"500",
       "abatement":"True",
       "production":"True",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0.7",
         "production":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0.8",
         "production":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0.9",
         "production":{
           "practice1":{
@@ -455,15 +455,15 @@
       "value":"700",
       "abatement":"False",
       "production":"False",
-      "eau":{
+      "Eaux de ruissellement":{
         "abatement":"0",
         "production":"0"
       },
-      "PPP":{
+      "Produits phytosanitaires":{
         "abatement":"0",
         "production":"0"
       },
-      "mes":{
+      "Erosion":{
         "abatement":"0",
         "production":"0"
       }

@@ -4,7 +4,7 @@
       "value": "101",
       "abatement": "False",
       "production": "True",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -50,7 +50,7 @@
           }
         }
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -104,7 +104,7 @@
           }
         }
       },
-      "mes": {
+      "Erosion": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -155,7 +155,7 @@
       "value": "102",
       "abatement": "False",
       "production": "True",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -201,7 +201,7 @@
           }
         }
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -247,7 +247,7 @@
           }
         }
       },
-      "mes": {
+      "Erosion": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -298,7 +298,7 @@
       "value": "103",
       "abatement": "False",
       "production": "True",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -344,7 +344,7 @@
           }
         }
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -390,7 +390,7 @@
           }
         }
       },
-      "mes": {
+      "Erosion": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -437,7 +437,7 @@
       "value": "104",
       "abatement": "False",
       "production": "True",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -483,7 +483,7 @@
           }
         }
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -513,7 +513,7 @@
           }
         }
       },
-      "mes": {
+      "Erosion": {
         "abatement": {
           "0 : sans drainage ": "0",
           "1 : drainage plein ": "0",
@@ -564,15 +564,15 @@
       "value": "300",
       "abatement": "True",
       "production": "False",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": "0.7",
         "production": "0"
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": "0.8",
         "production": "0"
       },
-      "mes": {
+      "Erosion": {
         "abatement": "0.9",
         "production": "0"
       }
@@ -581,15 +581,15 @@
       "value": "310",
       "abatement": "True",
       "production": "False",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": "0.9",
         "production": "0"
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": "0.9",
         "production": "0"
       },
-      "mes": {
+      "Erosion": {
         "abatement": "0.9",
         "production": "0"
       }
@@ -598,15 +598,15 @@
       "value": "500",
       "abatement": "True",
       "production": "False",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": "0.9",
         "production": "0"
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": "0.9",
         "production": "0"
       },
-      "mes": {
+      "Erosion": {
         "abatement": "0.9",
         "production": "0"
       }
@@ -615,15 +615,15 @@
       "value": "700",
       "abatement": "False",
       "production": "False",
-      "eau": {
+      "Eaux de ruissellement": {
         "abatement": "0",
         "production": "0"
       },
-      "PPP": {
+      "Produits phytosanitaires": {
         "abatement": "0",
         "production": "0"
       },
-      "mes": {
+      "Erosion": {
         "abatement": "0",
         "production": "0"
       }
