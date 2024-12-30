@@ -71,6 +71,24 @@ config_ztha_file_summer_json = "ztha_s.json"
 config_ztha_file_winter_json = "ztha_w.json"
 information_jsonfile_error = "Le fichier de configuration json suivant n'est pas conforme : "
 
+#variable names for config files json:
+config_agricultural_practices_var_json="agricultural_practices"
+config_slope_var_json="slope"
+config_slope_min_var_json="slope_min"
+config_slope_max_var_json="slope_max"
+config_ztha_var_json="ztha"
+config_UH_var_json="UH"
+config_UH_value_var_json="value"
+config_UH_abatement_var_json="abatement"
+config_UH_production_var_json="production"
+config_UH_low_slope_var_json="low_slope"
+config_UH_medium_slope_var_json="medium_slope"
+config_UH_high_slope_var_json="high_slope"
+config_UH_drain_0_var_json="0 : sans drainage "
+config_UH_drain_1_var_json="1 : drainage plein "
+config_UH_drain_2_var_json="2 : mouillère drainée "
+config_UH_drain_3_var_json="3 : mouillère active "
+
 
 # Variables data type :
 line_type = "ligne"

@@ -32,7 +32,13 @@ from ..dictionnaire import data_folder, watershed_prefix, config_practices_file_
     config_land_cover_file_json, config_line_type_file_json, config_ztha_file_json, \
     config_land_cover_file_winter_json, config_line_type_file_winter_json, config_ztha_file_winter_json, \
     config_land_cover_file_summer_json, config_line_type_file_summer_json, config_ztha_file_summer_json, \
-    information_jsonfile_error
+    information_jsonfile_error, config_agricultural_practices_var_json, config_slope_var_json, \
+    config_slope_min_var_json, config_slope_max_var_json, config_ztha_var_json, config_UH_var_json, \
+    config_UH_abatement_var_json, config_UH_production_var_json, selected_season_button1_label, \
+    selected_season_button0_label, config_UH_value_var_json, config_UH_low_slope_var_json, \
+    config_UH_medium_slope_var_json, config_UH_high_slope_var_json, studied_element_button0_label, \
+    studied_element_button1_label, studied_element_button2_label, \
+    config_UH_drain_0_var_json, config_UH_drain_1_var_json, config_UH_drain_2_var_json, config_UH_drain_3_var_json
 
 
 class ConfigFilesImportJS:
@@ -74,95 +80,182 @@ class ConfigFilesImportJS:
 
         with open(self.path + table_name) as jsfile:
             data_agricultural_practices = json.load(jsfile)
-            if "agricultural_practices" in data_agricultural_practices:
-                for key in data_agricultural_practices["agricultural_practices"]:
-                    self.practices[key] = int(data_agricultural_practices["agricultural_practices"][key])
+            if config_agricultural_practices_var_json in data_agricultural_practices:
+                for key in data_agricultural_practices[config_agricultural_practices_var_json]:
+                    self.practices[key] = int(data_agricultural_practices[config_agricultural_practices_var_json][key])
             else:
                 QMessageBox.information(None, information_jsonfile_error, table_name)
 
         table_name = config_slope_file_json
         with open(self.path + table_name) as jsfile:
             data_slope = json.load(jsfile)
-            if "slope" in data_slope:
-                for key in data_slope["slope"]:
-                    self.slope[key] = int(data_slope["slope"][key]["slope_min"]), \
-                        int(data_slope["slope"][key]["slope_max"])
+            if config_slope_var_json in data_slope:
+                for key in data_slope[config_slope_var_json]:
+                    self.slope[key] = int(data_slope[config_slope_var_json][key][config_slope_min_var_json]), \
+                        int(data_slope[config_slope_var_json][key][config_slope_max_var_json])
             else:
                 QMessageBox.information(None, information_jsonfile_error, table_name)
 
-        if self.season[0] == 'Eté':
+        if self.season[0] == selected_season_button0_label:
             table_name = config_ztha_file_summer_json
-        elif self.season[0] == 'Hiver':
+        elif self.season[0] == selected_season_button1_label:
             table_name = config_ztha_file_winter_json
 
         if os.path.exists(self.path + table_name):
             with open(self.path + table_name) as jsfile:
                 data_ztha = json.load(jsfile)
-                if "ztha" in data_ztha:
-                    for ident in data_ztha["ztha"]:
-                        for dict_ztha_type in data_ztha["ztha"][ident]:
+                if config_ztha_var_json in data_ztha:
+                    for ident in data_ztha[config_ztha_var_json]:
+                        for dict_ztha_type in data_ztha[config_ztha_var_json][ident]:
                             self.ztha_type[dict_ztha_type["key"]] = ident
 
                 else:
                     QMessageBox.information(None, information_jsonfile_error, table_name)
 
-        if self.season[0] == 'Eté':
+        if self.season[0] == selected_season_button0_label:
             table_name = config_land_cover_file_summer_json
-        elif self.season[0] == 'Hiver':
+        elif self.season[0] == selected_season_button1_label:
             table_name = config_land_cover_file_winter_json
-
+        # UH ordre : occupation du sol/ thématique/ abattement-production/ pratiques culturales,
+        # drainage, pente
+        # items obligatoires : occupation du sol/ thématique/ abattement-production
+        # pas d'items pratiques culturales dans abattement
         # UH; #TODO: ajouter gestion drainage
         with open(self.path + table_name) as jsfile:
             data_land_cover = json.load(jsfile)
-            if "UH" in data_land_cover:
-                for land_cover_dict in data_land_cover["UH"]:
-                    self.land_cover[land_cover_dict] = int(data_land_cover["UH"][land_cover_dict]["value"])
-                    if data_land_cover["UH"][land_cover_dict]["abatement"] == str(True):
+            if config_UH_var_json in data_land_cover:
+                for land_cover_dict in data_land_cover[config_UH_var_json]:
+                    self.land_cover[land_cover_dict] = int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])
+                    if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_abatement_var_json] == str(True):
                         # pas de practices pour abatement
-                        self.abatement_type.append(int(data_land_cover["UH"][land_cover_dict]["value"]))
-                        slope_key_bool = True
-                        dict_thematique_abatement = {"eau": self.abatement_water, "PPP": self.abatement_phyto,
-                                                      "mes": self.abatement_mes}
+                        self.abatement_type.append(int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json]))
+
+                        dict_thematique_abatement = {studied_element_button0_label: self.abatement_water, studied_element_button2_label: self.abatement_phyto,
+                                                      studied_element_button1_label: self.abatement_mes}
                         for thematique in dict_thematique_abatement:
-                            for test_key in data_land_cover["UH"][land_cover_dict][thematique]["abatement"]:
-                                # test if slope keys :
-                                if not test_key == "low_slope" and not test_key == "medium_slope" and not test_key == "high_slope":
-                                    slope_key_bool = False
+                            for test_key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_abatement_var_json]:
                                 list_key = []
-                                if slope_key_bool:  # plusieurs classes de pentes
-                                    for key in data_land_cover["UH"][land_cover_dict][thematique]["abatement"]:
-                                        list_key.append(
-                                            float(
-                                                data_land_cover["UH"][land_cover_dict][thematique]["abatement"][key]))
-                                else:  # une seule classe de pente
-                                    list_key.append(
-                                        float(data_land_cover["UH"][land_cover_dict][thematique]["abatement"]))
-                                    list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique][
-                                                              "abatement"]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                    list_key.append(
-                                        float(data_land_cover["UH"][land_cover_dict][thematique]["abatement"]))
+                                # test if drain keys :
+                                if not test_key == config_UH_drain_0_var_json and not test_key == config_UH_drain_1_var_json and not test_key == config_UH_drain_2_var_json and not test_key == config_UH_drain_3_var_json:
+
+                                    # pas de drainage, on teste la pente
+                                    # test if slope keys :
+                                    if not test_key == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
+                                        # pas de drainage et pas de pente. Juste une seule valeur d'abattement
+                                        # on copie 12 fois la valeur (4 type de drainage x 3 type de pentes)
+                                        for i in range(12):
+                                            list_key.append(
+                                                float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                          config_UH_abatement_var_json]))
+                                    else : # pas de drainage mais présence de trois pentes
+                                        # on copie 4 fois la valeur (4 type de drainage)
+                                        for i in range(4):
+                                            for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                config_UH_abatement_var_json]:
+                                                list_key.append(
+                                                    float(
+                                                        data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                            config_UH_abatement_var_json][key]))
+                                else : # présence de drainage
+                                    for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                        config_UH_abatement_var_json]:
+                                        #pour chaque valeur de drainage, il est possible ou non d'avoir les trois classes de pentes
+                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                        config_UH_abatement_var_json][config_UH_drain_0_var_json]: # première valeur de drainage
+                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
+                                            # pas de pente; on copie trois fois la valeur
+                                                for i in range(3):
+                                                    list_key.append(
+                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                  thematique][
+                                                                  config_UH_abatement_var_json][config_UH_drain_0_var_json]))
+                                            else : # présence des trois classes de pentes
+                                                for key in \
+                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                    config_UH_abatement_var_json][config_UH_drain_0_var_json]:
+                                                    list_key.append(
+                                                        float(
+                                                            data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                thematique][
+                                                                config_UH_abatement_var_json][config_UH_drain_0_var_json][key]))
+                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                        config_UH_abatement_var_json][config_UH_drain_1_var_json]: # deuxième valeur de drainage
+                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
+                                            # pas de pente; on copie trois fois la valeur
+                                                for i in range(3):
+                                                    list_key.append(
+                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                  thematique][
+                                                                  config_UH_abatement_var_json][config_UH_drain_1_var_json]))
+                                            else : # présence des trois classes de pentes
+                                                for key in \
+                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                    config_UH_abatement_var_json][config_UH_drain_1_var_json]:
+                                                    list_key.append(
+                                                        float(
+                                                            data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                thematique][
+                                                                config_UH_abatement_var_json][config_UH_drain_1_var_json][key]))
+                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                        config_UH_abatement_var_json][config_UH_drain_2_var_json]: # troisième valeur de drainage
+                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
+                                            # pas de pente; on copie trois fois la valeur
+                                                for i in range(3):
+                                                    list_key.append(
+                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                  thematique][
+                                                                  config_UH_abatement_var_json][config_UH_drain_2_var_json]))
+                                            else : # présence des trois classes de pentes
+                                                for key in \
+                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                    config_UH_abatement_var_json][config_UH_drain_2_var_json]:
+                                                    list_key.append(
+                                                        float(
+                                                            data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                thematique][
+                                                                config_UH_abatement_var_json][config_UH_drain_2_var_json][key]))
+
+                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                        config_UH_abatement_var_json][config_UH_drain_3_var_json]: # quatrième valeur de drainage
+                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
+                                            # pas de pente; on copie trois fois la valeur
+                                                for i in range(3):
+                                                    list_key.append(
+                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                  thematique][
+                                                                  config_UH_abatement_var_json][config_UH_drain_3_var_json]))
+                                            else : # présence des trois classes de pentes
+                                                for key in \
+                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                    config_UH_abatement_var_json][config_UH_drain_3_var_json]:
+                                                    list_key.append(
+                                                        float(
+                                                            data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                thematique][
+                                                                config_UH_abatement_var_json][config_UH_drain_3_var_json][key]))
+
 
                             dict_thematique_abatement[thematique][
-                                int(data_land_cover["UH"][land_cover_dict]["value"])] = list_key
-                            slope_key_bool = True
+                                int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])] = list_key
+                            
                         self.abatement = copy.deepcopy(self.abatement_phyto)
 
-                    if data_land_cover["UH"][land_cover_dict]["production"] == str(True):
-                        self.production_type.append(int(data_land_cover["UH"][land_cover_dict]["value"]))
-                        # practice type and slope type are optional, we need to test if absence :
-                        # attention à l'ordre : practices en premier (x items), slope en second (3 items)
+                    if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_production_var_json] == str(True):
+                        self.production_type.append(int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json]))
+                        # practice type, drainage  and slope type are optional, we need to test if absence :
+
                         # find if practices key exist; if False, get slope key instead
                         practices_key_bool = True
                         slope_key_bool = True
 
-                        dict_thematique_production={"eau" : self.production_water,"PPP" : self.production_phyto,
-                                                    "mes":self.production_mes}
+                        dict_thematique_production={studied_element_button0_label : self.production_water,studied_element_button2_label : self.production_phyto,
+                                                    studied_element_button1_label :self.production_mes}
                         for thematique in dict_thematique_production:
-                            for test_key in data_land_cover["UH"][land_cover_dict][thematique]["production"]:
+                            for test_key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]:
                                 if not test_key.startswith('practice'):
                                     practices_key_bool = False
                                     # test if slope keys :
-                                    if not test_key == "low_slope" and not test_key == "medium_slope" and not test_key == "high_slope":
+                                    if not test_key == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
                                         slope_key_bool = False
 
                             n = 0
@@ -172,41 +265,41 @@ class ConfigFilesImportJS:
                                 list_key = []
                                 if not practices_key_bool:  # une seule pratique
                                     if slope_key_bool:  # une seule pratique et plusieurs classes de pentes
-                                        for key in data_land_cover["UH"][land_cover_dict][thematique]["production"]:
+                                        for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]:
                                             list_key.append(
-                                                float(data_land_cover["UH"][land_cover_dict][thematique]["production"][key]))
+                                                float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][key]))
                                     else:  # une seule pratique et une seule classe de pente
-                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"]))
-                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique][
-                                                                  "production"]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"]))
+                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]))
+                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][
+                                                                  config_UH_production_var_json]))  # on copie trois fois pour "mimer" les 3 classes de pente
+                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]))
                                 else:  # plusieurs pratiques
                                     if slope_key_bool:  # plusieurs pratiques et plusieurs classes de pente
                                         nb_practice = "practice" + str(n)
-                                        for key in data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]:
+                                        for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]:
                                             list_key.append(float(
-                                                data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice][
+                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice][
                                                     key]))
                                     else:  # plusieurs pratiques et une seule classe de pente
                                         nb_practice = "practice" + str(n)
                                         list_key.append(
-                                            float(data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]))
-                                        list_key.append(float(data_land_cover["UH"][land_cover_dict][thematique]["production"][
+                                            float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]))
+                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][
                                                                   nb_practice]))  # on copie trois fois pour "mimer" les 3 classes de pente
                                         list_key.append(
-                                            float(data_land_cover["UH"][land_cover_dict][thematique]["production"][nb_practice]))
+                                            float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]))
 
                                 practices_values[n] = list_key
 
-                            dict_thematique_production[thematique][int(data_land_cover["UH"][land_cover_dict]["value"])] = practices_values
+                            dict_thematique_production[thematique][int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])] = practices_values
                             practices_key_bool = True
                             slope_key_bool = True
                         self.production=copy.deepcopy(self.production_phyto)
 
         # TE
-        if self.season[0] == 'Eté':
+        if self.season[0] == selected_season_button0_label:
             table_name = config_line_type_file_summer_json
-        elif self.season[0] == 'Hiver':
+        elif self.season[0] == selected_season_button1_label:
             table_name = config_line_type_file_winter_json
 
         with open(self.path + table_name) as jsfile:
@@ -215,8 +308,8 @@ class ConfigFilesImportJS:
                 for line_type_dict in data_line_type["TE"]:
                     self.line_type[line_type_dict] = int(data_line_type["TE"][line_type_dict]["value"])
                     if data_line_type["TE"][line_type_dict]["abatement_long"] == str(True):
-                        dict_abatement_long = {"eau": self.abatement_long_water, "PPP": self.abatement_long_phyto,
-                                                      "mes": self.abatement_long_mes}
+                        dict_abatement_long = {studied_element_button0_label: self.abatement_long_water, studied_element_button2_label: self.abatement_long_phyto,
+                                                      studied_element_button1_label: self.abatement_long_mes}
                         self.abatement_type_long.append(int(data_line_type["TE"][line_type_dict]["value"]))
                         for thematique in dict_abatement_long:
                             dict_abatement_long[thematique]=float(data_line_type["TE"][line_type_dict][thematique]["abatement_long"])
@@ -224,8 +317,8 @@ class ConfigFilesImportJS:
 
 
                     if data_line_type["TE"][line_type_dict]["abatement_lat"] == str(True):
-                        dict_abatement_lat = {"eau": self.abatement_lat_water, "PPP": self.abatement_lat_phyto,
-                                               "mes": self.abatement_lat_mes}
+                        dict_abatement_lat = {studied_element_button0_label: self.abatement_lat_water, studied_element_button2_label: self.abatement_lat_phyto,
+                                               studied_element_button1_label: self.abatement_lat_mes}
                         self.abatement_type_lat.append(int(data_line_type["TE"][line_type_dict]["value"]))
                         for thematique in dict_abatement_lat:
                             dict_abatement_lat[thematique] = float(data_line_type["TE"][line_type_dict][thematique]["abatement_lat"])
