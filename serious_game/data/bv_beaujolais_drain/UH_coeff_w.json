@@ -7,9 +7,9 @@
       "Eaux de ruissellement": {
         "abatement": 0,
         "production": {
-          "low_slope": 0.7,
-          "medium_slope": 0.9,
-          "high_slope": 0.9
+          "low_slope": 1,
+          "medium_slope": 2,
+          "high_slope": 3
         }
       },
       "Produits phytosanitaires": {
@@ -18,115 +18,127 @@
           "practice1": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":4,
+            "medium_slope":5,
+            "high_slope":6
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 7,
+            "production ruissellement": {
+            "low_slope":8,
+            "medium_slope":9,
+            "high_slope":10
+          }
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":11,
+            "medium_slope":12,
+            "high_slope":13
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": {
+            "low_slope":14,
+            "medium_slope":15,
+            "high_slope":16
+          },
+            "production ruissellement": 17
           },
           "2 : mouillère drainée ": {
-            "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
-          },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production totale ": 18,
+            "production drain ": 19,
+            "production ruissellement": 20
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":21,
+            "medium_slope":22,
+            "high_slope":23
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": {
+            "low_slope":24,
+            "medium_slope":25,
+            "high_slope":26
+          },
+            "production ruissellement": {
+            "low_slope":27,
+            "medium_slope":28,
+            "high_slope":29
+          }
           }
         },
           "practice2": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":30,
+            "medium_slope":31,
+            "high_slope":32
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 33,
+            "production ruissellement": 34
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":35,
+            "medium_slope":36,
+            "high_slope":37
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": 38,
+            "production ruissellement": 39
           },
           "2 : mouillère drainée ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":40,
+            "medium_slope":41,
+            "high_slope":42
           },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production drain ": 43,
+            "production ruissellement": 44
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":45,
+            "medium_slope":46,
+            "high_slope":47
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": 48,
+            "production ruissellement": 49
           }
         },
           "practice3": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":50,
+            "medium_slope":51,
+            "high_slope":52
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 53,
+            "production ruissellement": 54
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":55,
+            "medium_slope":56,
+            "high_slope":57
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": 58,
+            "production ruissellement": 59
           },
           "2 : mouillère drainée ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":60,
+            "medium_slope":61,
+            "high_slope":62
           },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production drain ": 63,
+            "production ruissellement": 64
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":65,
+            "medium_slope":66,
+            "high_slope":67
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": 68,
+            "production ruissellement": 69
           }
         }
         }
@@ -137,116 +149,116 @@
           "practice1": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":70,
+            "medium_slope":71,
+            "high_slope":72
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 73,
+            "production ruissellement": 74
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":75,
+            "medium_slope":76,
+            "high_slope":77
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": 78,
+            "production ruissellement": 79
           },
           "2 : mouillère drainée ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":80,
+            "medium_slope":81,
+            "high_slope":82
           },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production drain ": 83,
+            "production ruissellement": 84
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":85,
+            "medium_slope":86,
+            "high_slope":87
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": 88,
+            "production ruissellement": 89
           }
         },
           
           "practice2": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":90,
+            "medium_slope":91,
+            "high_slope":92
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 93,
+            "production ruissellement": 94
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":95,
+            "medium_slope":96,
+            "high_slope":97
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": 98,
+            "production ruissellement": 99
           },
           "2 : mouillère drainée ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":100,
+            "medium_slope":101,
+            "high_slope":102
           },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production drain ": 103,
+            "production ruissellement": 104
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":105,
+            "medium_slope":106,
+            "high_slope":107
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": 108,
+            "production ruissellement": 109
           }
         },
           "practice3": {
           "0 : sans drainage ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":110,
+            "medium_slope":111,
+            "high_slope":112
           },
-            "production drain ": 0,
-            "production ruissellement": 1
+            "production drain ": 113,
+            "production ruissellement": 114
           },
           "1 : drainage plein ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":115,
+            "medium_slope":116,
+            "high_slope":117
           },
-            "production drain ": 0.8,
-            "production ruissellement": 0.2
+            "production drain ": 118,
+            "production ruissellement": 119
           },
           "2 : mouillère drainée ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":120,
+            "medium_slope":121,
+            "high_slope":122
           },
-            "production drain ": 0.1,
-            "production ruissellement": 0.9
+            "production drain ": 123,
+            "production ruissellement": 124
           },
           "3 : mouillère active ": {
             "production totale ": {
-            "low_slope":0.9,
-            "medium_slope":0.9,
-            "high_slope":1
+            "low_slope":125,
+            "medium_slope":126,
+            "high_slope":127
           },
-            "production drain ": 0,
-            "production ruissellement": 0.9
+            "production drain ": 128,
+            "production ruissellement": 129
           }
         }
         }
@@ -259,9 +271,9 @@
       "Eaux de ruissellement": {
         "abatement": 0,
         "production": {
-          "low_slope": 0.5,
-          "medium_slope": 0.7,
-          "high_slope": 0.7
+          "low_slope": 130,
+          "medium_slope": 131,
+          "high_slope": 132
         }
       },
       "Produits phytosanitaires": {
@@ -621,15 +633,45 @@
       "abatement": "True",
       "production": "True",
       "Eaux de ruissellement": {
-        "abatement": 0.7,
+        "abatement": {
+            "low_slope": 200,
+            "medium_slope": 201,
+            "high_slope": 202
+          },
         "production": 0
       },
       "Produits phytosanitaires": {
-        "abatement": 0.8,
+        "abatement": {
+          "0 : sans drainage ": 203,
+          "1 : drainage plein ": 204,
+          "2 : mouillère drainée ": 205,
+          "3 : mouillère active ": 206
+        },
         "production": 0
       },
       "Erosion": {
-        "abatement": 0.9,
+        "abatement": {
+          "0 : sans drainage ": {
+            "low_slope": 210,
+            "medium_slope": 211,
+            "high_slope": 212
+          },
+          "1 : drainage plein ": {
+            "low_slope": 213,
+            "medium_slope": 214,
+            "high_slope": 215
+          },
+          "2 : mouillère drainée ": {
+            "low_slope": 216,
+            "medium_slope": 217,
+            "high_slope": 218
+          },
+          "3 : mouillère active ": {
+            "low_slope": 219,
+            "medium_slope": 220,
+            "high_slope": 221
+          }
+        },
         "production": {
           "practice1": {
             "low_slope": 0.0157,
