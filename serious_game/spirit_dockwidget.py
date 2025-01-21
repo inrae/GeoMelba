@@ -147,7 +147,7 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
         self.output_path = output_path
 
         # Get config value.
-        self.config_files = ConfigFilesImportJS(path=path, watershed_name=watershed_name,season=self.season)
+        self.config_files = ConfigFilesImportJS(path=path, output_path=output_path,watershed_name=watershed_name,season=self.season)
         self.drain = None
         self.parcel_layer.set_parameters(self.config_files.production_type, self.config_files.practices)
 

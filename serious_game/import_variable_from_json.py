@@ -25,6 +25,7 @@
 """
 
 import json
+import csv
 import copy
 import os
 # Import personnal modules
@@ -41,9 +42,10 @@ from ..dictionnaire import data_folder, watershed_prefix, config_practices_file_
     config_UH_drain_0_var_json, config_UH_drain_1_var_json, config_UH_drain_2_var_json, config_UH_drain_3_var_json
 
 
+
 class ConfigFilesImportJS:
 
-    def __init__(self, path=None, watershed_name=None, season=None):
+    def __init__(self, path=None, output_path=None, watershed_name=None, season=None):
         # Get multiple parameters from the CSV in the watershed directory.
         self.practices = {}
         self.slope = {}
@@ -71,6 +73,7 @@ class ConfigFilesImportJS:
         self.abatement_lat_phyto = {}
         self.ztha_type = {}
         self.path = path + data_folder + watershed_prefix + watershed_name + "/"
+        self.output_path=output_path
         self.season = season
 
         self.import_config_files()
@@ -120,181 +123,607 @@ class ConfigFilesImportJS:
         # drainage, pente
         # items obligatoires : occupation du sol/ thématique/ abattement-production
         # pas d'items pratiques culturales dans abattement
-        # UH; #TODO: ajouter gestion drainage
-        with open(self.path + table_name) as jsfile:
-            data_land_cover = json.load(jsfile)
-            if config_UH_var_json in data_land_cover:
-                for land_cover_dict in data_land_cover[config_UH_var_json]:
-                    self.land_cover[land_cover_dict] = int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])
-                    if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_abatement_var_json] == str(True):
-                        # pas de practices pour abatement
-                        self.abatement_type.append(int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json]))
 
-                        dict_thematique_abatement = {studied_element_button0_label: self.abatement_water, studied_element_button2_label: self.abatement_phyto,
-                                                      studied_element_button1_label: self.abatement_mes}
-                        for thematique in dict_thematique_abatement:
-                            for test_key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_abatement_var_json]:
-                                list_key = []
-                                # test if drain keys :
-                                if not test_key == config_UH_drain_0_var_json and not test_key == config_UH_drain_1_var_json and not test_key == config_UH_drain_2_var_json and not test_key == config_UH_drain_3_var_json:
+        # pour UH, passage du json à un format csv qui contient toutes les colonnes
 
-                                    # pas de drainage, on teste la pente
-                                    # test if slope keys :
-                                    if not test_key == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                        # pas de drainage et pas de pente. Juste une seule valeur d'abattement
-                                        # on copie 12 fois la valeur (4 type de drainage x 3 type de pentes)
-                                        for i in range(12):
-                                            list_key.append(
-                                                float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                          config_UH_abatement_var_json]))
-                                    else : # pas de drainage mais présence de trois pentes
-                                        # on copie 4 fois la valeur (4 type de drainage)
-                                        for i in range(4):
-                                            for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                config_UH_abatement_var_json]:
-                                                list_key.append(
-                                                    float(
-                                                        data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                            config_UH_abatement_var_json][key]))
-                                else : # présence de drainage
-                                    for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                        config_UH_abatement_var_json]:
-                                        #pour chaque valeur de drainage, il est possible ou non d'avoir les trois classes de pentes
-                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                        config_UH_abatement_var_json][config_UH_drain_0_var_json]: # première valeur de drainage
-                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                            # pas de pente; on copie trois fois la valeur
-                                                for i in range(3):
-                                                    list_key.append(
-                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                  thematique][
-                                                                  config_UH_abatement_var_json][config_UH_drain_0_var_json]))
-                                            else : # présence des trois classes de pentes
-                                                for key in \
-                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                    config_UH_abatement_var_json][config_UH_drain_0_var_json]:
-                                                    list_key.append(
-                                                        float(
-                                                            data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                thematique][
-                                                                config_UH_abatement_var_json][config_UH_drain_0_var_json][key]))
-                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                        config_UH_abatement_var_json][config_UH_drain_1_var_json]: # deuxième valeur de drainage
-                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                            # pas de pente; on copie trois fois la valeur
-                                                for i in range(3):
-                                                    list_key.append(
-                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                  thematique][
-                                                                  config_UH_abatement_var_json][config_UH_drain_1_var_json]))
-                                            else : # présence des trois classes de pentes
-                                                for key in \
-                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                    config_UH_abatement_var_json][config_UH_drain_1_var_json]:
-                                                    list_key.append(
-                                                        float(
-                                                            data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                thematique][
-                                                                config_UH_abatement_var_json][config_UH_drain_1_var_json][key]))
-                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                        config_UH_abatement_var_json][config_UH_drain_2_var_json]: # troisième valeur de drainage
-                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                            # pas de pente; on copie trois fois la valeur
-                                                for i in range(3):
-                                                    list_key.append(
-                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                  thematique][
-                                                                  config_UH_abatement_var_json][config_UH_drain_2_var_json]))
-                                            else : # présence des trois classes de pentes
-                                                for key in \
-                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                    config_UH_abatement_var_json][config_UH_drain_2_var_json]:
-                                                    list_key.append(
-                                                        float(
-                                                            data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                thematique][
-                                                                config_UH_abatement_var_json][config_UH_drain_2_var_json][key]))
+        # suppression d'un éventuel fichier csv existant #TODO
+        # création d'un csv dans le dossier output
+        config_land_cover_file_csv= os.path.splitext(config_land_cover_file_json)[0]+'.csv'
+        UH_land_cover_csv_file_path=self.output_path+'data/'+config_land_cover_file_csv
+        with open(UH_land_cover_csv_file_path,'w', encoding='UTF8', newline='') as UH_csv_file:
+            writer = csv.writer(UH_csv_file)
+            # création des headers à partir d'une liste
+            UH_landcover_headerList=['key','value','abatement','production',
+                                     'abatement_eau_drain0_low_slope','abatement_eau_drain1_low_slope',
+                                     'abatement_eau_drain2_low_slope','abatement_eau_drain3_low_slope',
+                                     'abatement_eau_drain0_medium_slope', 'abatement_eau_drain1_medium_slope',
+                                     'abatement_eau_drain2_medium_slope', 'abatement_eau_drain3_medium_slope',
+                                     'abatement_eau_drain0_high_slope', 'abatement_eau_drain1_high_slope',
+                                     'abatement_eau_drain2_high_slope', 'abatement_eau_drain3_high_slope',
+                                     'abatement_phyto_drain0_low_slope', 'abatement_phyto_drain1_low_slope',
+                                     'abatement_phyto_drain2_low_slope', 'abatement_phyto_drain3_low_slope',
+                                     'abatement_phyto_drain0_medium_slope', 'abatement_phyto_drain1_medium_slope',
+                                     'abatement_phyto_drain2_medium_slope', 'abatement_phyto_drain3_medium_slope',
+                                     'abatement_phyto_drain0_high_slope', 'abatement_phyto_drain1_high_slope',
+                                     'abatement_phyto_drain2_high_slope', 'abatement_phyto_drain3_high_slope',
+                                     'abatement_mes_drain0_low_slope', 'abatement_mes_drain1_low_slope',
+                                     'abatement_mes_drain2_low_slope', 'abatement_mes_drain3_low_slope',
+                                     'abatement_mes_drain0_medium_slope', 'abatement_mes_drain1_medium_slope',
+                                     'abatement_mes_drain2_medium_slope', 'abatement_mes_drain3_medium_slope',
+                                     'abatement_mes_drain0_high_slope', 'abatement_mes_drain1_high_slope',
+                                     'abatement_mes_drain2_high_slope', 'abatement_mes_drain3_high_slope',
+                                     ]
+            n = 0
 
-                                        for key_slope in data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                        config_UH_abatement_var_json][config_UH_drain_3_var_json]: # quatrième valeur de drainage
-                                            if not key_slope == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                            # pas de pente; on copie trois fois la valeur
-                                                for i in range(3):
-                                                    list_key.append(
-                                                        float(data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                  thematique][
-                                                                  config_UH_abatement_var_json][config_UH_drain_3_var_json]))
-                                            else : # présence des trois classes de pentes
-                                                for key in \
-                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                    config_UH_abatement_var_json][config_UH_drain_3_var_json]:
-                                                    list_key.append(
-                                                        float(
-                                                            data_land_cover[config_UH_var_json][land_cover_dict][
-                                                                thematique][
-                                                                config_UH_abatement_var_json][config_UH_drain_3_var_json][key]))
+            while n < len(self.practices):
+                n = n + 1
+                practices='practice'+str(n)
+                UH_landcover_headerList.extend(['production_eau_drain0_prodtotale_low_slope_'+practices,
+                                                'production_eau_drain0_prodtotale_medium_slope_' + practices,
+                                                'production_eau_drain0_prodtotale_high_slope_' + practices,
+                                                'production_eau_drain0_prodDrain_low_slope_' + practices,
+                                                'production_eau_drain0_prodDrain_medium_slope_' + practices,
+                                                'production_eau_drain0_prodDrain_high_slope_' + practices,
+                                                'production_eau_drain0_prodRuissellement_low_slope_' + practices,
+                                                'production_eau_drain0_prodRuissellement_medium_slope_' + practices,
+                                                'production_eau_drain0_prodRuissellement_high_slope_' + practices,
+                                                'production_eau_drain1_prodtotale_low_slope_' + practices,
+                                                'production_eau_drain1_prodtotale_medium_slope_' + practices,
+                                                'production_eau_drain1_prodtotale_high_slope_' + practices,
+                                                'production_eau_drain1_prodDrain_low_slope_' + practices,
+                                                'production_eau_drain1_prodDrain_medium_slope_' + practices,
+                                                'production_eau_drain1_prodDrain_high_slope_' + practices,
+                                                'production_eau_drain1_prodRuissellement_low_slope_' + practices,
+                                                'production_eau_drain1_prodRuissellement_medium_slope_' + practices,
+                                                'production_eau_drain1_prodRuissellement_high_slope_' + practices,
+                                                'production_eau_drain2_prodtotale_low_slope_' + practices,
+                                                'production_eau_drain2_prodtotale_medium_slope_' + practices,
+                                                'production_eau_drain2_prodtotale_high_slope_' + practices,
+                                                'production_eau_drain2_prodDrain_low_slope_' + practices,
+                                                'production_eau_drain2_prodDrain_medium_slope_' + practices,
+                                                'production_eau_drain2_prodDrain_high_slope_' + practices,
+                                                'production_eau_drain2_prodRuissellement_low_slope_' + practices,
+                                                'production_eau_drain2_prodRuissellement_medium_slope_' + practices,
+                                                'production_eau_drain2_prodRuissellement_high_slope_' + practices,
+                                                'production_eau_drain3_prodtotale_low_slope_' + practices,
+                                                'production_eau_drain3_prodtotale_medium_slope_' + practices,
+                                                'production_eau_drain3_prodtotale_high_slope_' + practices,
+                                                'production_eau_drain3_prodDrain_low_slope_' + practices,
+                                                'production_eau_drain3_prodDrain_medium_slope_' + practices,
+                                                'production_eau_drain3_prodDrain_high_slope_' + practices,
+                                                'production_eau_drain3_prodRuissellement_low_slope_' + practices,
+                                                'production_eau_drain3_prodRuissellement_medium_slope_' + practices,
+                                                'production_eau_drain3_prodRuissellement_high_slope_' + practices,
+                                                'production_phyto_drain0_prodtotale_low_slope_' + practices,
+                                                'production_phyto_drain0_prodtotale_medium_slope_' + practices,
+                                                'production_phyto_drain0_prodtotale_high_slope_' + practices,
+                                                'production_phyto_drain0_prodDrain_low_slope_' + practices,
+                                                'production_phyto_drain0_prodDrain_medium_slope_' + practices,
+                                                'production_phyto_drain0_prodDrain_high_slope_' + practices,
+                                                'production_phyto_drain0_prodRuissellement_low_slope_' + practices,
+                                                'production_phyto_drain0_prodRuissellement_medium_slope_' + practices,
+                                                'production_phyto_drain0_prodRuissellement_high_slope_' + practices,
+                                                'production_phyto_drain1_prodtotale_low_slope_' + practices,
+                                                'production_phyto_drain1_prodtotale_medium_slope_' + practices,
+                                                'production_phyto_drain1_prodtotale_high_slope_' + practices,
+                                                'production_phyto_drain1_prodDrain_low_slope_' + practices,
+                                                'production_phyto_drain1_prodDrain_medium_slope_' + practices,
+                                                'production_phyto_drain1_prodDrain_high_slope_' + practices,
+                                                'production_phyto_drain1_prodRuissellement_low_slope_' + practices,
+                                                'production_phyto_drain1_prodRuissellement_medium_slope_' + practices,
+                                                'production_phyto_drain1_prodRuissellement_high_slope_' + practices,
+                                                'production_phyto_drain2_prodtotale_low_slope_' + practices,
+                                                'production_phyto_drain2_prodtotale_medium_slope_' + practices,
+                                                'production_phyto_drain2_prodtotale_high_slope_' + practices,
+                                                'production_phyto_drain2_prodDrain_low_slope_' + practices,
+                                                'production_phyto_drain2_prodDrain_medium_slope_' + practices,
+                                                'production_phyto_drain2_prodDrain_high_slope_' + practices,
+                                                'production_phyto_drain2_prodRuissellement_low_slope_' + practices,
+                                                'production_phyto_drain2_prodRuissellement_medium_slope_' + practices,
+                                                'production_phyto_drain2_prodRuissellement_high_slope_' + practices,
+                                                'production_phyto_drain3_prodtotale_low_slope_' + practices,
+                                                'production_phyto_drain3_prodtotale_medium_slope_' + practices,
+                                                'production_phyto_drain3_prodtotale_high_slope_' + practices,
+                                                'production_phyto_drain3_prodDrain_low_slope_' + practices,
+                                                'production_phyto_drain3_prodDrain_medium_slope_' + practices,
+                                                'production_phyto_drain3_prodDrain_high_slope_' + practices,
+                                                'production_phyto_drain3_prodRuissellement_low_slope_' + practices,
+                                                'production_phyto_drain3_prodRuissellement_medium_slope_' + practices,
+                                                'production_phyto_drain3_prodRuissellement_high_slope_' + practices,
+                                                'production_mes_drain0_prodtotale_low_slope_' + practices,
+                                                'production_mes_drain0_prodtotale_medium_slope_' + practices,
+                                                'production_mes_drain0_prodtotale_high_slope_' + practices,
+                                                'production_mes_drain0_prodDrain_low_slope_' + practices,
+                                                'production_mes_drain0_prodDrain_medium_slope_' + practices,
+                                                'production_mes_drain0_prodDrain_high_slope_' + practices,
+                                                'production_mes_drain0_prodRuissellement_low_slope_' + practices,
+                                                'production_mes_drain0_prodRuissellement_medium_slope_' + practices,
+                                                'production_mes_drain0_prodRuissellement_high_slope_' + practices,
+                                                'production_mes_drain1_prodtotale_low_slope_' + practices,
+                                                'production_mes_drain1_prodtotale_medium_slope_' + practices,
+                                                'production_mes_drain1_prodtotale_high_slope_' + practices,
+                                                'production_mes_drain1_prodDrain_low_slope_' + practices,
+                                                'production_mes_drain1_prodDrain_medium_slope_' + practices,
+                                                'production_mes_drain1_prodDrain_high_slope_' + practices,
+                                                'production_mes_drain1_prodRuissellement_low_slope_' + practices,
+                                                'production_mes_drain1_prodRuissellement_medium_slope_' + practices,
+                                                'production_mes_drain1_prodRuissellement_high_slope_' + practices,
+                                                'production_mes_drain2_prodtotale_low_slope_' + practices,
+                                                'production_mes_drain2_prodtotale_medium_slope_' + practices,
+                                                'production_mes_drain2_prodtotale_high_slope_' + practices,
+                                                'production_mes_drain2_prodDrain_low_slope_' + practices,
+                                                'production_mes_drain2_prodDrain_medium_slope_' + practices,
+                                                'production_mes_drain2_prodDrain_high_slope_' + practices,
+                                                'production_mes_drain2_prodRuissellement_low_slope_' + practices,
+                                                'production_mes_drain2_prodRuissellement_medium_slope_' + practices,
+                                                'production_mes_drain2_prodRuissellement_high_slope_' + practices,
+                                                'production_mes_drain3_prodtotale_low_slope_' + practices,
+                                                'production_mes_drain3_prodtotale_medium_slope_' + practices,
+                                                'production_mes_drain3_prodtotale_high_slope_' + practices,
+                                                'production_mes_drain3_prodDrain_low_slope_' + practices,
+                                                'production_mes_drain3_prodDrain_medium_slope_' + practices,
+                                                'production_mes_drain3_prodDrain_high_slope_' + practices,
+                                                'production_mes_drain3_prodRuissellement_low_slope_' + practices,
+                                                'production_mes_drain3_prodRuissellement_medium_slope_' + practices,
+                                                'production_mes_drain3_prodRuissellement_high_slope_' + practices,
+                                                ])
+            writer.writerow(UH_landcover_headerList)
+
+            with open(self.path + table_name) as jsfile:
+                data_land_cover = json.load(jsfile)
+
+                if config_UH_var_json in data_land_cover:
+                    for land_cover_dict in data_land_cover[config_UH_var_json]:
+                        data = []
+                        value=int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])
+                        self.land_cover[land_cover_dict] = value
+                        # add key and value
+                        data.extend([land_cover_dict,value])
+
+                        # test if abatement and production is False
+                        boolAbatement=False
+                        boolProduction = False
+                        if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_abatement_var_json] == str(
+                                True):
+                            boolAbatement = True
+                        if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_production_var_json] == str(
+                                True):
+                            boolProduction = True
+                        if boolAbatement:
+                            data.extend(['True'])
+                        else:
+                            data.extend(['False'])
+                        if boolProduction:
+                            data.extend(['True'])
+                        else:
+                            data.extend(['False'])
+                        # test if abatement is False, put 0 for all abatement value
+                        if not boolAbatement:
+                            for i in range(36):
+                                data.extend([0])
+                        else:
+
+                            # for water :
+                            # abatement True but only one positive value
+                            valAbatement=data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][config_UH_abatement_var_json]
+
+                            if isinstance(float(valAbatement), float):
+                                for i in range(12):
+                                    data.extend([valAbatement])
+                            else:
+                               # si que de la pente et pas de drainage
+
+                               if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][
+                                   config_UH_abatement_var_json] for keys in(config_UH_low_slope_var_json,config_UH_medium_slope_var_json,config_UH_high_slope_var_json)):
+                                   for i in range(4):
+                                       data.extend([data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][config_UH_abatement_var_json][config_UH_low_slope_var_json]])
+                                   for i in range(4):
+                                       data.extend([data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][config_UH_abatement_var_json][config_UH_medium_slope_var_json]])
+
+                                   for i in range(4):
+                                       data.extend([data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][config_UH_abatement_var_json][config_UH_high_slope_var_json]])
+
+                               else:
+                                    # on teste si drainage mais normalement oui
+                                    if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
+                                        studied_element_button0_label][
+                                        config_UH_abatement_var_json] for keys in (
+                                           config_UH_drain_0_var_json, config_UH_drain_1_var_json,
+                                           config_UH_drain_2_var_json,config_UH_drain_3_var_json)):
+                                        # on teste si les pentes
+                                        if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
+                                            studied_element_button0_label][
+                                            config_UH_abatement_var_json] for keys in (
+                                               config_UH_low_slope_var_json, config_UH_medium_slope_var_json,
+                                               config_UH_high_slope_var_json)):
+                                            # ici pente et drainage, chaque valeur unique
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][config_UH_high_slope_var_json]])
+
+                                        else:
+                                            # drainage mais pas de pente
+                                            for i in range(3):
+                                                data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                                 studied_element_button0_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_0_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
+                                                             studied_element_button0_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json]])
+
+                            # for phyto
+                            # abatement True but only one positive value
+                            valAbatement = data_land_cover[config_UH_var_json][land_cover_dict][
+                                studied_element_button2_label][config_UH_abatement_var_json]
+
+                            if isinstance(float(valAbatement), float):
+                                for i in range(12):
+                                    data.extend([valAbatement])
+                            else:
+                                # si que de la pente et pas de drainage
+
+                                if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
+                                    studied_element_button2_label][
+                                    config_UH_abatement_var_json] for keys in (
+                                       config_UH_low_slope_var_json,
+                                       config_UH_medium_slope_var_json,
+                                       config_UH_high_slope_var_json)):
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button2_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_low_slope_var_json]])
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button2_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_medium_slope_var_json]])
+
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button2_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_high_slope_var_json]])
+
+                                else:
+                                    # on teste si drainage mais normalement oui
+                                    if all(keys in
+                                           data_land_cover[config_UH_var_json][land_cover_dict][
+                                               studied_element_button2_label][
+                                               config_UH_abatement_var_json] for keys in (
+                                                   config_UH_drain_0_var_json,
+                                                   config_UH_drain_1_var_json,
+                                                   config_UH_drain_2_var_json,
+                                                   config_UH_drain_3_var_json)):
+                                        # on teste si les pentes
+                                        if all(keys in
+                                               data_land_cover[config_UH_var_json][land_cover_dict][
+                                                   studied_element_button2_label][
+                                                   config_UH_abatement_var_json] for keys in (
+                                                       config_UH_low_slope_var_json,
+                                                       config_UH_medium_slope_var_json,
+                                                       config_UH_high_slope_var_json)):
+                                            # ici pente et drainage, chaque valeur unique
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button2_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_high_slope_var_json]])
+
+                                        else:
+                                            # drainage mais pas de pente
+                                            for i in range(3):
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button2_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_0_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button2_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_1_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button2_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_2_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button2_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_3_var_json]])
+
+                            # for mes
+                            # abatement True but only one positive value
+                            valAbatement = data_land_cover[config_UH_var_json][land_cover_dict][
+                                studied_element_button1_label][config_UH_abatement_var_json]
+
+                            if isinstance(float(valAbatement), float):
+                                for i in range(12):
+                                    data.extend([valAbatement])
+                            else:
+                                # si que de la pente et pas de drainage
+
+                                if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
+                                    studied_element_button1_label][
+                                    config_UH_abatement_var_json] for keys in (
+                                               config_UH_low_slope_var_json,
+                                               config_UH_medium_slope_var_json,
+                                               config_UH_high_slope_var_json)):
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button1_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_low_slope_var_json]])
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button1_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_medium_slope_var_json]])
+
+                                    for i in range(4):
+                                        data.extend([data_land_cover[config_UH_var_json][
+                                                         land_cover_dict][
+                                                         studied_element_button1_label][
+                                                         config_UH_abatement_var_json][
+                                                         config_UH_high_slope_var_json]])
+
+                                else:
+                                    # on teste si drainage mais normalement oui
+                                    if all(keys in
+                                           data_land_cover[config_UH_var_json][land_cover_dict][
+                                               studied_element_button1_label][
+                                               config_UH_abatement_var_json] for keys in (
+                                                   config_UH_drain_0_var_json,
+                                                   config_UH_drain_1_var_json,
+                                                   config_UH_drain_2_var_json,
+                                                   config_UH_drain_3_var_json)):
+                                        # on teste si les pentes
+                                        if all(keys in
+                                               data_land_cover[config_UH_var_json][land_cover_dict][
+                                                   studied_element_button1_label][
+                                                   config_UH_abatement_var_json] for keys in (
+                                                       config_UH_low_slope_var_json,
+                                                       config_UH_medium_slope_var_json,
+                                                       config_UH_high_slope_var_json)):
+                                            # ici pente et drainage, chaque valeur unique
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_low_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_medium_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_0_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_1_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_2_var_json][
+                                                             config_UH_high_slope_var_json]])
+                                            data.extend([data_land_cover[config_UH_var_json][
+                                                             land_cover_dict][
+                                                             studied_element_button1_label][
+                                                             config_UH_abatement_var_json][
+                                                             config_UH_drain_3_var_json][
+                                                             config_UH_high_slope_var_json]])
+
+                                        else:
+                                            # drainage mais pas de pente
+                                            for i in range(3):
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button1_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_0_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button1_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_1_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button1_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_2_var_json]])
+                                                data.extend([data_land_cover[config_UH_var_json][
+                                                                 land_cover_dict][
+                                                                 studied_element_button1_label][
+                                                                 config_UH_abatement_var_json][
+                                                                 config_UH_drain_3_var_json]])
+
+                        writer.writerow(data)
+            # une ligne par occupation du sol
 
 
-                            dict_thematique_abatement[thematique][
-                                int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])] = list_key
-                            
-                        self.abatement = copy.deepcopy(self.abatement_phyto)
 
-                    if data_land_cover[config_UH_var_json][land_cover_dict][config_UH_production_var_json] == str(True):
-                        self.production_type.append(int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json]))
-                        # practice type, drainage  and slope type are optional, we need to test if absence :
 
-                        # find if practices key exist; if False, get slope key instead
-                        practices_key_bool = True
-                        slope_key_bool = True
 
-                        dict_thematique_production={studied_element_button0_label : self.production_water,studied_element_button2_label : self.production_phyto,
-                                                    studied_element_button1_label :self.production_mes}
-                        for thematique in dict_thematique_production:
-                            for test_key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]:
-                                if not test_key.startswith('practice'):
-                                    practices_key_bool = False
-                                    # test if slope keys :
-                                    if not test_key == config_UH_low_slope_var_json and not test_key == config_UH_medium_slope_var_json and not test_key == config_UH_high_slope_var_json:
-                                        slope_key_bool = False
 
-                            n = 0
-                            practices_values = {}
-                            while n < len(self.practices):
-                                n = n + 1
-                                list_key = []
-                                if not practices_key_bool:  # une seule pratique
-                                    if slope_key_bool:  # une seule pratique et plusieurs classes de pentes
-                                        for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]:
-                                            list_key.append(
-                                                float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][key]))
-                                    else:  # une seule pratique et une seule classe de pente
-                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]))
-                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][
-                                                                  config_UH_production_var_json]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json]))
-                                else:  # plusieurs pratiques
-                                    if slope_key_bool:  # plusieurs pratiques et plusieurs classes de pente
-                                        nb_practice = "practice" + str(n)
-                                        for key in data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]:
-                                            list_key.append(float(
-                                                data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice][
-                                                    key]))
-                                    else:  # plusieurs pratiques et une seule classe de pente
-                                        nb_practice = "practice" + str(n)
-                                        list_key.append(
-                                            float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]))
-                                        list_key.append(float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][
-                                                                  nb_practice]))  # on copie trois fois pour "mimer" les 3 classes de pente
-                                        list_key.append(
-                                            float(data_land_cover[config_UH_var_json][land_cover_dict][thematique][config_UH_production_var_json][nb_practice]))
 
-                                practices_values[n] = list_key
 
-                            dict_thematique_production[thematique][int(data_land_cover[config_UH_var_json][land_cover_dict][config_UH_value_var_json])] = practices_values
-                            practices_key_bool = True
-                            slope_key_bool = True
-                        self.production=copy.deepcopy(self.production_phyto)
+
+
 
         # TE
         if self.season[0] == selected_season_button0_label:

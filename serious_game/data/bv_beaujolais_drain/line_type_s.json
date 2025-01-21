@@ -1,190 +1,190 @@
 {
   "TE":{
     "haie":{
-      "value":"100",
+      "value":100,
       "abatement_long":"True",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0.2",
-        "abatement_lat":"0.7"
+        "abatement_long":0.2,
+        "abatement_lat":0.7
       },
       "Erosion":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0.9"
+        "abatement_long":0.3,
+        "abatement_lat":0.9
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0.8"
+        "abatement_long":0.3,
+        "abatement_lat":0.8
       }
     },
     "ripisylve":{
-      "value":"200",
+      "value":200,
       "abatement_long":"True",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0.2",
-        "abatement_lat":"0.7"
+        "abatement_long":0.2,
+        "abatement_lat":0.7
       },
       "Erosion":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0.9"
+        "abatement_long":0.3,
+        "abatement_lat":0.9
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0.8"
+        "abatement_long":0.3,
+        "abatement_lat":0.8
       }
     },
     "fossé_nu_ou_bétonné":{
-      "value":"310",
+      "value":310,
       "abatement_long":"True",
       "abatement_lat":"False",
       "Eaux de ruissellement":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       }
     },
     "fossé_végétalisé":{
-      "value":"320",
+      "value":320,
       "abatement_long":"True",
       "abatement_lat":"False",
       "Eaux de ruissellement":{
-        "abatement_long":"0.2",
-        "abatement_lat":"0"
+        "abatement_long":0.2,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0"
+        "abatement_long":0.3,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.3",
-        "abatement_lat":"0"
+        "abatement_long":0.3,
+        "abatement_lat":0
       }
     },
     "chemin_enherbé":{
-      "value":"410",
+      "value":410,
       "abatement_long":"True",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0.1",
-        "abatement_lat":"0.4"
+        "abatement_long":0.1,
+        "abatement_lat":0.4
       },
       "Erosion":{
-        "abatement_long":"0.2",
-        "abatement_lat":"0.5"
+        "abatement_long":0.2,
+        "abatement_lat":0.5
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.2",
-        "abatement_lat":"0.45"
+        "abatement_long":0.2,
+        "abatement_lat":0.45
       }
     },
     "chemin_nu":{
-      "value":"420",
+      "value":420,
       "abatement_long":"True",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0.05",
-        "abatement_lat":"0"
+        "abatement_long":0.05,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0.1",
-        "abatement_lat":"0"
+        "abatement_long":0.1,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.1",
-        "abatement_lat":"0"
+        "abatement_long":0.1,
+        "abatement_lat":0
       }
     },
     "route":{
-      "value":"500",
+      "value":500,
       "abatement_long":"True",
       "abatement_lat":"False",
       "Eaux de ruissellement":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       }
     },
     "muret":{
-      "value":"600",
+      "value":600,
       "abatement_long":"True",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0.05",
-        "abatement_lat":"0.7"
+        "abatement_long":0.05,
+        "abatement_lat":0.7
       },
       "Erosion":{
-        "abatement_long":"0.1",
-        "abatement_lat":"0.9"
+        "abatement_long":0.1,
+        "abatement_lat":0.9
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0.1",
-        "abatement_lat":"0.8"
+        "abatement_long":0.1,
+        "abatement_lat":0.8
       }
     },
     "rivière":{
-      "value":"700",
+      "value":700,
       "abatement_long":"False",
       "abatement_lat":"False",
       "Eaux de ruissellement":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       }
     },
     "bande_enherbée":{
-      "value":"800",
+      "value":800,
       "abatement_long":"False",
       "abatement_lat":"True",
       "Eaux de ruissellement":{
-        "abatement_long":"0",
-        "abatement_lat":"0.7"
+        "abatement_long":0,
+        "abatement_lat":0.7
       },
       "Erosion":{
-        "abatement_long":"0",
-        "abatement_lat":"0.9"
+        "abatement_long":0,
+        "abatement_lat":0.9
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0",
-        "abatement_lat":"0.8"
+        "abatement_long":0,
+        "abatement_lat":0.8
       }
     },
     "sans_élément_paysager":{
-      "value":"0",
+      "value":0,
       "abatement_long":"False",
       "abatement_lat":"False",
       "Eaux de ruissellement":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Erosion":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       },
       "Produits phytosanitaires":{
-        "abatement_long":"0",
-        "abatement_lat":"0"
+        "abatement_long":0,
+        "abatement_lat":0
       }
     }
   }

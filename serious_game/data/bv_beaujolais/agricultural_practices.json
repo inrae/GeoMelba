@@ -1,7 +1,7 @@
 {
   "agricultural_practices":{
-    "assurantiel":"1",
-    "optimisée":"2",
-    "sans_chimie_de_synthèse":"3"
+    "assurantiel":1,
+    "optimisée":2,
+    "sans_chimie_de_synthèse":3
   }
 }

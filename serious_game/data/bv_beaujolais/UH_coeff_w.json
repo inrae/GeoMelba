@@ -1,471 +1,471 @@
 {
   "UH":{
     "vigne":{
-      "value":"100",
+      "value":100,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
-            "low_slope":"0.7",
-            "medium_slope":"0.9",
-            "high_slope":"0.9"
+            "low_slope":0.7,
+            "medium_slope":0.9,
+            "high_slope":0.9
           
         }
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.6",
-            "medium_slope":"0.8",
-            "high_slope":"0.8"
+            "low_slope":0.6,
+            "medium_slope":0.8,
+            "high_slope":0.8
           },
           "practice2":{
-            "low_slope":"0.35",
-            "medium_slope":"0.5",
-            "high_slope":"0.5"
+            "low_slope":0.35,
+            "medium_slope":0.5,
+            "high_slope":0.5
           },
           "practice3":{
-            "low_slope":"0.1",
-            "medium_slope":"0.15",
-            "high_slope":"0.15"
+            "low_slope":0.1,
+            "medium_slope":0.15,
+            "high_slope":0.15
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.0530",
-            "medium_slope":"0.1333",
-            "high_slope":"0.2699"
+            "low_slope":0.0530,
+            "medium_slope":0.1333,
+            "high_slope":0.2699
           },
           "practice2":{
-            "low_slope":"0.1328",
-            "medium_slope":"0.3320",
-            "high_slope":"0.6667"
+            "low_slope":0.1328,
+            "medium_slope":0.3320,
+            "high_slope":0.6667
           },
           "practice3":{
-            "low_slope":"0.0530",
-            "medium_slope":"0.1333",
-            "high_slope":"0.2699"
+            "low_slope":0.0530,
+            "medium_slope":0.1333,
+            "high_slope":0.2699
           }
         }
       }
     },
     "vigne_enherbée_1_rang":{
-      "value":"101",
+      "value":101,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
-          "low_slope":"0.5",
-            "medium_slope":"0.7",
-            "high_slope":"0.7"
+          "low_slope":0.5,
+            "medium_slope":0.7,
+            "high_slope":0.7
         }
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.4",
-            "medium_slope":"0.6",
-            "high_slope":"0.6"
+            "low_slope":0.4,
+            "medium_slope":0.6,
+            "high_slope":0.6
           },
           "practice2":{
-            "low_slope":"0.2",
-            "medium_slope":"0.35",
-            "high_slope":"0.35"
+            "low_slope":0.2,
+            "medium_slope":0.35,
+            "high_slope":0.35
           },
           "practice3":{
-            "low_slope":"0",
-            "medium_slope":"0.1",
-            "high_slope":"0.1"
+            "low_slope":0,
+            "medium_slope":0.1,
+            "high_slope":0.1
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.0133",
-            "medium_slope":"0.0331",
-            "high_slope":"0.0669"
+            "low_slope":0.0133,
+            "medium_slope":0.0331,
+            "high_slope":0.0669
           },
           "practice2":{
-            "low_slope":"0.0415",
-            "medium_slope":"0.1036",
-            "high_slope":"0.2073"
+            "low_slope":0.0415,
+            "medium_slope":0.1036,
+            "high_slope":0.2073
           },
           "practice3":{
-            "low_slope":"0.0133",
-            "medium_slope":"0.0331",
-            "high_slope":"0.0669"
+            "low_slope":0.0133,
+            "medium_slope":0.0331,
+            "high_slope":0.0669
           }
         }
       }
     },
     "vigne_enherbée_tous_rangs":{
-      "value":"102",
+      "value":102,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
-          "low_slope":"0.5",
-            "medium_slope":"0.7",
-            "high_slope":"0.7"
+          "low_slope":0.5,
+            "medium_slope":0.7,
+            "high_slope":0.7
         }
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.4",
-            "medium_slope":"0.6",
-            "high_slope":"0.6"
+            "low_slope":0.4,
+            "medium_slope":0.6,
+            "high_slope":0.6
           },
           "practice2":{
-            "low_slope":"0.2",
-            "medium_slope":"0.35",
-            "high_slope":"0.35"
+            "low_slope":0.2,
+            "medium_slope":0.35,
+            "high_slope":0.35
           },
           "practice3":{
-            "low_slope":"0",
-            "medium_slope":"0.1",
-            "high_slope":"0.1"
+            "low_slope":0,
+            "medium_slope":0.1,
+            "high_slope":0.1
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.0045",
-            "medium_slope":"0.0110",
-            "high_slope":"0.0207"
+            "low_slope":0.0045,
+            "medium_slope":0.0110,
+            "high_slope":0.0207
           },
           "practice2":{
-            "low_slope":"0.0133",
-            "medium_slope":"0.0332",
-            "high_slope":"0.0670"
+            "low_slope":0.0133,
+            "medium_slope":0.0332,
+            "high_slope":0.0670
           },
           "practice3":{
-            "low_slope":"0.0045",
-            "medium_slope":"0.0110",
-            "high_slope":"0.0207"
+            "low_slope":0.0045,
+            "medium_slope":0.0110,
+            "high_slope":0.0207
           }
         }
       }
     },
     "vigne_avec_rases":{
-      "value":"110",
+      "value":110,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
-        "production":"0.9"
+        "abatement":0,
+        "production":0.9
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.8",
-            "medium_slope":"0.8",
-            "high_slope":"1"
+            "low_slope":0.8,
+            "medium_slope":0.8,
+            "high_slope":1
           },
           "practice2":{
-            "low_slope":"0.5",
-            "medium_slope":"0.5",
-            "high_slope":"0.6"
+            "low_slope":0.5,
+            "medium_slope":0.5,
+            "high_slope":0.6
           },
           "practice3":{
-            "low_slope":"0.15",
-            "medium_slope":"0.15",
-            "high_slope":"0.2"
+            "low_slope":0.15,
+            "medium_slope":0.15,
+            "high_slope":0.2
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.0318",
-            "medium_slope":"0.08",
-            "high_slope":"0.1620"
+            "low_slope":0.0318,
+            "medium_slope":0.08,
+            "high_slope":0.1620
           },
           "practice2":{
-            "low_slope":"0.0797",
-            "medium_slope":"0.1992",
-            "high_slope":"0.4"
+            "low_slope":0.0797,
+            "medium_slope":0.1992,
+            "high_slope":0.4
           },
           "practice3":{
-            "low_slope":"0.0318",
-            "medium_slope":"0.08",
-            "high_slope":"0.1620"
+            "low_slope":0.0318,
+            "medium_slope":0.08,
+            "high_slope":0.1620
           }
         }
       }
     },
     "vigne_enherbée_1_rang_avec_rases":{
-      "value":"111",
+      "value":111,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
-        "production":"0.7"
+        "abatement":0,
+        "production":0.7
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.6",
-            "medium_slope":"0.6",
-            "high_slope":"1"
+            "low_slope":0.6,
+            "medium_slope":0.6,
+            "high_slope":1
           },
           "practice2":{
-            "low_slope":"0.35",
-            "medium_slope":"0.35",
-            "high_slope":"0.6"
+            "low_slope":0.35,
+            "medium_slope":0.35,
+            "high_slope":0.6
           },
           "practice3":{
-            "low_slope":"0.1",
-            "medium_slope":"0.1",
-            "high_slope":"0.2"
+            "low_slope":0.1,
+            "medium_slope":0.1,
+            "high_slope":0.2
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.08",
-            "medium_slope":"0.0199",
-            "high_slope":"0.0402"
+            "low_slope":0.08,
+            "medium_slope":0.0199,
+            "high_slope":0.0402
           },
           "practice2":{
-            "low_slope":"0.0249",
-            "medium_slope":"0.0621",
-            "high_slope":"0.1244"
+            "low_slope":0.0249,
+            "medium_slope":0.0621,
+            "high_slope":0.1244
           },
           "practice3":{
-            "low_slope":"0.008",
-            "medium_slope":"0.0199",
-            "high_slope":"0.0402"
+            "low_slope":0.008,
+            "medium_slope":0.0199,
+            "high_slope":0.0402
           }
         }
       }
     },
     "vigne_enherbée_tous_rang_avec_rases":{
-      "value":"112",
+      "value":112,
       "abatement":"False",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0",
-        "production":"0.7"
+        "abatement":0,
+        "production":0.7
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.6",
-            "medium_slope":"0.6",
-            "high_slope":"1"
+            "low_slope":0.6,
+            "medium_slope":0.6,
+            "high_slope":1
           },
           "practice2":{
-            "low_slope":"0.35",
-            "medium_slope":"0.35",
-            "high_slope":"0.6"
+            "low_slope":0.35,
+            "medium_slope":0.35,
+            "high_slope":0.6
           },
           "practice3":{
-            "low_slope":"0.1",
-            "medium_slope":"0.1",
-            "high_slope":"0.2"
+            "low_slope":0.1,
+            "medium_slope":0.1,
+            "high_slope":0.2
           }
         }
       },
       "Erosion":{
-        "abatement":"0",
+        "abatement":0,
         "production":{
           "practice1":{
-            "low_slope":"0.0027",
-            "medium_slope":"0.0066",
-            "high_slope":"0.0124"
+            "low_slope":0.0027,
+            "medium_slope":0.0066,
+            "high_slope":0.0124
           },
           "practice2":{
-            "low_slope":"0.008",
-            "medium_slope":"0.0199",
-            "high_slope":"0.0402"
+            "low_slope":0.008,
+            "medium_slope":0.0199,
+            "high_slope":0.0402
           },
           "practice3":{
-            "low_slope":"0.0027",
-            "medium_slope":"0.0066",
-            "high_slope":"0.0124"
+            "low_slope":0.0027,
+            "medium_slope":0.0066,
+            "high_slope":0.0124
           }
         }
       }
     },
     "verger":{
-      "value":"200",
+      "value":200,
       "abatement":"True",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0.7",
-        "production":"0"
+        "abatement":0.7,
+        "production":0
       },
       "Produits phytosanitaires":{
-        "abatement":"0.8",
-        "production":"0"
+        "abatement":0.8,
+        "production":0
       },
       "Erosion":{
-        "abatement":"0.9",
+        "abatement":0.9,
         "production":{
           "practice1":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           },
           "practice2":{
-            "low_slope":"0.0472",
-            "medium_slope":"0.1176",
-            "high_slope":"0.2380"
+            "low_slope":0.0472,
+            "medium_slope":0.1176,
+            "high_slope":0.2380
           },
           "practice3":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           }
         }
       }
     },
     "prairie":{
-      "value":"300",
+      "value":300,
       "abatement":"True",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0.7",
-        "production":"0"
+        "abatement":0.7,
+        "production":0
       },
       "Produits phytosanitaires":{
-        "abatement":"0.8",
-        "production":"0"
+        "abatement":0.8,
+        "production":0
       },
       "Erosion":{
-        "abatement":"0.9",
+        "abatement":0.9,
         "production":{
           "practice1":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           },
           "practice2":{
-            "low_slope":"0.0472",
-            "medium_slope":"0.1176",
-            "high_slope":"0.2380"
+            "low_slope":0.0472,
+            "medium_slope":0.1176,
+            "high_slope":0.2380
           },
           "practice3":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           }
         }
       }
     },
     "friche":{
-      "value":"400",
+      "value":400,
       "abatement":"True",
       "production":"True",
       "Eaux de ruissellement":{
         "abatement":{
-          "low_slope":"0.7",
-          "medium_slope":"0.6",
-          "high_slope":"0.5"
+          "low_slope":0.7,
+          "medium_slope":0.6,
+          "high_slope":0.5
         },
-        "production":"0"
+        "production":0
       },
       "Produits phytosanitaires":{
         "abatement":{
-          "low_slope":"0.8",
-          "medium_slope":"0.7",
-          "high_slope":"0.6"
+          "low_slope":0.8,
+          "medium_slope":0.7,
+          "high_slope":0.6
         },
-        "production":"0"
+        "production":0
       },
       "Erosion":{
         "abatement":{
-          "low_slope":"0.9",
-          "medium_slope":"0.8",
-          "high_slope":"0.7"
+          "low_slope":0.9,
+          "medium_slope":0.8,
+          "high_slope":0.7
         },
         "production":{
           "practice1":{
-            "low_slope":"0.0098",
-            "medium_slope":"0.0228",
-            "high_slope":"0.0451"
+            "low_slope":0.0098,
+            "medium_slope":0.0228,
+            "high_slope":0.0451
           },
           "practice2":{
-            "low_slope":"0.0259",
-            "medium_slope":"0.0658",
-            "high_slope":"0.1320"
+            "low_slope":0.0259,
+            "medium_slope":0.0658,
+            "high_slope":0.1320
           },
           "practice3":{
-            "low_slope":"0.0098",
-            "medium_slope":"0.0228",
-            "high_slope":"0.0451"
+            "low_slope":0.0098,
+            "medium_slope":0.0228,
+            "high_slope":0.0451
           }
         }
       }
     },
     "bois":{
-      "value":"500",
+      "value":500,
       "abatement":"True",
       "production":"True",
       "Eaux de ruissellement":{
-        "abatement":"0.7",
-        "production":"0"
+        "abatement":0.7,
+        "production":0
       },
       "Produits phytosanitaires":{
-        "abatement":"0.8",
-        "production":"0"
+        "abatement":0.8,
+        "production":0
       },
       "Erosion":{
-        "abatement":"0.9",
+        "abatement":0.9,
         "production":{
           "practice1":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           },
           "practice2":{
-            "low_slope":"0.0472",
-            "medium_slope":"0.1176",
-            "high_slope":"0.2380"
+            "low_slope":0.0472,
+            "medium_slope":0.1176,
+            "high_slope":0.2380
           },
           "practice3":{
-            "low_slope":"0.0157",
-            "medium_slope":"0.0386",
-            "high_slope":"0.0773"
+            "low_slope":0.0157,
+            "medium_slope":0.0386,
+            "high_slope":0.0773
           }
         }
       }
     },
     "habitation":{
-      "value":"700",
+      "value":700,
       "abatement":"False",
       "production":"False",
       "Eaux de ruissellement":{
-        "abatement":"0",
-        "production":"0"
+        "abatement":0,
+        "production":0
       },
       "Produits phytosanitaires":{
-        "abatement":"0",
-        "production":"0"
+        "abatement":0,
+        "production":0
       },
       "Erosion":{
-        "abatement":"0",
-        "production":"0"
+        "abatement":0,
+        "production":0
       }
     }
     
