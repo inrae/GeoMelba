@@ -4304,62 +4304,98 @@ class ConfigFilesImportJS:
 
             # read csv and put into dictionnary
         with open(UH_land_cover_csv_file_path, 'r', encoding='UTF8', newline='') as UH_csv_file:
-            file_reader = csv.DictReader(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            file_reader = csv.DictReader(UH_csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for row in file_reader:
                 self.land_cover[row["key"]] = int(row["value"])
                 if row["abatement"] == str(True):
                     self.abatement_type.append(int(row["value"]))
-                    self.abatement[int(row["value"])] =[float(row["abatement_phyto_drain0_low_slope"]),
-                                                        float(row["abatement_phyto_drain0_medium_slope"]),
-                                                        float(row["abatement_phyto_drain0_high_slope"]),
-                                                        float(row["abatement_phyto_drain1_low_slope"]),
-                                                        float(row["abatement_phyto_drain1_medium_slope"]),
-                                                        float(row["abatement_phyto_drain1_high_slope"]),
-                                                        float(row["abatement_phyto_drain2_low_slope"]),
-                                                        float(row["abatement_phyto_drain2_medium_slope"]),
-                                                        float(row["abatement_phyto_drain2_high_slope"]),
-                                                        float(row["abatement_phyto_drain3_low_slope"]),
-                                                        float(row["abatement_phyto_drain3_medium_slope"]),
-                                                        float(row["abatement_phyto_drain3_high_slope"])]
 
-                    self.abatement_water[int(row["value"])] = [float(row["abatement_eau_drain0_low_slope"]),
-                                                         float(row["abatement_eau_drain0_medium_slope"]),
-                                                         float(row["abatement_eau_drain0_high_slope"]),
-                                                         float(row["abatement_eau_drain1_low_slope"]),
-                                                         float(row["abatement_eau_drain1_medium_slope"]),
-                                                         float(row["abatement_eau_drain1_high_slope"]),
-                                                         float(row["abatement_eau_drain2_low_slope"]),
-                                                         float(row["abatement_eau_drain2_medium_slope"]),
-                                                         float(row["abatement_eau_drain2_high_slope"]),
-                                                         float(row["abatement_eau_drain3_low_slope"]),
-                                                         float(row["abatement_eau_drain3_medium_slope"]),
-                                                         float(row["abatement_eau_drain3_high_slope"])]
+                    dict_drain0_slope = {"low_slope": float(row["abatement_phyto_drain0_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain0_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain0_high_slope"])}
+                    dict_drain1_slope = {"low_slope": float(row["abatement_phyto_drain1_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain1_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain1_high_slope"])}
+                    dict_drain2_slope = {"low_slope": float(row["abatement_phyto_drain2_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain2_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain2_high_slope"])}
+                    dict_drain3_slope = {"low_slope": float(row["abatement_phyto_drain3_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain3_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain3_high_slope"])}
 
-                    self.abatement_mes[int(row["value"])] = [float(row["abatement_mes_drain0_low_slope"]),
-                                                               float(row["abatement_mes_drain0_medium_slope"]),
-                                                               float(row["abatement_mes_drain0_high_slope"]),
-                                                               float(row["abatement_mes_drain1_low_slope"]),
-                                                               float(row["abatement_mes_drain1_medium_slope"]),
-                                                               float(row["abatement_mes_drain1_high_slope"]),
-                                                               float(row["abatement_mes_drain2_low_slope"]),
-                                                               float(row["abatement_mes_drain2_medium_slope"]),
-                                                               float(row["abatement_mes_drain2_high_slope"]),
-                                                               float(row["abatement_mes_drain3_low_slope"]),
-                                                               float(row["abatement_mes_drain3_medium_slope"]),
-                                                               float(row["abatement_mes_drain3_high_slope"])]
+                    dict_drain_slope={"0":dict_drain0_slope,"1":dict_drain1_slope,"2":dict_drain2_slope,
+                                      "3":dict_drain3_slope}
+                    self.abatement[int(row["value"])]=dict_drain_slope
+                    dict_drain0_slope.clear()
+                    dict_drain1_slope.clear()
+                    dict_drain2_slope.clear()
+                    dict_drain3_slope.clear()
+                    dict_drain_slope.clear()
 
-                    self.abatement_phyto[int(row["value"])] = [float(row["abatement_phyto_drain0_low_slope"]),
-                                                         float(row["abatement_phyto_drain0_medium_slope"]),
-                                                         float(row["abatement_phyto_drain0_high_slope"]),
-                                                         float(row["abatement_phyto_drain1_low_slope"]),
-                                                         float(row["abatement_phyto_drain1_medium_slope"]),
-                                                         float(row["abatement_phyto_drain1_high_slope"]),
-                                                         float(row["abatement_phyto_drain2_low_slope"]),
-                                                         float(row["abatement_phyto_drain2_medium_slope"]),
-                                                         float(row["abatement_phyto_drain2_high_slope"]),
-                                                         float(row["abatement_phyto_drain3_low_slope"]),
-                                                         float(row["abatement_phyto_drain3_medium_slope"]),
-                                                         float(row["abatement_phyto_drain3_high_slope"])]
+                    dict_drain0_slope = {"low_slope": float(row["abatement_eau_drain0_low_slope"]),
+                                         "medium_slope": float(row["abatement_eau_drain0_medium_slope"]),
+                                         "high_slope": float(row["abatement_eau_drain0_high_slope"])}
+                    dict_drain1_slope = {"low_slope": float(row["abatement_eau_drain1_low_slope"]),
+                                         "medium_slope": float(row["abatement_eau_drain1_medium_slope"]),
+                                         "high_slope": float(row["abatement_eau_drain1_high_slope"])}
+                    dict_drain2_slope = {"low_slope": float(row["abatement_eau_drain2_low_slope"]),
+                                         "medium_slope": float(row["abatement_eau_drain2_medium_slope"]),
+                                         "high_slope": float(row["abatement_eau_drain2_high_slope"])}
+                    dict_drain3_slope = {"low_slope": float(row["abatement_eau_drain3_low_slope"]),
+                                         "medium_slope": float(row["abatement_eau_drain3_medium_slope"]),
+                                         "high_slope": float(row["abatement_eau_drain3_high_slope"])}
+
+                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
+                                        "3": dict_drain3_slope}
+                    self.abatement_water[int(row["value"])] = dict_drain_slope
+
+                    dict_drain0_slope.clear()
+                    dict_drain1_slope.clear()
+                    dict_drain2_slope.clear()
+                    dict_drain3_slope.clear()
+                    dict_drain_slope.clear()
+
+                    dict_drain0_slope = {"low_slope": float(row["abatement_mes_drain0_low_slope"]),
+                                         "medium_slope": float(row["abatement_mes_drain0_medium_slope"]),
+                                         "high_slope": float(row["abatement_mes_drain0_high_slope"])}
+                    dict_drain1_slope = {"low_slope": float(row["abatement_mes_drain1_low_slope"]),
+                                         "medium_slope": float(row["abatement_mes_drain1_medium_slope"]),
+                                         "high_slope": float(row["abatement_mes_drain1_high_slope"])}
+                    dict_drain2_slope = {"low_slope": float(row["abatement_mes_drain2_low_slope"]),
+                                         "medium_slope": float(row["abatement_mes_drain2_medium_slope"]),
+                                         "high_slope": float(row["abatement_mes_drain2_high_slope"])}
+                    dict_drain3_slope = {"low_slope": float(row["abatement_mes_drain3_low_slope"]),
+                                         "medium_slope": float(row["abatement_mes_drain3_medium_slope"]),
+                                         "high_slope": float(row["abatement_mes_drain3_high_slope"])}
+
+                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
+                                        "3": dict_drain3_slope}
+                    self.abatement_mes[int(row["value"])] = dict_drain_slope
+
+                    dict_drain0_slope.clear()
+                    dict_drain1_slope.clear()
+                    dict_drain2_slope.clear()
+                    dict_drain3_slope.clear()
+                    dict_drain_slope.clear()
+
+                    dict_drain0_slope = {"low_slope": float(row["abatement_phyto_drain0_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain0_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain0_high_slope"])}
+                    dict_drain1_slope = {"low_slope": float(row["abatement_phyto_drain1_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain1_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain1_high_slope"])}
+                    dict_drain2_slope = {"low_slope": float(row["abatement_phyto_drain2_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain2_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain2_high_slope"])}
+                    dict_drain3_slope = {"low_slope": float(row["abatement_phyto_drain3_low_slope"]),
+                                         "medium_slope": float(row["abatement_phyto_drain3_medium_slope"]),
+                                         "high_slope": float(row["abatement_phyto_drain3_high_slope"])}
+
+                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
+                                        "3": dict_drain3_slope}
+                    self.abatement_phyto[int(row["value"])] = dict_drain_slope
+
+                    
 
 
                 if row["production"] == str(True):
