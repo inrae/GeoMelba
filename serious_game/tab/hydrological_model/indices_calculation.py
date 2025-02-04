@@ -1260,18 +1260,19 @@ class FlowCalculation:
         attrs = parcel.attributes()
         type_parcelle = attrs[parcel_layer.fields().indexFromName(field_type_parcel)]
         river_side = attrs[parcel_layer.fields().indexFromName(field_parcel_below)]
-        if type_parcelle == 300 and river_side == NULL and self.watershed_name == "gimond":
-            coef_minus = 0.5
-        else:
-            coef_minus = 1
+        drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+       # if type_parcelle == 300 and river_side == NULL and self.watershed_name == "gimond":
+       #     coef_minus = 0.5
+       # else:
+       #     coef_minus = 1
         if entrant_total != 0 and type_parcelle in self.abatement:
             longueur = attrs[parcel_layer.fields().indexFromName(field_parcel_slope_length)]
             pente = attrs[parcel_layer.fields().indexFromName(field_parcel_slope)]
             if id_parcel not in parcel_abat:
                 parcel_abat.append(id_parcel)
-            coeff = coefficient_abatement_UH(type_parcelle, pente, longueur, self.slope,
+            coeff = coefficient_abatement_UH(type_parcelle, pente, longueur, self.slope,drain_type,
                                              self.abatement)
-            abatement_coefficient = coeff * coef_minus
+            abatement_coefficient = coeff *# coef_minus
             for elem in history:
                 history[elem] = history[elem] - history[elem] * abatement_coefficient
             abattement_total = entrant_total * abatement_coefficient
