@@ -1272,7 +1272,7 @@ class FlowCalculation:
                 parcel_abat.append(id_parcel)
             coeff = coefficient_abatement_UH(type_parcelle, pente, longueur, self.slope,drain_type,
                                              self.abatement)
-            abatement_coefficient = coeff *# coef_minus
+            abatement_coefficient = coeff # * coef_minus
             for elem in history:
                 history[elem] = history[elem] - history[elem] * abatement_coefficient
             abattement_total = entrant_total * abatement_coefficient
