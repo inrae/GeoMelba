@@ -311,16 +311,17 @@ class FlowCalculation:
             slope = attrs[parcel_layer.fields().indexFromName(field_parcel_slope)]
             label = attrs[parcel_layer.fields().indexFromName(field_parcel_practice)]
             longueur = attrs[parcel_layer.fields().indexFromName(field_parcel_slope_length)]
+            drain_type=attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
             if parcel_type in self.production_type:
               
 
-                prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                prod = parcel_inflow_production(parcel_type, label, slope, area, self.slope,drain_type,
                                                 self.production)
-                prod_water = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                prod_water = parcel_inflow_production(parcel_type, label, slope, area, self.slope,drain_type,
                                                       self.production_water)
-                prod_mes = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                prod_mes = parcel_inflow_production(parcel_type, label, slope, area, self.slope,drain_type,
                                                     self.production_mes)*longueur
-                prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,
+                prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,drain_type,
                                                       self.production_phyto)
 
               
@@ -794,11 +795,11 @@ class FlowCalculation:
             uh_up = attrs[line_layer.fields().indexFromName(field_line_parcel_above)]
             coef_minus_up = 1
             coef_minus_dwn = 1
-            if self.watershed_name == "beaujolais" or self.watershed_name == "emilie":
-                if type_up == 800:
-                    coef_minus_up = 0.5
-                if type_dwn == 800:
-                    coef_minus_dwn = 0.5
+           # if self.watershed_name == "beaujolais" or self.watershed_name == "emilie":
+           #     if type_up == 800:
+            #        coef_minus_up = 0.5
+            #    if type_dwn == 800:
+            #        coef_minus_dwn = 0.5
             history_up = {}
             history_dwn = {}
             history_abat_up = {}
