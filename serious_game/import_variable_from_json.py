@@ -4310,73 +4310,58 @@ class ConfigFilesImportJS:
                 if row["abatement"] == str(True):
                     self.abatement_type.append(int(row["value"]))
 
-                    dict_drain0_slope = {"low_slope": float(row["abatement_phyto_drain0_low_slope"]),
+                    dict_phyto_drain0_slope = {"low_slope": float(row["abatement_phyto_drain0_low_slope"]),
                                          "medium_slope": float(row["abatement_phyto_drain0_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain0_high_slope"])}
-                    dict_drain1_slope = {"low_slope": float(row["abatement_phyto_drain1_low_slope"]),
+                    dict_phyto_drain1_slope = {"low_slope": float(row["abatement_phyto_drain1_low_slope"]),
                                          "medium_slope": float(row["abatement_phyto_drain1_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain1_high_slope"])}
-                    dict_drain2_slope = {"low_slope": float(row["abatement_phyto_drain2_low_slope"]),
+                    dict_phyto_drain2_slope = {"low_slope": float(row["abatement_phyto_drain2_low_slope"]),
                                          "medium_slope": float(row["abatement_phyto_drain2_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain2_high_slope"])}
-                    dict_drain3_slope = {"low_slope": float(row["abatement_phyto_drain3_low_slope"]),
+                    dict_phyto_drain3_slope = {"low_slope": float(row["abatement_phyto_drain3_low_slope"]),
                                          "medium_slope": float(row["abatement_phyto_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain3_high_slope"])}
 
-                    dict_drain_slope={"0":dict_drain0_slope,"1":dict_drain1_slope,"2":dict_drain2_slope,
-                                      "3":dict_drain3_slope}
-                    self.abatement[int(row["value"])]=dict_drain_slope
-                    dict_drain0_slope.clear()
-                    dict_drain1_slope.clear()
-                    dict_drain2_slope.clear()
-                    dict_drain3_slope.clear()
-                    dict_drain_slope.clear()
+                    dict_phyto_drain_slope={"0":dict_phyto_drain0_slope,"1":dict_phyto_drain1_slope,"2":dict_phyto_drain2_slope,
+                                      "3":dict_phyto_drain3_slope}
+                    self.abatement[int(row["value"])]=dict_phyto_drain_slope
 
-                    dict_drain0_slope = {"low_slope": float(row["abatement_eau_drain0_low_slope"]),
+                    dict_eau_drain0_slope = {"low_slope": float(row["abatement_eau_drain0_low_slope"]),
                                          "medium_slope": float(row["abatement_eau_drain0_medium_slope"]),
                                          "high_slope": float(row["abatement_eau_drain0_high_slope"])}
-                    dict_drain1_slope = {"low_slope": float(row["abatement_eau_drain1_low_slope"]),
+                    dict_eau_drain1_slope = {"low_slope": float(row["abatement_eau_drain1_low_slope"]),
                                          "medium_slope": float(row["abatement_eau_drain1_medium_slope"]),
                                          "high_slope": float(row["abatement_eau_drain1_high_slope"])}
-                    dict_drain2_slope = {"low_slope": float(row["abatement_eau_drain2_low_slope"]),
+                    dict_eau_drain2_slope = {"low_slope": float(row["abatement_eau_drain2_low_slope"]),
                                          "medium_slope": float(row["abatement_eau_drain2_medium_slope"]),
                                          "high_slope": float(row["abatement_eau_drain2_high_slope"])}
-                    dict_drain3_slope = {"low_slope": float(row["abatement_eau_drain3_low_slope"]),
+                    dict_eau_drain3_slope = {"low_slope": float(row["abatement_eau_drain3_low_slope"]),
                                          "medium_slope": float(row["abatement_eau_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_eau_drain3_high_slope"])}
 
-                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
-                                        "3": dict_drain3_slope}
-                    self.abatement_water[int(row["value"])] = dict_drain_slope
+                    dict_eau_drain_slope = {"0": dict_eau_drain0_slope, "1": dict_eau_drain1_slope, "2": dict_eau_drain2_slope,
+                                        "3": dict_eau_drain3_slope}
+                    self.abatement_water[int(row["value"])] = dict_eau_drain_slope
 
-                    dict_drain0_slope.clear()
-                    dict_drain1_slope.clear()
-                    dict_drain2_slope.clear()
-                    dict_drain3_slope.clear()
-                    dict_drain_slope.clear()
 
-                    dict_drain0_slope = {"low_slope": float(row["abatement_mes_drain0_low_slope"]),
+                    dict_mes_drain0_slope = {"low_slope": float(row["abatement_mes_drain0_low_slope"]),
                                          "medium_slope": float(row["abatement_mes_drain0_medium_slope"]),
                                          "high_slope": float(row["abatement_mes_drain0_high_slope"])}
-                    dict_drain1_slope = {"low_slope": float(row["abatement_mes_drain1_low_slope"]),
+                    dict_mes_drain1_slope = {"low_slope": float(row["abatement_mes_drain1_low_slope"]),
                                          "medium_slope": float(row["abatement_mes_drain1_medium_slope"]),
                                          "high_slope": float(row["abatement_mes_drain1_high_slope"])}
-                    dict_drain2_slope = {"low_slope": float(row["abatement_mes_drain2_low_slope"]),
+                    dict_mes_drain2_slope = {"low_slope": float(row["abatement_mes_drain2_low_slope"]),
                                          "medium_slope": float(row["abatement_mes_drain2_medium_slope"]),
                                          "high_slope": float(row["abatement_mes_drain2_high_slope"])}
-                    dict_drain3_slope = {"low_slope": float(row["abatement_mes_drain3_low_slope"]),
+                    dict_mes_drain3_slope = {"low_slope": float(row["abatement_mes_drain3_low_slope"]),
                                          "medium_slope": float(row["abatement_mes_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_mes_drain3_high_slope"])}
 
-                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
-                                        "3": dict_drain3_slope}
-                    self.abatement_mes[int(row["value"])] = dict_drain_slope
+                    dict_mes_drain_slope = {"0": dict_mes_drain0_slope, "1": dict_mes_drain1_slope, "2": dict_mes_drain2_slope,
+                                        "3": dict_mes_drain3_slope}
+                    self.abatement_mes[int(row["value"])] = dict_mes_drain_slope
 
-                    dict_drain0_slope.clear()
-                    dict_drain1_slope.clear()
-                    dict_drain2_slope.clear()
-                    dict_drain3_slope.clear()
-                    dict_drain_slope.clear()
 
                     dict_drain0_slope = {"low_slope": float(row["abatement_phyto_drain0_low_slope"]),
                                          "medium_slope": float(row["abatement_phyto_drain0_medium_slope"]),
@@ -4395,7 +4380,7 @@ class ConfigFilesImportJS:
                                         "3": dict_drain3_slope}
                     self.abatement_phyto[int(row["value"])] = dict_drain_slope
 
-                    
+
 
 
                 if row["production"] == str(True):
@@ -4404,310 +4389,444 @@ class ConfigFilesImportJS:
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [float(row["production_phyto_drain0_prodtotale_low_slope_practice" + str(n) ]),
-                                               float(row["production_phyto_drain0_prodtotale_medium_slope_practice" + str(n)]),
-                                               float(row["production_phyto_drain0_prodtotale_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodDrain_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodDrain_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodDrain_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodRuissellement_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodRuissellement_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain0_prodRuissellement_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodtotale_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodtotale_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodtotale_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodDrain_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodDrain_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodDrain_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodRuissellement_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodRuissellement_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain1_prodRuissellement_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodtotale_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodtotale_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodtotale_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodDrain_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodDrain_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodDrain_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodRuissellement_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodRuissellement_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain2_prodRuissellement_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodtotale_low_slope_practice" + str(
-                                                             n)]),
-                                               float(row["production_phyto_drain3_prodtotale_medium_slope_practice" + str(
-                                                             n)]),
-                                               float(row["production_phyto_drain3_prodtotale_high_slope_practice" + str(
-                                                             n)]),
-                                               float(row["production_phyto_drain3_prodDrain_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodDrain_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodDrain_high_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodRuissellement_low_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodRuissellement_medium_slope_practice" + str(
-                                                   n)]),
-                                               float(row["production_phyto_drain3_prodRuissellement_high_slope_practice" + str(
-                                                   n)]),
-                                                ]
+                        dict_phyto_drain = {}
+                        # drain 0
+                        dict_phyto_drain0_prodtotale_slope={"low_slope": float(row["production_phyto_drain0_prodtotale_low_slope_practice" + str(n)]),
+                                    "medium_slope": float(row["production_phyto_drain0_prodtotale_medium_slope_practice" + str(n)]),
+                                    "high_slope": float(row["production_phyto_drain0_prodtotale_high_slope_practice" + str(
+                                                   n)])}
+                        dict_phyto_drain0_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain0_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain0_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain0_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain0_prodRuissellement_slope = {
+                            "low_slope": float(row["production_phyto_drain0_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain0_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain0_prodRuissellement_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain0_type={"totale":dict_phyto_drain0_prodtotale_slope,"drain":dict_phyto_drain0_prodDrain_slope,"ruissellement":dict_phyto_drain0_prodRuissellement_slope}
+                        dict_phyto_drain["0"] =  dict_phyto_drain0_type
+
+
+                        # drain 1
+                        dict_phyto_drain1_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain1_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain1_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain1_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain1_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain1_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain1_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain1_type = {"totale": dict_phyto_drain1_prodtotale_slope, "drain": dict_phyto_drain1_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain1_prodRuissellement_slope}
+                        dict_phyto_drain["1"] = dict_phyto_drain1_type
+
+                        # drain 2
+                        dict_phyto_drain2_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain2_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain2_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain2_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain2_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain2_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain2_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain2_type = {"totale": dict_phyto_drain2_prodtotale_slope, "drain": dict_phyto_drain2_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain2_prodRuissellement_slope}
+                        dict_phyto_drain["2"]= dict_phyto_drain2_type
+
+                        # drain 3
+                        dict_phyto_drain3_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain3_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain3_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain3_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain3_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain3_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain3_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain3_type = {"totale": dict_phyto_drain3_prodtotale_slope, "drain": dict_phyto_drain3_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain3_prodRuissellement_slope}
+                        dict_phyto_drain["3"]= dict_phyto_drain3_type
+
+
+                        practices_values[n] =dict_phyto_drain
+
+
 
                     self.production[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [
-                            float(row["production_eau_drain0_prodtotale_low_slope_practice" + str(n)]),
-                            float(row["production_eau_drain0_prodtotale_medium_slope_practice" + str(n)]),
-                            float(row["production_eau_drain0_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain0_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain1_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain2_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_eau_drain3_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            ]
+                        dict_eau_drain={}
+                        # drain 0
+                        dict_eau_drain0_prodtotale_slope = {
+                            "low_slope": float(row["production_eau_drain0_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain0_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain0_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain0_prodDrain_slope = {
+                            "low_slope": float(row["production_eau_drain0_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain0_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain0_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain0_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_eau_drain0_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain0_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_eau_drain0_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_eau_drain0_type = {"totale": dict_eau_drain0_prodtotale_slope, "drain": dict_eau_drain0_prodDrain_slope,
+                                           "ruissellement": dict_eau_drain0_prodRuissellement_slope}
+                        dict_eau_drain["0"]= dict_eau_drain0_type
+
+
+                        # drain 1
+                        dict_eau_drain1_prodtotale_slope = {
+                            "low_slope": float(row["production_eau_drain1_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain1_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain1_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain1_prodDrain_slope = {
+                            "low_slope": float(row["production_eau_drain1_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain1_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain1_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain1_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_eau_drain1_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain1_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_eau_drain1_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_eau_drain1_type = {"totale": dict_eau_drain1_prodtotale_slope, "drain": dict_eau_drain1_prodDrain_slope,
+                                           "ruissellement": dict_eau_drain1_prodRuissellement_slope}
+                        dict_eau_drain["1"]= dict_eau_drain1_type
+
+                        # drain 2
+                        dict_eau_drain2_prodtotale_slope = {
+                            "low_slope": float(row["production_eau_drain2_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain2_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain2_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain2_prodDrain_slope = {
+                            "low_slope": float(row["production_eau_drain2_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain2_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain2_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain2_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_eau_drain2_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain2_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_eau_drain2_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_eau_drain2_type = {"totale": dict_eau_drain2_prodtotale_slope, "drain": dict_eau_drain2_prodDrain_slope,
+                                           "ruissellement": dict_eau_drain2_prodRuissellement_slope}
+                        dict_eau_drain["2"]= dict_eau_drain2_type
+
+
+                        # drain 3
+                        dict_eau_drain3_prodtotale_slope = {
+                            "low_slope": float(row["production_eau_drain3_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain3_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain3_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain3_prodDrain_slope = {
+                            "low_slope": float(row["production_eau_drain3_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain3_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_eau_drain3_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_eau_drain3_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_eau_drain3_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_eau_drain3_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_eau_drain3_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_eau_drain3_type = {"totale": dict_eau_drain3_prodtotale_slope, "drain": dict_eau_drain3_prodDrain_slope,
+                                           "ruissellement": dict_eau_drain3_prodRuissellement_slope}
+                        dict_eau_drain["3"]= dict_eau_drain3_type
+
+
+                        practices_values[n] = dict_eau_drain
+
                     self.production_water[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [
-                            float(row["production_mes_drain0_prodtotale_low_slope_practice" + str(n)]),
-                            float(row["production_mes_drain0_prodtotale_medium_slope_practice" + str(n)]),
-                            float(row["production_mes_drain0_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain0_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain1_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain2_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_mes_drain3_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                        ]
+                        dict_mes_drain={}
+                        # drain 0
+                        dict_mes_drain0_prodtotale_slope = {
+                            "low_slope": float(row["production_mes_drain0_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain0_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain0_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain0_prodDrain_slope = {
+                            "low_slope": float(row["production_mes_drain0_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain0_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain0_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain0_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_mes_drain0_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain0_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_mes_drain0_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_mes_drain0_type = {"totale": dict_mes_drain0_prodtotale_slope, "drain": dict_mes_drain0_prodDrain_slope,
+                                           "ruissellement": dict_mes_drain0_prodRuissellement_slope}
+                        dict_mes_drain["0"]= dict_mes_drain0_type
+
+
+                        # drain 1
+                        dict_mes_drain1_prodtotale_slope = {
+                            "low_slope": float(row["production_mes_drain1_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain1_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain1_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain1_prodDrain_slope = {
+                            "low_slope": float(row["production_mes_drain1_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain1_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain1_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain1_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_mes_drain1_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain1_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_mes_drain1_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_mes_drain1_type = {"totale": dict_mes_drain1_prodtotale_slope, "drain": dict_mes_drain1_prodDrain_slope,
+                                           "ruissellement": dict_mes_drain1_prodRuissellement_slope}
+                        dict_mes_drain["1"]= dict_mes_drain1_type
+
+
+                        # drain 2
+                        dict_mes_drain2_prodtotale_slope = {
+                            "low_slope": float(row["production_mes_drain2_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain2_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain2_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain2_prodDrain_slope = {
+                            "low_slope": float(row["production_mes_drain2_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain2_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain2_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain2_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_mes_drain2_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain2_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_mes_drain2_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_mes_drain2_type = {"totale": dict_mes_drain2_prodtotale_slope, "drain": dict_mes_drain2_prodDrain_slope,
+                                           "ruissellement": dict_mes_drain2_prodRuissellement_slope}
+                        dict_mes_drain["2"]= dict_mes_drain2_type
+
+
+                        # drain 3
+                        dict_mes_drain3_prodtotale_slope = {
+                            "low_slope": float(row["production_mes_drain3_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain3_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain3_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain3_prodDrain_slope = {
+                            "low_slope": float(row["production_mes_drain3_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain3_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_mes_drain3_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_mes_drain3_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_mes_drain3_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_mes_drain3_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_mes_drain3_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_mes_drain3_type = {"totale": dict_mes_drain3_prodtotale_slope, "drain": dict_mes_drain3_prodDrain_slope,
+                                           "ruissellement": dict_mes_drain3_prodRuissellement_slope}
+                        dict_mes_drain["3"]= dict_mes_drain3_type
+
+
+                        practices_values[n] = dict_mes_drain
                     self.production_mes[int(row["value"])] = practices_values
                     n = 0
                     practices_values = {}
                     while n < len(self.practices):
                         n = n + 1
-                        practices_values[n] = [
-                            float(row["production_phyto_drain0_prodtotale_low_slope_practice" + str(n)]),
-                            float(row["production_phyto_drain0_prodtotale_medium_slope_practice" + str(n)]),
-                            float(row["production_phyto_drain0_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain0_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain1_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain2_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodtotale_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodtotale_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodtotale_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodDrain_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodDrain_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodDrain_high_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodRuissellement_low_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodRuissellement_medium_slope_practice" + str(
-                                n)]),
-                            float(row["production_phyto_drain3_prodRuissellement_high_slope_practice" + str(
-                                n)]),
-                            ]
-                    self.production_phyto[int(row["value"])] = practices_values
+                        dict_phyto_drain={}
+                        # drain 0
+                        dict_phyto_drain0_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain0_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain0_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain0_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain0_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain0_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain0_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain0_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain0_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain0_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain0_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain0_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain0_type = {"totale": dict_phyto_drain0_prodtotale_slope, "drain": dict_phyto_drain0_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain0_prodRuissellement_slope}
+                        dict_phyto_drain["0"]= dict_phyto_drain0_type
+
+
+                        # drain 1
+                        dict_phyto_drain1_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain1_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain1_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain1_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain1_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain1_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain1_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain1_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain1_type = {"totale": dict_phyto_drain1_prodtotale_slope, "drain": dict_phyto_drain1_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain1_prodRuissellement_slope}
+                        dict_phyto_drain["1"]= dict_phyto_drain1_type
+
+
+                        # drain 2
+                        dict_phyto_drain2_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain2_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain2_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain2_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain2_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain2_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain2_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain2_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain2_type = {"totale": dict_phyto_drain2_prodtotale_slope, "drain": dict_phyto_drain2_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain2_prodRuissellement_slope}
+                        dict_phyto_drain["2"]= dict_phyto_drain2_type
+
+
+                        # drain 3
+                        dict_phyto_drain3_prodtotale_slope = {
+                            "low_slope": float(row["production_phyto_drain3_prodtotale_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodtotale_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain3_prodtotale_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain3_prodDrain_slope = {
+                            "low_slope": float(row["production_phyto_drain3_prodDrain_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodDrain_medium_slope_practice" + str(n)]),
+                            "high_slope": float(row["production_phyto_drain3_prodDrain_high_slope_practice" + str(
+                                n)])}
+                        dict_phyto_drain3_prodRuissellement_slope = {
+                            "low_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_low_slope_practice" + str(n)]),
+                            "medium_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_medium_slope_practice" + str(n)]),
+                            "high_slope": float(
+                                row["production_phyto_drain3_prodRuissellement_high_slope_practice" + str(
+                                    n)])}
+                        dict_phyto_drain3_type = {"totale": dict_phyto_drain3_prodtotale_slope, "drain": dict_phyto_drain3_prodDrain_slope,
+                                           "ruissellement": dict_phyto_drain3_prodRuissellement_slope}
+                        dict_phyto_drain["3"]= dict_phyto_drain3_type
+
+
+                        practices_values[n] = dict_phyto_drain
+
+                self.production_phyto[int(row["value"])] = practices_values
+                
 
         # TE
         if self.season[0] == selected_season_button0_label:
