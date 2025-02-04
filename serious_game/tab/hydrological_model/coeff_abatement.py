@@ -24,71 +24,74 @@
 """
 
 
-def parcel_inflow_production(land_cover, agricultural_practices, slope, area, slope_list, production_list):
+def parcel_inflow_production(land_cover, agricultural_practices, slope, area, slope_dict, drain_type, production_dict):
     """Used to get the flow production of a feature depending on it's land cover, agricultural practice, slope and area.
     The mandatory arguments are :
     - the land cover type of the feature
     - the agricultural practice of the feature
     - the slope of the feature
     - the area of the feature
-    - the list of the slopes range
-    - list of the flow production coefficient based on slopes, land cover and agricultural practices.
+    - the dict of the slopes range
+    - dict of drain : formula to use for case 1,2,3: Production totale x production ruissellement
+    - dict of the flow production coefficient based on slopes, land cover and agricultural practices.
     """
+
     # If the slope is low, the slope is lower than the biggest value in the low slope range.
-    if slope < slope_list['low'][1]:
-        flow_production_coefficient = production_list[land_cover][agricultural_practices][0]
+
+    if slope < slope_dict['low'][1]:
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][0]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
     # If the slope is high, the slope is higher than the biggest value in the medium slope range.
-    elif slope > slope_list['medium'][1]:
-        flow_production_coefficient = production_list[land_cover][agricultural_practices][2]
+    elif slope > slope_dict['medium'][1]:
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][2]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
     else:
-        flow_production_coefficient = production_list[land_cover][agricultural_practices][1]
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][1] * production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
     flow_production = area * flow_production_coefficient
     return flow_production
 
 
-def coefficient_abatement_UH(land_cover, slope, length, slope_list, abatement_list):
+def coefficient_abatement_UH(land_cover, slope, length, slope_dict, abatement_dict):
     """Used to get the abatement coefficient of an UH based on it's land cover, slope and slope length.
     The mandatory arguments are :
     - the land cover type of the feature
     - the slope of the feature
     - the slope length of the feature
-    - the list of the slopes range
-    - list of the abatement values for every land cover type depending on slope.
+    - the dict of the slopes range
+    - dict of the abatement values for every land cover type depending on slope.
     """
     # If the slope is low, the slope is lower than the biggest value in the low slope range.
-    if slope < slope_list['low'][1]:
-        abatement = abatement_list[land_cover][0]
+    if slope < slope_dict['low'][1]:
+        abatement = abatement_dict[land_cover][0]
     # If the slope is high, the slope is higher than the biggest value in the medium slope range.
-    elif slope > slope_list['medium'][1]:
-        abatement = abatement_list[land_cover][2]
+    elif slope > slope_dict['medium'][1]:
+        abatement = abatement_dict[land_cover][2]
     # If the slope is medium
     else:
-        abatement = abatement_list[land_cover][1]
+        abatement = abatement_dict[land_cover][1]
     calculation = (length / 5) * abatement
     coefficient = min(1, calculation)
     return coefficient
 
 
-def coefficient_abatement_lateral_TE(type_line, abatement_lateral_list):
+def coefficient_abatement_lateral_TE(type_line, abatement_lateral_dict):
     """Used to get the lateral abatement coefficient of a TE based on it's type.
     The mandatory arguments are :
     - the type of the feature
-    - list of the lateral abatement values for every line type.
+    - dict of the lateral abatement values for every line type.
     """
     # Get the coefficient from the excel file for this type of line.
-    coefficient = abatement_lateral_list[type_line]
+    coefficient = abatement_lateral_dict[type_line]
     return coefficient
 
 
-def coefficient_abatement_longitudinal_TE(type_line, length, abatement_longitudinal_list):
+def coefficient_abatement_longitudinal_TE(type_line, length, abatement_longitudinal_dict):
     """Used to get the longitudinal abatement coefficient of a TE based on it's type and length.
     The mandatory arguments are :
     - the type of the feature
     - the length of the feature
-    - list of the longitudinal abatement values for every line type.
+    - dict of the longitudinal abatement values for every line type.
     """
     # Get the abatement for a meter from the excel file for this type of line.
-    abatement = abatement_longitudinal_list[type_line]
+    abatement = abatement_longitudinal_dict[type_line]
     # Create the coefficient by multiplying the abatement by the length and divide the product by 100.
     coefficient = (abatement * length) / 100
     # Assure the coefficient is not bigger than 1.
