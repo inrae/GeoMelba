@@ -32,41 +32,42 @@ def parcel_inflow_production(land_cover, agricultural_practices, slope, area, sl
     - the slope of the feature
     - the area of the feature
     - the dict of the slopes range
-    - dict of drain : formula to use for case 1,2,3: Production totale x production ruissellement
+    - drain_type: type of drain,  formula to use :  Production totale x production ruissellement
     - dict of the flow production coefficient based on slopes, land cover and agricultural practices.
     """
 
     # If the slope is low, the slope is lower than the biggest value in the low slope range.
 
     if slope < slope_dict['low'][1]:
-        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][0]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["low_slope"]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"]["low_slope"]
     # If the slope is high, the slope is higher than the biggest value in the medium slope range.
     elif slope > slope_dict['medium'][1]:
-        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][2]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["high_slope"]* production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"]["high_slope"]
     else:
-        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"][1] * production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"][0]
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["medium_slope"] * production_dict[land_cover][agricultural_practices][drain_type]["ruissellement"]["medium_slope"]
     flow_production = area * flow_production_coefficient
     return flow_production
 
 
-def coefficient_abatement_UH(land_cover, slope, length, slope_dict, abatement_dict):
+def coefficient_abatement_UH(land_cover, slope, length, slope_dict, drain_type,abatement_dict):
     """Used to get the abatement coefficient of an UH based on it's land cover, slope and slope length.
     The mandatory arguments are :
     - the land cover type of the feature
     - the slope of the feature
     - the slope length of the feature
     - the dict of the slopes range
+    _ type of drain
     - dict of the abatement values for every land cover type depending on slope.
     """
     # If the slope is low, the slope is lower than the biggest value in the low slope range.
     if slope < slope_dict['low'][1]:
-        abatement = abatement_dict[land_cover][0]
+        abatement = abatement_dict[land_cover][drain_type]["low_slope"]
     # If the slope is high, the slope is higher than the biggest value in the medium slope range.
     elif slope > slope_dict['medium'][1]:
-        abatement = abatement_dict[land_cover][2]
+        abatement = abatement_dict[land_cover][drain_type]["high_slope"]
     # If the slope is medium
     else:
-        abatement = abatement_dict[land_cover][1]
+        abatement = abatement_dict[land_cover][drain_type]["medium_slope"]
     calculation = (length / 5) * abatement
     coefficient = min(1, calculation)
     return coefficient
