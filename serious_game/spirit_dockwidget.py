@@ -212,7 +212,8 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
                                                        watershed_name=watershed_name,
                                                        ztha_type=self.config_files.ztha_type,
                                                        parcel_layer=self.parcel_layer,
-                                                       line_layer=self.line_layer)
+                                                       line_layer=self.line_layer,
+                                                       season=self.season)
 
         # Creation of the widgets at the Top of the plugin, zoom on 1 parcel, zoom on all the watershed or rollback last
         # modification.

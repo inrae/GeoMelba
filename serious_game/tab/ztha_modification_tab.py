@@ -26,20 +26,28 @@
 import os
 from .tab_management import TabManagement
 from .interface_tools.interface_management import UiCreationZthaModification
-from ...dictionnaire import data_folder, watershed_prefix, config_ztha_file, ztha_tab_name
+from ...dictionnaire import data_folder, watershed_prefix, ztha_tab_name,\
+                            selected_season_button0_label, config_ztha_file_winter_json,\
+                            config_ztha_file_summer_json, selected_season_button1_label
 
 
 class ZthaModificationTab(TabManagement):
 
     def __init__(self, parent=None, path=None, watershed_name=None, ztha_type=None, parcel_layer=None,
-                 line_layer=None):
+                 line_layer=None,season=None):
         """Concern the tab creation of the ztha modification :
         - multiple buttons to activate/deactivate the drained areas
         """
         super(ZthaModificationTab, self).__init__(tab_widget=parent.tab_widget)
         self.tab_widget.setTabText(self.tab_index_ztha, ztha_tab_name)
         self.tab_widget.setTabEnabled(self.tab_index_ztha, False)
-        if os.path.exists(path + data_folder + watershed_prefix + watershed_name + "/" + config_ztha_file):
+        ztha_name_file=None
+        if season[0] == selected_season_button0_label:
+            ztha_name_file = config_ztha_file_summer_json
+        elif season[0] == selected_season_button1_label:
+            ztha_name_file = config_ztha_file_winter_json
+
+        if os.path.exists(path + data_folder + watershed_prefix + watershed_name + "/" + ztha_name_file):
             self.tab_widget.setTabEnabled(self.tab_index_ztha, True)
             # Button and checkbox creation
             self.ui_creation = UiCreationZthaModification(tab_widget=self.tab_widget, parcel_layer=parcel_layer,
