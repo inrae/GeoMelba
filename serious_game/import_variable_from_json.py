@@ -4323,8 +4323,8 @@ class ConfigFilesImportJS:
                                          "medium_slope": float(row["abatement_phyto_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain3_high_slope"])}
 
-                    dict_phyto_drain_slope={"0":dict_phyto_drain0_slope,"1":dict_phyto_drain1_slope,"2":dict_phyto_drain2_slope,
-                                      "3":dict_phyto_drain3_slope}
+                    dict_phyto_drain_slope={0:dict_phyto_drain0_slope,1:dict_phyto_drain1_slope,2:dict_phyto_drain2_slope,
+                                      3:dict_phyto_drain3_slope}
                     self.abatement[int(row["value"])]=dict_phyto_drain_slope
 
                     dict_eau_drain0_slope = {"low_slope": float(row["abatement_eau_drain0_low_slope"]),
@@ -4340,8 +4340,8 @@ class ConfigFilesImportJS:
                                          "medium_slope": float(row["abatement_eau_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_eau_drain3_high_slope"])}
 
-                    dict_eau_drain_slope = {"0": dict_eau_drain0_slope, "1": dict_eau_drain1_slope, "2": dict_eau_drain2_slope,
-                                        "3": dict_eau_drain3_slope}
+                    dict_eau_drain_slope = {0: dict_eau_drain0_slope, 1: dict_eau_drain1_slope, 2: dict_eau_drain2_slope,
+                                        3: dict_eau_drain3_slope}
                     self.abatement_water[int(row["value"])] = dict_eau_drain_slope
 
 
@@ -4358,8 +4358,8 @@ class ConfigFilesImportJS:
                                          "medium_slope": float(row["abatement_mes_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_mes_drain3_high_slope"])}
 
-                    dict_mes_drain_slope = {"0": dict_mes_drain0_slope, "1": dict_mes_drain1_slope, "2": dict_mes_drain2_slope,
-                                        "3": dict_mes_drain3_slope}
+                    dict_mes_drain_slope = {0: dict_mes_drain0_slope, 1: dict_mes_drain1_slope, 2: dict_mes_drain2_slope,
+                                        3: dict_mes_drain3_slope}
                     self.abatement_mes[int(row["value"])] = dict_mes_drain_slope
 
 
@@ -4376,8 +4376,8 @@ class ConfigFilesImportJS:
                                          "medium_slope": float(row["abatement_phyto_drain3_medium_slope"]),
                                          "high_slope": float(row["abatement_phyto_drain3_high_slope"])}
 
-                    dict_drain_slope = {"0": dict_drain0_slope, "1": dict_drain1_slope, "2": dict_drain2_slope,
-                                        "3": dict_drain3_slope}
+                    dict_drain_slope = {0: dict_drain0_slope, 1: dict_drain1_slope, 2: dict_drain2_slope,
+                                        3: dict_drain3_slope}
                     self.abatement_phyto[int(row["value"])] = dict_drain_slope
 
 
@@ -4408,7 +4408,7 @@ class ConfigFilesImportJS:
                             "high_slope": float(row["production_phyto_drain0_prodRuissellement_high_slope_practice" + str(
                                 n)])}
                         dict_phyto_drain0_type={"totale":dict_phyto_drain0_prodtotale_slope,"drain":dict_phyto_drain0_prodDrain_slope,"ruissellement":dict_phyto_drain0_prodRuissellement_slope}
-                        dict_phyto_drain["0"] =  dict_phyto_drain0_type
+                        dict_phyto_drain[0] =  dict_phyto_drain0_type
 
 
                         # drain 1
@@ -4434,7 +4434,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain1_type = {"totale": dict_phyto_drain1_prodtotale_slope, "drain": dict_phyto_drain1_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain1_prodRuissellement_slope}
-                        dict_phyto_drain["1"] = dict_phyto_drain1_type
+                        dict_phyto_drain[1] = dict_phyto_drain1_type
 
                         # drain 2
                         dict_phyto_drain2_prodtotale_slope = {
@@ -4459,7 +4459,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain2_type = {"totale": dict_phyto_drain2_prodtotale_slope, "drain": dict_phyto_drain2_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain2_prodRuissellement_slope}
-                        dict_phyto_drain["2"]= dict_phyto_drain2_type
+                        dict_phyto_drain[2]= dict_phyto_drain2_type
 
                         # drain 3
                         dict_phyto_drain3_prodtotale_slope = {
@@ -4484,7 +4484,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain3_type = {"totale": dict_phyto_drain3_prodtotale_slope, "drain": dict_phyto_drain3_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain3_prodRuissellement_slope}
-                        dict_phyto_drain["3"]= dict_phyto_drain3_type
+                        dict_phyto_drain[3]= dict_phyto_drain3_type
 
 
                         practices_values[n] =dict_phyto_drain
@@ -4520,7 +4520,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_eau_drain0_type = {"totale": dict_eau_drain0_prodtotale_slope, "drain": dict_eau_drain0_prodDrain_slope,
                                            "ruissellement": dict_eau_drain0_prodRuissellement_slope}
-                        dict_eau_drain["0"]= dict_eau_drain0_type
+                        dict_eau_drain[0]= dict_eau_drain0_type
 
 
                         # drain 1
@@ -4546,7 +4546,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_eau_drain1_type = {"totale": dict_eau_drain1_prodtotale_slope, "drain": dict_eau_drain1_prodDrain_slope,
                                            "ruissellement": dict_eau_drain1_prodRuissellement_slope}
-                        dict_eau_drain["1"]= dict_eau_drain1_type
+                        dict_eau_drain[1]= dict_eau_drain1_type
 
                         # drain 2
                         dict_eau_drain2_prodtotale_slope = {
@@ -4571,7 +4571,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_eau_drain2_type = {"totale": dict_eau_drain2_prodtotale_slope, "drain": dict_eau_drain2_prodDrain_slope,
                                            "ruissellement": dict_eau_drain2_prodRuissellement_slope}
-                        dict_eau_drain["2"]= dict_eau_drain2_type
+                        dict_eau_drain[2]= dict_eau_drain2_type
 
 
                         # drain 3
@@ -4597,7 +4597,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_eau_drain3_type = {"totale": dict_eau_drain3_prodtotale_slope, "drain": dict_eau_drain3_prodDrain_slope,
                                            "ruissellement": dict_eau_drain3_prodRuissellement_slope}
-                        dict_eau_drain["3"]= dict_eau_drain3_type
+                        dict_eau_drain[3]= dict_eau_drain3_type
 
 
                         practices_values[n] = dict_eau_drain
@@ -4631,7 +4631,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_mes_drain0_type = {"totale": dict_mes_drain0_prodtotale_slope, "drain": dict_mes_drain0_prodDrain_slope,
                                            "ruissellement": dict_mes_drain0_prodRuissellement_slope}
-                        dict_mes_drain["0"]= dict_mes_drain0_type
+                        dict_mes_drain[0]= dict_mes_drain0_type
 
 
                         # drain 1
@@ -4657,7 +4657,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_mes_drain1_type = {"totale": dict_mes_drain1_prodtotale_slope, "drain": dict_mes_drain1_prodDrain_slope,
                                            "ruissellement": dict_mes_drain1_prodRuissellement_slope}
-                        dict_mes_drain["1"]= dict_mes_drain1_type
+                        dict_mes_drain[1]= dict_mes_drain1_type
 
 
                         # drain 2
@@ -4683,7 +4683,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_mes_drain2_type = {"totale": dict_mes_drain2_prodtotale_slope, "drain": dict_mes_drain2_prodDrain_slope,
                                            "ruissellement": dict_mes_drain2_prodRuissellement_slope}
-                        dict_mes_drain["2"]= dict_mes_drain2_type
+                        dict_mes_drain[2]= dict_mes_drain2_type
 
 
                         # drain 3
@@ -4709,7 +4709,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_mes_drain3_type = {"totale": dict_mes_drain3_prodtotale_slope, "drain": dict_mes_drain3_prodDrain_slope,
                                            "ruissellement": dict_mes_drain3_prodRuissellement_slope}
-                        dict_mes_drain["3"]= dict_mes_drain3_type
+                        dict_mes_drain[3]= dict_mes_drain3_type
 
 
                         practices_values[n] = dict_mes_drain
@@ -4742,7 +4742,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain0_type = {"totale": dict_phyto_drain0_prodtotale_slope, "drain": dict_phyto_drain0_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain0_prodRuissellement_slope}
-                        dict_phyto_drain["0"]= dict_phyto_drain0_type
+                        dict_phyto_drain[0]= dict_phyto_drain0_type
 
 
                         # drain 1
@@ -4768,7 +4768,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain1_type = {"totale": dict_phyto_drain1_prodtotale_slope, "drain": dict_phyto_drain1_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain1_prodRuissellement_slope}
-                        dict_phyto_drain["1"]= dict_phyto_drain1_type
+                        dict_phyto_drain[1]= dict_phyto_drain1_type
 
 
                         # drain 2
@@ -4794,7 +4794,7 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain2_type = {"totale": dict_phyto_drain2_prodtotale_slope, "drain": dict_phyto_drain2_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain2_prodRuissellement_slope}
-                        dict_phyto_drain["2"]= dict_phyto_drain2_type
+                        dict_phyto_drain[2]= dict_phyto_drain2_type
 
 
                         # drain 3
@@ -4820,13 +4820,13 @@ class ConfigFilesImportJS:
                                     n)])}
                         dict_phyto_drain3_type = {"totale": dict_phyto_drain3_prodtotale_slope, "drain": dict_phyto_drain3_prodDrain_slope,
                                            "ruissellement": dict_phyto_drain3_prodRuissellement_slope}
-                        dict_phyto_drain["3"]= dict_phyto_drain3_type
+                        dict_phyto_drain[3]= dict_phyto_drain3_type
 
 
                         practices_values[n] = dict_phyto_drain
 
                 self.production_phyto[int(row["value"])] = practices_values
-                
+
 
         # TE
         if self.season[0] == selected_season_button0_label:
@@ -4840,21 +4840,25 @@ class ConfigFilesImportJS:
                 for line_type_dict in data_line_type["TE"]:
                     self.line_type[line_type_dict] = int(data_line_type["TE"][line_type_dict]["value"])
                     if data_line_type["TE"][line_type_dict]["abatement_long"] == str(True):
-                        dict_abatement_long = {studied_element_button0_label: self.abatement_long_water, studied_element_button2_label: self.abatement_long_phyto,
-                                                      studied_element_button1_label: self.abatement_long_mes}
                         self.abatement_type_long.append(int(data_line_type["TE"][line_type_dict]["value"]))
-                        for thematique in dict_abatement_long:
-                            dict_abatement_long[thematique]=float(data_line_type["TE"][line_type_dict][thematique]["abatement_long"])
-                        self.abatement_long=copy.deepcopy(self.abatement_long_phyto)
+                        self.abatement_long[int(data_line_type["TE"][line_type_dict]["value"])]=float(data_line_type["TE"][line_type_dict][studied_element_button2_label]["abatement_long"])
+                        self.abatement_long_water[int(data_line_type["TE"][line_type_dict]["value"])]=float(data_line_type["TE"][line_type_dict][studied_element_button0_label]["abatement_long"])
+                        self.abatement_long_mes[int(data_line_type["TE"][line_type_dict]["value"])] = float(
+                            data_line_type["TE"][line_type_dict][studied_element_button1_label]["abatement_long"])
+                        self.abatement_long_phyto[int(data_line_type["TE"][line_type_dict]["value"])] = float(
+                            data_line_type["TE"][line_type_dict][studied_element_button2_label]["abatement_long"])
+
 
 
                     if data_line_type["TE"][line_type_dict]["abatement_lat"] == str(True):
-                        dict_abatement_lat = {studied_element_button0_label: self.abatement_lat_water, studied_element_button2_label: self.abatement_lat_phyto,
-                                               studied_element_button1_label: self.abatement_lat_mes}
                         self.abatement_type_lat.append(int(data_line_type["TE"][line_type_dict]["value"]))
-                        for thematique in dict_abatement_lat:
-                            dict_abatement_lat[thematique] = float(data_line_type["TE"][line_type_dict][thematique]["abatement_lat"])
-                        self.abatement_lat = copy.deepcopy(self.abatement_lat_phyto)
+                        self.abatement_lat[int(data_line_type["TE"][line_type_dict]["value"])]=float(data_line_type["TE"][line_type_dict][studied_element_button2_label]["abatement_lat"])
+                        self.abatement_lat_water[int(data_line_type["TE"][line_type_dict]["value"])]=float(data_line_type["TE"][line_type_dict][studied_element_button0_label]["abatement_lat"])
+                        self.abatement_lat_mes[int(data_line_type["TE"][line_type_dict]["value"])] = float(
+                            data_line_type["TE"][line_type_dict][studied_element_button1_label]["abatement_lat"])
+                        self.abatement_lat_phyto[int(data_line_type["TE"][line_type_dict]["value"])] = float(
+                            data_line_type["TE"][line_type_dict][studied_element_button2_label]["abatement_lat"])
+
 
 
 
