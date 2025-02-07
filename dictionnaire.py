@@ -27,10 +27,15 @@ import os.path
 from PyQt5.QtGui import QFont
 path = os.path.dirname(__file__) + '/'
 
+# linear
 riparian_forest = 200
 river = 700
 null = 0
 drain = 300
+
+# land use
+engulfment = 999
+building=700
 
 regular_font = QFont('5', 10)  # 7.5 pour Véronique
 author = 'Jules Grillot, UR Riverly, INRAE'
@@ -575,6 +580,8 @@ information_selection_error_parcel_2 = "Pas d'élément sélectionné.\nCette pr
                                        "parcelle.\nCliquer sur une autre parcelle agricole."
 information_selection_error_parcel_3 = "Pas d'élément sélectionné.\nVous avez cliquez sur une parcelle du même type " \
                                        "que votre outil.\nCliquer sur une parcelle avec une occupation du sol différente"
+information_selection_error_parcel_4= "Pas d'élément sélectionné. \nOn ne peut pas modifier une habitation ou un engouffrement. "\
+                                        "\nCliquer sur une parcelle avec une occupation du sol différente"
 information_selection_error_line_1 = "Pas d'élément sélectionné. \nVous avez cliquez sur un linéaire du même type " \
                                      "que votre outil. \n Cliquer sur un linéaire avec un type différent"
 information_selection_error_line_2 = "Pas d'élément sélectionné. \nOn ne peut pas modifier un cours d'eau. \nPour " \

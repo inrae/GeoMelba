@@ -29,7 +29,8 @@ from qgis.core import QgsVectorLayer
 # Personal Modules
 from ..dictionnaire import river, field_parcel_practice, information_selection_error, \
     information_selection_error_parcel_1, information_selection_error_parcel_2, information_selection_error_parcel_3, \
-    information_selection_error_line_1, information_selection_error_line_2
+    information_selection_error_line_1, information_selection_error_line_2, \
+    engulfment, building, information_selection_error_parcel_4, field_type_parcel_origin
 
 
 class ParcelLayer(QgsVectorLayer):
@@ -56,6 +57,7 @@ class ParcelLayer(QgsVectorLayer):
         # Get old values from the parcel.
         attrs = self.getFeature(features_id[0]).attributes()
         old_label = attrs[self.fields().indexFromName(field_parcel_practice)]
+        type=attrs[self.fields().indexFromName(field_type_parcel_origin)]
         # If the modified field is the one on agricultural practices, the new one should be different from the old one,
         # the new one can only be added to an agricultural parcel.
         if str(field) == field_parcel_practice:
@@ -81,6 +83,8 @@ class ParcelLayer(QgsVectorLayer):
             if value == old_value:
                 QMessageBox.information(None, information_selection_error,
                                         information_selection_error_parcel_3)
+            elif type == building or type == engulfment:
+                QMessageBox.information(None, information_selection_error, information_selection_error_parcel_4)
             # Check if the parcel needs to change agricultural practice or not. If a non-agricultural parcel become an
             # agricultural parcel it's practice became 1. If a agricultural parcel become an non-agricultural parcel,
             # it's practice become none (99)

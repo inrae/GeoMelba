@@ -46,7 +46,7 @@ from .tab.plot_creation_tab import PlotCreationTab
 from .tab.ztha_modification_tab import ZthaModificationTab
 from .tab.interface_tools.standard_tools import StandardTools
 from ..dictionnaire import original_layer_group_name, style_line, field_parcel_owner, river, data_folder, \
-    watershed_prefix
+    watershed_prefix, building, engulfment
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), 'spirit_dockwidget_base.ui'))
@@ -153,6 +153,10 @@ class SpiritDockWidget(QDockWidget, FORM_CLASS):
 
         # Rivers are deleted from the type list because we don't want the user to add river.
         self.config_files.line_type = {key: val for key, val in self.config_files.line_type.items() if val != river}
+
+        # building andengulfment are deleted from the type list because we don't want the user to add building or engulfment.
+        self.config_files.land_cover = {key: val for key, val in self.config_files.land_cover.items() if val != building}
+        self.config_files.land_cover = {key: val for key, val in self.config_files.land_cover.items() if val != engulfment}
 
         # Connect the signal a layer make when a value of it attribute table change to a function which is going to
         # write changes in the CSV
