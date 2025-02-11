@@ -133,7 +133,9 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
         index_polygon.addFeature(f)
         attrs = f.attributes()
         altitude = float(attrs[parcelle_layer.fields().indexFromName('gm_alti')])
-        elevation[f.id()] = altitude
+        engulfment_type=int(attrs[parcelle_layer.fields().indexFromName('gm_type')])
+        if engulfment_type!=999:
+            elevation[f.id()] = altitude
     elevation_2 = {k: v for k, v in sorted(elevation.items(), reverse=True, key=lambda item: item[1])}
 
     pointfeatures = {}
@@ -173,7 +175,11 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
         parcelle_layer.selectByIds([f.id()])
         pts_1 = index_point.intersects(f.geometry().boundingBox())
         centroids_layer.selectByIds(pts_1)
+
+
+
         for i in centroids_layer.selectedFeatures():
+
             if f.geometry().contains(i.geometry()):
                 geom = i.geometry()
                 centroid_1 = geom.asPoint()
