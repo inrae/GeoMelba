@@ -40,7 +40,7 @@ from ..dictionnaire import label_watershed_name_step1,label_index_step1,label_in
     label_select_field_PushButton_step1, label_clip_field_1_step1, label_clip_field_2_step1, label_clip_field_PushButton_step1, \
     label_export_field_step1, label_export_field_PushButton_step1, \
     label_UH_name_step2, label_select_field_step2,label_select_line_step2, label_fields_UH_step2, \
-    label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, \
+    label_field1_UH_step2, label_field2_UH_step2, label_field3_UH_step2, label_field4_UH_step2, \
     label_select_field_PushButton_step2, label_select_line_step2, label_select_TE_PushButton_step2, \
     label_TE_name_step2, label_select_field_line_step2, \
     label_folder_name_step3,  label_create_folder_PushButton_step3, field_parcel_slope, field_line_slope
@@ -324,6 +324,13 @@ class WatershedCreationDialog(QMainWindow):
         self.selected_ImportUH__step2Button.setText(label_select_field_PushButton_step2)
         # Function connected to the signal emitted by the button.
         self.selected_ImportUH__step2Button.clicked.connect(self.connexionsUH_UH)
+
+        # Add label field UH
+        label_field_UH_step2 = QLabel(self.tab_widget.widget(self.tab_step2_index))
+        label_field_UH_step2.setFont(regular_font)
+        label_field_UH_step2.setGeometry(50, 190, 360, 30)
+        label_field_UH_step2.setText(label_field4_UH_step2)
+
 
 
         # Add selected TE
