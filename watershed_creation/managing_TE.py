@@ -214,9 +214,9 @@ def connexions_river (lineaire_layer, connexions_layer, code_riviere, code_ripis
     for f in lineaire_layer.getFeatures():
         attrs = f.attributes()
         f_id = attrs[lineaire_layer.fields().indexFromName('gm_id')]
-        type = attrs[lineaire_layer.fields().indexFromName('gm_type')]        
+        type = attrs[lineaire_layer.fields().indexFromName('type_mid')]
         if type == code_riviere or type == code_ripisylve :
-        
+
             river[f_id]=f
 
     line_centroid = tf.name + '/' + 'line_centro.shp'
