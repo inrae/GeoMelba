@@ -1097,7 +1097,12 @@ class FlowCalculation:
             # if engulfment present, add sortant (field_outgoing_flow) value to sortant
             # only if this is the exutoire
             if te_dwn == NULL:
-               
+                for parcel in parcel_layer.getFeatures(QgsFeatureRequest(select_uh_up)):
+                    attrs = parcel.attributes()
+                    sortant_parcelle = attrs[parcel_layer.fields().indexFromName(field_outgoing_flow)]
+                    engulfment=attrs[parcel_layer.fields().indexFromName(field_type_parcel)]
+                    if engulfment == 999:
+                        sortant+=sortant_parcelle
 
 
 
