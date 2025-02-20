@@ -312,6 +312,8 @@ class FlowCalculation:
             label = attrs[parcel_layer.fields().indexFromName(field_parcel_practice)]
             longueur = attrs[parcel_layer.fields().indexFromName(field_parcel_slope_length)]
             drain_type=attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+            if drain_type not in {0,1,2,3}:
+                drain_type=0
             if parcel_type in self.production_type:
               
 
@@ -453,6 +455,8 @@ class FlowCalculation:
                     attrs = parcel.attributes()
                     parcel_outflow = attrs[parcel_layer.fields().indexFromName(field_outgoing_flow)]
                     type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+                    if type_drain not in {0, 1, 2, 3}:
+                        type_drain=0
                     active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
                     if active_drain == 1 and (type_drain == 2 or type_drain == 3):
                         coef = 0.2
@@ -750,6 +754,8 @@ class FlowCalculation:
         for uh in parcel_layer.getFeatures(QgsFeatureRequest(select_drained_uh)):
             attrs = uh.attributes()
             drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+            if drain_type not in {0, 1, 2, 3}:
+                drain_type = 0
             if drain_type == 1:
                 coef = 0.20
             else:
@@ -786,6 +792,7 @@ class FlowCalculation:
         outflow_long_down = 0
         if line_type == river:
             attrs = river_feature.attributes()
+            river_id=attrs[line_layer.fields().indexFromName('gm_id')]
             longueur_lineaire = attrs[line_layer.fields().indexFromName(field_line_length)]
             type_up = attrs[line_layer.fields().indexFromName(field_type_line_top)]
             type_dwn = attrs[line_layer.fields().indexFromName(field_type_line_bottom)]
@@ -793,6 +800,7 @@ class FlowCalculation:
             angle_up = attrs[line_layer.fields().indexFromName(field_river_slope_angle_up)]
             angle_dwn = attrs[line_layer.fields().indexFromName(field_river_slope_angle_dwn)]
             uh_up = attrs[line_layer.fields().indexFromName(field_line_parcel_above)]
+            te_dwn=attrs[line_layer.fields().indexFromName(field_line_line_below)]
             coef_minus_up = 1
             coef_minus_dwn = 1
            # if self.watershed_name == "beaujolais" or self.watershed_name == "emilie":
@@ -1085,6 +1093,14 @@ class FlowCalculation:
                 abattement_lat_dwn = 0
                 outflow_long_down = 0
             sortant = entrant
+
+            # if engulfment present, add sortant (field_outgoing_flow) value to sortant
+            # only if this is the exutoire
+            if te_dwn == NULL:
+               
+
+
+
             sortant_long = outflow_long_up + outflow_long_down
             abattement_total = abattement_lat_up + abattement_lat_dwn
             history_abat = update_flow_history(history_lat_abat_dwn, history_lat_abat_up, 1)
@@ -1187,6 +1203,8 @@ class FlowCalculation:
                             parcel_outflow = attrs[
                                 parcel_layer.fields().indexFromName(field_outgoing_flow)]
                             type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+                            if type_drain not in {0, 1, 2, 3}:
+                                type_drain = 0
                             actif_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
                             if actif_drain == 1 and (type_drain == 2 or type_drain == 3):
                                 coef = 0.2
@@ -1261,6 +1279,8 @@ class FlowCalculation:
         type_parcelle = attrs[parcel_layer.fields().indexFromName(field_type_parcel)]
         river_side = attrs[parcel_layer.fields().indexFromName(field_parcel_below)]
         drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+        if drain_type not in {0, 1, 2, 3}:
+            drain_type = 0
        # if type_parcelle == 300 and river_side == NULL and self.watershed_name == "gimond":
        #     coef_minus = 0.5
        # else:
@@ -1270,6 +1290,8 @@ class FlowCalculation:
             pente = attrs[parcel_layer.fields().indexFromName(field_parcel_slope)]
             if id_parcel not in parcel_abat:
                 parcel_abat.append(id_parcel)
+
+
             coeff = coefficient_abatement_UH(type_parcelle, pente, longueur, self.slope,drain_type,
                                              self.abatement)
             abatement_coefficient = coeff # * coef_minus
@@ -1292,6 +1314,8 @@ class FlowCalculation:
         else:
             active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
             drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+            if drain_type not in {0, 1, 2, 3}:
+                drain_type=0
             drain_id = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_id)]
         if active_drain == 1:
             if drain_type == 1:
