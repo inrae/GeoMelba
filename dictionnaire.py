@@ -31,7 +31,7 @@ path = os.path.dirname(__file__) + '/'
 riparian_forest = 200
 river = 700
 null = 0
-drain = 300
+
 
 # land use
 engulfment = 999
@@ -365,7 +365,7 @@ switch_parcels_owner_label_pt1 = "Echanger des parcelles entre propriétaires :"
 switch_parcels_owner_label_pt2 = "Echange de la parcelle numéro :"
 switch_parcels_owner_label_pt3 = "contre la parcelle numéro :"
 switch_parcel_owner_button_name = "Echangez les parcelles !"
-ztha_selection_top_label = "Sélectionner la zone de drainage à modifier :"
+ztha_selection_top_label = "Sélectionner la ztha à activer :"
 watershed_analysis_button_name = "Indices de transferts sur le Bassin Versant"
 save_value_button_name = "Sélectionner ces indices de transferts comme référentiel"
 select_parcel_button_name = "Sélection d'une parcelle"
