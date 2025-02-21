@@ -31,6 +31,7 @@ path = os.path.dirname(__file__) + '/'
 riparian_forest = 200
 river = 700
 null = 0
+drain = 300
 
 
 # land use
@@ -227,10 +228,11 @@ field_parcel_area = 'gm_area'
 field_parcel_owner = 'gm_prop'
 field_parcel_practice = 'gm_agri'
 field_parcel_slope = 'pente'
-field_parcel_drain_id = 'gm_drain'
-field_parcel_drain_enabled = 'gm_d_actif'
+#field_parcel_drain_id = 'gm_drain'
+#field_parcel_drain_enabled = 'gm_d_actif'
 field_parcel_drain_type = 'gm_d_type'
-field_parcel_drain_connexion='gm_d_con'
+field_parcel_drain_river='gm_d_river'
+field_parcel_drain_ztha='gm_d_ztha'
 field_parcel_slope_length = 'gm_length'
 
 
