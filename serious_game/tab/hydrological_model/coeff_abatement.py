@@ -48,6 +48,30 @@ def parcel_inflow_production(land_cover, agricultural_practices, slope, area, sl
     flow_production = area * flow_production_coefficient
     return flow_production
 
+def parcel_drain_production(land_cover, agricultural_practices, slope, area, slope_dict, drain_type, production_dict):
+    """Used to get the drain flow production of a feature depending on it's land cover, agricultural practice, slope and area.
+    The mandatory arguments are :
+    - the land cover type of the feature
+    - the agricultural practice of the feature
+    - the slope of the feature
+    - the area of the feature
+    - the dict of the slopes range
+    - drain_type: type of drain,  formula to use :  Production totale x production ruissellement
+    - dict of the flow production coefficient based on slopes, land cover and agricultural practices.
+    """
+
+    # If the slope is low, the slope is lower than the biggest value in the low slope range.
+
+    if slope < slope_dict['low'][1]:
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["low_slope"]* production_dict[land_cover][agricultural_practices][drain_type]["drain"]["low_slope"]
+    # If the slope is high, the slope is higher than the biggest value in the medium slope range.
+    elif slope > slope_dict['medium'][1]:
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["high_slope"]* production_dict[land_cover][agricultural_practices][drain_type]["drain"]["high_slope"]
+    else:
+        flow_production_coefficient = production_dict[land_cover][agricultural_practices][drain_type]["totale"]["medium_slope"] * production_dict[land_cover][agricultural_practices][drain_type]["drain"]["medium_slope"]
+    flow_production = area * flow_production_coefficient
+    return flow_production
+
 
 def coefficient_abatement_UH(land_cover, slope, length, slope_dict, drain_type,abatement_dict):
     """Used to get the abatement coefficient of an UH based on it's land cover, slope and slope length.

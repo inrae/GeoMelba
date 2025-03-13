@@ -33,7 +33,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 # Personal Modules
 from .coeff_abatement import parcel_inflow_production, coefficient_abatement_UH, coefficient_abatement_lateral_TE, \
-    coefficient_abatement_longitudinal_TE
+    coefficient_abatement_longitudinal_TE,parcel_drain_production
 
 from ....dictionnaire import field_order, field_type_line_middle, null, field_incoming_flow, \
     field_incoming_flow_from_line, field_incoming_flow_from_parcel, field_outgoing_flow, field_outgoing_flow_long, \
@@ -53,14 +53,14 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     field_flow_production_relative, field_flow_production_rating, parcel_contribution_layer_name, \
     group_watershed_analysis, group_abatement_analysis, group_flow_transfer, field_parcel_rating, \
     field_feature_selected, group_outgoing_flow_parcel, group_incoming_flow_parcel, field_connexions_river_below, \
-    group_incoming_flow_river, field_parcel_outflow_drain, field_parcel_active_drain, field_flow_production_area, \
+    group_incoming_flow_river, field_parcel_outflow_drain, field_flow_production_area, \
     field_flow_production_area_river, field_flow_river_rate, field_parcel_drain_type, field_river_direction, \
-    field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, field_parcel_drain_id, \
+    field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, \
     field_flow_production, field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water, \
     field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water, \
     field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water, \
     field_history_abatement_long_mes, field_history_abatement_long_phyto, \
-    field_flow_production, \
+    field_flow_production, field_parcel_drain_river,\
     river_direction_up, river_direction_dwn, \
     river_direction_different_direction, abatement_map_line_legend_pt1, abatement_map_line_legend_pt2, \
     abatement_map_line_legend_pt3, abatement_map_line_legend_pt4, abatement_map_line_legend_pt5, \
@@ -359,10 +359,10 @@ class FlowCalculation:
         attrs = line.attributes()
         line_type = attrs[line_layer.fields().indexFromName(field_type_line_middle)]
         line_length = attrs[line_layer.fields().indexFromName(field_line_length)]
-        if line_layer.fields().indexFromName(field_parcel_active_drain) == -1:
-            active_drain = 0
-        else:
-            active_drain = attrs[line_layer.fields().indexFromName(field_parcel_active_drain)]
+       # if line_layer.fields().indexFromName(field_parcel_active_drain) == -1:
+       #     active_drain = 0
+       # else:
+       #     active_drain = attrs[line_layer.fields().indexFromName(field_parcel_active_drain)]
 
         top_parcel_outflow, top_parcel_history, top_parcel_abat_history = self.get_inflow_from_parcel(
             line, line_type, line_layer, parcel_layer, connexion_layer, history_field, history_abatement_field)
@@ -381,22 +381,22 @@ class FlowCalculation:
                                                                                  top_line_history_long)
         line_outlet = self.get_outflow_direction(line, line_type, line_layer)
         outflow = inflow - total_abatement  # The outflow equal the inflow minus the absorbed flow.
-        if line_type == drain and active_drain == 1:
-            inflow, top_line_history_long, history_abat_long, drain_type = self.get_drain_values(
-                line, parcel_layer, history_field, history_abatement_field)
-            abatement_coefficient = coefficient_abatement_longitudinal_TE(drain, line_length,
-                                                                          self.abatement_long)
-            total_abatement = inflow * abatement_coefficient
-            if drain_type == 3:
-                outflow_lateral = inflow - total_abatement
-                outflow_long = 0
-                top_parcel_history = top_line_history_long
-                top_line_history_long = ''
-            else:
-                outflow_lateral = 0
-                outflow_long = inflow - total_abatement
-                top_parcel_history = ''
-            outflow = outflow_lateral + outflow_long
+        #if line_type == drain and active_drain == 1:
+        #    inflow, top_line_history_long, history_abat_long, drain_type = self.get_drain_values(
+        #        line, parcel_layer, history_field, history_abatement_field)
+        #    abatement_coefficient = coefficient_abatement_longitudinal_TE(drain, line_length,
+        #                                                                  self.abatement_long)
+        #    total_abatement = inflow * abatement_coefficient
+        #    if drain_type == 3:
+        #        outflow_lateral = inflow - total_abatement
+        #        outflow_long = 0
+        #        top_parcel_history = top_line_history_long
+        #        top_line_history_long = ''
+        #    else:
+        #        outflow_lateral = 0
+        #        outflow_long = inflow - total_abatement
+        #        top_parcel_history = ''
+        #    outflow = outflow_lateral + outflow_long
         inflow, outflow, outflow_long, outflow_long_up, outflow_long_down, outflow_lateral, top_line_outflow, \
         top_parcel_outflow, total_abatement, top_parcel_history, abatement_history, history_long_up, \
         history_long_up_abat, history_long_dwn, history_long_dwn_abat = self.river_process(line, line_type,
@@ -457,8 +457,8 @@ class FlowCalculation:
                     type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
                     if type_drain not in {0, 1, 2, 3}:
                         type_drain=0
-                    active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
-                    if active_drain == 1 and (type_drain == 2 or type_drain == 3):
+                    #active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
+                    if type_drain == 1 or type_drain == 2 or type_drain == 3:
                         coef = 0.2
                     else:
                         coef = 1
@@ -746,37 +746,37 @@ class FlowCalculation:
             parcelle_out_dwn = NULL
         return parcelle_out_dwn
 
-    def get_drain_values(self, line, parcel_layer, history_field, history_abatement_field):
-        select_drained_uh = QgsExpression("{drain_id} = '{id}'".format(drain_id=field_parcel_drain_id, id=line.id()))
-        inflow_drain = 0
-        history_up = {}
-        history_abat_up = {}
-        for uh in parcel_layer.getFeatures(QgsFeatureRequest(select_drained_uh)):
-            attrs = uh.attributes()
-            drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
-            if drain_type not in {0, 1, 2, 3}:
-                drain_type = 0
-            if drain_type == 1:
-                coef = 0.20
-            else:
-                coef = 0.80
-            uh_outflow_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
-            dict_history = {}
-            if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
-                flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
-                if flow_history[0] != '':
-                    for elem in flow_history:
-                        dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
-            dict_history_abat = {}
-            if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
-                flow_history = (attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split("; ")
-                if flow_history[0] != '':
-                    for elem in flow_history:
-                        dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
-            inflow_drain = inflow_drain + uh_outflow_drain
-            history_up = update_flow_history(history_up, dict_history, coef)
-            history_abat_up = update_flow_history(history_abat_up, dict_history_abat, coef)
-        return inflow_drain, history_up, history_abat_up, drain_type
+    # def get_drain_values(self, line, parcel_layer, history_field, history_abatement_field):
+    #     select_drained_uh = QgsExpression("{drain_id} = '{id}'".format(drain_id=field_parcel_drain_id, id=line.id()))
+    #     inflow_drain = 0
+    #     history_up = {}
+    #     history_abat_up = {}
+    #     for uh in parcel_layer.getFeatures(QgsFeatureRequest(select_drained_uh)):
+    #         attrs = uh.attributes()
+    #         drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+    #         if drain_type not in {0, 1, 2, 3}:
+    #             drain_type = 0
+    #         if drain_type == 1:
+    #             coef = 0.20
+    #         else:
+    #             coef = 0.80
+    #         uh_outflow_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
+    #         dict_history = {}
+    #         if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
+    #             flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
+    #             if flow_history[0] != '':
+    #                 for elem in flow_history:
+    #                     dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
+    #         dict_history_abat = {}
+    #         if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
+    #             flow_history = (attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split("; ")
+    #             if flow_history[0] != '':
+    #                 for elem in flow_history:
+    #                     dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
+    #         inflow_drain = inflow_drain + uh_outflow_drain
+    #         history_up = update_flow_history(history_up, dict_history, coef)
+    #         history_abat_up = update_flow_history(history_abat_up, dict_history_abat, coef)
+    #     return inflow_drain, history_up, history_abat_up, drain_type
 
     def river_process(self, river_feature, line_type, line_layer, parcel_layer, connexion_layer, sortant, sortant_long,
                       sortant_lat, entrant_line, entrant_parcel, abattement_total, entrant, history, history_field,
@@ -845,6 +845,47 @@ class FlowCalculation:
                         history_dwn = update_flow_history(history_dwn, dict_history, flow_coefficient)
                         history_abat_dwn = update_flow_history(history_abat_dwn, dict_history_abat, flow_coefficient)
                         entrant_dwn = sortant * flow_coefficient
+            # pour les parcelles drainées qui sont connectées à la rivière
+            select_uh_up = QgsExpression(
+                "{field_parcel_drain_river} = '{id}' ".format(field_parcel_drain_river=field_parcel_drain_river, id=river_id))
+            for parcel in parcel_layer.getFeatures(QgsFeatureRequest(select_uh_up)):
+                attrs = parcel.attributes()
+                id_parcel=attrs[parcel_layer.fields().indexFromName(field_parcel_id)]
+                print("id river")
+                print(river_id)
+                print("id parcel")
+                print(id_parcel)
+                print("")
+                # check if this parcel is drain_type=1
+                drain_type=attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+                if drain_type==1:
+                    flow_drain_prod=attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
+
+                    dict_history = {}
+                    dict_history_abat = {}
+                    if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
+                        flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
+                        if flow_history[0] != '':
+                            for elem in flow_history:
+                                dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
+                    if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
+                        flow_history_abat = (attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split(
+                            "; ")
+                        if flow_history_abat[0] != '':
+                            for elem in flow_history_abat:
+                                dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
+                    if uh_up_connex == uh_up:
+                        history_up = update_flow_history(history_up, dict_history, 1)
+                        history_abat_up = update_flow_history(history_abat_up, dict_history_abat, 1)
+                        entrant_up = flow_drain_prod
+                    else:
+                        history_dwn = update_flow_history(history_dwn, dict_history, 1)
+                        history_abat_dwn = update_flow_history(history_abat_dwn, dict_history_abat, 1)
+                        entrant_dwn = flow_drain_prod
+
+
+
+
             entrant = 0
             entrant_long_up = 0
             entrant_long_dwn = 0
@@ -1141,8 +1182,11 @@ class FlowCalculation:
                                                                                          parcel_abat, history)
         sortant = entrant_total - abattement_total  # Outflow equal inflow - the absorbed flow.
 
-        sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow(
-            parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total, abattement_total, history,
+      #  sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow(
+      #      parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total, abattement_total, history,
+      #      history_abat)
+        sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow2(
+            parcel, id_parcel, parcel_layer, sortant, entrant_total, abattement_total, history,
             history_abat)
 
         history_abat = update_flow_history(history_abat, history_abat_parcel_up, 1)
@@ -1210,8 +1254,10 @@ class FlowCalculation:
                             type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
                             if type_drain not in {0, 1, 2, 3}:
                                 type_drain = 0
-                            actif_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
-                            if actif_drain == 1 and (type_drain == 2 or type_drain == 3):
+                            #actif_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
+
+
+                            if type_drain == 1 or type_drain == 2 or type_drain == 3:
                                 coef = 0.2
                             else:
                                 coef = 1
@@ -1308,104 +1354,129 @@ class FlowCalculation:
             history_abat["parcelle_" + str(id_parcel)] = abattement_total
         return abattement_total, parcel_abat, history, history_abat
 
-    def get_drain_outflow(self, parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total,
+    def get_drain_outflow2(self, parcel, id_parcel, parcel_layer, sortant, entrant_total,
                           abattement_total, history, history_abat):
+        # TODO à supprimer
+        sortant = 0
+        entrant_total = 0
+        abattement_total = 0
+        drain_outflow = 0
+        history= {}
+        history_abat = {}
+        # fin du TODO à supprimer
+
         drain_outflow = 0
         attrs = parcel.attributes()
-        if parcel_layer.fields().indexFromName(field_parcel_active_drain) == -1:
-            active_drain = 0
+        if parcel_layer.fields().indexFromName(field_parcel_drain_type) == -1:
             drain_type = 0
-            drain_id = 0
-        else:
-            active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
+        else :
             drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
             if drain_type not in {0, 1, 2, 3}:
                 drain_type=0
-            drain_id = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_id)]
-        if active_drain == 1:
-            if drain_type == 1:
-                drain_outflow = sortant * 0.20
-            elif drain_type == 2:
-                drain_outflow = sortant * 0.80
-                entrant_drain = line_layer.getFeature(drain_id).attributes()[
-                    line_layer.fields().indexFromName(field_incoming_flow)]
-                abattement_drain = line_layer.getFeature(drain_id).attributes()[
-                    line_layer.fields().indexFromName(field_flow_abatement)]
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_incoming_flow), entrant_drain + drain_outflow)
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_outgoing_flow), entrant_drain + drain_outflow - abattement_drain)
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_outgoing_flow_long), entrant_drain + drain_outflow - abattement_drain)
-            elif drain_type == 3:
-                drain_outflow = sortant * 0.80
-                history = update_flow_history_abat({}, history, 0.20)
-                drain_outflow_total = drain_outflow
-                select_uh = QgsExpression(
-                    " {champ_drain} = '{drain}'".format(champ_drain=field_parcel_drain_id, drain=drain_id))
-                for uh in parcel_layer.getFeatures(QgsFeatureRequest(select_uh)):
-                    attrs = uh.attributes()
-                    drain_outflow_up = attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
-                    drain_outflow_total = drain_outflow_total + drain_outflow_up
-                entrant_total = entrant_total + drain_outflow_total - drain_outflow
-                abattement_ztha = drain_outflow_total * 0.40 #TODO : 0.4
-                history = update_flow_history_abat({}, history, 0.50)
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_incoming_flow), drain_outflow_total)
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_incoming_flow_from_parcel), drain_outflow_total)
-                abattement_drain = line_layer.getFeature(drain_id).attributes()[
-                    line_layer.fields().indexFromName(field_flow_abatement)]
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_outgoing_flow), drain_outflow_total - abattement_drain)
-                line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
-                    field_outgoing_flow_lat), drain_outflow_total - abattement_drain)
-                abattement_total = abattement_total + abattement_ztha
-                sortant = entrant_total - abattement_total
-                drain_outflow = 0
-                history_abat = update_flow_history(history_abat,
-                                                   {"parcelle_" + str(id_parcel): abattement_ztha}, 1)
-        elif drain_type == 1:
-            abattement_mouillere = sortant * 0.20
-            history_abat = update_flow_history(history_abat, {"parcelle_" + str(id_parcel): abattement_mouillere},
-                                               1)
-            history = update_flow_history_abat(history, {"parcelle_" + str(id_parcel): abattement_mouillere}, 1)
-            sortant = sortant - abattement_mouillere
-            abattement_total = abattement_total + abattement_mouillere
-        elif drain_type == 3:
-            dict_history = {}
-            dict_history_abat = {}
-            select_lineaire = QgsExpression(
-                " {champ_type_ligne} = '{drain}' and {champ_uh_aval} = '{id}'".format(
-                    champ_type_ligne=field_type_line_middle, drain=drain,
-                    champ_uh_aval=field_line_parcel_below,
-                    id=id_parcel))
-            for drain_feature in line_layer.getFeatures(QgsFeatureRequest(select_lineaire)):
-                attrs = drain_feature.attributes()
-                entrant_ztha = attrs[line_layer.fields().indexFromName(field_incoming_flow)]
-                flow_history = (attrs[line_layer.fields().indexFromName(field_history_outflow_long)]).split("; ")
-                if flow_history[0] != '':
-                    for elem in flow_history:
-                        dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
-                flow_history = (attrs[line_layer.fields().indexFromName(field_history_abatement_long)]).split("; ")
-                if flow_history[0] != '':
-                    for elem in flow_history:
-                        dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
-                abattement_ztha = entrant_ztha * 0.4#TODO : 0.4
-                sortant = sortant - abattement_ztha + entrant_ztha
-                abattement_total = abattement_total + abattement_ztha
-                entrant_total = entrant_total + entrant_ztha
-                line_layer.changeAttributeValue(drain_feature.id(), line_layer.fields().indexFromName(
-                    field_outgoing_flow_lat), entrant_ztha)
-                line_layer.changeAttributeValue(drain_feature.id(), line_layer.fields().indexFromName(
-                    field_outgoing_flow_long), 0)
-                history = update_flow_history(history, dict_history, 1)
-                history = update_flow_history({}, history, 0.5)
-                history_abat = update_flow_history(history_abat, dict_history_abat, 1)
-                dict_test = {"parcelle_" + str(id_parcel): abattement_ztha}
-                history_abat = update_flow_history(history_abat, dict_test, 1)
+            # get production of the drain
+
+
 
         return sortant, entrant_total, abattement_total, drain_outflow, history, history_abat
+
+    # def get_drain_outflow(self, parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total,
+    #                       abattement_total, history, history_abat):
+    #     drain_outflow = 0
+    #     attrs = parcel.attributes()
+    #     if parcel_layer.fields().indexFromName(field_parcel_active_drain) == -1:
+    #         active_drain = 0
+    #         drain_type = 0
+    #         drain_id = 0
+    #     else:
+    #         active_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
+    #         drain_type = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+    #         if drain_type not in {0, 1, 2, 3}:
+    #             drain_type=0
+    #         drain_id = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_id)]
+    #     if active_drain == 1:
+    #         if drain_type == 1:
+    #             drain_outflow = sortant * 0.20
+    #         elif drain_type == 2:
+    #             drain_outflow = sortant * 0.80
+    #             entrant_drain = line_layer.getFeature(drain_id).attributes()[
+    #                 line_layer.fields().indexFromName(field_incoming_flow)]
+    #             abattement_drain = line_layer.getFeature(drain_id).attributes()[
+    #                 line_layer.fields().indexFromName(field_flow_abatement)]
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_incoming_flow), entrant_drain + drain_outflow)
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_outgoing_flow), entrant_drain + drain_outflow - abattement_drain)
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_outgoing_flow_long), entrant_drain + drain_outflow - abattement_drain)
+    #         elif drain_type == 3:
+    #             drain_outflow = sortant * 0.80
+    #             history = update_flow_history_abat({}, history, 0.20)
+    #             drain_outflow_total = drain_outflow
+    #             select_uh = QgsExpression(
+    #                 " {champ_drain} = '{drain}'".format(champ_drain=field_parcel_drain_id, drain=drain_id))
+    #             for uh in parcel_layer.getFeatures(QgsFeatureRequest(select_uh)):
+    #                 attrs = uh.attributes()
+    #                 drain_outflow_up = attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
+    #                 drain_outflow_total = drain_outflow_total + drain_outflow_up
+    #             entrant_total = entrant_total + drain_outflow_total - drain_outflow
+    #             abattement_ztha = drain_outflow_total * 0.40 #TODO : 0.4
+    #             history = update_flow_history_abat({}, history, 0.50)
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_incoming_flow), drain_outflow_total)
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_incoming_flow_from_parcel), drain_outflow_total)
+    #             abattement_drain = line_layer.getFeature(drain_id).attributes()[
+    #                 line_layer.fields().indexFromName(field_flow_abatement)]
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_outgoing_flow), drain_outflow_total - abattement_drain)
+    #             line_layer.changeAttributeValue(drain_id, line_layer.fields().indexFromName(
+    #                 field_outgoing_flow_lat), drain_outflow_total - abattement_drain)
+    #             abattement_total = abattement_total + abattement_ztha
+    #             sortant = entrant_total - abattement_total
+    #             drain_outflow = 0
+    #             history_abat = update_flow_history(history_abat,
+    #                                                {"parcelle_" + str(id_parcel): abattement_ztha}, 1)
+    #     elif drain_type == 1:
+    #         abattement_mouillere = sortant * 0.20
+    #         history_abat = update_flow_history(history_abat, {"parcelle_" + str(id_parcel): abattement_mouillere},
+    #                                            1)
+    #         history = update_flow_history_abat(history, {"parcelle_" + str(id_parcel): abattement_mouillere}, 1)
+    #         sortant = sortant - abattement_mouillere
+    #         abattement_total = abattement_total + abattement_mouillere
+    #     elif drain_type == 3:
+    #         dict_history = {}
+    #         dict_history_abat = {}
+    #         select_lineaire = QgsExpression(
+    #             " {champ_type_ligne} = '{drain}' and {champ_uh_aval} = '{id}'".format(
+    #                 champ_type_ligne=field_type_line_middle, drain=drain,
+    #                 champ_uh_aval=field_line_parcel_below,
+    #                 id=id_parcel))
+    #         for drain_feature in line_layer.getFeatures(QgsFeatureRequest(select_lineaire)):
+    #             attrs = drain_feature.attributes()
+    #             entrant_ztha = attrs[line_layer.fields().indexFromName(field_incoming_flow)]
+    #             flow_history = (attrs[line_layer.fields().indexFromName(field_history_outflow_long)]).split("; ")
+    #             if flow_history[0] != '':
+    #                 for elem in flow_history:
+    #                     dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
+    #             flow_history = (attrs[line_layer.fields().indexFromName(field_history_abatement_long)]).split("; ")
+    #             if flow_history[0] != '':
+    #                 for elem in flow_history:
+    #                     dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
+    #             abattement_ztha = entrant_ztha * 0.4#TODO : 0.4
+    #             sortant = sortant - abattement_ztha + entrant_ztha
+    #             abattement_total = abattement_total + abattement_ztha
+    #             entrant_total = entrant_total + entrant_ztha
+    #             line_layer.changeAttributeValue(drain_feature.id(), line_layer.fields().indexFromName(
+    #                 field_outgoing_flow_lat), entrant_ztha)
+    #             line_layer.changeAttributeValue(drain_feature.id(), line_layer.fields().indexFromName(
+    #                 field_outgoing_flow_long), 0)
+    #             history = update_flow_history(history, dict_history, 1)
+    #             history = update_flow_history({}, history, 0.5)
+    #             history_abat = update_flow_history(history_abat, dict_history_abat, 1)
+    #             dict_test = {"parcelle_" + str(id_parcel): abattement_ztha}
+    #             history_abat = update_flow_history(history_abat, dict_test, 1)
+    #
+    #     return sortant, entrant_total, abattement_total, drain_outflow, history, history_abat
 
     def save_attributes(self, layer, feature, new_attributes):
         for attribute in new_attributes:
@@ -1920,6 +1991,9 @@ class FlowCalculation:
     def ecoulement_bv(self, parcel_layer, line_layer, connexion_layer, count, element, season, *args):
         history_field=""
         history_abatement_field=""
+        field_flow_production_bv=""
+
+
         if int(element) == 0:
             
                 self.abatement = self.abatement_water
@@ -1928,6 +2002,7 @@ class FlowCalculation:
                 self.abatement_lat = self.abatement_lat_water
                 history_field = field_history_water
                 history_abatement_field = field_history_abatement_water
+                field_flow_production_bv=field_flow_production_water
 
 
 
@@ -1939,6 +2014,8 @@ class FlowCalculation:
                 self.abatement_lat = self.abatement_lat_mes
                 history_field = field_history_mes
                 history_abatement_field = field_history_abatement_mes
+                field_flow_production_bv=field_flow_production_mes
+
 
         elif int(element) == 2:
 
@@ -1948,6 +2025,8 @@ class FlowCalculation:
                 self.abatement_lat = self.abatement_lat_phyto
                 history_field = field_history_phyto
                 history_abatement_field = field_history_abatement_phyto
+                field_flow_production_bv=field_flow_production_phyto
+
 
  
         parcelle_id_selected = []
@@ -2086,9 +2165,9 @@ class FlowCalculation:
         group_real_prod.addLayer(parcel_layer_real_prod)
         rules = (
             (production_area_map_parcel_legend_pt1,
-             '"{field_2}" = 0'.format(field_2=field_flow_production), QColor('#b4b0b0'), 1),
+             '"{field_2}" = 0'.format(field_2=field_flow_production_bv), QColor('#b4b0b0'), 1),
             (production_area_map_parcel_legend_pt2,
-             '"{field}" = 0 AND "{field_2}" > 0'.format(field=field_flow_river_rate, field_2=field_flow_production),
+             '"{field}" = 0 AND "{field_2}" > 0'.format(field=field_flow_river_rate, field_2=field_flow_production_bv),
              QColor('#ffffff'), 1),
             (production_area_map_parcel_legend_pt3,
              '0 < "{field}" AND "{field}" <= 0.25'.format(field=field_flow_river_rate), QColor('#d1e3f3'), 1),
@@ -2110,10 +2189,10 @@ class FlowCalculation:
         group_rela_prod.addLayer(parcel_layer_limit)
         group_rela_prod.addLayer(parcel_layer_rela_prod)
         rules = (
-            (production_potential_map_parcel_legend_pt1, '"{field_2}" = 0'.format(field_2=field_flow_production),
+            (production_potential_map_parcel_legend_pt1, '"{field_2}" = 0'.format(field_2=field_flow_production_bv),
              QColor('#b4b0b0'), 1),
             (production_potential_map_parcel_legend_pt2, '"{field}" = 0 AND "{field_2}" > 0'.format(
-                field=field_flow_production_area_river, field_2=field_flow_production), QColor('#8acc62'), 1),
+                field=field_flow_production_area_river, field_2=field_flow_production_bv), QColor('#8acc62'), 1),
             (production_potential_map_parcel_legend_pt3, '0 < "{field}" AND "{field}" <= 0.25'.format(
                 field=field_flow_production_area_river), QColor('#fedf9a'), 1),
             (production_potential_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(
@@ -2135,9 +2214,9 @@ class FlowCalculation:
         group_prod.addLayer(parcel_layer_prod)
         rules = (
             (production_area_map_parcel_legend_pt1, '"{field_2}" = 0'.format(
-                field_2=field_flow_production), QColor('#b4b0b0'), 1),
+                field_2=field_flow_production_bv), QColor('#b4b0b0'), 1),
             (production_area_map_parcel_legend_pt2, '"{field}" = 0 AND "{field_2}" > 0'.format(
-                field=field_flow_production_area, field_2=field_flow_production), QColor('#8acc62'), 1),
+                field=field_flow_production_area, field_2=field_flow_production_bv), QColor('#8acc62'), 1),
             (production_area_map_parcel_legend_pt3, '0 < "{field}" AND "{field}" <= 0.25'.format(
                 field=field_flow_production_area), QColor('#fedf9a'), 1),
             (production_area_map_parcel_legend_pt4, '0.25 < "{field}" AND "{field}" <= 0.5'.format(

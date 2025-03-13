@@ -32,7 +32,7 @@ from qgis.core import QgsVectorLayer
 from ....dictionnaire import field_parcel_id, history_table_name, history_field_action, history_field_feature, \
     history_field_layer, history_field_field, history_field_field_idx, history_field_previous, history_field_next, \
     field_parcel_practice, style_parcels_practices, parcel_layer_name, field_parcel_owner, owner_cover_layer_name, \
-    field_line_drain_enabled, field_type_line_middle, field_parcel_drain_enabled, field_type_parcel, regular_font, \
+    field_type_line_middle, field_parcel_drain_type, field_type_parcel, regular_font, \
     agricultural_practices_layer_name
 
 
@@ -387,7 +387,7 @@ class StandardTools:
             if (old_layer.getFeature(feature_id).attributes()[field_index]):
                 old_value = int(old_layer.getFeature(feature_id).attributes()[field_index])  # Old Value.
             if layer.geometryType() == 1:
-                if field_index == old_layer.fields().indexFromName(field_line_drain_enabled) or self.drain:
+                if self.drain: #if field_index == old_layer.fields().indexFromName(field_line_drain_enabled) or self.drain:
                     multiple_actions = self.ztha_modif.ui_creation.write_change()
                     self.drain = True
                     if field_index == old_layer.fields().indexFromName(field_type_line_middle):
@@ -395,7 +395,7 @@ class StandardTools:
                 else:
                     multiple_actions = self.multiple_lines_modif.ui_creation.write_change()
             elif layer.geometryType() == 2:
-                if field_index == old_layer.fields().indexFromName(field_parcel_drain_enabled):
+                if field_index == old_layer.fields().indexFromName(field_parcel_drain_type):
                     multiple_actions = self.ztha_modif.ui_creation.write_change()
                 elif field_index == old_layer.fields().indexFromName(field_parcel_owner):
                     multiple_actions = self.cover_creation.ui_creation.write_change()

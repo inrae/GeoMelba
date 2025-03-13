@@ -28,8 +28,8 @@ from qgis.core import QgsVectorLayer
 
 from .buttonpointer import ButtonPointer
 from .spinboxes import SpinBoxes, ManagerSpinBoxes
-from ....dictionnaire import field_parcel_owner, field_parcel_drain_id, field_parcel_drain_enabled, \
-    field_type_line_middle, field_parcel_drain_type, field_line_drain_enabled, field_parcel_id, regular_font, \
+from ....dictionnaire import field_parcel_owner,   \
+    field_parcel_drain_type, field_parcel_id, regular_font, \
     owner_selection_top_label, municipality_button_name, owner_button_name, remove_cover_button_name, \
     switch_parcels_owner_label_pt1, switch_parcels_owner_label_pt2, switch_parcels_owner_label_pt3, \
     switch_parcel_owner_button_name, information_selection_error, information_switch_parcel_owner_error, \
@@ -416,33 +416,34 @@ class UiCreationZthaModification:
                 x_place += 200
 
     def modif_mouillere(self, id_parcel_drain):
-        drain_id = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
-            self.parcel_layer.fields().indexFromName(field_parcel_drain_id)]
+      #  drain_id = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
+       #     self.parcel_layer.fields().indexFromName(field_parcel_drain_id)]
         value_actif_old = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
-            self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
-        if value_actif_old == 1:
-            value_actif = 0
-            value_type = 0
+            self.parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+        value_actif=None
+        if value_actif_old == 2:
+            value_actif = 3
+          #  value_type = 0
         else:
-            value_actif = 1
-            value_type = drain
-        self.multiple_actions = [id_parcel_drain, drain_id]
+            value_actif = 2
+         #   value_type = drain
+       # self.multiple_actions = [id_parcel_drain, drain_id]
         self.parcel_layer.startEditing()
         self.parcel_layer.changeAttributeValue(id_parcel_drain,
-                                               self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled),
+                                               self.parcel_layer.fields().indexFromName(field_parcel_drain_type),
                                                value_actif)
         self.parcel_layer.commitChanges()
         self.parcel_layer.triggerRepaint()
-        self.line_layer.startEditing()
-        self.line_layer.changeAttributeValue(drain_id, self.line_layer.fields().indexFromName(field_line_drain_enabled),
-                                             value_actif)
-        self.line_layer.changeAttributeValue(drain_id,
-                                             self.line_layer.fields().indexFromName(field_type_line_middle),
-                                             value_type)
+      #  self.line_layer.startEditing()
+       # self.line_layer.changeAttributeValue(drain_id, self.line_layer.fields().indexFromName(field_line_drain_enabled),
+        #                                     value_actif)
+       # self.line_layer.changeAttributeValue(drain_id,
+        #                                     self.line_layer.fields().indexFromName(field_type_line_middle),
+        #                                     value_type)
 
-        self.line_layer.commitChanges()
-        self.line_layer.triggerRepaint()
-        self.multiple_actions = []
+       # self.line_layer.commitChanges()
+       # self.line_layer.triggerRepaint()
+     #   self.multiple_actions = []
 
     def modif_ztha(self, id_parcel_drain):
         value_type_old = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
