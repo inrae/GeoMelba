@@ -1162,6 +1162,8 @@ class FlowCalculation:
         attrs = parcel.attributes()
         if id_parcel in parcelle_id_selected:
             prod = attrs[parcel_layer.fields().indexFromName(field_flow_production)]
+            print("prod")
+            print(prod)
             history["parcelle_" + str(id_parcel)] = prod
         else:
             prod = 0
@@ -1173,6 +1175,8 @@ class FlowCalculation:
                                                                                                list_id_parcelle,
                                                                                                history_field,
                                                                                                history_abatement_field)
+        print("sortant")
+        print()
         sortant_total_up, history, history_abat_line_up = self.get_parcel_inflow_from_line(line_layer, id_parcel,
                                                                                            sortant_total_up, history)
         # Inflow equal the outflow from linears and parcels above plus the production of the selected parcel.
@@ -1357,12 +1361,12 @@ class FlowCalculation:
     def get_drain_outflow2(self, parcel, id_parcel, parcel_layer, sortant, entrant_total,
                           abattement_total, history, history_abat):
         # TODO à supprimer
-        sortant = 0
-        entrant_total = 0
-        abattement_total = 0
+        sortant = sortant
+        entrant_total = entrant_total
+        abattement_total = abattement_total
         drain_outflow = 0
-        history= {}
-        history_abat = {}
+        history= history
+        history_abat = history_abat
         # fin du TODO à supprimer
 
         drain_outflow = 0
@@ -2116,7 +2120,7 @@ class FlowCalculation:
             parcel_id = int(elem.split("parcelle_")[1])
             parcel = parcel_layer.getFeature(parcel_id)
             attrs = parcel.attributes()
-            prod = attrs[parcel_layer.fields().indexFromName(field_flow_production)]
+            prod = attrs[parcel_layer.fields().indexFromName(field_flow_production_bv)]
             area = attrs[parcel_layer.fields().indexFromName(field_parcel_area)]
             if prod != 0:
                 pourcent = history[elem] / prod
