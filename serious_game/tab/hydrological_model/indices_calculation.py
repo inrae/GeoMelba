@@ -1224,13 +1224,13 @@ class FlowCalculation:
       #  sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow(
       #      parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total, abattement_total, history,
       #      history_abat)
-        sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow2(
+        drain_outflow = self.get_drain_outflow2(
             parcel, id_parcel, parcel_layer, entrant_total, abattement_total, history,
             history_abat,element)
 
         history_abat = update_flow_history(history_abat, history_abat_parcel_up, 1)
         history_abat = update_flow_history(history_abat, history_abat_line_up, 1)
-        sortant = sortant - drain_outflow
+        #sortant = sortant - drain_outflow
 
         new_attributes = {field_parcel_outflow_drain: drain_outflow, field_incoming_flow: entrant_total,
                           field_outgoing_flow: sortant,
@@ -1403,7 +1403,7 @@ class FlowCalculation:
         history= history
         history_abat = history_abat
         # fin du TODO à supprimer
-        sortant=None
+        sortant_drain=None
 
         attrs = parcel.attributes()
         if parcel_layer.fields().indexFromName(field_parcel_drain_type) == -1:
@@ -1415,16 +1415,16 @@ class FlowCalculation:
             # get production of the drain
 
             if element == 0:
-                sortant=attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_water)]
+                sortant_drain=attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_water)]
             elif element == 1:
-                sortant = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_mes)]
+                sortant_drain = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_mes)]
             elif element == 2:
-                sortant = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_phyto)]
+                sortant_drain = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_phyto)]
 
 
 
 
-        return sortant, entrant_total, abattement_total, drain_outflow, history, history_abat
+        return sortant_drain
 
     # def get_drain_outflow(self, parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total,
     #                       abattement_total, history, history_abat):
