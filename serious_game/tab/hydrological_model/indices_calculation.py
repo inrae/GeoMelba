@@ -42,7 +42,9 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     field_history_abatement, field_history_abatement_lat, field_history_abatement_long, field_history_outflow_long, \
     field_history_outflow_long_up, field_history_outflow_long_down, field_history_abatement_long_up, \
     field_history_abatement_long_down, field_flow_production_water, field_flow_production_mes, \
-    field_flow_production_phyto, \
+    field_flow_production_phyto, field_flow_production,\
+    field_flow_production_drain_water, field_flow_production_drain_mes, \
+    field_flow_production_drain_phyto, field_flow_production_drain,\
     field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area, \
     field_parcel_slope, field_parcel_practice, field_outgoing_flow_line_to_parcel, field_line_parcel_below, \
     field_line_parcel_above, field_connexions_parcel_above, field_connexions_flow_coefficient, field_parcel_id, \
@@ -56,7 +58,7 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     group_incoming_flow_river, field_parcel_outflow_drain, field_flow_production_area, \
     field_flow_production_area_river, field_flow_river_rate, field_parcel_drain_type, field_river_direction, \
     field_river_slope_angle_up, field_river_slope_angle_dwn, field_line_outflow_direction, \
-    field_flow_production, field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water, \
+    field_history_water, field_history_mes, field_history_phyto, field_history_abatement_water, \
     field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water, \
     field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water, \
     field_history_abatement_long_mes, field_history_abatement_long_phyto, \
@@ -159,7 +161,8 @@ class FlowCalculation:
 
     def __init__(self, watershed_name=None, practices=None, slope=None, land_cover=None, abatement_type=None,
                  production_type=None, abatement=None, abatement_water=None, abatement_mes=None, abatement_phyto=None,
-                 production=None, production_water=None, production_mes=None, production_phyto=None, 
+                 production=None, production_water=None, production_mes=None, production_phyto=None,
+                 production_drain=None, production_drain_water=None, production_drain_mes=None, production_drain_phyto=None,
                  line_type=None,
                  abatement_type_long=None, abatement_type_lat=None, abatement_long=None, abatement_long_water=None,
                  abatement_long_mes=None, abatement_long_phyto=None, abatement_lat=None, abatement_lat_water=None,
@@ -182,6 +185,10 @@ class FlowCalculation:
         self.production_water = production_water
         self.production_mes = production_mes
         self.production_phyto = production_phyto
+        self.production_drain = None
+        self.production_drain_water = production_drain_water
+        self.production_drain_mes = production_drain_mes
+        self.production_drain_phyto = production_drain_phyto
         self.line_type = line_type
         self.abatement_type_long = abatement_type_long
         self.abatement_type_lat = abatement_type_lat
@@ -277,6 +284,11 @@ class FlowCalculation:
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_water))
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_mes))
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_phyto))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_drain))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_drain_water))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_drain_mes))
+            parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_flow_production_drain_phyto))
+
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history))
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_water))
             parcel_layer.deleteAttribute(parcel_layer.fields().indexFromName(field_history_mes))
@@ -285,6 +297,10 @@ class FlowCalculation:
         parcel_layer.addAttribute(QgsField(field_flow_production_water, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_flow_production_mes, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_flow_production_phyto, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_drain, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_drain_water, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_drain_mes, QVariant.Double, "double", 5, 2))
+        parcel_layer.addAttribute(QgsField(field_flow_production_drain_phyto, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_incoming_flow, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_outgoing_flow, QVariant.Double, "double", 5, 2))
         parcel_layer.addAttribute(QgsField(field_parcel_outflow_drain, QVariant.Double, "double", 5, 2))
@@ -326,13 +342,24 @@ class FlowCalculation:
                 prod_phyto = parcel_inflow_production(parcel_type, label, slope, area, self.slope,drain_type,
                                                       self.production_phyto)
 
-              
+                prod_drain = parcel_drain_production(parcel_type, label, slope, area, self.slope, drain_type,
+                                                self.production)
+                prod_drain_water = parcel_drain_production(parcel_type, label, slope, area, self.slope, drain_type,
+                                                      self.production_water)
+                prod_drain_mes = parcel_drain_production(parcel_type, label, slope, area, self.slope, drain_type,
+                                                    self.production_mes) * longueur
+                prod_drain_phyto = parcel_drain_production(parcel_type, label, slope, area, self.slope, drain_type,
+                                                      self.production_phyto)
 
             else:
                 prod = 0
                 prod_water = 0
                 prod_mes = 0
                 prod_phyto = 0
+                prod_drain = 0
+                prod_drain_water = 0
+                prod_drain_mes = 0
+                prod_drain_phyto = 0
 
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(
                 field_incoming_flow), 0)
@@ -347,6 +374,13 @@ class FlowCalculation:
                                               prod_mes)
             parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_phyto),
                                               prod_phyto)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_drain), prod_drain)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_drain_water),
+                                              prod_drain_water)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_drain_mes),
+                                              prod_drain_mes)
+            parcel_layer.changeAttributeValue(f.id(), parcel_layer.fields().indexFromName(field_flow_production_drain_phyto),
+                                              prod_drain_phyto)
 
 
 
@@ -1156,7 +1190,8 @@ class FlowCalculation:
                history_long_dwn, history_long_abat_dwn
 
     def parcel_analysis(self, line_layer, parcel_layer, connexion_layer, id_parcel, parcelle_id_selected,
-                        list_id_parcelle, parcel_abat, processed_poly, history_field, history_abatement_field):
+                        list_id_parcelle, parcel_abat, processed_poly, history_field, history_abatement_field,
+                        element):
         parcel = parcel_layer.getFeature(id_parcel)
         history = {}
         attrs = parcel.attributes()
@@ -1190,8 +1225,8 @@ class FlowCalculation:
       #      parcel, id_parcel, line_layer, parcel_layer, sortant, entrant_total, abattement_total, history,
       #      history_abat)
         sortant, entrant_total, abattement_total, drain_outflow, history, history_abat = self.get_drain_outflow2(
-            parcel, id_parcel, parcel_layer, sortant, entrant_total, abattement_total, history,
-            history_abat)
+            parcel, id_parcel, parcel_layer, entrant_total, abattement_total, history,
+            history_abat,element)
 
         history_abat = update_flow_history(history_abat, history_abat_parcel_up, 1)
         history_abat = update_flow_history(history_abat, history_abat_line_up, 1)
@@ -1358,18 +1393,18 @@ class FlowCalculation:
             history_abat["parcelle_" + str(id_parcel)] = abattement_total
         return abattement_total, parcel_abat, history, history_abat
 
-    def get_drain_outflow2(self, parcel, id_parcel, parcel_layer, sortant, entrant_total,
-                          abattement_total, history, history_abat):
+    def get_drain_outflow2(self, parcel, id_parcel, parcel_layer, entrant_total,
+                          abattement_total, history, history_abat,element):
         # TODO à supprimer
-        sortant = sortant
+
         entrant_total = entrant_total
         abattement_total = abattement_total
         drain_outflow = 0
         history= history
         history_abat = history_abat
         # fin du TODO à supprimer
+        sortant=None
 
-        drain_outflow = 0
         attrs = parcel.attributes()
         if parcel_layer.fields().indexFromName(field_parcel_drain_type) == -1:
             drain_type = 0
@@ -1378,6 +1413,14 @@ class FlowCalculation:
             if drain_type not in {0, 1, 2, 3}:
                 drain_type=0
             # get production of the drain
+
+            if element == 0:
+                sortant=attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_water)]
+            elif element == 1:
+                sortant = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_mes)]
+            elif element == 2:
+                sortant = attrs[parcel_layer.fields().indexFromName(field_flow_production_drain_phyto)]
+
 
 
 
@@ -2080,7 +2123,8 @@ class FlowCalculation:
                                                                    id_split, parcelle_id_selected,
                                                                    list_id_parcel,
                                                                    parcel_abat, processed_poly, history_field,
-                                                                   history_abatement_field)
+                                                                   history_abatement_field,
+                                                                   element)
         line_layer.commitChanges()
         line_layer.triggerRepaint()
         parcel_layer.commitChanges()
@@ -2333,7 +2377,8 @@ class FlowCalculation:
                                                                    id_split, parcelle_id_selected,
                                                                    list_id_parcelle,
                                                                    parcel_abat, processed_poly, history_field,
-                                                                   history_abatement_field)
+                                                                   history_abatement_field,
+                                                                   element)
         line_layer.commitChanges()
         line_layer.triggerRepaint()
         parcel_layer.commitChanges()
@@ -2417,7 +2462,8 @@ class FlowCalculation:
                                                                        id_split, parcelle_id_selected,
                                                                        list_id_parcel,
                                                                        parcel_abat, processed_poly, history_field,
-                                                                       history_abatement_field)
+                                                                       history_abatement_field,
+                                                                       element)
             line_layer.commitChanges()
             line_layer.triggerRepaint()
             parcel_layer.commitChanges()
@@ -2595,7 +2641,7 @@ class FlowCalculation:
                                                                        id_split, parcelle_id_selected,
                                                                        list_id_parcel,
                                                                        parcel_abat, processed_poly, history_field,
-                                                                       history_abatement_field)
+                                                                       history_abatement_field,element)
             line_layer.commitChanges()
             line_layer.triggerRepaint()
             parcel_layer.commitChanges()

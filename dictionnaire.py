@@ -163,6 +163,12 @@ field_flow_production = 'prod'
 field_flow_production_water = 'prod_eau'
 field_flow_production_mes = 'prod_mes'
 field_flow_production_phyto = 'prod_phyto'
+field_flow_production_drain = 'prod_d'
+field_flow_production_drain_water = 'prod_d_eau'
+field_flow_production_drain_mes = 'prod_d_mes'
+field_flow_production_drain_phyto = 'prod_d_phyto'
+
+
 field_flow_production_relative = 'gm_prod_t'
 field_parcel_above = 'gm_uh_up'
 field_parcel_below = 'gm_uh_dwn'
