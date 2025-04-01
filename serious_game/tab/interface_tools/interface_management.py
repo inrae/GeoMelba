@@ -34,7 +34,7 @@ from ....dictionnaire import field_parcel_owner,   \
     switch_parcels_owner_label_pt1, switch_parcels_owner_label_pt2, switch_parcels_owner_label_pt3, \
     switch_parcel_owner_button_name, information_selection_error, information_switch_parcel_owner_error, \
     owner_cover_layer_name, ztha_selection_top_label, drain, information_modification_multiple_error_1, \
-    information_modification_multiple_error_2
+    information_modification_multiple_error_2,field_parcel_drain_enabled
 
 
 # Functions to create the interface and modify one feature (parcel, line)
@@ -402,10 +402,10 @@ class UiCreationZthaModification:
             button.setGeometry(x_place, y_place, 175, 35)
             if ztha_type[elem] != "ZTHA":
                 # Function of the QPushButton used when the button is clicked. Launch the modification of the feature.
-                button.clicked.connect(lambda state, id_parcel_drain=int(elem): self.modif_mouillere(id_parcel_drain))
+                button.clicked.connect(lambda state, id_parcel_drain=int(elem): self.modif_mouillere2(id_parcel_drain))
             else:
                 # Function of the QPushButton used when the button is clicked. Launch the modification of the feature.
-                button.clicked.connect(lambda state, id_parcel_drain=int(elem): self.modif_ztha(id_parcel_drain))
+                button.clicked.connect(lambda state, id_parcel_drain=int(elem): self.modif_ztha2(id_parcel_drain))
             # Position of the next button
             if x_place >= 375:
                 # After a certain value on the x-axis it's a new line is started.
@@ -445,6 +445,24 @@ class UiCreationZthaModification:
        # self.line_layer.triggerRepaint()
      #   self.multiple_actions = []
 
+    def modif_mouillere2(self, id_parcel_drain):
+        value_actif_old = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
+            self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
+        value_actif=None
+        if value_actif_old == 0:
+            value_actif = 2
+
+        else:
+            value_actif = 0
+
+        self.parcel_layer.startEditing()
+        self.parcel_layer.changeAttributeValue(id_parcel_drain,
+                                               self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled),
+                                               value_actif)
+        self.parcel_layer.commitChanges()
+        self.parcel_layer.triggerRepaint()
+
+
     def modif_ztha(self, id_parcel_drain):
         value_type_old = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
             self.parcel_layer.fields().indexFromName(field_parcel_drain_type)]
@@ -458,6 +476,21 @@ class UiCreationZthaModification:
                                                value_type)
         self.parcel_layer.commitChanges()
         self.parcel_layer.triggerRepaint()
+
+    def modif_ztha2(self, id_parcel_drain):
+        value_type_old = self.parcel_layer.getFeature(id_parcel_drain).attributes()[
+            self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
+        if value_type_old == 0:
+            value_type = 1
+        else:
+            value_type = 0
+        self.parcel_layer.startEditing()
+        self.parcel_layer.changeAttributeValue(id_parcel_drain,
+                                               self.parcel_layer.fields().indexFromName(field_parcel_drain_enabled),
+                                               value_type)
+        self.parcel_layer.commitChanges()
+        self.parcel_layer.triggerRepaint()
+
 
     def write_change(self):
         return self.multiple_actions

@@ -45,7 +45,7 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     field_flow_production_phyto, field_flow_production,\
     field_flow_production_drain_water, field_flow_production_drain_mes, \
     field_flow_production_drain_phyto, field_flow_production_drain,\
-    field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area, \
+    field_parcel_above, field_parcel_below, field_type_parcel, field_parcel_area, field_parcel_drain_ztha, \
     field_parcel_slope, field_parcel_practice, field_outgoing_flow_line_to_parcel, field_line_parcel_below, \
     field_line_parcel_above, field_connexions_parcel_above, field_connexions_flow_coefficient, field_parcel_id, \
     field_type_line_top, field_connexions_parcel_below, field_type_line_bottom, field_line_slope, \
@@ -62,7 +62,7 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     field_history_abatement_mes, field_history_abatement_phyto, field_history_abatement_lat_water, \
     field_history_abatement_lat_mes, field_history_abatement_lat_phyto, field_history_abatement_long_water, \
     field_history_abatement_long_mes, field_history_abatement_long_phyto, \
-    field_flow_production, field_parcel_drain_river,\
+    field_flow_production, field_parcel_drain_river, field_parcel_drain_enabled,\
     river_direction_up, river_direction_dwn, \
     river_direction_different_direction, abatement_map_line_legend_pt1, abatement_map_line_legend_pt2, \
     abatement_map_line_legend_pt3, abatement_map_line_legend_pt4, abatement_map_line_legend_pt5, \
@@ -885,14 +885,34 @@ class FlowCalculation:
             for parcel in parcel_layer.getFeatures(QgsFeatureRequest(select_uh_up)):
                 attrs = parcel.attributes()
                 id_parcel=attrs[parcel_layer.fields().indexFromName(field_parcel_id)]
-                print("id river")
-                print(river_id)
-                print("id parcel")
-                print(id_parcel)
-                print("")
+               # print("id river")
+               # print(river_id)
+               # print("id parcel")
+               # print(id_parcel)
+               # print("")
                 # check if this parcel is drain_type=1
                 drain_type=attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
                 if drain_type==1:
+
+                    # on regarde si cette parcelle est connectée à une ztha (field_parcel_drain_ztha)
+                    # et si la ztha est active (field_parcel_drain_enabled)
+                    ztha_id = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_ztha)]
+
+                    if ztha_id != 0:
+                        select_ztha = QgsExpression(
+                            "{field_parcel_id} = '{id}' ".format(
+                                field_parcel_id=field_parcel_id, id=ztha_id))
+                        ztha_active=0
+                        for ztha in parcel_layer.getFeatures(QgsFeatureRequest(select_ztha)):
+                            attrs_ztha = ztha.attributes()
+                            ztha_active = attrs_ztha[parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
+                        if ztha_active == 1:
+                            print("ztha info")
+                            print(ztha_id)
+                            print(ztha_active)
+
+
+
                     flow_drain_prod=attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
 
                     dict_history = {}
@@ -1197,8 +1217,7 @@ class FlowCalculation:
         attrs = parcel.attributes()
         if id_parcel in parcelle_id_selected:
             prod = attrs[parcel_layer.fields().indexFromName(field_flow_production)]
-            print("prod")
-            print(prod)
+
             history["parcelle_" + str(id_parcel)] = prod
         else:
             prod = 0
@@ -1210,8 +1229,7 @@ class FlowCalculation:
                                                                                                list_id_parcelle,
                                                                                                history_field,
                                                                                                history_abatement_field)
-        print("sortant")
-        print()
+
         sortant_total_up, history, history_abat_line_up = self.get_parcel_inflow_from_line(line_layer, id_parcel,
                                                                                            sortant_total_up, history)
         # Inflow equal the outflow from linears and parcels above plus the production of the selected parcel.

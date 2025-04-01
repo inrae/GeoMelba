@@ -235,7 +235,7 @@ field_parcel_owner = 'gm_prop'
 field_parcel_practice = 'gm_agri'
 field_parcel_slope = 'pente'
 #field_parcel_drain_id = 'gm_drain'
-#field_parcel_drain_enabled = 'gm_d_actif'
+field_parcel_drain_enabled = 'gm_d_actif'
 field_parcel_drain_type = 'gm_d_type'
 field_parcel_drain_river='gm_d_river'
 field_parcel_drain_ztha='gm_d_ztha'
@@ -331,7 +331,7 @@ loader_title = "Traitement en cours"
 loader_text = "Aïe !\nUne erreur est intervenue !\n\nVous pouvez nous aider à améliorer GeoMelba en renvoyant le message d'erreur\nainsi que la version de GeoMelba à michael.rabotin@inrae.fr\n"
 
 # Dialog variables :
-create_watershed_button_name = "Créer son bassin versant (en développement)"
+create_watershed_button_name = "Créer son bassin versant"
 crs_selection_label_name = "Système de projection :"
 output_selection_label = "Dossier en sortie :"
 output_button_name = "..."
