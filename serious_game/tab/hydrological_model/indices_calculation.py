@@ -906,36 +906,31 @@ class FlowCalculation:
                         for ztha in parcel_layer.getFeatures(QgsFeatureRequest(select_ztha)):
                             attrs_ztha = ztha.attributes()
                             ztha_active = attrs_ztha[parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
-                        if ztha_active == 1:
-                            print("ztha info")
-                            print(ztha_id)
-                            print(ztha_active)
+                        if ztha_active == 0: # ztha non active, flux du drain va dans la rivière
 
+                            flow_drain_prod=attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
 
-
-                    flow_drain_prod=attrs[parcel_layer.fields().indexFromName(field_parcel_outflow_drain)]
-
-                    dict_history = {}
-                    dict_history_abat = {}
-                    if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
-                        flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
-                        if flow_history[0] != '':
-                            for elem in flow_history:
-                                dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
-                    if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
-                        flow_history_abat = (attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split(
-                            "; ")
-                        if flow_history_abat[0] != '':
-                            for elem in flow_history_abat:
-                                dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
-                    if uh_up_connex == uh_up:
-                        history_up = update_flow_history(history_up, dict_history, 1)
-                        history_abat_up = update_flow_history(history_abat_up, dict_history_abat, 1)
-                        entrant_up = flow_drain_prod
-                    else:
-                        history_dwn = update_flow_history(history_dwn, dict_history, 1)
-                        history_abat_dwn = update_flow_history(history_abat_dwn, dict_history_abat, 1)
-                        entrant_dwn = flow_drain_prod
+                            dict_history = {}
+                            dict_history_abat = {}
+                            if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
+                                flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
+                                if flow_history[0] != '':
+                                    for elem in flow_history:
+                                        dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
+                            if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
+                                flow_history_abat = (attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split(
+                                    "; ")
+                                if flow_history_abat[0] != '':
+                                    for elem in flow_history_abat:
+                                        dict_history_abat[elem.split(": ")[0]] = float(elem.split(": ")[1])
+                            if uh_up_connex == uh_up:
+                                history_up = update_flow_history(history_up, dict_history, 1)
+                                history_abat_up = update_flow_history(history_abat_up, dict_history_abat, 1)
+                                entrant_up = flow_drain_prod
+                            else:
+                                history_dwn = update_flow_history(history_dwn, dict_history, 1)
+                                history_abat_dwn = update_flow_history(history_abat_dwn, dict_history_abat, 1)
+                                entrant_dwn = flow_drain_prod
 
 
 
