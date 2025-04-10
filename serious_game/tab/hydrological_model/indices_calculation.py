@@ -1216,7 +1216,15 @@ class FlowCalculation:
             history["parcelle_" + str(id_parcel)] = prod
         else:
             prod = 0
+
+        # on teste si la parcelle est une ztha active field_parcel_drain_enabled =1 et field_parcel_drain_type =1
+        ztha_type=attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+        ztha_active = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_enabled)]
+        parcel_ztha=0
+        if ztha_type==1 and ztha_active==1:
+            parcel_ztha=1
         sortant_total_up, history, history_abat_parcel_up = self.get_parcel_inflow_from_parcel(parcel, id_parcel,
+                                                                                               parcel_ztha,
                                                                                                line_layer,
                                                                                                parcel_layer,
                                                                                                connexion_layer,
@@ -1224,6 +1232,10 @@ class FlowCalculation:
                                                                                                list_id_parcelle,
                                                                                                history_field,
                                                                                                history_abatement_field)
+
+
+
+
 
         sortant_total_up, history, history_abat_line_up = self.get_parcel_inflow_from_line(line_layer, id_parcel,
                                                                                            sortant_total_up, history)
@@ -1253,17 +1265,39 @@ class FlowCalculation:
         processed_poly.append(id_parcel)
         return processed_poly, parcel_abat
 
-    def get_parcel_inflow_from_parcel(self, parcel, id_parcel, line_layer, parcel_layer, connexion_layer, history,
+    def get_parcel_inflow_from_parcel(self, parcel, id_parcel, parcel_ztha,
+                                      line_layer, parcel_layer, connexion_layer, history,
                                       list_id_parcelle, history_field, history_abatement_field):
         sortant_total_up = 0
         history_abat_up = {}
         attrs = parcel.attributes()
         gm_uh_up = attrs[parcel_layer.fields().indexFromName(field_parcel_above)]
-        if gm_uh_up != NULL:
+        gm_uh_ztha_up=[]
+        gm_uh_ztha_up_cleaned = []
+        if parcel_ztha==1: # la parcelle est une ztha active, on ajoute toutes les parcelles drainées qui
+                            # connectées à elle
+
+            for f in parcel_layer.getFeatures():
+                attrs = f.attributes()
+                id_parcel_connect_to_ztha = attrs[parcel_layer.fields().indexFromName(field_parcel_id)]
+                ztha_id = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_ztha)]
+                if ztha_id ==id_parcel:
+                    gm_uh_ztha_up.append(id_parcel_connect_to_ztha)
+            not_selected_ztha = [x for x in gm_uh_ztha_up if x not in list_id_parcelle]
+            gm_uh_ztha_up = [x for x in gm_uh_ztha_up if x not in not_selected_ztha]
+
+        if gm_uh_up != NULL or gm_uh_ztha_up :
+
             poly_up = *map(int, gm_uh_up.split(', ')),
             not_selected = [x for x in poly_up if x not in list_id_parcelle]
             poly_up = [x for x in poly_up if x not in not_selected]
-            if len(poly_up) != 0:
+
+            if gm_uh_ztha_up:
+                # il faut enlever de gm_uh_ztha_up les uh déjà présentes dans poly_up
+                poly_up_list = list(poly_up)
+                gm_uh_ztha_up = [x for x in gm_uh_ztha_up if x not in poly_up_list]
+
+            if len(poly_up) != 0 :
                 top_parcel_outflow = 0
                 for uh_up in poly_up:  # We can get the outflow from the parcel above.
                     dict_history = {}
@@ -1304,15 +1338,16 @@ class FlowCalculation:
                             parcel_outflow = attrs[
                                 parcel_layer.fields().indexFromName(field_outgoing_flow)]
                             type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
-                            if type_drain not in {0, 1, 2, 3}:
-                                type_drain = 0
+                            #TODO : vérifier lignes suivantes si mise en commentaire est ok ?
+                           # if type_drain not in {0, 1, 2, 3}:
+                           #     type_drain = 0
                             #actif_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
 
 
-                            if type_drain == 1 or type_drain == 2 or type_drain == 3:
-                                coef = 0.2
-                            else:
-                                coef = 1
+                            #if type_drain == 1 or type_drain == 2 or type_drain == 3:
+                            #    coef = 0.2
+                            #else:
+                            coef = 1
                             if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
                                 flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
                                 if flow_history[0] != '':
@@ -1346,7 +1381,68 @@ class FlowCalculation:
                                 history = update_flow_history(history, dict_history, flow_coefficient)
                                 # From the connexion_layer we can get the coefficient of flow between the two parcels.
                                 top_parcel_outflow = flow_coefficient * parcel_outflow
+
+
                     sortant_total_up = sortant_total_up + top_parcel_outflow
+
+            if len(gm_uh_ztha_up) != 0:
+                top_parcel_outflow = 0
+                for uh_up in gm_uh_ztha_up:
+                    dict_history = {}
+                    select_uh_up = QgsExpression("{champ_identifiant_parcelle} = '{id}'".format(
+                        champ_identifiant_parcelle=field_parcel_id, id=uh_up))
+                    for feat in parcel_layer.getFeatures(QgsFeatureRequest(select_uh_up)):
+                        attrs = feat.attributes()
+                        parcel_outflow = attrs[
+                            parcel_layer.fields().indexFromName(field_outgoing_flow)]
+                        type_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_drain_type)]
+                        # if type_drain not in {0, 1, 2, 3}:
+                        #     type_drain = 0
+                        # actif_drain = attrs[parcel_layer.fields().indexFromName(field_parcel_active_drain)]
+
+                        # if type_drain == 1 or type_drain == 2 or type_drain == 3:
+                        #    coef = 0.2
+                        # else:
+                        coef = 1
+                        if attrs[parcel_layer.fields().indexFromName(history_field)] != NULL:
+                            flow_history = (attrs[parcel_layer.fields().indexFromName(history_field)]).split("; ")
+                            if flow_history[0] != '':
+                                for elem in flow_history:
+                                    dict_history[elem.split(": ")[0]] = float(elem.split(": ")[1])
+                        dict_history = update_flow_history({}, dict_history, coef)
+                        if attrs[parcel_layer.fields().indexFromName(history_abatement_field)] != NULL:
+                            flow_history = (
+                                attrs[parcel_layer.fields().indexFromName(history_abatement_field)]).split("; ")
+                        else:
+                            flow_history = ['']
+                        # parcel_outflow = parcel_outflow - drain_outflow
+                        #select_connect_up = QgsExpression("{champ_parcelle_aval_connexions} = '{uh_dwn}' and "
+                         #                                 "{champ_parcelle_amont_connexions} = '{uh_up}'".format(
+                         #   champ_parcelle_aval_connexions=field_connexions_parcel_below,
+                         #   champ_parcelle_amont_connexions=field_connexions_parcel_above,
+                         #   uh_dwn=id_parcel, uh_up=uh_up))
+                        #for connex_feat in connexion_layer.getFeatures(QgsFeatureRequest(select_connect_up)):
+                            #attrs = connex_feat.attributes()
+                            #flow_coefficient = attrs[connexion_layer.fields().indexFromName(
+                            #    field_connexions_flow_coefficient)]
+                        flow_coefficient=1 #TODO mettre ici la valeur de coeff de la parcelle drainée ?
+                        if flow_history[0] != '':
+                            for elem in flow_history:
+                                if elem.split(": ")[0] in history_abat_up.keys():
+                                    history_abat_up[elem.split(": ")[0]] = history_abat_up[
+                                                                               elem.split(": ")[0]] + (float(
+                                        elem.split(": ")[1]) * coef) * flow_coefficient
+                                else:
+                                    history_abat_up[elem.split(": ")[0]] = (float(
+                                        elem.split(": ")[1]) * coef) * flow_coefficient
+                        history = update_flow_history(history, dict_history, flow_coefficient)
+                        # From the connexion_layer we can get the coefficient of flow between the two parcels.
+                        top_parcel_outflow = flow_coefficient * parcel_outflow
+
+                    sortant_total_up = sortant_total_up + top_parcel_outflow
+
+
+
         return sortant_total_up, history, history_abat_up
 
     def get_parcel_inflow_from_line(self, line_layer, id_parcel, sortant_total_up, history):
