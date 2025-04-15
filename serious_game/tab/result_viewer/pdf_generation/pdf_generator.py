@@ -46,7 +46,8 @@ except Exception as e :
     print("some features can be unactivated")
     print(e)
 
-from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder
+from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder, \
+                                config_land_cover_file_json, config_line_type_file_json
 
 
 class Pdf_generator:
@@ -229,7 +230,10 @@ class Pdf_generator:
                     
         # Mapping to get real name instead of int value for keys
         mapping = {}
-        with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/land_cover.csv", newline='') as csvfile:
+        config_land_cover_file_csv = os.path.splitext(config_land_cover_file_json)[0] + '.csv'
+        UH_land_cover_csv_file_path = self.output_path + 'data/' + config_land_cover_file_csv
+        with open(UH_land_cover_csv_file_path,  newline='') as csvfile:
+        #with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/land_cover.csv", newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 if self.watershed_name == "beaujolais":
@@ -338,10 +342,14 @@ class Pdf_generator:
 
         # mapping to get real name instead of int value for keys
         mapping = {}
-        with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/line_type.csv", newline='') as csvfile:
+        config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
+        line_type_csv_file_path = self.output_path + 'data/' + config_line_type_file_csv
+        with open(line_type_csv_file_path, newline='') as csvfile:
+
             reader = csv.DictReader(csvfile)
             for row in reader:
                 mapping[int(row['value'])] = row['key']
+
         
         lineaire_totals = calculate_lineaire_totals(data)
         keys=self.get_all_key_from_dict(lineaire_totals)

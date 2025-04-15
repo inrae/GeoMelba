@@ -4859,6 +4859,16 @@ class ConfigFilesImportJS:
                         self.abatement_lat_phyto[int(data_line_type["TE"][line_type_dict]["value"])] = float(
                             data_line_type["TE"][line_type_dict][studied_element_button2_label]["abatement_lat"])
 
+        # création d'un csv avec key et nom des TE dans le dossier output
+        config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
+        line_type_csv_file_path = self.output_path + 'data/' + config_line_type_file_csv
+        with open(line_type_csv_file_path, 'w', encoding='UTF8', newline='') as TE_csv_file:
+            writer = csv.writer(TE_csv_file)
+            line_type_headerList = ['key', 'value']
+            writer.writerow(line_type_headerList)
+            for key, val in self.line_type.items():
+                writer.writerow([key, val])
+
 
 
 
