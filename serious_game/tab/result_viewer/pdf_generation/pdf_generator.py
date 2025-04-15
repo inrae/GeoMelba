@@ -47,7 +47,9 @@ except Exception as e :
     print(e)
 
 from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder, \
-                                config_land_cover_file_json, config_line_type_file_json
+                                config_land_cover_file_json, config_line_type_file_json, \
+                                field_line_length, field_type_line_middle, field_type_line_top, field_type_line_bottom, \
+                                field_type_parcel, field_parcel_area, field_parcel_practice, config_practices_file_json
 
 
 class Pdf_generator:
@@ -223,15 +225,16 @@ class Pdf_generator:
         # Remove too precise vine types, valid only on beaujolais
         if self.watershed_name == "beaujolais":
             for elt in data:
-                if elt['type_sol'] == "101" :
-                    elt['type_sol'] = "102"
-                elif elt['type_sol'] == "111" :
-                    elt['type_sol'] = "112"
+                if elt[field_type_parcel] == "101" :
+                    elt[field_type_parcel] = "102"
+                elif elt[field_type_parcel] == "111" :
+                    elt[field_type_parcel] = "112"
                     
         # Mapping to get real name instead of int value for keys
         mapping = {}
         config_land_cover_file_csv = os.path.splitext(config_land_cover_file_json)[0] + '.csv'
-        UH_land_cover_csv_file_path = self.output_path + 'data/' + config_land_cover_file_csv
+        UH_land_cover_csv_file_path = self.output_path + "/" + data_folder + "/" + config_land_cover_file_csv
+
         with open(UH_land_cover_csv_file_path,  newline='') as csvfile:
         #with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/land_cover.csv", newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -258,7 +261,7 @@ class Pdf_generator:
         def calculate_surface_totals(data):
             surface_totals = defaultdict(int)
             for entry in data:
-                surface_totals[mapping[int(entry['type_sol'])]] += round(float(entry['gm_area']) / 10000, 2)
+                surface_totals[mapping[int(entry[field_type_parcel])]] += round(float(entry[field_parcel_area]) / 10000, 2)
             return surface_totals
 
         # getting value from function
@@ -287,24 +290,34 @@ class Pdf_generator:
         """
         
         # Gimond doesn't have this feature.
-        if self.watershed_name == "gimond":
-            return None, None, None, None
+        #if self.watershed_name == "gimond":
+        #    return None, None, None, None
         
         # Mapping to get real name instead of int value for keys
         mapping = {}
-        with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/agricultural_practices.csv", newline='') as csvfile:
+
+        agricultural_practices_type_file_csv = os.path.splitext(config_practices_file_json)[0] + '.csv'
+        agricultural_practices_csv_file_path = self.output_path + "/" + data_folder + "/" + agricultural_practices_type_file_csv
+
+        with open(agricultural_practices_csv_file_path, newline='') as csvfile:
+
             reader = csv.DictReader(csvfile)
             for row in reader:
                 mapping[int(row['value'])] = row['key']
+
+        #if watershed have non practices:
+
+        if len(mapping) == 1 and mapping[1]=="none" :
+            return None, None, None, None
               
         # performs area, conversion and rounding calculations
         def calculate_practices_totals(data):
             practices_totals = defaultdict(int)
             for entry in data:
-                if entry['gm_agri'] == "99" :
+                if entry[field_parcel_practice] == "99" :
                     pass #for N/A data
                 else :
-                    practices_totals[mapping[int(entry['gm_agri'])]] += round((float(entry['gm_area'])/10000),2)
+                    practices_totals[mapping[int(entry[field_parcel_practice])]] += round((float(entry[field_parcel_area])/10000),2)
             return practices_totals
             
         practices_totals = calculate_practices_totals(data)
@@ -334,16 +347,17 @@ class Pdf_generator:
         def calculate_lineaire_totals(data):
             lineaire_totals = defaultdict(int)
             for entry in data:
-                lineaire_totals[mapping[int(entry['type_cen'])]] += float(entry['gm_length'])
-                lineaire_totals[mapping[int(entry['type_amo'])]] += float(entry['gm_length'])
-                lineaire_totals[mapping[int(entry['type_ava'])]] += float(entry['gm_length'])
+                lineaire_totals[mapping[int(entry[field_type_line_middle])]] += float(entry[field_line_length])
+                lineaire_totals[mapping[int(entry[field_type_line_top])]] += float(entry[field_line_length])
+                lineaire_totals[mapping[int(entry[field_type_line_bottom])]] += float(entry[field_line_length])
                 
             return lineaire_totals
 
         # mapping to get real name instead of int value for keys
         mapping = {}
         config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
-        line_type_csv_file_path = self.output_path + 'data/' + config_line_type_file_csv
+        line_type_csv_file_path = self.output_path + "/" + data_folder + "/" + config_line_type_file_csv
+
         with open(line_type_csv_file_path, newline='') as csvfile:
 
             reader = csv.DictReader(csvfile)

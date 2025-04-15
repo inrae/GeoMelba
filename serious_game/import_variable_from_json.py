@@ -30,7 +30,7 @@ import copy
 import os
 # Import personnal modules
 from ..dictionnaire import data_folder, watershed_prefix, config_practices_file_json, config_slope_file_json, \
-    config_land_cover_file_json, config_line_type_file_json, config_ztha_file_json, \
+    config_land_cover_file_json, config_line_type_file_json, config_ztha_file_json, data_folder, \
     config_land_cover_file_winter_json, config_line_type_file_winter_json, config_ztha_file_winter_json, \
     config_land_cover_file_summer_json, config_line_type_file_summer_json, config_ztha_file_summer_json, \
     information_jsonfile_error, config_agricultural_practices_var_json, config_slope_var_json, \
@@ -88,6 +88,14 @@ class ConfigFilesImportJS:
                     self.practices[key] = int(data_agricultural_practices[config_agricultural_practices_var_json][key])
             else:
                 QMessageBox.information(None, information_jsonfile_error, table_name)
+            config_agricultural_practices_file_csv = os.path.splitext(config_practices_file_json)[0] + '.csv'
+            agricultural_practices_csv_file_path = self.output_path + "/" + data_folder + "/" + config_agricultural_practices_file_csv
+            with open(agricultural_practices_csv_file_path, 'w', encoding='UTF8', newline='') as agricultural_practices_csv_file:
+                writer = csv.writer(agricultural_practices_csv_file)
+                agricultural_practices_headerList = ['key', 'value']
+                writer.writerow(agricultural_practices_headerList)
+                for key, val in self.practices.items():
+                    writer.writerow([key, val])
 
         table_name = config_slope_file_json
         with open(self.path + table_name) as jsfile:
@@ -130,7 +138,7 @@ class ConfigFilesImportJS:
         # suppression d'un éventuel fichier csv existant #TODO
         # création d'un csv dans le dossier output
         config_land_cover_file_csv= os.path.splitext(config_land_cover_file_json)[0]+'.csv'
-        UH_land_cover_csv_file_path=self.output_path+'data/'+config_land_cover_file_csv
+        UH_land_cover_csv_file_path=self.output_path+"/" + data_folder + "/"+config_land_cover_file_csv
         with open(UH_land_cover_csv_file_path,'w', encoding='UTF8', newline='') as UH_csv_file:
             writer = csv.writer(UH_csv_file)
             # création des headers à partir d'une liste
@@ -4861,7 +4869,7 @@ class ConfigFilesImportJS:
 
         # création d'un csv avec key et nom des TE dans le dossier output
         config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
-        line_type_csv_file_path = self.output_path + 'data/' + config_line_type_file_csv
+        line_type_csv_file_path = self.output_path + "/" + data_folder + "/" + config_line_type_file_csv
         with open(line_type_csv_file_path, 'w', encoding='UTF8', newline='') as TE_csv_file:
             writer = csv.writer(TE_csv_file)
             line_type_headerList = ['key', 'value']
