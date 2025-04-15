@@ -222,40 +222,16 @@ class Pdf_generator:
             - evolution: evolution indicator
         """
         
-        # Remove too precise vine types, valid only on beaujolais
-        if self.watershed_name == "beaujolais":
-            for elt in data:
-                if elt[field_type_parcel] == "101" :
-                    elt[field_type_parcel] = "102"
-                elif elt[field_type_parcel] == "111" :
-                    elt[field_type_parcel] = "112"
-                    
+
         # Mapping to get real name instead of int value for keys
         mapping = {}
         config_land_cover_file_csv = os.path.splitext(config_land_cover_file_json)[0] + '.csv'
         UH_land_cover_csv_file_path = self.output_path + "/" + data_folder + "/" + config_land_cover_file_csv
 
         with open(UH_land_cover_csv_file_path,  newline='') as csvfile:
-        #with open(self.racine+"serious_game/data/bv_"+self.watershed_name+"/land_cover.csv", newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if self.watershed_name == "beaujolais":
-                    if row['value'] == "101" or row['value'] == "111":
-                        pass
-                    # Simplify names
-                    elif row['value']=="102":
-                        mapping[int(row['value'])] = "vigne_enherbée"
-                    elif row['value']=="112":
-                        mapping[int(row['value'])] = "vigne_enherbée_avec_rases"                      
-                    else :
-                        mapping[int(row['value'])] = row['key']
-                elif self.watershed_name == "gimond":
-                    if row['value']=="310":
-                        mapping[int(row['value'])] = "prairie_mécanisable"
-                    else :
-                        mapping[int(row['value'])] = row['key']
-                else :
-                    mapping[int(row['value'])] = row['key']
+                mapping[int(row['value'])] = row['key']
 
         # performs area, conversion and rounding calculations
         def calculate_surface_totals(data):
@@ -289,9 +265,7 @@ class Pdf_generator:
             - evolution: evolution indicator
         """
         
-        # Gimond doesn't have this feature.
-        #if self.watershed_name == "gimond":
-        #    return None, None, None, None
+
         
         # Mapping to get real name instead of int value for keys
         mapping = {}
@@ -305,7 +279,7 @@ class Pdf_generator:
             for row in reader:
                 mapping[int(row['value'])] = row['key']
 
-        #if watershed have non practices:
+        #if watershed have zero practices:
 
         if len(mapping) == 1 and mapping[1]=="none" :
             return None, None, None, None

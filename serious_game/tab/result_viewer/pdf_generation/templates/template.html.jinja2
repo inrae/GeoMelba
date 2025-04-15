@@ -29,7 +29,7 @@
         </h2>
         <h2>Statistiques</h2>
         <div id=stat>
-            <h3>Surface par type d'exploitation(ha)</h3> 
+            <h3>Surfaces cumulées par type d'occupation du sol (ha)</h3> 
             <div id='exploitation'>
                 <ul>
                     {% for key in keys_surface %}
@@ -61,7 +61,7 @@
                 </ul>
             </div>
             {% if keys_practices != None%}
-            <h3>Surface par type de practices (ha)</h3> 
+            <h3>Surfaces cumulées par type de pratiques (ha)</h3> 
             <div id='practices'>
                 <ul>
                 {% for key in keys_practices %}
@@ -89,7 +89,7 @@
                 </ul>
             </div>
             {% endif %}
-            <h3>Element paysagé (m)</h3>
+            <h3>Longueurs cumulées par élément paysagé (m)</h3>
             <div id='paysage'>
                 <ul>
                     {% for key in keys_lineaire %}
