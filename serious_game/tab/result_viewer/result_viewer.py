@@ -49,7 +49,7 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
 
 class ResultViewer(QMainWindow):
     def __init__(self, directory_path=None, count_turn=None, line_layer=None, parcel_layer=None, crs=None,
-                 coded_studied_elements=None,studied_elements=None,
+                 coded_studied_elements=None,studied_elements=None,season=None,
                  DictElementSeason=None, CodedDictElementSeason=None,watershed_name=None):
         """This class concern the dialog used to view the different map created by the user during the serious game.
         It's the backend, checking for the map to show and changing their name, adding description for the map and
@@ -69,6 +69,7 @@ class ResultViewer(QMainWindow):
         self.canvas.setGeometry(QRect(0, 0, 0, 0))
         self.coded_studied_elements=coded_studied_elements
         self.studied_elements=studied_elements
+        self.season = season
         self.DictElementSeason=DictElementSeason
         self.CodedDictElementSeason=CodedDictElementSeason
 
@@ -82,7 +83,7 @@ class ResultViewer(QMainWindow):
             if QDesktopWidget().screenGeometry(n).width() < self.width:
                 self.width = QDesktopWidget().screenGeometry(n).width()
             n = n + 1
-        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn, watershed_name=self.watershed_name)
+        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn, watershed_name=self.watershed_name,season=self.season)
         self.ui.setupUi(self)
         self.ui.project_tree_widget.itemSelectionChanged.connect(self.checkPath)
         self.ui.graphics_view.installEventFilter(self)
@@ -334,7 +335,7 @@ class ResultViewer(QMainWindow):
 class Ui_Dialog(object):
     """Create the dialog for the result viewer. Add all layers to the tree widget when a turn is selected.
     """
-    def __init__(self, directory_path=None, count_turn=None, watershed_name=None):
+    def __init__(self, directory_path=None, count_turn=None, watershed_name=None,season=None):
         self.directory_path = directory_path
         self.count_turn = count_turn
         self.project_tree_widget = None
@@ -342,7 +343,8 @@ class Ui_Dialog(object):
         self.spinbox = None
         self.graphics_view = None
         self.watershed_name = watershed_name
-        self.pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn)
+        self.season=season
+        self.pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn,self.season)
 
 
     def setupUi(self, Dialog):

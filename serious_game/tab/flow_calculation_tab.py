@@ -281,7 +281,7 @@ class FlowCalculationTab(TabManagement):
         """
         self.result_viewer = ResultViewer(directory_path=self.output_path, count_turn=self.count_watershed_analysis,
                                           line_layer=self.line_layer, parcel_layer=self.parcel_layer, crs=self.crs,
-                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,
+                                          coded_studied_elements=self.coded_studied_elements,studied_elements=self.studied_elements,season=self.season[0],
                                           DictElementSeason=self.DictElementSeason, CodedDictElementSeason=self.CodedDictElementSeason,  watershed_name=self.watershed_name)
         self.result_viewer.open_result_viewer()
 
@@ -610,7 +610,9 @@ class FlowCalculationTab(TabManagement):
         self.button_parcel_reception.setEnabled(True)
         self.button_select_river_section.setEnabled(True)
         self.button_river_reception.setEnabled(True)
-        pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis)
+        
+        pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis,
+                                           season=self.season[0])
         pdf_generator_temp.save_state_0()
 
 
