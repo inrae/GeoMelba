@@ -412,8 +412,8 @@ class Pdf_generator:
             pas = range(0, len(donnees))           
             plt.plot(pas, valeurs)
             plt.xlabel('Tour')
-            plt.ylabel('Valeur (% de PPP)')
-            plt.title('Évolution du % de PPP par tour')
+            plt.ylabel('Valeur en % ')
+            plt.title('Évolution de la valeur à l\'exutoire en % par tour')
             plt.xticks(rotation=45) 
             plt.grid(True)
             plt.savefig(os.path.join(self.output_path, "ex_evolution"))  # correction de l'erreur de path

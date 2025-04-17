@@ -83,7 +83,6 @@ class ResultViewer(QMainWindow):
             if QDesktopWidget().screenGeometry(n).width() < self.width:
                 self.width = QDesktopWidget().screenGeometry(n).width()
             n = n + 1
-        
         self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn,
                             watershed_name=self.watershed_name,season=self.season,studied_elements=self.studied_elements)
         self.ui.setupUi(self)
