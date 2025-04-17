@@ -30,6 +30,7 @@ import shutil
 import csv
 import json
 import json.tool
+import datetime
 from collections import defaultdict
 from qgis.core import QgsVectorLayer
 from jinja2 import Environment, FileSystemLoader
@@ -108,6 +109,7 @@ class Pdf_generator:
         surface_out = self.parcellaire_by_type(donnees[parcel_layer_name])
         practices_out = self.practices_by_type(donnees[parcel_layer_name])
         lineaire_out = self.lineaire_by_type(donnees[line_layer_name])
+        creation_date=datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         
         # jinja2 template render html with parameter
 
@@ -115,7 +117,8 @@ class Pdf_generator:
                                studied_elements=self.studied_elements[0],exutoire=exutoire_out[2], evolution_exutoire=exutoire_out[1],
                                dict_surface=surface_out[0], keys_surface=surface_out[1],percent_surface=surface_out[2], ev_surface=surface_out[3],
                                dict_lineaire=lineaire_out[0], keys_lineaire=lineaire_out[1], ev_lineaire=lineaire_out[2],
-                               dict_practices=practices_out[0],keys_practices=practices_out[1], percent_practices=practices_out[2], ev_practices=practices_out[3])
+                               dict_practices=practices_out[0],keys_practices=practices_out[1], percent_practices=practices_out[2], ev_practices=practices_out[3],
+                               creation_date=creation_date)
         
         previous_stade_json_path = os.path.join(self.json_path, "previous_stade.json")
 
