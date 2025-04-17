@@ -2,6 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
+        {% if watershed_name == "gimond" or watershed_name == "beaujolais"%}
+            <img src="templates/{{ watershed_name }}_footer.jpg" style="height: 1.5cm"/>
+            <img src="templates/Logo_INRAE_charte_couleur.bmp" style="height: 1.5cm"/>
+        {% else %}
+            <img src="templates/gimond_footer.jpg" style="height: 1.5cm;"/>
+            <img src="templates/Logo_INRAE_charte_couleur.bmp" style="height: 1.5cm"/>
+        {% endif %}
+
+
     <title>Fiche d'identité du bassin versant</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
