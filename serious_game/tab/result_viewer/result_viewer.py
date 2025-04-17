@@ -83,7 +83,9 @@ class ResultViewer(QMainWindow):
             if QDesktopWidget().screenGeometry(n).width() < self.width:
                 self.width = QDesktopWidget().screenGeometry(n).width()
             n = n + 1
-        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn, watershed_name=self.watershed_name,season=self.season)
+        
+        self.ui = Ui_Dialog(directory_path=directory_path, count_turn=self.count_turn,
+                            watershed_name=self.watershed_name,season=self.season,studied_elements=self.studied_elements)
         self.ui.setupUi(self)
         self.ui.project_tree_widget.itemSelectionChanged.connect(self.checkPath)
         self.ui.graphics_view.installEventFilter(self)
@@ -335,7 +337,7 @@ class ResultViewer(QMainWindow):
 class Ui_Dialog(object):
     """Create the dialog for the result viewer. Add all layers to the tree widget when a turn is selected.
     """
-    def __init__(self, directory_path=None, count_turn=None, watershed_name=None,season=None):
+    def __init__(self, directory_path=None, count_turn=None, watershed_name=None,season=None,studied_elements=None):
         self.directory_path = directory_path
         self.count_turn = count_turn
         self.project_tree_widget = None
@@ -344,7 +346,8 @@ class Ui_Dialog(object):
         self.graphics_view = None
         self.watershed_name = watershed_name
         self.season=season
-        self.pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn,self.season)
+        self.studied_elements=studied_elements
+        self.pdf_generator = Pdf_generator(self.directory_path,self.watershed_name,self.count_turn,self.season,self.studied_elements)
 
 
     def setupUi(self, Dialog):

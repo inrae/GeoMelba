@@ -47,7 +47,9 @@ from .dictionnaire import parcel_layer_name, line_layer_name, line_style_layer_n
     field_type_line_middle, field_type_line_left, field_type_line_right, field_type_line_top, field_type_line_bottom,\
     field_top_line, style_multiple_line, field_parcel_id, field_type_line_origin, geopackage_layer_name_parcel, \
     geopackage_layer_name_line, geopackage_layer_name_connexions, information_geopackage_error_pt1, \
-    information_geopackage_error_pt2, serious_game_data_folder, watershed_prefix
+    information_geopackage_error_pt2, serious_game_data_folder, watershed_prefix, \
+    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label
+
 
 
 class GeomelbaSpirit:
@@ -307,16 +309,18 @@ class GeomelbaSpirit:
                 self.pluginIsActive = True
 
                 # Try to put item of RadioButton into list coded_studied_element et studied_element
-                #studied_elements = ["d'eau", "de MES", "de phytosanitaires"]
+                #studied_elements = ["Eaux de ruissellement", "Erosion", "Produits phytosanitaires"]
                 #coded_studied_elements= 0 for water, 1 for MES, 2 for phyto
+
+
                 if self.dlg.RadioButton_studied_element2.isChecked():
-                    self.studied_elements=["de phytosanitaires"]
+                    self.studied_elements=[studied_element_button2_label]
                     self.coded_studied_elements=[2]
                 elif self.dlg.RadioButton_studied_element0.isChecked():
-                    self.studied_elements=["d'eau"]
+                    self.studied_elements=[studied_element_button0_label]
                     self.coded_studied_elements=[0]
                 else :
-                    self.studied_elements=["de MES"]
+                    self.studied_elements=[studied_element_button1_label]
                     self.coded_studied_elements=[1]
 
 

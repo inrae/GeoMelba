@@ -61,7 +61,7 @@ class Pdf_generator:
     This class manages the entire PDF generation process when displaying results. The code is modular but cannot implement certain specific and atypical technical features of a watershed.
     """
     
-    def __init__(self,output_path=None,watershed_name=None,count_turn=None,season=None):
+    def __init__(self,output_path=None,watershed_name=None,count_turn=None,season=None,studied_elements=None):
         """
         init global variable and usefull path
         """
@@ -71,6 +71,7 @@ class Pdf_generator:
         self.watershed_name = watershed_name
         self.count_turn = count_turn
         self.season = season
+        self.studied_elements = studied_elements
 
         self.actual_path = os.path.dirname(__file__) + "/"
         self.json_path = os.path.join(self.actual_path + "json/") #json directory
@@ -108,9 +109,10 @@ class Pdf_generator:
         practices_out = self.practices_by_type(donnees[parcel_layer_name])
         lineaire_out = self.lineaire_by_type(donnees[line_layer_name])
         
-        # jinja2 template render html with parameter 
+        # jinja2 template render html with parameter
+
         html = template.render(output=self.output_path,count=self.count_turn, watershed_name=self.watershed_name,season=self.season,
-                               exutoire=exutoire_out[2], evolution_exutoire=exutoire_out[1], 
+                               studied_elements=self.studied_elements[0],exutoire=exutoire_out[2], evolution_exutoire=exutoire_out[1],
                                dict_surface=surface_out[0], keys_surface=surface_out[1],percent_surface=surface_out[2], ev_surface=surface_out[3],
                                dict_lineaire=lineaire_out[0], keys_lineaire=lineaire_out[1], ev_lineaire=lineaire_out[2],
                                dict_practices=practices_out[0],keys_practices=practices_out[1], percent_practices=practices_out[2], ev_practices=practices_out[3])
@@ -123,7 +125,8 @@ class Pdf_generator:
             previous = [{
                 "turn": self.count_turn,
                 "watershed": self.watershed_name,
-                "season" : self.season,
+                "season": self.season,
+                "studied_elements": self.studied_elements,
                 "surface_out": surface_out,
                 "practices_out": practices_out,
                 "lineaire_out": lineaire_out
