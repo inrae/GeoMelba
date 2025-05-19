@@ -869,6 +869,25 @@ class FlowCalculationTab(TabManagement):
                 if len(string.split(owner_cover_layer_name, 1)) > 1:
                     cover_layer = self.project.mapLayersByName(string)
                     self.project.removeMapLayer(cover_layer[0].id())
+
+        if not self.parcel_layer.selectedFeatureIds():
+            # If no features are selected, an error message appear.
+
+            self.parcel_layer.removeSelection()
+            self.button_select_parcel.setChecked(False)
+            self.button_select_parcel.setStyleSheet("")
+            self.button_select_parcel.setEnabled(True)
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setExpanded(1)
+            QMessageBox.information(None, information_selection_error,
+                                    information_selection_error_pt2)
+            return
+
+
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
         if self.button_rollback.isEnabled() or self.count_runoff_emitted_analysis > 0:
