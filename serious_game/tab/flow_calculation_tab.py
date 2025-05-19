@@ -212,11 +212,13 @@ class FlowCalculationTab(TabManagement):
         self.button_select_parcel.setAccessibleName("select")
         self.button_select_parcel.setGeometry(20, 110, 600, 30)
         self.button_select_parcel.setEnabled(False)
+
         self.button_select_parcel.setFont(regular_font)
         button_group.addButton(self.button_select_parcel)
         self.button_select_parcel.on_click(self.button_select_parcel, self.canvas, self.parcel_layer.sourceCrs(),
                                            self.parcel_layer, "none",
                                            "none")  # Function from ButtonPointer to select a feature.
+        self.button_select_parcel.clicked.connect(self.select_parcel)
         # Creation of the button to calculate runoff emitted by the selected parcel.
         self.button_parcel_emit = QPushButton(self.tab_widget.widget(self._tab_index_abatement))
         self.button_parcel_emit.setText(parcel_emit_analysis_button_name)
@@ -600,6 +602,10 @@ class FlowCalculationTab(TabManagement):
             # River section reference.
             self.max_input_river_section.append(self.referential[i][7])
 
+    def select_parcel(self):
+        self.button_parcel_emit.setEnabled(True)
+        self.button_parcel_reception.setEnabled(True)
+
     def saving_values(self):
         """ Save references values of maximum inflow for parcels, lines and river section. Those values are used to
         compare new result from watershed analysis with values from previous turn.
@@ -607,8 +613,6 @@ class FlowCalculationTab(TabManagement):
         self.count_referential = self.incrementation(self.count_referential)
         # As long as a reference is not selected, the select parcel and river section button are disabled.
         self.button_select_parcel.setEnabled(True)
-        self.button_parcel_emit.setEnabled(True)
-        self.button_parcel_reception.setEnabled(True)
         self.button_select_river_section.setEnabled(True)
         self.button_river_reception.setEnabled(True)
 
@@ -654,6 +658,8 @@ class FlowCalculationTab(TabManagement):
             self.button_select_parcel.setChecked(False)
             self.button_select_parcel.setStyleSheet("")
             self.button_select_parcel.setEnabled(True)
+            self.button_parcel_reception.setEnabled(False)
+            self.button_parcel_emit.setEnabled(False)
             self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
             self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
             self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
@@ -820,6 +826,9 @@ class FlowCalculationTab(TabManagement):
 
         self.button_parcel_emit.setEnabled(False)
         self.button_parcel_reception.setEnabled(False)
+        self.button_select_parcel.setChecked(False)
+        self.button_select_parcel.setStyleSheet("")
+        self.button_select_parcel.setEnabled(True)
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
@@ -877,6 +886,8 @@ class FlowCalculationTab(TabManagement):
             self.button_select_parcel.setChecked(False)
             self.button_select_parcel.setStyleSheet("")
             self.button_select_parcel.setEnabled(True)
+            self.button_parcel_reception.setEnabled(False)
+            self.button_parcel_emit.setEnabled(False)
             self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
             self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
             self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
@@ -1042,6 +1053,9 @@ class FlowCalculationTab(TabManagement):
 
         self.button_parcel_emit.setEnabled(False)
         self.button_parcel_reception.setEnabled(False)
+        self.button_select_parcel.setChecked(False)
+        self.button_select_parcel.setStyleSheet("")
+        self.button_select_parcel.setEnabled(True)
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
@@ -1184,6 +1198,7 @@ class FlowCalculationTab(TabManagement):
         self.line_layer.removeSelection()
         # Button for river section analysis is disabled because no river section is selected.
         self.button_river_reception.setEnabled(False)
+
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
