@@ -305,6 +305,7 @@ class FlowCalculationTab(TabManagement):
         if self.count_watershed_analysis+1 == 0:
             try :
                 os.remove(self.output_path + "exutoire_value.csv")
+
             except FileNotFoundError :
                 pass
             try :

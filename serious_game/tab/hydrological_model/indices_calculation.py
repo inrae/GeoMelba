@@ -1854,15 +1854,6 @@ class FlowCalculation:
                                                riviere_layer.fields().indexFromName(field_incoming_flow_rating), indice)
         exutoire = sum(total_entrant)
 
-         # write exutoire value on csv file
-        filepath = os.path.join(self.output_path, 'exutoire_value.csv')
-        # write key value at the creation of csv
-        if not os.path.exists(filepath):
-            with open(filepath, 'a') as f:
-                f.write("value\n")
-        with open(filepath, 'a') as f:
-            f.write(str(exutoire) + "\n")
-
         riviere_layer.changeAttributeValue(exutoire_id, riviere_layer.fields().indexFromName(field_outlet_inflow),
                                            exutoire)
         riviere_layer.commitChanges()
@@ -2385,6 +2376,19 @@ class FlowCalculation:
             (production_area_map_parcel_legend_pt7, '"{field}" = 1'.format(
                 field=field_flow_production_area), QColor('#751315'), 1),
         )
+
+        # write exutoire value on csv file
+
+        filepath = os.path.join(self.output_path, 'exutoire_value.csv')
+        # write key value at the creation of csv
+        if not os.path.exists(filepath):
+            with open(filepath, 'a') as f:
+                f.write("value\n")
+        with open(filepath, 'a') as f:
+            f.write(str(max_value_exutoire) + "\n")
+
+
+
         self.create_symbology(parcel_layer_prod, rules)
         return [parcel_layer_transfert, layer_lineaire_transfert, riviere_layer, parcel_layer_abattement,
                 layer_lineaire_abattement, max_entrant_parcelle, max_entrant_lineaire, max_entrant_riviere,max_value_exutoire]
