@@ -278,7 +278,7 @@ class UiCreationOwnerModification:
             if other_button.isChecked():
                 other_button.setChecked(False)
                 #to reset the style
-                other_button.setStyleSheet("");
+                other_button.setStyleSheet("")
         
 # Functions to switch owner of a parcel
     def switch_parcel(self):

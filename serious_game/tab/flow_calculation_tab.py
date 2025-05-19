@@ -29,7 +29,7 @@ import processing
 import shutil
 from PyQt5.QtCore import QUrl, QSize, Qt
 from PyQt5.QtGui import QColor, QFont
-from qgis.PyQt.QtWidgets import QPushButton, QButtonGroup, QLabel, QDialog, QTextBrowser
+from qgis.PyQt.QtWidgets import QPushButton, QButtonGroup, QLabel, QDialog, QTextBrowser, QMessageBox
 from qgis.core import QgsVectorLayer, QgsLineSymbol, QgsSingleSymbolRenderer,QgsPalLayerSettings, QgsVectorLayerSimpleLabeling, QgsTextFormat, QgsTextBufferSettings
 
 from .tab_management import TabManagement
@@ -73,7 +73,7 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     parcel_transfer_map_river_pt2, parcel_reception_map_title_1, parcel_reception_map_title_2, parcel_reception_map_parcel_production, \
     parcel_reception_map_parcel_abatement, parcel_reception_map_line, parcel_reception_map_river, \
     river_reception_map_title, river_reception_map_parcel_production, river_reception_map_parcel_abatement, \
-    river_reception_map_line, river_reception_map_river
+    river_reception_map_line, river_reception_map_river, information_selection_error, information_selection_error_pt2
 
 
 class FlowCalculationTab(TabManagement):
@@ -216,7 +216,7 @@ class FlowCalculationTab(TabManagement):
         button_group.addButton(self.button_select_parcel)
         self.button_select_parcel.on_click(self.button_select_parcel, self.canvas, self.parcel_layer.sourceCrs(),
                                            self.parcel_layer, "none",
-                                           "none")  # Function form ButtonPointer to select a feature.
+                                           "none")  # Function from ButtonPointer to select a feature.
         # Creation of the button to calculate runoff emitted by the selected parcel.
         self.button_parcel_emit = QPushButton(self.tab_widget.widget(self._tab_index_abatement))
         self.button_parcel_emit.setText(parcel_emit_analysis_button_name)
@@ -645,8 +645,27 @@ class FlowCalculationTab(TabManagement):
                 if len(string.split(owner_cover_layer_name, 1)) > 1:
                     cover_layer = self.project.mapLayersByName(string)
                     self.project.removeMapLayer(cover_layer[0].id())
+
+
+        if not self.parcel_layer.selectedFeatureIds():
+            # If no features are selected, an error message appear.
+
+            self.parcel_layer.removeSelection()
+            self.button_select_parcel.setChecked(False)
+            self.button_select_parcel.setStyleSheet("")
+            self.button_select_parcel.setEnabled(True)
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setExpanded(1)
+            QMessageBox.information(None, information_selection_error,
+                                    information_selection_error_pt2)
+            return
         self.messagebox.show()
         selected_parcel_id = self.parcel_layer.selectedFeatureIds()[0]
+
         elements = self.studied_elements
         dict_global={}
         coded_dict_global={}
@@ -657,15 +676,15 @@ class FlowCalculationTab(TabManagement):
 
         for ElementKey in self.studied_elements :
             for SeasonKey in self.season :
-                dict_global[str(ElementKey)]=(SeasonKey)        
+                dict_global[str(ElementKey)]=(SeasonKey)
 
 
 
-        
-        
+
+
         iter=0
         for i in coded_dict_global:
-        #for i in range(len(elements)):  
+        #for i in range(len(elements)):
             j=coded_dict_global[i]
             element = elements[iter]
             iter +=1
@@ -747,7 +766,7 @@ class FlowCalculationTab(TabManagement):
                 selected_parcel_id)
             parcels_layer = self.project.mapLayersByName(parcels)[0]
 
-            
+
 #            label_settings = QgsPalLayerSettings()
 #            label_settings.drawLabels = True
 #            label_settings.fieldName = field_parcel_id
@@ -781,7 +800,7 @@ class FlowCalculationTab(TabManagement):
             names = [parcel_transfer_map_parcel_pt1 + str(element) + parcel_transfer_map_parcel_pt2,
                      parcel_transfer_map_line_pt1 + str(element) + parcel_transfer_map_line_pt2,
                      parcel_transfer_map_river_pt1 + str(element) + parcel_transfer_map_river_pt2]
-            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3+'_'+self.season[0] 
+            title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3+'_'+self.season[0]
             count_file = 1
             for file in os.listdir(self.output_path):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_transfer.split("_", -1)[0:2]:
@@ -796,7 +815,7 @@ class FlowCalculationTab(TabManagement):
             self.parcel_layer.selectByIds([selected_parcel_id])
         # Buttons for parcel analysis are disabled because no parcel is selected.
 
-        
+
 
 
         self.button_parcel_emit.setEnabled(False)
@@ -821,6 +840,7 @@ class FlowCalculationTab(TabManagement):
         self.canvas.refresh()
         # Remove the selection.
         self.parcel_layer.removeSelection()
+        self.button_select_parcel.setEnabled(False)
         self.messagebox.done(1)
 
     def analysis_parcel_runoff_reception(self):
