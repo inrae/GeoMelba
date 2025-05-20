@@ -73,8 +73,8 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     parcel_transfer_map_river_pt2, parcel_reception_map_title_1, parcel_reception_map_title_2, parcel_reception_map_parcel_production, \
     parcel_reception_map_parcel_abatement, parcel_reception_map_line, parcel_reception_map_river, \
     river_reception_map_title, river_reception_map_parcel_production, river_reception_map_parcel_abatement, \
-    river_reception_map_line, river_reception_map_river, information_selection_error, information_selection_error_pt2
-
+    river_reception_map_line, river_reception_map_river, information_selection_error, information_selection_error_pt2, \
+    information_selection_error_pt3
 
 class FlowCalculationTab(TabManagement):
 
@@ -249,7 +249,7 @@ class FlowCalculationTab(TabManagement):
                                                   self.line_layer.sourceCrs(),
                                                   self.line_layer, "none",
                                                   "none")  # Function form ButtonPointer to select a feature.
-
+        self.button_select_river_section.clicked.connect(self.select_river)
         # Creation of the button to calculate runoff received by the selected river section.
         self.button_river_reception = QPushButton(self.tab_widget.widget(self._tab_index_abatement))
         self.button_river_reception.setText(river_reception_analysis_button_name)
@@ -606,6 +606,10 @@ class FlowCalculationTab(TabManagement):
         self.button_parcel_emit.setEnabled(True)
         self.button_parcel_reception.setEnabled(True)
 
+    def select_river(self):
+        self.button_river_reception.setEnabled(True)
+
+
     def saving_values(self):
         """ Save references values of maximum inflow for parcels, lines and river section. Those values are used to
         compare new result from watershed analysis with values from previous turn.
@@ -614,7 +618,7 @@ class FlowCalculationTab(TabManagement):
         # As long as a reference is not selected, the select parcel and river section button are disabled.
         self.button_select_parcel.setEnabled(True)
         self.button_select_river_section.setEnabled(True)
-        self.button_river_reception.setEnabled(True)
+
 
 
         pdf_generator_temp = Pdf_generator(output_path=self.output_path, watershed_name=self.watershed_name, count_turn=self.count_watershed_analysis,
@@ -1103,6 +1107,24 @@ class FlowCalculationTab(TabManagement):
                 if len(string.split(owner_cover_layer_name, 1)) > 1:
                     cover_layer = self.project.mapLayersByName(string)
                     self.project.removeMapLayer(cover_layer[0].id())
+
+        if not self.line_layer.selectedFeatureIds():
+            # If no features are selected, an error message appear.
+            self.line_layer.removeSelection()
+            self.button_select_river_section.setChecked(False)
+            self.button_select_river_section.setStyleSheet("")
+            self.button_select_river_section.setEnabled(True)
+            self.button_river_reception.setEnabled(False)
+
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setItemVisibilityChecked(True)
+            self.project.layerTreeRoot().findLayer(self.line_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setExpanded(1)
+            self.project.layerTreeRoot().findLayer(self.style_line_layer.id()).setExpanded(1)
+            QMessageBox.information(None, information_selection_error,
+                                    information_selection_error_pt3)
+            return
         self.messagebox.show()
         # Launch analysis.
         river_section_selected = self.line_layer.selectedFeatureIds()
@@ -1198,6 +1220,10 @@ class FlowCalculationTab(TabManagement):
         self.line_layer.removeSelection()
         # Button for river section analysis is disabled because no river section is selected.
         self.button_river_reception.setEnabled(False)
+
+        self.button_select_river_section.setChecked(False)
+        self.button_select_river_section.setStyleSheet("")
+        self.button_select_river_section.setEnabled(True)
 
         self.project.layerTreeRoot().findLayer(self.line_layer.id()).setItemVisibilityChecked(True)
         self.project.layerTreeRoot().findLayer(self.parcel_layer.id()).setItemVisibilityChecked(True)

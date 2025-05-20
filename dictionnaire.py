@@ -597,6 +597,7 @@ information_selection_error_line_2 = "Pas d'élément sélectionné. \nOn ne peu
                                      "'linéaires avancés'."
 information_selection_error_pt1 = "Pas d'élément sélectionné.\nCliquer sur un(e)."
 information_selection_error_pt2 = "Pas d'élément sélectionné.\nCliquer sur une parcelle."
+information_selection_error_pt3 = "Pas d'élément sélectionné.\nCliquer sur un tronçon de rivière."
 information_switch_parcel_owner_error = "Les parcelles possèdent le même propriétaire. \n Echange impossible."
 information_modification_multiple_error_1 = "L'élément sélectionné n'est pas présent sur le bassin versant."
 information_modification_multiple_error_2 = "Pas d'élément sélectionné.\nVous n'avez choisi aucune parcelle à modifier."
