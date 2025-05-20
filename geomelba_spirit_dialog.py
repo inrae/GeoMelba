@@ -23,6 +23,7 @@
  ***************************************************************************/
 """
 import os
+import shutil
 from PyQt5.QtCore import Qt
 from PyQt5.Qt import QMessageBox
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QButtonGroup, QFileDialog, QRadioButton, QCheckBox
@@ -326,6 +327,19 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
                 if os.path.exists(self.output_text.text() + "/" + self.watershed_button_group.button(
                    self.watershed_button_group.checkedId()).accessibleName().lower()):
                    QMessageBox.information(None, information_folder_text_pt1, information_folder_text_pt2)
+                   directory_to_delete=self.output_text.text() + "/" + self.watershed_button_group.button(
+                   self.watershed_button_group.checkedId()).accessibleName().lower()
+                   for filename in os.listdir(directory_to_delete):
+                       file_path = os.path.join(directory_to_delete, filename)
+                       try:
+                           if os.path.isfile(file_path) or os.path.islink(file_path):
+                               os.unlink(file_path)
+                           elif os.path.isdir(file_path):
+                               shutil.rmtree(file_path)
+                       except Exception as e:
+                           print('Failed to delete %s. Reason: %s' % (file_path, e))
+                   
+
             # check that the name of the watershed is the same as the gpkg
 
             else:

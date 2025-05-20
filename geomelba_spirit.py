@@ -521,7 +521,7 @@ class GeomelbaSpirit:
                             line_style.setCrs(layer_crs)
                             self.project.addMapLayer(line_style)
 
-                    # if you whant to load file
+                    # if you want to load file
                     elif loading is True:
                         """
                         Same overall operation as above. However one difference is that the loading of the parcel and linear comes from a file chosen by the user. 

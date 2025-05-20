@@ -574,7 +574,7 @@ information_crs_text_pt2 = "L'application ne supporte pour le moment que les sys
                            "métrique. \n Le système choisis :\n "
 information_crs_text_pt3 = "\n est actuellement en "
 information_folder_text_pt1 = "Dossier existant :"
-information_folder_text_pt2 = "Attention, le dossier utilisé pour enregistrer les résultats existe déjà, certaines " \
+information_folder_text_pt2 = "Attention, le dossier utilisé pour enregistrer les résultats existe déjà, toutes les " \
                               "données vont être effacées."
 information_loaded_watershed_type_pt1 = "Conflit de bassin versant séléctionné"
 information_loaded_watershed_type_pt2 = "Veuillez vérifier que le bassin versant sélectionné correspond bien au même que celui fichier .gpkg sélectionné \n Aucun gpkg n'a été séléctionné"
