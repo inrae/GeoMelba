@@ -47,7 +47,7 @@ except Exception as e :
     print("some features can be unactivated")
     print(e)
 
-from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder, \
+from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder, data_output_folder,\
                                 config_land_cover_file_json, config_line_type_file_json, \
                                 field_line_length, field_type_line_middle, field_type_line_top, field_type_line_bottom, \
                                 field_type_parcel, field_parcel_area, field_parcel_practice, config_practices_file_json
@@ -77,7 +77,7 @@ class Pdf_generator:
         self.actual_path = os.path.dirname(__file__) + "/"
         self.json_path = os.path.join(self.actual_path + "json/") #json directory
         self.templates_path = os.path.join(self.actual_path + "templates") #jinja2 template directory
-        self.gpkg_path = os.path.join(self.output_path + "/" + data_folder + "/" + data_layer + watershed_name + ".gpkg") #gpkg file changer ici le nom du fichier
+        self.gpkg_path = os.path.join(self.output_path + "/" + data_output_folder + "/" + data_layer + watershed_name + ".gpkg") #gpkg file changer ici le nom du fichier
         self.previous_path = os.path.join(self.json_path, 'previous_stade.json')
         # 0 if it's save data turn, 1 if not
         self.global_state = 1
@@ -234,7 +234,7 @@ class Pdf_generator:
         # Mapping to get real name instead of int value for keys
         mapping = {}
         config_land_cover_file_csv = os.path.splitext(config_land_cover_file_json)[0] + '.csv'
-        UH_land_cover_csv_file_path = self.output_path + "/" + data_folder + "/" + config_land_cover_file_csv
+        UH_land_cover_csv_file_path = self.output_path + "/" + data_output_folder + "/" + config_land_cover_file_csv
 
         with open(UH_land_cover_csv_file_path,  newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -279,7 +279,7 @@ class Pdf_generator:
         mapping = {}
 
         agricultural_practices_type_file_csv = os.path.splitext(config_practices_file_json)[0] + '.csv'
-        agricultural_practices_csv_file_path = self.output_path + "/" + data_folder + "/" + agricultural_practices_type_file_csv
+        agricultural_practices_csv_file_path = self.output_path + "/" + data_output_folder + "/" + agricultural_practices_type_file_csv
 
         with open(agricultural_practices_csv_file_path, newline='') as csvfile:
 
@@ -338,7 +338,7 @@ class Pdf_generator:
         # mapping to get real name instead of int value for keys
         mapping = {}
         config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
-        line_type_csv_file_path = self.output_path + "/" + data_folder + "/" + config_line_type_file_csv
+        line_type_csv_file_path = self.output_path + "/" + data_output_folder + "/" + config_line_type_file_csv
 
         with open(line_type_csv_file_path, newline='') as csvfile:
 
@@ -362,8 +362,8 @@ class Pdf_generator:
         """
         
         #path definition
-        exutoire_csv_path = os.path.join(self.output_path + "exutoire_value.csv")
-        exutoire_json_path = os.path.join(self.actual_path + "json/exutoire.json")
+        exutoire_csv_path = os.path.join(self.output_path, data_output_folder, "exutoire_value.csv")
+        exutoire_json_path = os.path.join(self.output_path, data_output_folder, "exutoire_value.json")
         self.csv_to_json(exutoire_csv_path,exutoire_json_path)
 
         with open(exutoire_json_path, "r") as fichier_json:
@@ -412,7 +412,8 @@ class Pdf_generator:
             
             valeurs = [v * ratio for v in valeurs]
             
-            pas = range(0, len(donnees))           
+            pas = range(0, len(donnees))
+
             plt.plot(pas, valeurs)
             plt.xlabel('Tour')
             plt.ylabel('Valeur en % ')

@@ -74,7 +74,7 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     parcel_reception_map_parcel_abatement, parcel_reception_map_line, parcel_reception_map_river, \
     river_reception_map_title, river_reception_map_parcel_production, river_reception_map_parcel_abatement, \
     river_reception_map_line, river_reception_map_river, information_selection_error, information_selection_error_pt2, \
-    information_selection_error_pt3
+    information_selection_error_pt3, data_output_folder
 
 class FlowCalculationTab(TabManagement):
 
@@ -306,7 +306,7 @@ class FlowCalculationTab(TabManagement):
         # reset exutoire_value.csv data and previous.json
         if self.count_watershed_analysis+1 == 0:
             try :
-                os.remove(self.output_path + "exutoire_value.csv")
+                os.remove(self.output_path + data_output_folder + "exutoire_value.csv")
 
             except FileNotFoundError :
                 pass

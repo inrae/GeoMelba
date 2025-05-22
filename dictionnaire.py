@@ -245,6 +245,8 @@ field_parcel_slope_length = 'gm_length'
 # Fichiers de styles :
 serious_game_folder = '/serious_game/'
 data_folder = 'data/'
+data_output_folder = 'donnees/'
+map_folder='cartes/'
 serious_game_data_folder = serious_game_folder + data_folder
 style_folder = path + serious_game_data_folder + 'style/'
 style_parcel = 'style_UH.qml'

@@ -89,7 +89,7 @@ from ....dictionnaire import field_order, field_type_line_middle, null, field_in
     parcel_river_map_production_legend_pt5, parcel_river_map_production_legend_pt6, \
     parcel_river_map_production_legend_pt7, parcel_river_map_production_legend_pt8, \
     parcel_river_map_production_legend_pt9, parcel_river_map_production_legend_pt10, \
-    parcel_river_map_production_legend_pt11, parcel_river_map_production_legend_pt12
+    parcel_river_map_production_legend_pt11, parcel_river_map_production_legend_pt12, data_output_folder
 
 path = os.path.dirname(__file__) + '/'
 
@@ -2379,7 +2379,7 @@ class FlowCalculation:
 
         # write exutoire value on csv file
 
-        filepath = os.path.join(self.output_path, 'exutoire_value.csv')
+        filepath = os.path.join(self.output_path, data_output_folder, 'exutoire_value.csv')
         # write key value at the creation of csv
         if not os.path.exists(filepath):
             with open(filepath, 'a') as f:

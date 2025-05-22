@@ -48,7 +48,8 @@ from .dictionnaire import parcel_layer_name, line_layer_name, line_style_layer_n
     field_top_line, style_multiple_line, field_parcel_id, field_type_line_origin, geopackage_layer_name_parcel, \
     geopackage_layer_name_line, geopackage_layer_name_connexions, information_geopackage_error_pt1, \
     information_geopackage_error_pt2, serious_game_data_folder, watershed_prefix, \
-    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label
+    studied_element_button0_label, studied_element_button1_label, studied_element_button2_label, map_folder, \
+    data_output_folder
 
 
 
@@ -430,9 +431,12 @@ class GeomelbaSpirit:
                             output_directory = output_path + watershed_name + "/"
                             if not os.path.exists(output_directory):
                                 os.makedirs(output_directory)
-                            data_directory = output_directory + data_folder + "/"
+                            data_directory = output_directory + data_output_folder + "/"
                             if not os.path.exists(data_directory):
                                 os.makedirs(data_directory)
+                            map_directory = output_directory + map_folder + "/"
+                            if not os.path.exists(map_directory):
+                                os.makedirs(map_directory)
                             # Save the layers into a new geopackage into the data folder.
                             self.saving_geopackage(
                                 parcel_layer, parcel_layer_name, data_directory + data_layer_file + ".gpkg", crs, True)
@@ -600,9 +604,12 @@ class GeomelbaSpirit:
                             output_directory = output_path + watershed_name + "/"
                             if not os.path.exists(output_directory):
                                 os.makedirs(output_directory)
-                            data_directory = output_directory + data_folder + "/"
+                            data_directory = output_directory + data_output_folder + "/"
                             if not os.path.exists(data_directory):
                                 os.makedirs(data_directory)
+                            map_directory = output_directory + map_folder + "/"
+                            if not os.path.exists(map_directory):
+                                os.makedirs(map_directory)
                             
                             # Save the layers into a new geopackage into the data folder.
                             self.saving_geopackage(
