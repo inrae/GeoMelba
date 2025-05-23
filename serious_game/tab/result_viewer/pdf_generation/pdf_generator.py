@@ -50,7 +50,8 @@ except Exception as e :
 from .....dictionnaire import path, parcel_layer_name, line_layer_name, data_layer, data_folder, data_output_folder,\
                                 config_land_cover_file_json, config_line_type_file_json, \
                                 field_line_length, field_type_line_middle, field_type_line_top, field_type_line_bottom, \
-                                field_type_parcel, field_parcel_area, field_parcel_practice, config_practices_file_json
+                                field_type_parcel, field_parcel_area, field_parcel_practice, config_practices_file_json, \
+                                map_folder
 
 
 class Pdf_generator:
@@ -146,7 +147,8 @@ class Pdf_generator:
         # Path definition
         filename = 'id_BV_'+str(self.count_turn)+'.pdf'
         input_html = os.path.join(self.actual_path, 'index.html')
-        output_pdf = os.path.join(self.output_path, filename)
+        pdf_folder=self.output_path+ "/" + map_folder
+        output_pdf = os.path.join(pdf_folder, filename)
         css = os.path.join(self.actual_path, 'style.css')
 
         # write html with render
@@ -161,8 +163,8 @@ class Pdf_generator:
                 print(input_html)
                 print(e)
                 #if pdf can't be generated html file are make in output folder
-                output_html = os.path.join(self.output_path, 'index.html')
-                shutil.copy(os.path.join(self.actual_path, 'style.css'),os.path.join(self.output_path, 'style.css'))
+                output_html = os.path.join(pdf_folder, 'index.html')
+                shutil.copy(os.path.join(self.actual_path, 'style.css'),os.path.join(pdf_folder, 'style.css'))
                 with open(output_html, "w") as fichier_html:
                     fichier_html.write(html)
 
@@ -234,7 +236,7 @@ class Pdf_generator:
         # Mapping to get real name instead of int value for keys
         mapping = {}
         config_land_cover_file_csv = os.path.splitext(config_land_cover_file_json)[0] + '.csv'
-        UH_land_cover_csv_file_path = self.output_path + "/" + data_output_folder + "/" + config_land_cover_file_csv
+        UH_land_cover_csv_file_path = self.output_path + "/" + data_output_folder + config_land_cover_file_csv
 
         with open(UH_land_cover_csv_file_path,  newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -279,7 +281,7 @@ class Pdf_generator:
         mapping = {}
 
         agricultural_practices_type_file_csv = os.path.splitext(config_practices_file_json)[0] + '.csv'
-        agricultural_practices_csv_file_path = self.output_path + "/" + data_output_folder + "/" + agricultural_practices_type_file_csv
+        agricultural_practices_csv_file_path = self.output_path + "/" + data_output_folder + agricultural_practices_type_file_csv
 
         with open(agricultural_practices_csv_file_path, newline='') as csvfile:
 
@@ -338,7 +340,7 @@ class Pdf_generator:
         # mapping to get real name instead of int value for keys
         mapping = {}
         config_line_type_file_csv = os.path.splitext(config_line_type_file_json)[0] + '.csv'
-        line_type_csv_file_path = self.output_path + "/" + data_output_folder + "/" + config_line_type_file_csv
+        line_type_csv_file_path = self.output_path + "/" + data_output_folder + config_line_type_file_csv
 
         with open(line_type_csv_file_path, newline='') as csvfile:
 
