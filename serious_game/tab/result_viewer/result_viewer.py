@@ -44,7 +44,8 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
     infos_map_parcel_abatement, infos_map_parcel_transfer, infos_map_parcel_received, infos_map_river_received, \
     field_type_parcel, field_type_line_middle, regular_font, field_type_line_bottom, field_type_line_top, \
     legend_element_modified, legend_element_not_modified, legend_element_modified_color, \
-    legend_element_not_modified_color, tree_widget_header, select_turn_spinbox_label, selected_turn_button_name, pdf_generator_button_name
+    legend_element_not_modified_color, tree_widget_header, select_turn_spinbox_label, selected_turn_button_name, \
+    pdf_generator_button_name, data_output_folder
 
 
 class ResultViewer(QMainWindow):
@@ -254,7 +255,7 @@ class ResultViewer(QMainWindow):
         image_settings.dpi = 300
         image_settings.width = 640
         image_settings.height = 480
-        image_path = self.directory_path + "change" + '.png'
+        image_path = self.directory_path + data_output_folder + "change" + '.png'
         exporter = QgsLayoutExporter(layout)
         exporter.exportToImage(image_path, image_settings)
 

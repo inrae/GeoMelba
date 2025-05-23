@@ -113,7 +113,7 @@ class Pdf_generator:
         
         # jinja2 template render html with parameter
 
-        html = template.render(output=self.output_path,count=self.count_turn, watershed_name=self.watershed_name,season=self.season,
+        html = template.render(output=self.output_path + "/" + data_output_folder, count=self.count_turn, watershed_name=self.watershed_name,season=self.season,
                                studied_elements=self.studied_elements[0],exutoire=exutoire_out[2], evolution_exutoire=exutoire_out[1],
                                dict_surface=surface_out[0], keys_surface=surface_out[1],percent_surface=surface_out[2], ev_surface=surface_out[3],
                                dict_lineaire=lineaire_out[0], keys_lineaire=lineaire_out[1], ev_lineaire=lineaire_out[2],
@@ -420,7 +420,8 @@ class Pdf_generator:
             plt.title('Évolution de la valeur à l\'exutoire en % par tour')
             plt.xticks(rotation=45) 
             plt.grid(True)
-            plt.savefig(os.path.join(self.output_path, "ex_evolution"))  # correction de l'erreur de path
+            graph_folder = self.output_path + "/" + data_output_folder
+            plt.savefig(os.path.join(graph_folder,  "ex_evolution"))  # correction de l'erreur de path
             plt.close()
         
         report = get_lastex_value(donnees)
