@@ -45,7 +45,7 @@ from ....dictionnaire import map_watershed_land_cover, map_watershed_abatement, 
     field_type_parcel, field_type_line_middle, regular_font, field_type_line_bottom, field_type_line_top, \
     legend_element_modified, legend_element_not_modified, legend_element_modified_color, \
     legend_element_not_modified_color, tree_widget_header, select_turn_spinbox_label, selected_turn_button_name, \
-    pdf_generator_button_name, data_output_folder
+    pdf_generator_button_name, data_output_folder,map_folder
 
 
 class ResultViewer(QMainWindow):
@@ -102,7 +102,8 @@ class ResultViewer(QMainWindow):
             text = item.text(0)
             # Get the jpg file
             map_name = str(text.replace(" ", "_").lower()) + "_" + str(self.ui.spinbox.text()) + ".jpg"
-            map_to_show = self.ui.directory_path + map_name
+            map_to_show = self.ui.directory_path +map_folder+map_name
+
             # Create a PixMap element to contain the image.
             pixmap = QPixmap(map_to_show).scaled(int(3*self.width/4)-10, self.height-70, Qt.KeepAspectRatio,
                                                  Qt.SmoothTransformation)
@@ -388,6 +389,7 @@ class Ui_Dialog(object):
         button_turn_selection.setFont(regular_font)
         button_turn_selection.setText(selected_turn_button_name)
         button_turn_selection.setGeometry(120, 35, 210, 30)
+
         button_turn_selection.clicked.connect(
             lambda state, path=self.directory_path, tree_widget=self.project_tree_widget: self.load_project_structure(
                 path, tree_widget))
@@ -433,14 +435,18 @@ class Ui_Dialog(object):
         production_area = []
         single_analysis = []
         # Get All element which are not a directory.
-        for element in os.listdir(path):
-            path_info = path + "/" + element
+        map_path=path+map_folder
+        for element in os.listdir(map_path):
+            path_info = map_path +  element
+
             if os.path.isdir(path_info):
                 pass
             else:
                 # Change the name of each element.
+
                 if element.replace(".jpg", "").split("_", -1)[-1] == turn:
                     map_name = str(element.replace("_" + element.split("_")[-1], "").replace("_", " ").capitalize())
+                
                     if element.replace(".jpg", "").split("_", -1)[0:2] == map_watershed_land_cover.split("_", -1)[0:2]:
                         land_cover.append(os.path.basename(map_name))
                     elif element.replace(".jpg", "").split("_", -1)[0:2] == map_watershed_transfer_rate.split("_", -1)[0:2]:

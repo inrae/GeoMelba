@@ -74,7 +74,7 @@ from ...dictionnaire import infos_tab_calcul_edit, style_parcel, date_m_y, autho
     parcel_reception_map_parcel_abatement, parcel_reception_map_line, parcel_reception_map_river, \
     river_reception_map_title, river_reception_map_parcel_production, river_reception_map_parcel_abatement, \
     river_reception_map_line, river_reception_map_river, information_selection_error, information_selection_error_pt2, \
-    information_selection_error_pt3, data_output_folder
+    information_selection_error_pt3, data_output_folder,map_folder
 
 class FlowCalculationTab(TabManagement):
 
@@ -299,9 +299,10 @@ class FlowCalculationTab(TabManagement):
         2 maps are created with one analysis on the inflow in the watershed and one analysis on the abatement. Finally,
         the plot are updated with the new values from the analysis.
         """
-        for element in os.listdir(self.output_path):
+        map_output_folder=self.output_path+"/"+map_folder
+        for element in os.listdir(map_output_folder):
             if element.replace(".jpg", "").split("_", -1)[-1] == str(self.count_watershed_analysis + 1):
-                os.remove(self.output_path + element)
+                os.remove(map_output_folder + element)
                 
         # reset exutoire_value.csv data and previous.json
         if self.count_watershed_analysis+1 == 0:
@@ -358,7 +359,7 @@ class FlowCalculationTab(TabManagement):
         self.parcel_layer.triggerRepaint()
         max_value_exutoire=0
         self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                         self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                         map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
         self.parcel_layer.setLabelsEnabled(True)
         self.parcel_layer.triggerRepaint()
         # Every layer is unchecked and not visible.
@@ -455,7 +456,7 @@ class FlowCalculationTab(TabManagement):
             name = map_watershed_abatement + str(element_underscore) + '_' + str(self.count_watershed_analysis)
             rect = parcels_layer.extent()
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             # Creation of the inflow map. Display only the right group.
             parent.findGroup(
                 group_flow_transfer + "BV " + str(
@@ -475,7 +476,7 @@ class FlowCalculationTab(TabManagement):
             title = watershed_transfer_map_title_pt1 + str(element) + watershed_transfer_map_title_pt2+'_'+self.season[0]
             name = map_watershed_transfer + str(element_underscore) + '_' + str(self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             # Creation of the transfer map. Display only the right group.
             parent.findGroup(
                 "Taux de transfert " + "BV " + str(self.count_watershed_analysis)).setItemVisibilityChecked(True)
@@ -507,7 +508,7 @@ class FlowCalculationTab(TabManagement):
             name = map_watershed_transfer_rate + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             # Creation of the contribution map. Display only the right group.
             parent.findGroup(
                 "Contribution des parcelles " + "BV " + str(self.count_watershed_analysis)).setItemVisibilityChecked(
@@ -529,7 +530,7 @@ class FlowCalculationTab(TabManagement):
             name = map_watershed_potential_production + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,True)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,True)
             # Creation of the contribution map. Display only the right group.
             parent.findGroup(
                 "Production de transfert des parcelles " + "BV " + str(
@@ -548,7 +549,7 @@ class FlowCalculationTab(TabManagement):
             name = map_watershed_production_area + str(element_underscore) + '_' + str(
                 self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             # Update the plots.
          #   self.plot_creation.data_visualisation_creation(self.line_layer, self.parcel_layer,
           #                                                 self.count_watershed_analysis, reference,
@@ -744,7 +745,8 @@ class FlowCalculationTab(TabManagement):
 
 
             count_file = 1
-            for file in os.listdir(self.output_path):
+            map_output_folder=self.output_path+"/"+map_folder
+            for file in os.listdir(map_output_folder):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_abatement.split("_", -1)[0:2]:
                     if int(file.replace(".jpg", "").split("_", -1)[-3]) == selected_parcel_id:
                         count_file = count_file + 1
@@ -762,7 +764,7 @@ class FlowCalculationTab(TabManagement):
             lines_layer.removeSelection()
             max_value_exutoire=0
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect1, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             # Creation of the inflow map. Display only the inflow layers.
             parent.findGroup(
                 group_flow_transfer + str(self.count_watershed_analysis) + " " + str(
@@ -812,14 +814,14 @@ class FlowCalculationTab(TabManagement):
                      parcel_transfer_map_river_pt1 + str(element) + parcel_transfer_map_river_pt2]
             title = parcel_transfer_map_title_pt1 + str(element) + parcel_transfer_map_title_pt2 + str(selected_parcel_id)+ parcel_transfer_map_title_pt3+'_'+self.season[0]
             count_file = 1
-            for file in os.listdir(self.output_path):
+            for file in os.listdir(map_output_folder):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_transfer.split("_", -1)[0:2]:
                     if int(file.replace(".jpg", "").split("_", -1)[-3]) == selected_parcel_id:
                         count_file = count_file + 1
             name = map_parcel_transfer + str(element_underscore) + '_' + str(selected_parcel_id) + "_" + str(
                 count_file) + "_" + str(self.count_watershed_analysis)
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect1, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             parent.removeAllChildren()
             self.project.layerTreeRoot().removeChildNode(parent)
             self.parcel_layer.selectByIds([selected_parcel_id])
@@ -1020,7 +1022,8 @@ class FlowCalculationTab(TabManagement):
                      parcel_reception_map_parcel_abatement]
             title = parcel_reception_map_title_1 + str(selected_parcel_id)+ parcel_reception_map_title_2+'_'+self.season[0]
             count_file = 1
-            for file in os.listdir(self.output_path):
+            map_output_folder=self.output_path+"/"+map_folder
+            for file in os.listdir(map_output_folder):
                 if file.replace(".jpg", "").split("_", -1)[0:2] == map_parcel_received.split("_", -1)[0:2]:
                     if int(file.replace(".jpg", "").split("_", -1)[-3]) == selected_parcel_id:
                         count_file = count_file + 1
@@ -1046,7 +1049,7 @@ class FlowCalculationTab(TabManagement):
             lines_layer.removeSelection()
             max_value_exutoire=0
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect1, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             group.removeAllChildren()
             self.project.layerTreeRoot().removeChildNode(group)
             self.parcel_layer.selectByIds([selected_parcel_id])
@@ -1212,8 +1215,9 @@ class FlowCalculationTab(TabManagement):
             lines_layer.removeSelection()
             river_layer.removeSelection()
             max_value_exutoire=0
+            map_output_folder=self.output_path+"/"+map_folder
             self.map_creation.create_map_jpg(self.project, layers, names, title, rect1, date_m_y, author, name,
-                                             self.output_path, self.count_watershed_analysis,max_value_exutoire,False)
+                                             map_output_folder, self.count_watershed_analysis,max_value_exutoire,False)
             group.removeAllChildren()
             self.project.layerTreeRoot().removeChildNode(group)
             self.line_layer.selectByIds(river_section_selected)
