@@ -916,12 +916,14 @@ class ConfigFilesImportJS:
                                     for i in range(36):
                                         data.extend([valProduction])
                                 else:
+
                                     # si que de la pente et pas de drainage
                                     if all(keys in
                                            data_land_cover[config_UH_var_json][land_cover_dict][studied_element_button0_label][
                                                config_UH_production_var_json] for keys in (
                                            config_UH_low_slope_var_json, config_UH_medium_slope_var_json,
                                            config_UH_high_slope_var_json)):
+
                                         for i in range(12):
                                             data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
                                                              studied_element_button0_label][config_UH_production_var_json][
@@ -933,6 +935,7 @@ class ConfigFilesImportJS:
                                                              studied_element_button0_label][config_UH_production_var_json][
                                                              config_UH_high_slope_var_json]])
                                     else:
+
                                         #on teste si drainage mais normalement oui
                                         if all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
                                             studied_element_button0_label][
@@ -942,6 +945,7 @@ class ConfigFilesImportJS:
                                             # on teste si les pentes
                                             # il faut tester la présence de pente pour chaque condition de drainage
                                             # drain 0  // production totale
+
                                             if isinstance(data_land_cover[config_UH_var_json][land_cover_dict][
                                                 studied_element_button0_label][
                                                 config_UH_production_var_json][config_UH_drain_0_var_json]["production totale"], dict) and all(keys in data_land_cover[config_UH_var_json][land_cover_dict][
@@ -949,6 +953,7 @@ class ConfigFilesImportJS:
                                                 config_UH_production_var_json][config_UH_drain_0_var_json]["production totale"] for keys in (
                                                            config_UH_low_slope_var_json, config_UH_medium_slope_var_json,
                                                            config_UH_high_slope_var_json)):
+
                                                 # ici pente et drainage, chaque valeur unique
                                                 data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
                                                                  studied_element_button0_label][
@@ -965,12 +970,14 @@ class ConfigFilesImportJS:
                                                                  config_UH_drain_0_var_json]["production totale"][
                                                                  config_UH_high_slope_var_json]])
                                             else:
+
                                                 for i in range(3):
                                                     data.extend([data_land_cover[config_UH_var_json][land_cover_dict][
                                                                      studied_element_button0_label][
                                                                      config_UH_production_var_json][
                                                                      config_UH_drain_0_var_json]["production totale"]])
                                             # drain 0  // production drain
+
                                             if isinstance(data_land_cover[config_UH_var_json][land_cover_dict][
                                                 studied_element_button0_label][
                                                 config_UH_production_var_json][config_UH_drain_0_var_json]["production drain"],dict) and all (keys in data_land_cover[config_UH_var_json][land_cover_dict][

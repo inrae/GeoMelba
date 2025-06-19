@@ -338,7 +338,7 @@ class GeomelbaSpiritDialog(QDialog, FORM_CLASS):
                                shutil.rmtree(file_path)
                        except Exception as e:
                            print('Failed to delete %s. Reason: %s' % (file_path, e))
-                   
+
 
             # check that the name of the watershed is the same as the gpkg
 

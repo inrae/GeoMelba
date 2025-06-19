@@ -338,6 +338,9 @@ def ecoulement_pref (parcelle_layer, connexions_layer, lineaire_layer, centroids
         list_distance = []
         attrs_polygon = f.attributes()
         id = attrs_polygon[parcelle_layer.fields().indexFromName('gm_id')]
+        print("")
+        print("polygon  id")
+        print(id)
         select_centroid = QgsExpression( " \"gm_id\" = '{0}'".format(id))
         for feat in centroids_layer.getFeatures(QgsFeatureRequest(select_centroid)):
             x = feat.geometry().asPoint().x()
@@ -412,35 +415,36 @@ def ecoulement_pref (parcelle_layer, connexions_layer, lineaire_layer, centroids
                         test.append(point_to_keep.x())
                         test.append(point_to_keep.y())
         somme_distance = 0
-        if len(test)> 2 :
-            x_1 = test[0]
-            y_1 = test[1]
-            x_2 = test[2]
-            y_2 = test[3]
-        else :
-            connexions_layer.selectByExpression("\"UH_dwn\" = '{0}'".format(id))
-            if len(connexions_layer.selectedFeatureIds()) == 0 :
-                x_1 = x
-                y_1 = y
-                x_2 = test[0]
-                y_2 = test[1]
-            else :
-                x_2 = x
-                y_2 = y
+        if test :
+            if len(test)> 2 :
                 x_1 = test[0]
                 y_1 = test[1]
-            parcelle_layer.removeSelection()
-        linestart = QgsPoint(x_1,y_1)
-        lineend = QgsPoint(x_2,y_2)
-        line = QgsGeometry.fromPolyline([linestart,lineend])
-        seg = QgsFeature()
-        seg.setGeometry(line)
-        seg.setAttributes(attrs_polygon)
-        pr.addFeatures( [seg] )
-        v_layer.updateExtents()
+                x_2 = test[2]
+                y_2 = test[3]
+            else :
+                connexions_layer.selectByExpression("\"UH_dwn\" = '{0}'".format(id))
+                if len(connexions_layer.selectedFeatureIds()) == 0 :
+                    x_1 = x
+                    y_1 = y
+                    x_2 = test[0]
+                    y_2 = test[1]
+                else :
+                    x_2 = x
+                    y_2 = y
+                    x_1 = test[0]
+                    y_1 = test[1]
+                parcelle_layer.removeSelection()
+            linestart = QgsPoint(x_1,y_1)
+            lineend = QgsPoint(x_2,y_2)
+            line = QgsGeometry.fromPolyline([linestart,lineend])
+            seg = QgsFeature()
+            seg.setGeometry(line)
+            seg.setAttributes(attrs_polygon)
+            pr.addFeatures( [seg] )
+            v_layer.updateExtents()
 
-        parcelle_layer.changeAttributeValue(f.id(), parcelle_layer.fields().indexFromName('gm_length'), float(line.length()))
-        connexions_layer.removeSelection()
+            parcelle_layer.changeAttributeValue(f.id(), parcelle_layer.fields().indexFromName('gm_length'), float(line.length()))
+            connexions_layer.removeSelection()
     parcelle_layer.commitChanges()
     parcelle_layer.triggerRepaint()
 

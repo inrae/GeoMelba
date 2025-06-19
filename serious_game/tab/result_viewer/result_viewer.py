@@ -446,7 +446,7 @@ class Ui_Dialog(object):
 
                 if element.replace(".jpg", "").split("_", -1)[-1] == turn:
                     map_name = str(element.replace("_" + element.split("_")[-1], "").replace("_", " ").capitalize())
-                
+
                     if element.replace(".jpg", "").split("_", -1)[0:2] == map_watershed_land_cover.split("_", -1)[0:2]:
                         land_cover.append(os.path.basename(map_name))
                     elif element.replace(".jpg", "").split("_", -1)[0:2] == map_watershed_transfer_rate.split("_", -1)[0:2]:

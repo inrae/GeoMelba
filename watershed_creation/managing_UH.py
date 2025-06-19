@@ -128,11 +128,30 @@ def UH_UH_connexions(parcelle_layer, centroids_layer, crs, chemin):
     elevation = {}
     polygonfeatures = {}
     index_polygon = QgsSpatialIndex()
+    field_index = parcelle_layer.fields().indexFromName('gm_type')
+
+    if field_index == -1:
+        print("The field {} does not exist in layer {}!".format('gm_type', parcelle_layer))
+    else: 
+        print("The field {} exists in layer {}!".format('gm_type', parcelle_layer))
+
+
+
+
+
+
     for f in parcelle_layer.getFeatures():
         polygonfeatures[f.id()] = f
         index_polygon.addFeature(f)
         attrs = f.attributes()
         altitude = float(attrs[parcelle_layer.fields().indexFromName('gm_alti')])
+        engulf_print=(attrs[parcelle_layer.fields().indexFromName('gm_type')])
+        gm_idpoly=int(attrs[parcelle_layer.fields().indexFromName('gm_id')])
+        print("id")
+        print(gm_idpoly)
+        print("engulf pb")
+        print(engulf_print)
+        print("")
         engulfment_type=int(attrs[parcelle_layer.fields().indexFromName('gm_type')])
         if engulfment_type!=999:
             elevation[f.id()] = altitude
