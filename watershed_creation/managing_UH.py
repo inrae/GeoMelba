@@ -377,10 +377,10 @@ def update_UH_attributes(cadastre,inclinaison_pente_parcelle,field_parcel_slope,
     cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_alti_up'), altiupDic[gm_id])
         
     if gm_id in UHDownDic:
-        gm_uh_dwn_combined = ','.join(str(e) for e in UHDownDic[gm_id])
+        gm_uh_dwn_combined = ', '.join(str(e) for e in UHDownDic[gm_id])
         cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_uh_dwn'), gm_uh_dwn_combined)
     if gm_id in UHUpDic:
-        gm_uh_up_combined = ','.join(str(e) for e in UHUpDic[gm_id])
+        gm_uh_up_combined = ', '.join(str(e) for e in UHUpDic[gm_id])
         cadastre.changeAttributeValue(f.id(), cadastre.fields().indexFromName('gm_uh_up'), gm_uh_up_combined)
    
     #calculate field_parcel_slope from gm_length, gm_alti_up and gm_alti_dw of cadastre

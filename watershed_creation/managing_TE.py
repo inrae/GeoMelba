@@ -7,6 +7,7 @@ from qgis.utils import *
 from qgis.core import *
 from qgis.gui import *
 from qgis.analysis import QgsNativeAlgorithms
+from ..dictionnaire import field_line_slope_angle, field_river_slope_angle_up, field_river_slope_angle_dwn
 
 tf = tempfile.TemporaryDirectory()
 
@@ -534,6 +535,7 @@ def comparaison_angles_lignes (lineaire_layer, inclinaison_pente_parcelle, incli
 
     inclinaison_pente_lineaire.startEditing()
     inclinaison_pente_lineaire.addAttribute(QgsField("gm_az", QVariant.Double, "double", 10, 2))
+    inclinaison_pente_lineaire.addAttribute(QgsField("angle_dw", QVariant.Double, "double", 20, 5))
     context = QgsExpressionContext()
     context.appendScopes(QgsExpressionContextUtils.globalProjectLayerScopes(inclinaison_pente_lineaire))
     for f in inclinaison_pente_lineaire.getFeatures():
@@ -551,14 +553,36 @@ def comparaison_angles_lignes (lineaire_layer, inclinaison_pente_parcelle, incli
         attrs = f.attributes()
         id = attrs[inclinaison_pente_lineaire.fields().indexFromName('gm_id')]
         UH_up = attrs[inclinaison_pente_lineaire.fields().indexFromName('UH_up')]
+        UH_dw = attrs[inclinaison_pente_lineaire.fields().indexFromName('UH_dwn')]
         lineaire_az = attrs[inclinaison_pente_lineaire.fields().indexFromName('gm_az')]
-        select_uh = QgsExpression( " \"gm_id\" = '{0}' ".format(UH_up))
-        for feat in inclinaison_pente_parcelle.getFeatures(QgsFeatureRequest( select_uh )) :
-            attrs = feat.attributes()
-            ecoulement_az = attrs[inclinaison_pente_parcelle.fields().indexFromName('az')]
-            result = math.sin(math.radians(90 * (1 - (lineaire_az / ecoulement_az))))
-            dict_result[id]= result
-            inclinaison_pente_lineaire.changeAttributeValue(f.id(), inclinaison_pente_lineaire.fields().indexFromName('angle'), abs(result))
+        print("UH up")
+        print(UH_up)
+        if UH_up:
+            select_uh = QgsExpression( " \"gm_id\" = '{0}' ".format(UH_up))
+            print(select_uh)
+            for feat in inclinaison_pente_parcelle.getFeatures(QgsFeatureRequest( select_uh )) :
+                attrs = feat.attributes()
+                ecoulement_az = attrs[inclinaison_pente_parcelle.fields().indexFromName('gm_az')]
+                result = math.sin(math.radians(90 * (1 - (lineaire_az / ecoulement_az))))
+                dict_result[id]= result
+                inclinaison_pente_lineaire.changeAttributeValue(f.id(), inclinaison_pente_lineaire.fields().indexFromName('angle'), abs(result))
+        if UH_dw:
+            select_uh_dw = QgsExpression(" \"gm_id\" = '{0}' ".format(UH_dw))
+            print("result angle dw")
+            print(UH_dw)
+            print(select_uh_dw)
+            for feat in inclinaison_pente_parcelle.getFeatures(QgsFeatureRequest(select_uh_dw)):
+                attrs = feat.attributes()
+                ecoulement_az = attrs[inclinaison_pente_parcelle.fields().indexFromName('gm_az')]
+                result = math.sin(math.radians(90 * (1 - (lineaire_az / ecoulement_az))))
+                dict_result[id] = result
+                print(result)
+
+                inclinaison_pente_lineaire.changeAttributeValue(f.id(),
+                                                                inclinaison_pente_lineaire.fields().indexFromName('angle_dw'),
+                                                                abs(result))
+        print("fin result angle dw")
+
     inclinaison_pente_lineaire.commitChanges()
     inclinaison_pente_lineaire.triggerRepaint()
 
@@ -574,7 +598,9 @@ def comparaison_angles_lignes (lineaire_layer, inclinaison_pente_parcelle, incli
     inclinaison_pente_lineaire.triggerRepaint()
 
     lineaire_layer.startEditing()
-    lineaire_layer.addAttribute(QgsField("gm_angle", QVariant.Double, "double", 10, 5))
+    lineaire_layer.addAttribute(QgsField(field_line_slope_angle, QVariant.Double, "double", 10, 5))
+    lineaire_layer.addAttribute(QgsField(field_river_slope_angle_up, QVariant.Double, "double", 10, 5))
+    lineaire_layer.addAttribute(QgsField(field_river_slope_angle_dwn, QVariant.Double, "double", 10, 5))
     context = QgsExpressionContext()
     context.appendScopes(QgsExpressionContextUtils.globalProjectLayerScopes(lineaire_layer))
     for f in lineaire_layer.getFeatures():
@@ -583,8 +609,13 @@ def comparaison_angles_lignes (lineaire_layer, inclinaison_pente_parcelle, incli
         id = attrs[lineaire_layer.fields().indexFromName('gm_id')]
         inclinaison_pente_lineaire.selectByExpression("\"gm_id\" = '{id}' ".format(id = id))
         angle = inclinaison_pente_lineaire.selectedFeatures()[0].attributes()[inclinaison_pente_lineaire.fields().indexFromName('angle')]
+        angle_dw = inclinaison_pente_lineaire.selectedFeatures()[0].attributes()[
+            inclinaison_pente_lineaire.fields().indexFromName('angle_dw')]
         expression_angle = QgsExpression("'{}' ".format(angle))
-        f["gm_angle"] = expression_angle.evaluate(context)
+        expression_angle_dw = QgsExpression("'{}' ".format(angle_dw))
+        f[field_line_slope_angle] = expression_angle.evaluate(context)
+        f[field_river_slope_angle_up] = expression_angle.evaluate(context)
+        f[field_river_slope_angle_dwn] = expression_angle_dw.evaluate(context)
         lineaire_layer.updateFeature(f)
     lineaire_layer.commitChanges()
     lineaire_layer.triggerRepaint()
