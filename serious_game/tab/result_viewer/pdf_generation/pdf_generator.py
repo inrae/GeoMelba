@@ -330,10 +330,17 @@ class Pdf_generator:
         # performs lineaire, conversion and rounding calculations
         def calculate_lineaire_totals(data):
             lineaire_totals = defaultdict(int)
+            print("data")
+            print(data)
             for entry in data:
-                lineaire_totals[mapping[int(entry[field_type_line_middle])]] += float(entry[field_line_length])
-                lineaire_totals[mapping[int(entry[field_type_line_top])]] += float(entry[field_line_length])
-                lineaire_totals[mapping[int(entry[field_type_line_bottom])]] += float(entry[field_line_length])
+                print('entry')
+                print(entry)
+                if isinstance(entry[field_type_line_middle], int):
+                    lineaire_totals[mapping[int(entry[field_type_line_middle])]] += float(entry[field_line_length])
+                if isinstance(entry[field_type_line_top], int):
+                    lineaire_totals[mapping[int(entry[field_type_line_top])]] += float(entry[field_line_length])
+                if isinstance(entry[field_type_line_bottom], int):
+                    lineaire_totals[mapping[int(entry[field_type_line_bottom])]] += float(entry[field_line_length])
                 
             return lineaire_totals
 

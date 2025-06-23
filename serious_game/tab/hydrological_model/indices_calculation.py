@@ -885,6 +885,7 @@ class FlowCalculation:
             for parcel in parcel_layer.getFeatures(QgsFeatureRequest(select_uh_up)):
                 attrs = parcel.attributes()
                 id_parcel=attrs[parcel_layer.fields().indexFromName(field_parcel_id)]
+                uh_up_connex = attrs[connexion_layer.fields().indexFromName(field_connexions_parcel_above)]
                # print("id river")
                # print(river_id)
                # print("id parcel")
