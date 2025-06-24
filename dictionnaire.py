@@ -39,7 +39,7 @@ engulfment = 999
 building=700
 
 regular_font = QFont('5', 10)  # 7.5 pour Véronique
-author = 'Jules Grillot, UR Riverly, INRAE'
+author = 'UR Riverly, INRAE'
 
 watershed_prefix = 'bv_'
 
