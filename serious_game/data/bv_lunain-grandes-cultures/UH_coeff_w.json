@@ -1,0 +1,1054 @@
+{
+  "UH": {
+    "Conv colza Blé Orge d'hiver":{
+    "value":"100",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.15,
+          "1 : drainage plein":0.15,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.15,
+          "1 : drainage plein":0.15,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.15,
+          "1 : drainage plein":0.15,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+
+    },
+
+    "Conv colza blé Tournesol Orge d'hiver":{
+    "value":"101",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.7,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.7,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.7,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.7,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.7,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.7,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.7,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+    },
+    "AB Luzerne":{
+    "value":"110",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.25,
+          "1 : drainage plein":0.25,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+
+    },
+    "Red Colza Blé Orge printemps":{
+    "value":"120",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+    },
+    "Red Colza Blé Tournesol":{
+    "value":"121",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+                "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.35,
+          "1 : drainage plein":0.35,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.4,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.4,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.4,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+
+
+    },
+    "Elev Prairie temporaire":{
+    "value":"130",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.3,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.3,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.3,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.3,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.3,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.3,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.3,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+    },
+    "Cons Colza":{
+    "value":"140",
+    "abatement": "True",
+    "production": "True",
+    "Produits phytosanitaires":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Eaux de ruissellement":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        },
+    "Erosion":{
+        "abatement":{
+          "0 : sans drainage":0.45,
+          "1 : drainage plein":0.45,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0.8,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0.8,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0.8,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+        }
+    },
+    "prairie permanente": {
+      "value": "300",
+      "abatement": "True",
+      "production": "False",
+      "Eaux de ruissellement": {
+        "abatement": {
+          "0 : sans drainage":0.7,
+          "1 : drainage plein":0.7,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Produits phytosanitaires": {
+        "abatement": {
+          "0 : sans drainage":0.8,
+          "1 : drainage plein":0.8,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Erosion": {
+        "abatement": {
+          "0 : sans drainage":0.9,
+          "1 : drainage plein":0.9,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      }
+    },
+"bois": {
+      "value": "500",
+      "abatement": "True",
+      "production": "False",
+      "Eaux de ruissellement": {
+        "abatement": {
+          "0 : sans drainage":0.9,
+          "1 : drainage plein":0.9,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Produits phytosanitaires": {
+        "abatement": {
+          "0 : sans drainage":0.9,
+          "1 : drainage plein":0.9,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Erosion": {
+        "abatement": {
+          "0 : sans drainage":0.9,
+          "1 : drainage plein":0.9,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      }
+    },
+    "habitation": {
+      "value": "700",
+      "abatement": "False",
+      "production": "False",
+      "Eaux de ruissellement": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Produits phytosanitaires": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Erosion": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":0,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":0,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":0,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      }
+    },
+    "engouffrements": {
+      "value": "999",
+      "abatement": "False",
+      "production": "True",
+      "Eaux de ruissellement": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":1,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":1,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Produits phytosanitaires": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":1,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":1,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      },
+      "Erosion": {
+        "abatement": {
+          "0 : sans drainage":0,
+          "1 : drainage plein":0,
+          "2 : mouillère drainée": 0,
+          "3 : mouillère active": 0.1
+        },
+        "production":{
+            "0 : sans drainage":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":1
+                },
+            "1 : drainage plein":{
+                "production totale":1,
+                "production drain":0.8,
+                "production ruissellement":0.2
+                },
+            "2 : mouillère drainée":{
+                "production totale":1,
+                "production drain":0.1,
+                "production ruissellement":0.9
+                },
+            "3 : mouillère active":{
+                "production totale":1,
+                "production drain":0,
+                "production ruissellement":0.9
+                }
+             }
+      }
+    }
+  }
+}
