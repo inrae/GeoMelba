@@ -583,14 +583,17 @@ class GeomelbaSpirit:
                             name = layer.split('!!::!!')[1]
                             uri = "%s|layername=%s" % (geopackage_path, name,)
                            
-                
+
                             if name == parcel_layer_name:
+
                                 parcel_layer = QgsVectorLayer(uri, name, 'ogr')
                                 error_count = error_count + 1
                             elif name == line_layer_name:
+
                                 line_layer = QgsVectorLayer(uri, name, 'ogr')
                                 error_count = error_count + 1
                             elif name == geopackage_layer_name_connexions:
+
                                 # change the uri source for connexion
                                 uri_source = "%s|layername=%s" % (geopackage_source_path, name,)
                                 connexion_layer = QgsVectorLayer(uri_source, name, 'ogr')
@@ -703,7 +706,7 @@ class GeomelbaSpirit:
                     self.dockwidget.closingPlugin.connect(lambda sender="dockwidget": self.onClosePlugin(sender))
                     self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
                     self.dockwidget.show()
-                    print(watershed_name)
+                    
                 else:
                     # input_path = self.plugin_dir + serious_game_data_folder
                     self.watershed_creation = WatershedCreationDialog(parent=None, crs=crs, path=output_path)
